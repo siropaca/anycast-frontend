@@ -11,13 +11,21 @@ Anycast は AI 音声生成専門のポッドキャストプラットフォー�
 
 ## 技術スタック
 
-- **Next.js** (App Router) - 最新バージョン
+### 導入済み
+
+- **Next.js 16** (App Router + Turbopack)
+- **React 19**
+- **TypeScript 5**
+- **Tailwind CSS 4**
+- **Biome 2** - リンター/フォーマッター
+- **pnpm** - パッケージマネージャー
+- **mise** - Node.js バージョン管理
+
+### 導入予定
+
 - **NextAuth.js** - 認証
 - **TanStack Query** - サーバー状態管理
-- **Tailwind CSS** - スタイリング
 - **Base UI** - ヘッドレス UI コンポーネント
-- **Biome** - リンター/フォーマッター
-- **pnpm** - パッケージマネージャー
 
 ## 開発ルール
 
@@ -44,10 +52,12 @@ src/
 ### コマンド
 
 ```bash
-pnpm dev      # 開発サーバー起動
+pnpm dev      # 開発サーバー起動 (Turbopack)
 pnpm build    # プロダクションビルド
+pnpm start    # プロダクションサーバー起動
 pnpm lint     # Biome によるリント
 pnpm format   # Biome によるフォーマット
+pnpm check    # Biome によるリント + フォーマット (推奨)
 ```
 
 ## Git ワークフロー

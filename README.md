@@ -27,22 +27,32 @@ Anycast は、AI を活用して台本から音声を生成し、ポッドキャ
 
 ## 技術スタック
 
+### 導入済み
+
+| カテゴリ | 技術 | バージョン |
+|---------|------|-----------|
+| フレームワーク | Next.js (App Router + Turbopack) | 16.0.10 |
+| UI ライブラリ | React | 19.2.1 |
+| 言語 | TypeScript | 5.x |
+| スタイリング | Tailwind CSS | 4.x |
+| リンター/フォーマッター | Biome | 2.3.x |
+| パッケージマネージャー | pnpm | 10.x |
+| ランタイム管理 | mise | - |
+
+### 導入予定
+
 | カテゴリ | 技術 |
 |---------|------|
-| フレームワーク | Next.js (App Router) |
 | 認証 | NextAuth.js |
 | データフェッチング | TanStack Query |
-| スタイリング | Tailwind CSS |
-| UIコンポーネント | Base UI |
-| リンター/フォーマッター | Biome |
-| パッケージマネージャー | pnpm |
+| UI コンポーネント | Base UI |
 | デプロイ | Vercel |
 
 ## セットアップ
 
 ```bash
 # Node.js バージョンの設定 (mise)
-mise install
+mise trust && mise install
 
 # 依存関係のインストール
 pnpm install
@@ -52,12 +62,17 @@ cp .env.example .env.local
 
 # 開発サーバーの起動
 pnpm dev
+```
 
-# ビルド
-pnpm build
+## スクリプト
 
-# リントチェック
-pnpm lint
+```bash
+pnpm dev      # 開発サーバー起動 (Turbopack)
+pnpm build    # プロダクションビルド
+pnpm start    # プロダクションサーバー起動
+pnpm lint     # Biome によるリント
+pnpm format   # Biome によるフォーマット
+pnpm check    # Biome によるリント + フォーマット
 ```
 
 ## バックエンド連携
