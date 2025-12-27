@@ -23,12 +23,13 @@
 - Biome の設定に従ってフォーマットする
 - バレルファイル（index.ts）は作成しない
 - import のパスは相対パスではなく `@` エイリアスを使用する
+- オブジェクトの型定義には `type` より `interface` を優先する
 
 ### JSDoc
 
 - 基本的に関数には JSDoc を記載する
 - 説明文と `@param` の間には空行を入れる
-- 使用するタグ: `@param`, `@returns`, `@example`（必要に応じて）
+- 使用するタグ: `@param`, `@returns`, `@throws`, `@example`（必要に応じて）
 - `@example` にはコードブロック（` ``` `）や import 文は不要、呼び出しと返却値のみ記載
 
 ```typescript
@@ -52,6 +53,7 @@ function add(a: number, b: number): number {
 - コンポーネントは関数コンポーネント + hooks を使用
 - `use client` / `use server` ディレクティブを適切に使い分ける
 - 最新の hooks・API・手法を積極的に採用する（例: `use`、`useActionState`、`useOptimistic`、Server Components など）
+- コンポーネントの props の型名は `Props` に統一する
 
 ### Git / GitHub
 
