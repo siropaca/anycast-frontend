@@ -63,10 +63,12 @@ pnpm dev
 ├── src/
 │   ├── app/          # Next.js App Router
 │   ├── components/   # 共通コンポーネント
+│   ├── config/       # 設定ファイル
 │   ├── features/     # 機能ごとのモジュール
 │   ├── hooks/        # カスタムフック
-│   ├── lib/          # ユーティリティ
-│   └── types/        # 型定義
+│   ├── libs/         # 機能別ライブラリ（auth, api, paths など）
+│   ├── types/        # 型定義
+│   └── utils/        # 汎用ユーティリティ
 ├── public/           # 静的ファイル
 ├── docs/
 │   └── adr/          # Architecture Decision Records

@@ -63,7 +63,7 @@ Auth.js v5（next-auth@beta）を採用する。
 
 ## 結果
 
-- `src/lib/auth/auth.ts` に Auth.js の設定を集約
+- `src/libs/auth/auth.ts` に Auth.js の設定を集約
 - `src/app/api/auth/[...nextauth]/route.ts` でルートハンドラーを提供
 - バックエンド API 実装まではモック認証を使用（`src/mocks/auth.ts`）
 - Google OAuth は Google Cloud Console での設定が必要

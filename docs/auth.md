@@ -32,7 +32,7 @@ PostgreSQL (users, credentials, oauth_accounts)
 
 ```
 src/
-├── lib/
+├── libs/
 │   ├── api/
 │   │   └── auth.ts        # 認証 API クライアント
 │   └── auth/
@@ -165,7 +165,7 @@ NEXTAUTH_URL=http://localhost:3210
 
 ```typescript
 // 例: middleware.ts
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/libs/auth/auth';
 import { NextResponse } from 'next/server';
 
 export default auth((req) => {
