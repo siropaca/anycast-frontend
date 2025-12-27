@@ -24,6 +24,29 @@
 - バレルファイル（index.ts）は作成しない
 - import のパスは相対パスではなく `@` エイリアスを使用する
 
+### JSDoc
+
+- 基本的に関数には JSDoc を記載する
+- 説明文と `@param` の間には空行を入れる
+- 使用するタグ: `@param`, `@returns`, `@example`（必要に応じて）
+- `@example` にはコードブロック（` ``` `）や import 文は不要、呼び出しと返却値のみ記載
+
+```typescript
+/**
+ * 2つの数値を加算する
+ *
+ * @param a - 1つ目の数値
+ * @param b - 2つ目の数値
+ * @returns 加算結果
+ *
+ * @example
+ * add(1, 2) // => 3
+ */
+function add(a: number, b: number): number {
+  return a + b;
+}
+```
+
 ### React
 
 - コンポーネントは関数コンポーネント + hooks を使用
@@ -46,8 +69,9 @@
 ## 実装上の注意事項
 
 - TanStack Query でデータフェッチを管理する
-- API クライアントは `src/lib/api/` に配置する
+- API クライアントは `src/libs/api/` に配置する
 - カスタムフックは `src/features/*/hooks/` に配置する
+- ページパスは直接文字列を使わず `Paths` を使用する（`src/libs/paths/`）
 
 ## 用語
 
