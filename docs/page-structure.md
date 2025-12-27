@@ -6,13 +6,13 @@ Anycast のページ構成と URL 設計を定義する。
 
 ### 参考サービス
 
-- Spotify
-- Apple Podcasts
-- Amazon Music Podcasts
-- Voicy
-- Spoon
-- YouTube
-- Netflix
+- [Spotify](https://open.spotify.com/)
+- [Apple Podcasts](https://podcasts.apple.com/)
+- [Amazon Music Podcasts](https://music.amazon.co.jp/podcasts)
+- [Voicy](https://voicy.jp/)
+- [Spoon](https://www.spooncast.net/)
+- [YouTube](https://www.youtube.com/)
+- [Netflix](https://www.netflix.com/)
 
 ## ページ一覧
 
@@ -63,8 +63,7 @@ Anycast のページ構成と URL 設計を定義する。
 | ページ | URL | 説明 |
 |--------|-----|------|
 | 設定 | `/settings` | 設定トップ |
-| プロフィール | `/settings/profile` | プロフィール編集 |
-| アカウント | `/settings/account` | アカウント設定 |
+| アカウント | `/settings/account` | プロフィール・アカウント設定 |
 | サブスクリプション | `/settings/subscription` | サブスクリプション管理 |
 
 ## URL 設計方針
@@ -102,3 +101,4 @@ Anycast のページ構成と URL 設計を定義する。
 - 通知ページ (`/notifications`)
 - 再生キュー / プレイリスト機能
 - 下書き管理の UI（`/studio/drafts` として分けるか、エピソード一覧でフィルタするか）
+- プロフィールとアカウントページの分離（現在は `/settings/account` に統合）
