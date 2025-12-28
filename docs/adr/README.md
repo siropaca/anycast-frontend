@@ -16,6 +16,7 @@ ADR（Architecture Decision Record）は、アーキテクチャ上の重要な�
 | [003](003-styling-tailwindcss.md) | スタイリング: Tailwind CSS | Accepted |
 | [004](004-package-manager-pnpm.md) | パッケージマネージャー: pnpm | Accepted |
 | [005](005-auth-authjs.md) | 認証ライブラリ: Auth.js | Accepted |
+| [006](006-api-client-generator-orval.md) | API クライアント生成ツール: orval | Accepted |
 
 ## ステータス
 
