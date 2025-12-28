@@ -61,6 +61,8 @@ pnpm dev
 | `pnpm check` | Biome によるリント + フォーマット |
 | `pnpm storybook` | Storybook を起動 |
 | `pnpm build-storybook` | Storybook のビルド |
+| `pnpm test` | テストを実行 |
+| `pnpm test:watch` | テストをウォッチモードで実行 |
 | `pnpm gen:api` | OpenAPI 定義から API クライアントを生成 |
 | `pnpm ncu` | 依存パッケージの更新確認 |
 | `pnpm sort-package-json` | package.json のソート |

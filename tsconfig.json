@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["vitest/globals", "vitest/importMeta"]
   },
   "include": [
     "next-env.d.ts",
