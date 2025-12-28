@@ -12,7 +12,15 @@ export async function Header() {
         anycast
       </Link>
 
-      <AuthButton isLoggedIn={!!session} />
+      <div className="space-x-6">
+        <AuthButton isLoggedIn={!!session} />
+
+        {!!session && (
+          <Link href={Paths.settings.index()} className="underline">
+            設定
+          </Link>
+        )}
+      </div>
     </header>
   );
 }
