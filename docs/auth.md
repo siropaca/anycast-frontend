@@ -57,7 +57,7 @@ src/
 
 ## バックエンド API 仕様
 
-### POST /api/auth/register
+### POST /api/v1/auth/register
 
 ユーザー登録
 
@@ -66,15 +66,18 @@ src/
 {
   "email": "user@example.com",
   "password": "password123",
-  "name": "ユーザー名"
+  "displayName": "表示名"
 }
 
 // Response 201
 {
-  "id": "uuid",
-  "email": "user@example.com",
-  "name": "ユーザー名",
-  "avatarUrl": null
+  "data": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "username": "表示名",
+    "displayName": "表示名",
+    "avatarUrl": null
+  }
 }
 
 // Error 409 (Conflict)
@@ -84,7 +87,7 @@ src/
 }
 ```
 
-### POST /api/auth/login
+### POST /api/v1/auth/login
 
 メール/パスワード認証
 
@@ -97,10 +100,13 @@ src/
 
 // Response 200
 {
-  "id": "uuid",
-  "email": "user@example.com",
-  "name": "ユーザー名",
-  "avatarUrl": "https://..."
+  "data": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "username": "表示名",
+    "displayName": "表示名",
+    "avatarUrl": "https://..."
+  }
 }
 
 // Error 401
@@ -110,7 +116,7 @@ src/
 }
 ```
 
-### POST /api/auth/oauth/google
+### POST /api/v1/auth/oauth/google
 
 Google OAuth ユーザー作成/更新
 
@@ -119,7 +125,7 @@ Google OAuth ユーザー作成/更新
 {
   "providerUserId": "google-provider-id",
   "email": "user@gmail.com",
-  "name": "ユーザー名",
+  "displayName": "表示名",
   "accessToken": "...",
   "refreshToken": "...",
   "expiresAt": 1234567890
@@ -127,11 +133,14 @@ Google OAuth ユーザー作成/更新
 
 // Response 200/201
 {
-  "id": "uuid",
-  "email": "user@gmail.com",
-  "name": "ユーザー名",
-  "avatarUrl": "https://...",
-  "isNewUser": false
+  "data": {
+    "id": "uuid",
+    "email": "user@gmail.com",
+    "username": "表示名",
+    "displayName": "表示名",
+    "avatarUrl": "https://...",
+    "isNewUser": false
+  }
 }
 ```
 
