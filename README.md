@@ -74,14 +74,23 @@ pnpm dev
 ├── .storybook/       # Storybook 設定
 ├── src/
 │   ├── app/          # Next.js App Router
+│   │   ├── (auth)/   # 認証ページ（ログイン、新規登録）
+│   │   ├── (main)/   # 公開ページ
+│   │   ├── (settings)/ # 設定ページ（認証必須）
+│   │   └── (studio)/ # Studio ページ（認証必須）
 │   ├── components/   # 共通コンポーネント
 │   ├── config/       # 設定ファイル
 │   ├── features/     # 機能ごとのモジュール
+│   │   └── app/
+│   │       ├── layouts/  # レイアウトコンポーネント
+│   │       ├── providers/ # プロバイダー
+│   │       └── ui/       # UI コンポーネント
 │   ├── hooks/        # カスタムフック
 │   ├── libs/         # 機能別ライブラリ（auth, api, paths など）
 │   ├── stores/       # Zustand ストア
 │   ├── types/        # 型定義
-│   └── utils/        # 汎用ユーティリティ
+│   ├── utils/        # 汎用ユーティリティ
+│   └── middleware.ts # 認証ガード
 ├── public/           # 静的ファイル
 ├── docs/
 │   └── adr/          # Architecture Decision Records
