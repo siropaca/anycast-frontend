@@ -8,8 +8,12 @@ import { useForm } from 'react-hook-form';
 import { type LoginInput, loginSchema } from '@/features/auth/schemas/auth';
 import { Paths } from '@/libs/paths';
 
+interface Props {
+  redirectTo?: string;
+}
+
 // TODO: 仮コンポーネント
-export function LoginForm() {
+export function LoginForm({ redirectTo = Paths.home() }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +39,7 @@ export function LoginForm() {
       return;
     }
 
-    router.push(Paths.home());
+    router.push(redirectTo);
     router.refresh();
   }
 

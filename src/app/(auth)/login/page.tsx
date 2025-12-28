@@ -8,12 +8,18 @@ export const metadata: Metadata = {
   title: 'ログイン',
 };
 
-export default function LoginPage() {
+interface Props {
+  searchParams: Promise<{ redirect?: string }>;
+}
+
+export default async function LoginPage({ searchParams }: Props) {
+  const { redirect } = await searchParams;
+
   return (
     <div>
       <h1>ログイン</h1>
 
-      <LoginForm />
+      <LoginForm redirectTo={redirect} />
 
       <hr />
 
