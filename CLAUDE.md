@@ -54,7 +54,7 @@ function add(a: number, b: number): number {
 - コンポーネントは関数コンポーネント + hooks を使用
 - `use client` / `use server` ディレクティブを適切に使い分ける
 - 最新の hooks・API・手法を積極的に採用する（例: `use`、`useActionState`、`useOptimistic`、Server Components など）
-- コンポーネントの props の型名は `Props` に統一する
+- コンポーネントの props は必ず `interface Props` で定義してから使用する
 
 ### Git / GitHub
 
@@ -69,6 +69,11 @@ function add(a: number, b: number): number {
 | フロントエンド | http://localhost:3210 |
 | Storybook | http://localhost:6006 |
 | バックエンド | http://localhost:8081 |
+
+### Next.js
+
+- page.tsx には必ず `export const metadata` を定義する
+- 認証必須ページ（`(studio)`, `(settings)` など）には `robots: { index: false }` を付与する
 
 ## 実装上の注意事項
 

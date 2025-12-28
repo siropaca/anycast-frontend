@@ -1,9 +1,9 @@
 import { MainLayout } from '@/features/app/layouts/MainLayout';
 
-export default function MainGroupLayout({
-  children,
-}: {
+interface Props {
   children: React.ReactNode;
-}) {
+}
+
+export default function MainGroupLayout({ children }: Props) {
   return <MainLayout>{children}</MainLayout>;
 }
