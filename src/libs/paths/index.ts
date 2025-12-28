@@ -15,10 +15,14 @@ export const Paths = {
   home: () => '/',
 
   /** ログインページ */
-  login: (params?: { redirect?: string }) => `/login${buildQuery(params)}`,
+  login: (params?: {
+    redirect?: string; // ログイン後のリダイレクト先
+  }) => `/login${buildQuery(params)}`,
 
   /** サインアップページ */
-  signup: (params?: { redirect?: string }) => `/signup${buildQuery(params)}`,
+  signup: (params?: {
+    redirect?: string; // ログイン後のリダイレクト先
+  }) => `/signup${buildQuery(params)}`,
 
   /** Studio */
   studio: {
