@@ -19,7 +19,7 @@ export const Paths = {
     redirect?: string; // ログイン後のリダイレクト先
   }) => `/login${buildQuery(params)}`,
 
-  /** サインアップページ */
+  /** 新規登録ページ */
   signup: (params?: {
     redirect?: string; // ログイン後のリダイレクト先
   }) => `/signup${buildQuery(params)}`,
