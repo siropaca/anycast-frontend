@@ -45,3 +45,5 @@ next-env.d.ts
 
 # generated
 /src/libs/api/generated
+*storybook.log
+storybook-static

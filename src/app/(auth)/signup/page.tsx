@@ -6,18 +6,25 @@ import { Paths } from '@/libs/paths';
 
 export const metadata: Metadata = {
   title: '新規登録',
+  robots: { index: false },
 };
 
-export default function SignupPage() {
+interface Props {
+  searchParams: Promise<{ redirect?: string }>;
+}
+
+export default async function SignupPage({ searchParams }: Props) {
+  const { redirect } = await searchParams;
+
   return (
     <div>
       <h1>新規登録</h1>
 
-      <SignupForm />
+      <SignupForm redirectTo={redirect} />
 
       <hr />
 
-      <OAuthButtons />
+      <OAuthButtons redirectTo={redirect} />
 
       <p>
         すでにアカウントをお持ちの方は{' '}

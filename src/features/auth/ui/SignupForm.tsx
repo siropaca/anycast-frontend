@@ -9,8 +9,12 @@ import { type SignupInput, signupSchema } from '@/features/auth/schemas/auth';
 import { usePostAuthRegister } from '@/libs/api/generated/auth/auth';
 import { Paths } from '@/libs/paths';
 
+interface Props {
+  redirectTo?: string;
+}
+
 // TODO: 仮コンポーネント
-export function SignupForm() {
+export function SignupForm({ redirectTo = Paths.home() }: Props) {
   const router = useRouter();
   const registerMutation = usePostAuthRegister();
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +55,7 @@ export function SignupForm() {
         return;
       }
 
-      router.push(Paths.home());
+      router.push(redirectTo);
       router.refresh();
     } catch {
       setError('ユーザー登録に失敗しました');

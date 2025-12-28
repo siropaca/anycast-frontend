@@ -17,6 +17,7 @@ ADR（Architecture Decision Record）は、アーキテクチャ上の重要な�
 | [004](004-package-manager-pnpm.md) | パッケージマネージャー: pnpm | Accepted |
 | [005](005-auth-authjs.md) | 認証ライブラリ: Auth.js | Accepted |
 | [006](006-api-client-generator-orval.md) | API クライアント生成ツール: orval | Accepted |
+| [007](007-state-management-zustand.md) | 状態管理ライブラリ: Zustand | Accepted |
 
 ## ステータス
 

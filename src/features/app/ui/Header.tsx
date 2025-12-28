@@ -7,12 +7,20 @@ export async function Header() {
   const session = await auth();
 
   return (
-    <header className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
+    <header className="flex h-header items-center justify-between border-b px-4">
       <Link href={Paths.home()} className="text-xl font-bold">
         anycast
       </Link>
 
-      <AuthButton isLoggedIn={!!session} />
+      <div className="space-x-6">
+        <AuthButton isLoggedIn={!!session} />
+
+        {!!session && (
+          <Link href={Paths.settings.index()} className="underline">
+            設定
+          </Link>
+        )}
+      </div>
     </header>
   );
 }

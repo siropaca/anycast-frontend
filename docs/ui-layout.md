@@ -60,6 +60,30 @@ Anycast の基本的な UI レイアウトを定義する。
 
 - ダークモードを標準とする
 
+## 実装状況
+
+### レイアウトコンポーネント
+
+| コンポーネント | パス | 説明 |
+|----------------|------|------|
+| `Sidebar` | `src/features/app/ui/Sidebar.tsx` | サイドバーの枠組み |
+| `MainLayout` | `src/features/app/layouts/MainLayout.tsx` | 通常ページ用レイアウト |
+| `StudioLayout` | `src/features/app/layouts/StudioLayout.tsx` | Studio ページ用レイアウト |
+| `SettingsLayout` | `src/features/app/layouts/SettingsLayout.tsx` | 設定ページ用レイアウト |
+
+### ルートグループ
+
+| グループ | 適用レイアウト | 認証 |
+|----------|----------------|------|
+| `(main)` | `MainLayout` | 不要 |
+| `(studio)` | `StudioLayout` | 必須 |
+| `(settings)` | `SettingsLayout` | 必須 |
+| `(auth)` | なし | 不要 |
+
+### 認証ガード
+
+`src/middleware.ts` で `/studio/*` と `/settings/*` への未認証アクセスをログインページにリダイレクトする。
+
 ## 今後の検討事項
 
 - レスポンシブ対応（モバイル時のサイドメニューの扱い）

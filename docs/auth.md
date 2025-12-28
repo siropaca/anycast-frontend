@@ -34,25 +34,22 @@ PostgreSQL (users, credentials, oauth_accounts)
 src/
 ├── libs/
 │   ├── api/
-│   │   └── auth.ts        # 認証 API クライアント
+│   │   └── generated/auth/auth.ts  # orval 生成の認証 API クライアント
 │   └── auth/
-│       ├── auth.ts        # Auth.js 設定
-│       └── types.ts       # 型定義
+│       └── auth.ts                 # Auth.js 設定
 ├── app/
 │   ├── api/auth/[...nextauth]/route.ts  # ルートハンドラー
 │   └── (auth)/
 │       ├── login/page.tsx    # ログインページ
 │       ├── signup/page.tsx   # サインアップページ
 │       └── layout.tsx        # 認証ページレイアウト
-├── components/auth/
-│   ├── LoginForm.tsx      # ログインフォーム
-│   ├── SignupForm.tsx     # サインアップフォーム
-│   ├── OAuthButtons.tsx   # OAuth ボタン
-│   └── AuthButton.tsx     # ログイン/ログアウトボタン
 └── features/auth/
-    ├── schemas/auth.ts    # Zod バリデーションスキーマ
-    └── hooks/
-        └── useRegister.ts # 登録 mutation フック
+    ├── schemas/auth.ts       # Zod バリデーションスキーマ
+    └── ui/
+        ├── LoginForm.tsx     # ログインフォーム
+        ├── SignupForm.tsx    # サインアップフォーム
+        ├── OAuthButtons.tsx  # OAuth ボタン
+        └── AuthButton.tsx    # ログイン/ログアウトボタン
 ```
 
 ## バックエンド API 仕様
