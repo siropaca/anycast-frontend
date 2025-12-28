@@ -14,6 +14,7 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 - **スタイリング**: Tailwind CSS
 - **認証**: Auth.js (next-auth)
 - **データフェッチ**: TanStack Query
+- **API クライアント生成**: orval
 - **フォーム**: react-hook-form + Zod
 - **リンター/フォーマッター**: Biome
 - **パッケージマネージャー**: pnpm
@@ -53,6 +54,7 @@ pnpm dev
 | `pnpm lint` | Biome によるリント |
 | `pnpm format` | Biome によるフォーマット |
 | `pnpm check` | Biome によるリント + フォーマット |
+| `pnpm gen:api` | OpenAPI 定義から API クライアントを生成 |
 | `pnpm ncu` | 依存パッケージの更新確認 |
 | `pnpm sort-package-json` | package.json のソート |
 
@@ -75,6 +77,8 @@ pnpm dev
 ├── .env.example      # 環境変数のサンプル
 ├── .mise.toml        # mise 設定
 ├── biome.json        # Biome 設定
+├── openapi.json      # OpenAPI 定義（バックエンドから取得）
+├── orval.config.ts   # orval 設定
 ├── package.json
 ├── README.md
 └── CLAUDE.md

@@ -42,3 +42,6 @@ next-env.d.ts
 
 # editor
 .idea/*
+
+# generated
+/src/libs/api/generated
