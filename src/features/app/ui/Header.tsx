@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { HeaderSearchInput } from '@/features/app/ui/HeaderSearchInput';
 import { AuthButton } from '@/features/auth/ui/AuthButton';
-import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
 
-export async function Header() {
-  const { isLoggedIn } = await auth();
+interface Props {
+  isLoggedIn: boolean;
+}
 
+export function Header({ isLoggedIn }: Props) {
   return (
     <header className="flex h-header items-center justify-between border-b px-4">
       <Link href={Pages.home.path()} className="text-xl font-bold">
