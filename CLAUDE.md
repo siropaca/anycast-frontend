@@ -80,7 +80,7 @@ function add(a: number, b: number): number {
 - TanStack Query でデータフェッチを管理する
 - API クライアントは `src/libs/api/` に配置する
 - カスタムフックは `src/features/*/hooks/` に配置する
-- ページパスは直接文字列を使わず `Paths` を使用する（`src/libs/paths/`）
+- ページパスとタイトルは `Pages` を使用する（`src/libs/pages/`）
 
 ## 用語
 

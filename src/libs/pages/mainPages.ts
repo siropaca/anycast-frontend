@@ -31,11 +31,6 @@ export const mainPages = {
 
   /** ライブラリ */
   library: {
-    /** 再生履歴 */
-    history: {
-      path: () => '/library/history',
-      title: '再生履歴',
-    },
     /** お気に入り */
     favorites: {
       path: () => '/library/favorites',

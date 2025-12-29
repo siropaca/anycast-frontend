@@ -167,23 +167,25 @@ NEXTAUTH_URL=http://localhost:3210
 
 ## 保護されたルート
 
-現時点では明示的なルート保護は実装していない。必要に応じて `src/middleware.ts` で設定する。
+`src/middleware.ts` で認証必須ページへのアクセスを制御している。
 
 ```typescript
-// 例: middleware.ts
 import { auth } from '@/libs/auth/auth';
-import { NextResponse } from 'next/server';
+import { Pages } from '@/libs/pages';
 
 export default auth((req) => {
-  if (!req.auth && req.nextUrl.pathname.startsWith('/studio')) {
-    return NextResponse.redirect(new URL('/login', req.url));
+  if (!req.auth) {
+    const loginUrl = new URL(Pages.login.path({ redirect: req.url }), req.url);
+    return Response.redirect(loginUrl);
   }
 });
 
 export const config = {
-  matcher: ['/studio/:path*'],
+  matcher: ['/library/:path*', '/studio/:path*', '/settings/:path*'],
 };
 ```
+
+未認証ユーザーがアクセスすると、ログインページにリダイレクトされる。ログイン後は元のページに戻る。
 
 ## Google OAuth 設定
 

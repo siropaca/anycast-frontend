@@ -41,7 +41,6 @@ Anycast の基本的な UI レイアウトを定義する。
 - ホーム
 - 検索
 - ライブラリ（ログイン時のみ）
-  - 再生履歴
   - お気に入り
   - フォロー中
 
@@ -75,14 +74,14 @@ Anycast の基本的な UI レイアウトを定義する。
 
 | グループ | 適用レイアウト | 認証 |
 |----------|----------------|------|
-| `(main)` | `MainLayout` | 不要 |
+| `(main)` | `MainLayout` | `/library/*` のみ必須 |
 | `(studio)` | `StudioLayout` | 必須 |
 | `(settings)` | `SettingsLayout` | 必須 |
 | `(auth)` | なし | 不要 |
 
 ### 認証ガード
 
-`src/middleware.ts` で `/studio/*` と `/settings/*` への未認証アクセスをログインページにリダイレクトする。
+`src/middleware.ts` で `/library/*`、`/studio/*`、`/settings/*` への未認証アクセスをログインページにリダイレクトする。
 
 ## 今後の検討事項
 

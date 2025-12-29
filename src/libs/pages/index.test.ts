@@ -58,14 +58,6 @@ describe('Pages', () => {
   });
 
   describe('library', () => {
-    it('再生履歴ページのパスを返す', () => {
-      expect(Pages.library.history.path()).toBe('/library/history');
-    });
-
-    it('再生履歴のタイトルを返す', () => {
-      expect(Pages.library.history.title).toBe('再生履歴');
-    });
-
     it('お気に入りページのパスを返す', () => {
       expect(Pages.library.favorites.path()).toBe('/library/favorites');
     });

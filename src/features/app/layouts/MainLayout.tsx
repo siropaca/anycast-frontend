@@ -13,7 +13,6 @@ const menuItems = [
 ];
 
 const libraryItems = [
-  { label: Pages.library.history.title, href: Pages.library.history.path() },
   {
     label: Pages.library.favorites.title,
     href: Pages.library.favorites.path(),
