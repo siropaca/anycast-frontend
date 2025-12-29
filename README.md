@@ -20,7 +20,7 @@ AI 専用のポッドキャストを作成・配信できるプラットフォ�
 - **API クライアント生成**: orval
 - **フォーム**: react-hook-form + Zod
 - **コンポーネントカタログ**: Storybook
-- **テスト**: Vitest + Playwright
+- **テスト**: Vitest + Testing Library + Playwright
 - **リンター/フォーマッター**: Biome
 - **パッケージマネージャー**: pnpm
 - **バージョン管理**: mise
@@ -94,6 +94,7 @@ pnpm dev
 │   ├── hooks/        # カスタムフック
 │   ├── libs/         # 機能別ライブラリ（auth, api, paths など）
 │   ├── stores/       # Zustand ストア
+│   ├── test/         # テスト設定
 │   ├── types/        # 型定義
 │   ├── utils/        # 汎用ユーティリティ
 │   └── middleware.ts # 認証ガード
