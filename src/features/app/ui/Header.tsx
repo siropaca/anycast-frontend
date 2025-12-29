@@ -4,7 +4,7 @@ import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
 
 export async function Header() {
-  const session = await auth();
+  const { isLoggedIn } = await auth();
 
   return (
     <header className="flex h-header items-center justify-between border-b px-4">
@@ -13,19 +13,19 @@ export async function Header() {
       </Link>
 
       <div className="space-x-6">
-        {!!session && (
+        {isLoggedIn && (
           <Link href={Pages.studio.index.path()} className="underline">
             作成
           </Link>
         )}
 
-        {!!session && (
+        {isLoggedIn && (
           <Link href={Pages.settings.index.path()} className="underline">
             設定
           </Link>
         )}
 
-        <AuthButton isLoggedIn={!!session} />
+        <AuthButton isLoggedIn={isLoggedIn} />
       </div>
     </header>
   );

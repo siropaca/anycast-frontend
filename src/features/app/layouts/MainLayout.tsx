@@ -24,7 +24,7 @@ const libraryItems = [
 ];
 
 export async function MainLayout({ children }: Props) {
-  const session = await auth();
+  const { isLoggedIn } = await auth();
 
   return (
     <div className="flex flex-1">
@@ -37,7 +37,7 @@ export async function MainLayout({ children }: Props) {
             </Link>
           ))}
 
-          {!!session && (
+          {isLoggedIn && (
             <div className="mt-2">
               <p className="px-3 py-2 text-sm">[ライブラリ]</p>
               {libraryItems.map((item) => (

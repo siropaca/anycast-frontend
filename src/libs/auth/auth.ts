@@ -7,7 +7,7 @@ import {
 } from '@/libs/api/generated/auth/auth';
 import { Pages } from '@/libs/pages';
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const nextAuth = NextAuth({
   providers: [
     Credentials({
       credentials: {
@@ -100,3 +100,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   trustHost: true,
 });
+
+export const { handlers, signIn, signOut } = nextAuth;
+
+/** ミドルウェア用の認証ハンドラ */
+export const authMiddleware = nextAuth.auth;
+
+/**
+ * 認証情報を取得する
+ *
+ * @returns session と isLoggedIn
+ *
+ * @example
+ * const { session, isLoggedIn } = await auth();
+ * if (isLoggedIn) {
+ *   console.log(session.user.name);
+ * }
+ */
+export async function auth() {
+  const session = await nextAuth.auth();
+  return {
+    session,
+    isLoggedIn: !!session,
+  };
+}
