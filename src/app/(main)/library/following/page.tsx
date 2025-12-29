@@ -3,6 +3,7 @@ import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
   title: Pages.library.following.title,
+  robots: { index: false },
 };
 
 export default function LibraryFollowingPage() {
