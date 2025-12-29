@@ -9,18 +9,27 @@ interface Props {
 
 const menuItems = [
   { label: Pages.home.title, href: Pages.home.path() },
-  { label: Pages.search.title, href: Pages.search.path() },
+  { label: Pages.explore.title, href: Pages.explore.path() },
 ];
 
 const libraryItems = [
   {
-    label: Pages.library.favorites.title,
-    href: Pages.library.favorites.path(),
-  },
-  {
     label: Pages.library.following.title,
     href: Pages.library.following.path(),
   },
+  {
+    label: Pages.library.bookmarks.title,
+    href: Pages.library.bookmarks.path(),
+  },
+  {
+    label: Pages.library.favorites.title,
+    href: Pages.library.favorites.path(),
+  },
+];
+
+const myPageItems = [
+  { label: '作成したチャンネル', href: Pages.studio.channels.path() },
+  { label: Pages.settings.index.title, href: Pages.settings.index.path() },
 ];
 
 export async function MainLayout({ children }: Props) {
@@ -31,16 +40,32 @@ export async function MainLayout({ children }: Props) {
       {/* サイドバー */}
       <Sidebar>
         <nav className="flex flex-col gap-1 p-4">
+          {/* メニューアイテム */}
           {menuItems.map((item) => (
             <Link key={item.label} href={item.href} className="px-3 py-2">
               {item.label}
             </Link>
           ))}
 
+          {/* ライブラリ */}
+          <div className="mt-4">
+            <p className="px-3 py-2 text-sm">[ライブラリ]</p>
+            {libraryItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="block px-3 py-2"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* マイページ */}
           {isLoggedIn && (
-            <div className="mt-2">
-              <p className="px-3 py-2 text-sm">[ライブラリ]</p>
-              {libraryItems.map((item) => (
+            <div className="mt-4">
+              <p className="px-3 py-2 text-sm">[マイページ]</p>
+              {myPageItems.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}

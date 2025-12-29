@@ -2,7 +2,7 @@ export const studioPages = {
   /** Studio トップ（-> ダッシュボード） */
   index: {
     path: () => '/studio',
-    title: 'ダッシュボード',
+    title: 'スタジオ',
   },
   /** ダッシュボード */
   dashboard: {

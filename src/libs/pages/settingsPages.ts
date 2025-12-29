@@ -2,7 +2,7 @@ export const settingsPages = {
   /** 設定トップ（-> アカウント） */
   index: {
     path: () => '/settings',
-    title: 'アカウント',
+    title: '設定',
   },
   /** アカウント */
   account: {
