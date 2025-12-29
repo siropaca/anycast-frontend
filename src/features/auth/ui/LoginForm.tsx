@@ -6,14 +6,14 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type LoginInput, loginSchema } from '@/features/auth/schemas/auth';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 interface Props {
   redirectTo?: string;
 }
 
 // TODO: 仮コンポーネント
-export function LoginForm({ redirectTo = Paths.home() }: Props) {
+export function LoginForm({ redirectTo = Pages.home.path() }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 

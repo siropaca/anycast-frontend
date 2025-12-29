@@ -1,4 +1,4 @@
-import { buildQuery } from '@/libs/paths/buildQuery';
+import { buildQuery } from '@/libs/pages/buildQuery';
 
 describe('buildQuery', () => {
   it('パラメータがない場合は空文字を返す', () => {

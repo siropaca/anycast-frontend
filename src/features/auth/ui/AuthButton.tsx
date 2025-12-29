@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 interface Props {
   isLoggedIn: boolean;
@@ -15,7 +15,7 @@ export function AuthButton({ isLoggedIn }: Props) {
       <button
         type="button"
         className="border"
-        onClick={() => signOut({ callbackUrl: Paths.home() })}
+        onClick={() => signOut({ callbackUrl: Pages.home.path() })}
       >
         ログアウト
       </button>
@@ -23,7 +23,7 @@ export function AuthButton({ isLoggedIn }: Props) {
   }
 
   return (
-    <Link href={Paths.login()} className="underline">
+    <Link href={Pages.login.path()} className="underline">
       ログイン
     </Link>
   );

@@ -5,7 +5,7 @@ import {
   postAuthLogin,
   postAuthOauthGoogle,
 } from '@/libs/api/generated/auth/auth';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -96,7 +96,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: 'jwt',
   },
   pages: {
-    signIn: Paths.login(),
+    signIn: Pages.login.path(),
   },
   trustHost: true,
 });

@@ -3,10 +3,10 @@ import { DashboardContent } from '@/features/studio/dashboard/ui/DashboardConten
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: Pages.studio.index.title,
+  title: Pages.studio.dashboard.title,
   robots: { index: false },
 };
 
-export default function StudioPage() {
+export default function StudioDashboardPage() {
   return <DashboardContent />;
 }

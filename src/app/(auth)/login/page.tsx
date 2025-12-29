@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
 import { OAuthButtons } from '@/features/auth/ui/OAuthButtons';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: 'ログイン',
+  title: Pages.login.title,
   robots: { index: false },
 };
 
@@ -18,7 +18,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
   return (
     <div>
-      <h1>ログイン</h1>
+      <h1>{Pages.login.title}</h1>
 
       <LoginForm redirectTo={redirect} />
 
@@ -28,8 +28,8 @@ export default async function LoginPage({ searchParams }: Props) {
 
       <p>
         アカウントをお持ちでない方は{' '}
-        <Link href={Paths.signup()} className="underline">
-          新規登録
+        <Link href={Pages.signup.path()} className="underline">
+          {Pages.signup.title}
         </Link>
       </p>
     </div>

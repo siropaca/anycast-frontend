@@ -7,14 +7,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type SignupInput, signupSchema } from '@/features/auth/schemas/auth';
 import { usePostAuthRegister } from '@/libs/api/generated/auth/auth';
-import { Paths } from '@/libs/paths';
+import { Pages } from '@/libs/pages';
 
 interface Props {
   redirectTo?: string;
 }
 
 // TODO: 仮コンポーネント
-export function SignupForm({ redirectTo = Paths.home() }: Props) {
+export function SignupForm({ redirectTo = Pages.home.path() }: Props) {
   const router = useRouter();
   const registerMutation = usePostAuthRegister();
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +51,7 @@ export function SignupForm({ redirectTo = Paths.home() }: Props) {
       });
 
       if (signInResponse?.error) {
-        router.push(Paths.login());
+        router.push(Pages.login.path());
         return;
       }
 
