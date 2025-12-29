@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Sidebar } from '@/features/app/ui/Sidebar';
+import { Sidebar } from '@/components/navigation/Sidebar';
 import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
 

@@ -79,6 +79,12 @@ pnpm dev
 │   │   ├── (settings)/ # 設定ページ（認証必須）
 │   │   └── (studio)/ # Studio ページ（認証必須）
 │   ├── components/   # 共通コンポーネント
+│   │   ├── dataDisplay/ # データ表示
+│   │   ├── feedback/    # フィードバック
+│   │   ├── inputs/      # 入力
+│   │   ├── navigation/  # ナビゲーション
+│   │   ├── surface/     # サーフェス
+│   │   └── utils/       # ユーティリティ
 │   ├── config/       # 設定ファイル
 │   ├── features/     # 機能ごとのモジュール
 │   │   └── app/

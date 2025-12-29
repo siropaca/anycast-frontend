@@ -1,4 +1,4 @@
-import { Header } from '@/features/app/ui/Header';
+import { Header } from '@/components/navigation/Header';
 import { auth } from '@/libs/auth/auth';
 
 /**
