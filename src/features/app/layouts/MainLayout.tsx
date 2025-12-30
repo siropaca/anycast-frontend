@@ -2,11 +2,11 @@ import {
   BookmarkIcon,
   CheckSquareOffsetIcon,
   ClockCounterClockwiseIcon,
-  FolderIcon,
   GearIcon,
   HeartIcon,
   HouseIcon,
   RocketLaunchIcon,
+  VideoIcon,
 } from '@phosphor-icons/react/ssr';
 import { Sidebar } from '@/components/navigation/Sidebar';
 import type { MenuSection } from '@/components/navigation/SideMenu';
@@ -66,7 +66,7 @@ const MY_PAGE_SECTION: MenuSection = {
     {
       label: '作成したチャンネル',
       href: Pages.studio.channels.path(),
-      icon: FolderIcon,
+      icon: VideoIcon,
     },
     {
       label: Pages.settings.index.title,
