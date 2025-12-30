@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const menuItems = [
+const MENU_ITEMS = [
   { label: Pages.settings.account.title, href: Pages.settings.account.path() },
   {
     label: Pages.settings.subscription.title,
@@ -21,7 +21,7 @@ export function SettingsLayout({ children }: Props) {
       {/* サイドバー */}
       <Sidebar>
         <nav className="flex flex-col gap-1 p-4">
-          {menuItems.map((item) => (
+          {MENU_ITEMS.map((item) => (
             <Link key={item.label} href={item.href} className="px-3 py-2">
               {item.label}
             </Link>

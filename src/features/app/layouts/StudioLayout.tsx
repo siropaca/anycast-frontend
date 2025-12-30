@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const menuItems = [
+const MENU_ITEMS = [
   { label: Pages.studio.dashboard.title, href: Pages.studio.dashboard.path() },
   { label: Pages.studio.channels.title, href: Pages.studio.channels.path() },
 ];
@@ -18,7 +18,7 @@ export function StudioLayout({ children }: Props) {
       {/* サイドバー */}
       <Sidebar>
         <nav className="flex flex-col gap-1 p-4">
-          {menuItems.map((item) => (
+          {MENU_ITEMS.map((item) => (
             <Link key={item.label} href={item.href} className="px-3 py-2">
               {item.label}
             </Link>

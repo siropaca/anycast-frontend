@@ -7,12 +7,12 @@ interface Props {
   children: React.ReactNode;
 }
 
-const menuItems = [
+const MENU_ITEMS = [
   { label: Pages.home.title, href: Pages.home.path() },
   { label: Pages.explore.title, href: Pages.explore.path() },
 ];
 
-const libraryItems = [
+const LIBRARY_ITEMS = [
   {
     label: Pages.library.following.title,
     href: Pages.library.following.path(),
@@ -31,7 +31,7 @@ const libraryItems = [
   },
 ];
 
-const myPageItems = [
+const MY_PAGE_ITEMS = [
   { label: '作成したチャンネル', href: Pages.studio.channels.path() },
   { label: Pages.settings.index.title, href: Pages.settings.index.path() },
 ];
@@ -46,7 +46,7 @@ export async function MainLayout({ children }: Props) {
       <Sidebar>
         <nav className="flex flex-col gap-1 p-4">
           {/* メニューアイテム */}
-          {menuItems.map((item) => (
+          {MENU_ITEMS.map((item) => (
             <Link key={item.label} href={item.href} className="px-3 py-2">
               {item.label}
             </Link>
@@ -55,7 +55,7 @@ export async function MainLayout({ children }: Props) {
           {/* ライブラリ */}
           <div className="mt-4">
             <p className="px-3 py-2 text-sm">[ライブラリ]</p>
-            {libraryItems.map((item) => (
+            {LIBRARY_ITEMS.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
@@ -70,7 +70,7 @@ export async function MainLayout({ children }: Props) {
           {isLoggedIn && (
             <div className="mt-4">
               <p className="px-3 py-2 text-sm">[マイページ]</p>
-              {myPageItems.map((item) => (
+              {MY_PAGE_ITEMS.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
