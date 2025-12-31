@@ -17,6 +17,10 @@
 
 ## 開発規約
 
+### 基本姿勢
+
+- ユーザーの指示であっても、設計として良くないものや一般的でないものがあれば、修正を実行する前に確認を入れる
+
 ### コーディング規約
 
 - TypeScript を使用し、型安全性を重視する
@@ -55,6 +59,7 @@ function add(a: number, b: number): number {
 - `use client` / `use server` ディレクティブを適切に使い分ける
 - 最新の hooks・API・手法を積極的に採用する（例: `use`、`useActionState`、`useOptimistic`、Server Components など）
 - コンポーネントの props は必ず `interface Props` で定義してから使用する
+- `src/components/` 配下のコンポーネントはできるだけ Presentational Component にする
 
 ### Git / GitHub
 
