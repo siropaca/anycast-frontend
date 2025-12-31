@@ -7,6 +7,17 @@ import {
 } from '@/libs/api/generated/auth/auth';
 import { Pages } from '@/libs/pages';
 
+declare module 'next-auth' {
+  interface Session {
+    accessToken?: string;
+  }
+
+  interface JWT {
+    id?: string;
+    accessToken?: string;
+  }
+}
+
 const nextAuth = NextAuth({
   providers: [
     Credentials({
@@ -29,8 +40,10 @@ const nextAuth = NextAuth({
             return null;
           }
 
-          const user = response.data.data?.user;
-          if (!user) {
+          const data = response.data.data;
+          const user = data?.user;
+          const token = data?.token;
+          if (!user || !token) {
             return null;
           }
 
@@ -39,6 +52,7 @@ const nextAuth = NextAuth({
             email: user.email ?? '',
             name: user.displayName ?? '',
             image: user.avatarUrl ?? null,
+            accessToken: token,
           };
         } catch {
           return null;
@@ -67,12 +81,15 @@ const nextAuth = NextAuth({
             return false;
           }
 
-          const backendUser = response.data.data?.user;
-          if (!backendUser?.id) {
+          const data = response.data.data;
+          const backendUser = data?.user;
+          const token = data?.token;
+          if (!backendUser?.id || !token) {
             return false;
           }
 
           user.id = backendUser.id;
+          (user as { accessToken?: string }).accessToken = token;
         } catch {
           return false;
         }
@@ -82,12 +99,17 @@ const nextAuth = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id as string;
+        token.accessToken = (user as { accessToken?: string }).accessToken;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token.id) {
-        (session.user as { id: string }).id = token.id as string;
+      const jwtToken = token as { id?: string; accessToken?: string };
+      if (jwtToken.id) {
+        (session.user as { id: string }).id = jwtToken.id;
+      }
+      if (jwtToken.accessToken) {
+        session.accessToken = jwtToken.accessToken;
       }
       return session;
     },
