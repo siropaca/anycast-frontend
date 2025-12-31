@@ -90,7 +90,7 @@ pnpm dev
 │   │   └── app/
 │   │       ├── layouts/  # レイアウトコンポーネント
 │   │       ├── providers/ # プロバイダー
-│   │       └── ui/       # UI コンポーネント
+│   │       └── components/ # コンポーネント
 │   ├── hooks/        # カスタムフック
 │   ├── libs/         # 機能別ライブラリ（auth, api, paths など）
 │   ├── stores/       # Zustand ストア

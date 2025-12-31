@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { OAuthButtons } from '@/features/auth/ui/OAuthButtons';
-import { SignupForm } from '@/features/auth/ui/SignupForm';
+import { OAuthButtons } from '@/features/auth/components/OAuthButtons';
+import { SignupForm } from '@/features/auth/components/SignupForm';
 import { Pages } from '@/libs/pages';
 import type { SignupSearchParams } from '@/libs/pages/mainPages';
 

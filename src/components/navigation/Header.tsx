@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { HeaderSearchInput } from '@/components/navigation/HeaderSearchInput';
-import { AuthButton } from '@/features/auth/ui/AuthButton';
+import { AuthButton } from '@/features/auth/components/AuthButton';
 import { Pages } from '@/libs/pages';
 
 interface Props {

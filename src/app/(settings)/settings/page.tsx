@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { AccountContent } from '@/features/settings/account/ui/AccountContent';
+import { AccountContent } from '@/features/settings/account/components/AccountContent';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { ChannelList } from '@/features/studio/channels/ui/ChannelList';
+import { ChannelList } from '@/features/studio/channels/components/ChannelList';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {

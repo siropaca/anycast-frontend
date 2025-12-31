@@ -68,12 +68,12 @@ Anycast の基本的な UI レイアウトを定義する。
 
 ### レイアウトコンポーネント
 
-| コンポーネント | パス | 説明 |
-|----------------|------|------|
-| `Sidebar` | `src/features/app/ui/Sidebar.tsx` | サイドバーの枠組み |
-| `MainLayout` | `src/features/app/layouts/MainLayout.tsx` | 通常ページ用レイアウト |
-| `StudioLayout` | `src/features/app/layouts/StudioLayout.tsx` | Studio ページ用レイアウト |
-| `SettingsLayout` | `src/features/app/layouts/SettingsLayout.tsx` | 設定ページ用レイアウト |
+| コンポーネント | 説明 |
+|----------------|------|
+| `Sidebar` | サイドバーの枠組み |
+| `MainLayout` | 通常ページ用レイアウト |
+| `StudioLayout` | Studio ページ用レイアウト |
+| `SettingsLayout` | 設定ページ用レイアウト |
 
 ### ルートグループ
 
