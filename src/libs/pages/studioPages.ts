@@ -9,9 +9,19 @@ export const studioPages = {
     path: () => '/studio/dashboard',
     title: 'ダッシュボード',
   },
-  /** チャンネル */
+  /** チャンネル一覧 */
   channels: {
     path: () => '/studio/channels',
     title: 'チャンネル',
+  },
+  /** チャンネル作成 */
+  newChannel: {
+    path: () => '/studio/channels/new',
+    title: 'チャンネル作成',
+  },
+  /** チャンネル編集 */
+  editChannel: {
+    path: (id: string) => `/studio/channels/${id}/edit`,
+    title: 'チャンネル編集',
   },
 } as const;
