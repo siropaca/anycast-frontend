@@ -28,29 +28,16 @@ PostgreSQL (users, credentials, oauth_accounts)
 - バックエンドはユーザー作成/検証 API を提供
 - バックエンド API は Auth.js の JWT を検証して認可
 
-## ディレクトリ構成
+## 関連ディレクトリ
 
-```
-src/
-├── libs/
-│   ├── api/
-│   │   └── generated/auth/auth.ts  # orval 生成の認証 API クライアント
-│   └── auth/
-│       └── auth.ts                 # Auth.js 設定
-├── app/
-│   ├── api/auth/[...nextauth]/route.ts  # ルートハンドラー
-│   └── (auth)/
-│       ├── login/page.tsx    # ログインページ
-│       ├── signup/page.tsx   # サインアップページ
-│       └── layout.tsx        # 認証ページレイアウト
-└── features/auth/
-    ├── schemas/auth.ts       # Zod バリデーションスキーマ
-    └── ui/
-        ├── LoginForm.tsx     # ログインフォーム
-        ├── SignupForm.tsx    # サインアップフォーム
-        ├── OAuthButtons.tsx  # OAuth ボタン
-        └── AuthButton.tsx    # ログイン/ログアウトボタン
-```
+| ディレクトリ | 説明 |
+|-------------|------|
+| `src/libs/auth/` | Auth.js 設定 |
+| `src/libs/api/generated/auth/` | orval 生成の認証 API クライアント |
+| `src/app/api/auth/` | Auth.js ルートハンドラー |
+| `src/app/(auth)/` | 認証ページ（ログイン、新規登録） |
+| `src/features/auth/schemas/` | Zod バリデーションスキーマ |
+| `src/features/auth/components/` | 認証関連コンポーネント |
 
 ## バックエンド API 仕様
 
@@ -169,23 +156,13 @@ NEXTAUTH_URL=http://localhost:3210
 
 `src/middleware.ts` で認証必須ページへのアクセスを制御している。
 
-```typescript
-import { auth } from '@/libs/auth/auth';
-import { Pages } from '@/libs/pages';
+| パス | 説明 |
+|------|------|
+| `/library/*` | ライブラリ（フォロー中、後で聴く、お気に入り、履歴） |
+| `/studio/*` | Studio（クリエイター向け機能） |
+| `/settings/*` | 設定 |
 
-export default auth((req) => {
-  if (!req.auth) {
-    const loginUrl = new URL(Pages.login.path({ redirect: req.url }), req.url);
-    return Response.redirect(loginUrl);
-  }
-});
-
-export const config = {
-  matcher: ['/library/:path*', '/studio/:path*', '/settings/:path*'],
-};
-```
-
-未認証ユーザーがアクセスすると、ログインページにリダイレクトされる。ログイン後は元のページに戻る。
+未認証ユーザーがこれらのページにアクセスすると、ログインページにリダイレクトされる。ログイン後は元のページに戻る。
 
 ## Google OAuth 設定
 
