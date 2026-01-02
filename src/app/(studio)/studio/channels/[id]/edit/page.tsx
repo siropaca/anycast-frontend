@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Pages } from '@/libs/pages';
+import type { EditChannelParams } from '@/libs/pages/studioPages';
 
 export const metadata: Metadata = {
   title: Pages.studio.editChannel.title,
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<EditChannelParams>;
 }
 
 export default async function StudioEditChannelPage({ params }: Props) {

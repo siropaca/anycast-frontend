@@ -51,11 +51,12 @@ Anycast のページ構成と URL 設計を定義する。
 
 | ページ | URL | 説明 | 作成済み | 実装完了 |
 |--------|-----|------|:--------:|:--------:|
-| Studio | `/studio` | Studio トップ（ダッシュボードを表示） | - | - |
+| Studio | `/studio` | Studio トップ（ダッシュボードを表示） | ✅ | |
 | ダッシュボード | `/studio/dashboard` | クリエイター向けダッシュボード | ✅ | |
 | チャンネル一覧 | `/studio/channels` | 自分のチャンネル一覧 | ✅ | |
-| チャンネル作成 | `/studio/channels/new` | 新規チャンネル作成 | | |
-| チャンネル編集 | `/studio/channels/:id/edit` | チャンネル情報の編集 | | |
+| チャンネル作成 | `/studio/channels/new` | 新規チャンネル作成 | ✅ | |
+| チャンネル詳細 | `/studio/channels/:id` | チャンネル詳細 | ✅ | |
+| チャンネル編集 | `/studio/channels/:id/edit` | チャンネル情報の編集 | ✅ | |
 | エピソード一覧 | `/studio/channels/:id/episodes` | チャンネル内のエピソード一覧 | | |
 | エピソード作成 | `/studio/channels/:id/episodes/new` | 新規エピソード作成（台本作成→音声生成） | | |
 | エピソード編集 | `/studio/channels/:id/episodes/:id/edit` | エピソードの編集 | | |
@@ -64,7 +65,7 @@ Anycast のページ構成と URL 設計を定義する。
 
 | ページ | URL | 説明 | 作成済み | 実装完了 |
 |--------|-----|------|:--------:|:--------:|
-| 設定 | `/settings` | 設定トップ（アカウントを表示） | - | - |
+| 設定 | `/settings` | 設定トップ（アカウントを表示） | ✅ | |
 | アカウント | `/settings/account` | プロフィール・アカウント設定 | ✅ | |
 | サブスクリプション | `/settings/subscription` | サブスクリプション管理 | ✅ | |
 

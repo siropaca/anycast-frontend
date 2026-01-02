@@ -1,3 +1,13 @@
+/** チャンネル詳細ページのパラメータ */
+export interface ChannelParams {
+  id: string;
+}
+
+/** チャンネル編集ページのパラメータ */
+export interface EditChannelParams {
+  id: string;
+}
+
 export const studioPages = {
   /** Studio トップ（-> ダッシュボード） */
   index: {
@@ -19,9 +29,14 @@ export const studioPages = {
     path: () => '/studio/channels/new',
     title: 'チャンネル作成',
   },
+  /** チャンネル詳細 */
+  channel: {
+    path: (params: ChannelParams) => `/studio/channels/${params.id}`,
+    title: 'チャンネル詳細',
+  },
   /** チャンネル編集 */
   editChannel: {
-    path: (id: string) => `/studio/channels/${id}/edit`,
+    path: (params: EditChannelParams) => `/studio/channels/${params.id}/edit`,
     title: 'チャンネル編集',
   },
 } as const;

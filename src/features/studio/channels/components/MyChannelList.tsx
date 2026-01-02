@@ -6,7 +6,7 @@ import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { Pages } from '@/libs/pages';
 
-export function ChannelList() {
+export function MyChannelList() {
   const { data } = useGetMeChannelsSuspense();
 
   const channels = unwrapResponse<ResponseChannelResponse[]>(data, []);
@@ -19,7 +19,7 @@ export function ChannelList() {
     <ul>
       {channels.map((channel) => (
         <li key={channel.id}>
-          <Link href={Pages.studio.editChannel.path(channel.id)}>
+          <Link href={Pages.studio.channel.path({ id: channel.id })}>
             {channel.name}
           </Link>
         </li>

@@ -42,9 +42,21 @@ describe('studioPages', () => {
     });
   });
 
+  describe('channel', () => {
+    it('path が id を含むパスを返す', () => {
+      expect(studioPages.channel.path({ id: '123' })).toBe(
+        '/studio/channels/123',
+      );
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.channel.title).toBe('チャンネル詳細');
+    });
+  });
+
   describe('editChannel', () => {
     it('path が id を含むパスを返す', () => {
-      expect(studioPages.editChannel.path('123')).toBe(
+      expect(studioPages.editChannel.path({ id: '123' })).toBe(
         '/studio/channels/123/edit',
       );
     });

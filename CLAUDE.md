@@ -20,6 +20,7 @@
 ### 基本姿勢
 
 - ユーザーの指示であっても、設計として良くないものや一般的でないものがあれば、修正を実行する前に確認を入れる
+- 常にメンテナビリティやテスタビリティを意識した実装を心がける
 
 ### コーディング規約
 
@@ -68,6 +69,10 @@ function add(a: number, b: number): number {
 - コミット前に `pnpm check` でリント + フォーマットを実行する
 - PR 作成時は `.github/PULL_REQUEST_TEMPLATE.md` をテンプレートとして使用する
 
+### テスト
+
+- 外部依存がないユニットテストは、実装時に必ず作成する
+
 ## 開発環境
 
 | 項目 | URL |
@@ -86,7 +91,30 @@ function add(a: number, b: number): number {
 - TanStack Query でデータフェッチを管理する
 - API クライアントは `src/libs/api/` に配置する
 - カスタムフックは `src/features/*/hooks/` に配置する
-- ページパスとタイトルは `Pages` を使用する（`src/libs/pages/`）
+
+### ページパスの管理
+
+- ページのパスとタイトルは `src/libs/pages/index.ts` の `Pages` オブジェクトで一元管理する
+- 動的ルート（`[id]` など）を持つページは、パラメータ型を定義して `path()` と `page.tsx` の両方で使用する
+
+```typescript
+// src/libs/pages/studioPages.ts
+export interface ChannelParams {
+  id: string;
+}
+
+export const studioPages = {
+  channel: {
+    path: (params: ChannelParams) => `/studio/channels/${params.id}`,
+    title: 'チャンネル詳細',
+  },
+} as const;
+
+// src/app/(studio)/studio/channels/[id]/page.tsx
+interface Props {
+  params: Promise<ChannelParams>;
+}
+```
 
 ## 用語
 
