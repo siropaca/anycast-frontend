@@ -22,8 +22,10 @@ export function MyChannelDetail({ channelId }: Props) {
       <p>Channel ID: {channelId}</p>
 
       <button type="button" className="border" onClick={handleEditClick}>
-        編集
+        チャンネルを編集
       </button>
+
+      <hr />
 
       <h2>エピソード一覧</h2>
       <Suspense fallback={<p>読み込み中...</p>}>

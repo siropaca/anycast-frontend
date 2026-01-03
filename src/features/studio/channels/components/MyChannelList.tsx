@@ -32,7 +32,7 @@ export function MyChannelList() {
 
       <li>
         <button type="button" className="border" onClick={handleNewClick}>
-          作成
+          チャンネルを作成
         </button>
       </li>
     </ul>

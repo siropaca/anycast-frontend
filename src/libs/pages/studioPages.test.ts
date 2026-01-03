@@ -65,4 +65,28 @@ describe('studioPages', () => {
       expect(studioPages.editChannel.title).toBe('チャンネル編集');
     });
   });
+
+  describe('newEpisode', () => {
+    it('path が id を含むパスを返す', () => {
+      expect(studioPages.newEpisode.path({ id: '123' })).toBe(
+        '/studio/channels/123/episodes/new',
+      );
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.newEpisode.title).toBe('エピソード作成');
+    });
+  });
+
+  describe('editEpisode', () => {
+    it('path が id と episodeId を含むパスを返す', () => {
+      expect(
+        studioPages.editEpisode.path({ id: '123', episodeId: '456' }),
+      ).toBe('/studio/channels/123/episodes/456/edit');
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.editEpisode.title).toBe('エピソード編集');
+    });
+  });
 });
