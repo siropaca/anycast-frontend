@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 
 export default function StudioNewChannelPage() {
   return (
+    // TODO: ローディング実装
     <Suspense fallback={<p>読み込み中...</p>}>
       <CreateChannel />
     </Suspense>
