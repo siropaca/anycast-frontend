@@ -64,6 +64,19 @@ function add(a: number, b: number): number {
 - コンポーネントの props は必ず `interface Props` で定義してから使用する
 - `src/components/` 配下のコンポーネントはできるだけ Presentational Component にする
 - `className` の結合や条件式を使う場合は `cn()` を使用する（`src/utils/cn.ts`）
+- Props の定義順序: 必須プロパティ → オプショナルプロパティ → 空行 → 関数
+
+```typescript
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+  isDisabled?: boolean;
+
+  onClick: () => void;
+  onSubmit: (data: FormData) => void;
+}
+```
 
 ### Git / GitHub
 
