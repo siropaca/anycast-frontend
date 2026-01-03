@@ -3,17 +3,15 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
-import { useChannelFormData } from '@/features/studio/channels/hooks/useChannelFormData';
+import { useCreateChannel } from '@/features/studio/channels/hooks/useCreateChannel';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
-import { usePostChannels } from '@/libs/api/generated/channels/channels';
 import { Pages } from '@/libs/pages';
 
 export function CreateChannel() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const { categories, voices } = useChannelFormData();
-  const createMutation = usePostChannels();
+  const { categories, voices, createMutation } = useCreateChannel();
 
   /**
    * フォーム送信時のハンドラ

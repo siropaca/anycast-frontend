@@ -1,27 +1,38 @@
-import { useChannelFormData } from '@/features/studio/channels/hooks/useChannelFormData';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
+import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import {
   useGetChannelsChannelIdSuspense,
   usePatchChannelsChannelId,
 } from '@/libs/api/generated/channels/channels';
-import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
+import type {
+  ResponseCategoryResponse,
+  ResponseChannelResponse,
+  ResponseVoiceResponse,
+} from '@/libs/api/generated/schemas';
+import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 /**
  * チャンネル編集に必要なデータと操作を提供する
  *
  * @param channelId - チャンネル ID
- * @returns チャンネルデータ、フォームデータ、更新ミューテーション
+ * @returns チャンネルデータ、フォームデータ、カテゴリ一覧、ボイス一覧、更新ミューテーション
  */
 export function useEditChannel(channelId: string) {
   const { data: channelData } = useGetChannelsChannelIdSuspense(channelId);
-  const { categories, voices } = useChannelFormData();
+  const { data: categoriesData } = useGetCategoriesSuspense();
+  const { data: voicesData } = useGetVoicesSuspense();
   const updateMutation = usePatchChannelsChannelId();
 
   const channel = unwrapResponse<ResponseChannelResponse | null>(
     channelData,
     null,
   );
+  const categories = unwrapResponse<ResponseCategoryResponse[]>(
+    categoriesData,
+    [],
+  );
+  const voices = unwrapResponse<ResponseVoiceResponse[]>(voicesData, []);
 
   const defaultValues: ChannelFormInput | null = channel
     ? {
