@@ -1,8 +1,10 @@
 'use client';
 
+import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { EpisodeList } from '@/features/studio/channels/components/EpisodeList';
+import { useDeleteChannel } from '@/features/studio/channels/hooks/useDeleteChannel';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -11,9 +13,30 @@ interface Props {
 
 export function MyChannelDetail({ channelId }: Props) {
   const router = useRouter();
+  const { deleteMutation } = useDeleteChannel();
+  const [error, setError] = useState<string | undefined>(undefined);
 
   function handleEditClick() {
     router.push(Pages.studio.editChannel.path({ id: channelId }));
+  }
+
+  async function handleDeleteClick() {
+    setError(undefined);
+
+    try {
+      const response = await deleteMutation.mutateAsync({ channelId });
+
+      if (response.status !== StatusCodes.NO_CONTENT) {
+        setError(
+          response.data.error?.message ?? 'チャンネルの削除に失敗しました',
+        );
+        return;
+      }
+
+      router.push(Pages.studio.channels.path());
+    } catch {
+      setError('チャンネルの削除に失敗しました');
+    }
   }
 
   return (
@@ -21,8 +44,24 @@ export function MyChannelDetail({ channelId }: Props) {
       <h1>{Pages.studio.channel.title}</h1>
       <p>Channel ID: {channelId}</p>
 
-      <button type="button" className="border" onClick={handleEditClick}>
+      {error && <p>{error}</p>}
+
+      <button
+        type="button"
+        className="border"
+        disabled={deleteMutation.isPending}
+        onClick={handleEditClick}
+      >
         チャンネルを編集
+      </button>
+
+      <button
+        type="button"
+        className="border"
+        disabled={deleteMutation.isPending}
+        onClick={handleDeleteClick}
+      >
+        {deleteMutation.isPending ? '削除中...' : 'チャンネルを削除'}
       </button>
 
       <hr />

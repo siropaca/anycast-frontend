@@ -104,21 +104,6 @@ export function ChannelForm({
             <h4>キャラクター {index + 1}</h4>
 
             <div>
-              <label htmlFor={`characters.${index}.name`}>名前</label>
-              <br />
-              <input
-                id={`characters.${index}.name`}
-                type="text"
-                className="border"
-                disabled={isEditMode}
-                {...register(`characters.${index}.name`)}
-              />
-              {errors.characters?.[index]?.name && (
-                <p>{errors.characters[index].name?.message}</p>
-              )}
-            </div>
-
-            <div>
               <label htmlFor={`characters.${index}.voiceId`}>ボイス</label>
               <br />
               <select
@@ -136,6 +121,21 @@ export function ChannelForm({
               </select>
               {errors.characters?.[index]?.voiceId && (
                 <p>{errors.characters[index].voiceId?.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor={`characters.${index}.name`}>名前</label>
+              <br />
+              <input
+                id={`characters.${index}.name`}
+                type="text"
+                className="border"
+                disabled={isEditMode}
+                {...register(`characters.${index}.name`)}
+              />
+              {errors.characters?.[index]?.name && (
+                <p>{errors.characters[index].name?.message}</p>
               )}
             </div>
 

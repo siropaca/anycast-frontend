@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import { getSession } from 'next-auth/react';
 import { auth } from '@/libs/auth/auth';
 
@@ -52,7 +53,11 @@ export async function customFetcher<TResponse>(
     throw new Error(error?.error?.message || `HTTP error ${response.status}`);
   }
 
-  const data = await response.json();
+  // 204 No Content の場合はボディがないため JSON パースをスキップ
+  const data =
+    response.status === StatusCodes.NO_CONTENT
+      ? undefined
+      : await response.json();
 
   return {
     data,
