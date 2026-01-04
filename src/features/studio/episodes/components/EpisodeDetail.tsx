@@ -175,7 +175,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
       <hr className="my-4" />
 
-      <Suspense fallback={<p>台本を読み込み中...</p>}>
+      <Suspense fallback={<p>読み込み中...</p>}>
         <ScriptLineList channelId={channelId} episodeId={episodeId} />
       </Suspense>
     </div>
