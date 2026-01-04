@@ -50,10 +50,9 @@ export function EpisodeForm({
 
       <div>
         <label htmlFor="description">説明</label>
-        <br />
         <textarea
           id="description"
-          className="border"
+          className="border w-full h-20"
           {...register('description')}
         />
         {errors.description && <p>{errors.description.message}</p>}

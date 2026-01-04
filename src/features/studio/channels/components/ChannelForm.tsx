@@ -63,10 +63,9 @@ export function ChannelForm({
 
       <div>
         <label htmlFor="description">説明</label>
-        <br />
         <textarea
           id="description"
-          className="border"
+          className="border w-full h-20"
           {...register('description')}
         />
         {errors.description && <p>{errors.description.message}</p>}
@@ -74,10 +73,9 @@ export function ChannelForm({
 
       <div>
         <label htmlFor="userPrompt">プロンプト</label>
-        <br />
         <textarea
           id="userPrompt"
-          className="border"
+          className="border w-full h-20"
           {...register('userPrompt')}
         />
         {errors.userPrompt && <p>{errors.userPrompt.message}</p>}
@@ -142,10 +140,9 @@ export function ChannelForm({
 
             <div>
               <label htmlFor={`characters.${index}.persona`}>ペルソナ</label>
-              <br />
               <textarea
                 id={`characters.${index}.persona`}
-                className="border"
+                className="border w-full h-20"
                 disabled={isEditMode}
                 {...register(`characters.${index}.persona`)}
               />
