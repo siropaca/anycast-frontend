@@ -62,8 +62,8 @@ export function CreateChannel() {
         mode="create"
         categories={categories}
         voices={voices}
-        onSubmit={handleSubmit}
         isSubmitting={createMutation.isPending}
+        onSubmit={handleSubmit}
       />
     </div>
   );

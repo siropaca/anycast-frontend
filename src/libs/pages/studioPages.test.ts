@@ -32,16 +32,6 @@ describe('studioPages', () => {
     });
   });
 
-  describe('newChannel', () => {
-    it('path が /studio/channels/new を返す', () => {
-      expect(studioPages.newChannel.path()).toBe('/studio/channels/new');
-    });
-
-    it('title が設定されている', () => {
-      expect(studioPages.newChannel.title).toBe('チャンネル作成');
-    });
-  });
-
   describe('channel', () => {
     it('path が id を含むパスを返す', () => {
       expect(studioPages.channel.path({ id: '123' })).toBe(
@@ -54,6 +44,16 @@ describe('studioPages', () => {
     });
   });
 
+  describe('newChannel', () => {
+    it('path が /studio/channels/new を返す', () => {
+      expect(studioPages.newChannel.path()).toBe('/studio/channels/new');
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.newChannel.title).toBe('チャンネル作成');
+    });
+  });
+
   describe('editChannel', () => {
     it('path が id を含むパスを返す', () => {
       expect(studioPages.editChannel.path({ id: '123' })).toBe(
@@ -63,6 +63,18 @@ describe('studioPages', () => {
 
     it('title が設定されている', () => {
       expect(studioPages.editChannel.title).toBe('チャンネル編集');
+    });
+  });
+
+  describe('episode', () => {
+    it('path が id と episodeId を含むパスを返す', () => {
+      expect(studioPages.episode.path({ id: '123', episodeId: '456' })).toBe(
+        '/studio/channels/123/episodes/456',
+      );
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.episode.title).toBe('エピソード詳細');
     });
   });
 

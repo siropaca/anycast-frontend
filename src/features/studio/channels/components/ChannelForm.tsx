@@ -16,8 +16,9 @@ interface Props {
   defaultValues?: ChannelFormInput;
   categories: ResponseCategoryResponse[];
   voices: ResponseVoiceResponse[];
-  onSubmit: (data: ChannelFormInput) => void;
   isSubmitting?: boolean;
+
+  onSubmit: (data: ChannelFormInput) => void;
 }
 
 export function ChannelForm({

@@ -67,8 +67,8 @@ export function EditChannel({ channelId }: Props) {
         defaultValues={defaultValues}
         categories={categories}
         voices={voices}
-        onSubmit={handleSubmit}
         isSubmitting={updateMutation.isPending}
+        onSubmit={handleSubmit}
       />
     </div>
   );

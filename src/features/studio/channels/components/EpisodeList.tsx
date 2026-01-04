@@ -17,16 +17,14 @@ export function EpisodeList({ channelId }: Props) {
     router.push(Pages.studio.newEpisode.path({ id: channelId }));
   }
 
-  if (episodes.length === 0) {
-    return <p>エピソードがありません</p>;
-  }
-
   return (
     <ul>
+      {episodes.length === 0 && <li>エピソードがありません</li>}
+
       {episodes.map((episode) => (
         <li key={episode.id}>
           <Link
-            href={Pages.studio.editEpisode.path({
+            href={Pages.studio.episode.path({
               id: channelId,
               episodeId: episode.id,
             })}

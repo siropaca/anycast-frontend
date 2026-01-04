@@ -104,4 +104,45 @@ describe('unwrapResponse', () => {
       expect(result).toEqual({ id: '', name: '' });
     });
   });
+
+  describe('デフォルト値なし（Suspense フック向け）', () => {
+    it('成功レスポンスの場合は data.data を返す', () => {
+      const response = {
+        status: StatusCodes.OK,
+        data: { data: { id: '1', name: 'Episode 1' } },
+      };
+
+      const result = unwrapResponse<{ id: string; name: string }>(response);
+
+      expect(result).toEqual({ id: '1', name: 'Episode 1' });
+    });
+
+    it('エラーレスポンスの場合は例外を throw する', () => {
+      const response = {
+        status: StatusCodes.BAD_REQUEST,
+        data: { error: 'Bad Request' },
+      };
+
+      expect(() => unwrapResponse(response)).toThrow(
+        'Failed to unwrap response: data not found',
+      );
+    });
+
+    it('response が undefined の場合は例外を throw する', () => {
+      expect(() => unwrapResponse(undefined)).toThrow(
+        'Failed to unwrap response: data not found',
+      );
+    });
+
+    it('data.data が undefined の場合は例外を throw する', () => {
+      const response = {
+        status: StatusCodes.OK,
+        data: { data: undefined },
+      };
+
+      expect(() => unwrapResponse(response)).toThrow(
+        'Failed to unwrap response: data not found',
+      );
+    });
+  });
 });

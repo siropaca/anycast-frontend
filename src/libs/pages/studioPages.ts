@@ -8,6 +8,12 @@ export interface EditChannelParams {
   id: string;
 }
 
+/** エピソード詳細ページのパラメータ */
+export interface EpisodeParams {
+  id: string;
+  episodeId: string;
+}
+
 /** エピソード作成ページのパラメータ */
 export interface NewEpisodeParams {
   id: string;
@@ -35,20 +41,26 @@ export const studioPages = {
     path: () => '/studio/channels',
     title: 'チャンネル',
   },
-  /** チャンネル作成 */
-  newChannel: {
-    path: () => '/studio/channels/new',
-    title: 'チャンネル作成',
-  },
   /** チャンネル詳細 */
   channel: {
     path: (params: ChannelParams) => `/studio/channels/${params.id}`,
     title: 'チャンネル詳細',
   },
+  /** チャンネル作成 */
+  newChannel: {
+    path: () => '/studio/channels/new',
+    title: 'チャンネル作成',
+  },
   /** チャンネル編集 */
   editChannel: {
     path: (params: EditChannelParams) => `/studio/channels/${params.id}/edit`,
     title: 'チャンネル編集',
+  },
+  /** エピソード詳細 */
+  episode: {
+    path: (params: EpisodeParams) =>
+      `/studio/channels/${params.id}/episodes/${params.episodeId}`,
+    title: 'エピソード詳細',
   },
   /** エピソード作成 */
   newEpisode: {
