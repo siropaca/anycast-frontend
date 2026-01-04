@@ -10,7 +10,7 @@ interface Props {
 // TODO: 仮コンポーネント
 export function Header({ isLoggedIn }: Props) {
   return (
-    <header className="flex h-header items-center justify-between border-b px-4">
+    <header className="flex h-header shrink-0 items-center justify-between border-b px-4">
       <Link href={Pages.home.path()} className="text-xl font-bold">
         anycast
       </Link>

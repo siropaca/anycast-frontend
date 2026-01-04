@@ -18,10 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="flex min-h-screen flex-col">
+      <body className="h-screen overflow-hidden">
         <Providers>
           <HeaderContainer />
-          <div className="flex flex-1 flex-col">{children}</div>
+
+          <div className="flex h-[calc(100vh-var(--spacing-header))]">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

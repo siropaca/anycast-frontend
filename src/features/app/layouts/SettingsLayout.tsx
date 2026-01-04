@@ -12,7 +12,7 @@ export function SettingsLayout({ children }: Props) {
         <SettingsLayoutSideMenu />
       </Sidebar>
 
-      <main className="flex-1 p-4">{children}</main>
+      <main className="flex-1 overflow-y-auto p-4">{children}</main>
     </div>
   );
 }
