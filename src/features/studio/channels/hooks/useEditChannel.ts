@@ -24,29 +24,24 @@ export function useEditChannel(channelId: string) {
   const { data: voicesData } = useGetVoicesSuspense();
   const updateMutation = usePatchChannelsChannelId();
 
-  const channel = unwrapResponse<ResponseChannelResponse | null>(
-    channelData,
-    null,
-  );
+  const channel = unwrapResponse<ResponseChannelResponse>(channelData);
   const categories = unwrapResponse<ResponseCategoryResponse[]>(
     categoriesData,
     [],
   );
   const voices = unwrapResponse<ResponseVoiceResponse[]>(voicesData, []);
 
-  const defaultValues: ChannelFormInput | null = channel
-    ? {
-        name: channel.name,
-        description: channel.description,
-        scriptPrompt: channel.scriptPrompt,
-        categoryId: channel.category.id,
-        characters: channel.characters.map((c) => ({
-          name: c.name,
-          voiceId: c.voice.id,
-          persona: c.persona ?? '',
-        })),
-      }
-    : null;
+  const defaultValues: ChannelFormInput = {
+    name: channel.name,
+    description: channel.description,
+    userPrompt: channel.userPrompt,
+    categoryId: channel.category.id,
+    characters: channel.characters.map((c) => ({
+      name: c.name,
+      voiceId: c.voice.id,
+      persona: c.persona ?? '',
+    })),
+  };
 
   return {
     channel,

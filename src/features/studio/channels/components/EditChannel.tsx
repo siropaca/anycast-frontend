@@ -33,7 +33,7 @@ export function EditChannel({ channelId }: Props) {
         data: {
           name: data.name,
           description: data.description,
-          scriptPrompt: data.scriptPrompt,
+          userPrompt: data.userPrompt,
           categoryId: data.categoryId,
           artworkImageId: undefined, // TODO: 画像アップロード機能実装
         },

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useMyChannelList } from '@/features/studio/channels/hooks/useMyChannelList';
 import { Pages } from '@/libs/pages';
 
-export function MyChannelList() {
+export function ChannelList() {
   const router = useRouter();
   const { channels } = useMyChannelList();
 

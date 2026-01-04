@@ -14,7 +14,6 @@ import { StatusCodes } from 'http-status-codes';
  * // デフォルト値あり
  * const channels = unwrapResponse<Response[]>(data, []);
  *
- * @example
  * // デフォルト値なし（Suspense フック向け）
  * const episode = unwrapResponse<Episode>(data);
  */

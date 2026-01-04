@@ -3,15 +3,16 @@
 import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
-import { EpisodeList } from '@/features/studio/channels/components/EpisodeList';
+import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { useDeleteChannel } from '@/features/studio/channels/hooks/useDeleteChannel';
 import { Pages } from '@/libs/pages';
+import Link from 'next/link';
 
 interface Props {
   channelId: string;
 }
 
-export function MyChannelDetail({ channelId }: Props) {
+export function ChannelDetail({ channelId }: Props) {
   const router = useRouter();
   const { deleteMutation } = useDeleteChannel();
   const [error, setError] = useState<string | undefined>(undefined);
@@ -41,6 +42,15 @@ export function MyChannelDetail({ channelId }: Props) {
 
   return (
     <div>
+      <div>
+        <Link
+          href={Pages.studio.channels.path()}
+          className="underline"
+        >
+          チャンネルリストへ戻る
+        </Link>
+      </div>
+
       <h1>{Pages.studio.channel.title}</h1>
       <p>Channel ID: {channelId}</p>
 

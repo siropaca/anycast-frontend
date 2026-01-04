@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
 import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
+import Link from 'next/link';
 
 interface Props {
   channelId: string;
@@ -115,6 +116,15 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
   return (
     <div>
+      <div>
+        <Link
+          href={Pages.studio.channel.path({ id: channelId })}
+          className="underline"
+        >
+          チャンネルに戻る
+        </Link>
+      </div>
+
       <h1>{Pages.studio.episode.title}</h1>
       <p>タイトル: {episode.title}</p>
       {episode.description && <p>説明: {episode.description}</p>}

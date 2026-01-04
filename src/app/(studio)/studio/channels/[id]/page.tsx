@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { MyChannelDetail } from '@/features/studio/channels/components/MyChannelDetail';
+import { ChannelDetail } from '@/features/studio/channels/components/ChannelDetail';
 import { Pages } from '@/libs/pages';
 import type { ChannelParams } from '@/libs/pages/studioPages';
 
@@ -15,5 +15,5 @@ interface Props {
 export default async function StudioChannelPage({ params }: Props) {
   const { id } = await params;
 
-  return <MyChannelDetail channelId={id} />;
+  return <ChannelDetail channelId={id} />;
 }

@@ -27,7 +27,7 @@ export function CreateChannel() {
         data: {
           name: data.name,
           description: data.description,
-          scriptPrompt: data.scriptPrompt,
+          userPrompt: data.userPrompt,
           categoryId: data.categoryId,
           characters: data.characters.map((c) => ({
             name: c.name,

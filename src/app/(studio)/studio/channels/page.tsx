@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { MyChannelList } from '@/features/studio/channels/components/MyChannelList';
+import { ChannelList } from '@/features/studio/channels/components/ChannelList';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export default function StudioChannelsPage() {
     <div>
       {/* TODO: loading 作成 */}
       <Suspense fallback={<p>読み込み中...</p>}>
-        <MyChannelList />
+        <ChannelList />
       </Suspense>
     </div>
   );
