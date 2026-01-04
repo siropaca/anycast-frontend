@@ -2,12 +2,13 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
 import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
-import Link from 'next/link';
 
 interface Props {
   channelId: string;
@@ -172,7 +173,11 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         </button>
       )}
 
-      <hr />
+      <hr className="my-4" />
+
+      <Suspense fallback={<p>台本を読み込み中...</p>}>
+        <ScriptLineList channelId={channelId} episodeId={episodeId} />
+      </Suspense>
     </div>
   );
 }
