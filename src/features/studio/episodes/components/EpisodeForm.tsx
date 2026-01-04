@@ -8,7 +8,6 @@ import {
 } from '@/features/studio/episodes/schemas/episode';
 
 interface Props {
-  mode: 'create' | 'edit';
   defaultValues?: EpisodeFormInput;
   isSubmitting?: boolean;
 
@@ -16,13 +15,10 @@ interface Props {
 }
 
 export function EpisodeForm({
-  mode,
   defaultValues,
   onSubmit,
   isSubmitting = false,
 }: Props) {
-  const isEditMode = mode === 'edit';
-
   const {
     register,
     handleSubmit,
@@ -32,7 +28,6 @@ export function EpisodeForm({
     defaultValues: defaultValues ?? {
       title: '',
       description: '',
-      publishedAt: '',
     },
   });
 
@@ -61,28 +56,10 @@ export function EpisodeForm({
         {errors.description && <p>{errors.description.message}</p>}
       </div>
 
-      {isEditMode && (
-        <div>
-          <label htmlFor="publishedAt">公開日時</label>
-          <br />
-          <input
-            id="publishedAt"
-            type="datetime-local"
-            className="border"
-            {...register('publishedAt')}
-          />
-          {errors.publishedAt && <p>{errors.publishedAt.message}</p>}
-        </div>
-      )}
-
       {/* TODO: artworkImageId, bgmAudioId の実装 */}
 
       <button type="submit" className="border" disabled={isSubmitting}>
-        {isSubmitting
-          ? '保存中...'
-          : isEditMode
-            ? 'エピソードを更新'
-            : 'エピソードを作成'}
+        {isSubmitting ? '保存中...' : '保存'}
       </button>
     </form>
   );

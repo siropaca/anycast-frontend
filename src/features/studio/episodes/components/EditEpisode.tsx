@@ -13,20 +13,6 @@ interface Props {
   episodeId: string;
 }
 
-/**
- * datetime-local 形式を ISO 8601 形式に変換する
- *
- * @param dateTimeLocal - datetime-local 形式の日時文字列
- * @returns ISO 8601 形式の日時文字列、または空の場合は undefined
- *
- * @example
- * toISOString('2024-01-01T12:00') // => '2024-01-01T12:00:00.000Z'
- */
-function toISOString(dateTimeLocal: string | undefined): string | undefined {
-  if (!dateTimeLocal) return undefined;
-  return new Date(dateTimeLocal).toISOString();
-}
-
 export function EditEpisode({ channelId, episodeId }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +37,6 @@ export function EditEpisode({ channelId, episodeId }: Props) {
         data: {
           title: data.title,
           description: data.description,
-          publishedAt: toISOString(data.publishedAt),
           artworkImageId: undefined, // TODO: 画像アップロード機能実装
           bgmAudioId: undefined, // TODO: BGM アップロード機能実装
         },
@@ -81,7 +66,6 @@ export function EditEpisode({ channelId, episodeId }: Props) {
       {error && <p>{error}</p>}
 
       <EpisodeForm
-        mode="edit"
         defaultValues={defaultValues}
         isSubmitting={updateMutation.isPending}
         onSubmit={handleSubmit}
