@@ -41,7 +41,7 @@ export function ChannelForm({
     defaultValues: defaultValues ?? {
       name: '',
       description: '',
-      scriptPrompt: '',
+      userPrompt: '',
       categoryId: '',
       characters: [{ name: '', voiceId: '', persona: '' }],
     },
@@ -73,14 +73,14 @@ export function ChannelForm({
       </div>
 
       <div>
-        <label htmlFor="scriptPrompt">台本プロンプト</label>
+        <label htmlFor="userPrompt">プロンプト</label>
         <br />
         <textarea
-          id="scriptPrompt"
+          id="userPrompt"
           className="border"
-          {...register('scriptPrompt')}
+          {...register('userPrompt')}
         />
-        {errors.scriptPrompt && <p>{errors.scriptPrompt.message}</p>}
+        {errors.userPrompt && <p>{errors.userPrompt.message}</p>}
       </div>
 
       <div>

@@ -12,7 +12,7 @@ export const channelFormSchema = z.object({
     .min(1, 'チャンネル名を入力してください')
     .max(255, 'チャンネル名は255文字以内で入力してください'),
   description: z.string().min(1, '説明を入力してください'),
-  scriptPrompt: z.string().min(1, '台本プロンプトを入力してください'),
+  userPrompt: z.string().min(1, 'プロンプトを入力してください'),
   categoryId: z.string().min(1, 'カテゴリを選択してください'),
   characters: z
     .array(characterSchema)

@@ -5,7 +5,7 @@ describe('channelFormSchema', () => {
   const validInput = {
     name: 'テストチャンネル',
     description: 'テスト説明',
-    scriptPrompt: 'テストプロンプト',
+    userPrompt: 'テストプロンプト',
     categoryId: 'category-1',
     characters: [
       {
