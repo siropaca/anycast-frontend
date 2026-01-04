@@ -1,9 +1,11 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
+import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -13,8 +15,16 @@ interface Props {
 
 export function EpisodeDetail({ channelId, episodeId }: Props) {
   const router = useRouter();
-  const { episode, deleteMutation } = useEpisodeDetail(channelId, episodeId);
+  const queryClient = useQueryClient();
+  const { episode, deleteMutation, publishMutation, unpublishMutation } =
+    useEpisodeDetail(channelId, episodeId);
   const [error, setError] = useState<string | undefined>(undefined);
+
+  const isPublished = !!episode?.publishedAt;
+  const isMutating =
+    deleteMutation.isPending ||
+    publishMutation.isPending ||
+    unpublishMutation.isPending;
 
   function handleEditClick() {
     router.push(Pages.studio.editEpisode.path({ id: channelId, episodeId }));
@@ -42,6 +52,64 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     }
   }
 
+  console.log(episode?.publishedAt);
+  console.log(isPublished);
+
+  /**
+   * エピソードを即時公開する
+   */
+  async function handlePublishClick() {
+    setError(undefined);
+
+    try {
+      const response = await publishMutation.mutateAsync({
+        channelId,
+        episodeId,
+        data: {},
+      });
+
+      if (response.status !== StatusCodes.OK) {
+        setError(
+          response.data.error?.message ?? 'エピソードの公開に失敗しました',
+        );
+        return;
+      }
+
+      await queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+      });
+    } catch {
+      setError('エピソードの公開に失敗しました');
+    }
+  }
+
+  /**
+   * エピソードを非公開にする
+   */
+  async function handleUnpublishClick() {
+    setError(undefined);
+
+    try {
+      const response = await unpublishMutation.mutateAsync({
+        channelId,
+        episodeId,
+      });
+
+      if (response.status !== StatusCodes.OK) {
+        setError(
+          response.data.error?.message ?? 'エピソードの非公開に失敗しました',
+        );
+        return;
+      }
+
+      await queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+      });
+    } catch {
+      setError('エピソードの非公開に失敗しました');
+    }
+  }
+
   if (!episode) {
     return <p>エピソードが見つかりません</p>;
   }
@@ -58,7 +126,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <button
         type="button"
         className="border"
-        disabled={deleteMutation.isPending}
+        disabled={isMutating}
         onClick={handleEditClick}
       >
         エピソードを編集
@@ -67,11 +135,33 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <button
         type="button"
         className="border"
-        disabled={deleteMutation.isPending}
+        disabled={isMutating}
         onClick={handleDeleteClick}
       >
         {deleteMutation.isPending ? '削除中...' : 'エピソードを削除'}
       </button>
+
+      {isPublished ? (
+        <button
+          type="button"
+          className="border"
+          disabled={isMutating}
+          onClick={handleUnpublishClick}
+        >
+          {unpublishMutation.isPending
+            ? '非公開にしています...'
+            : '非公開にする'}
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="border"
+          disabled={isMutating}
+          onClick={handlePublishClick}
+        >
+          {publishMutation.isPending ? '公開しています...' : 'エピソードを公開'}
+        </button>
+      )}
 
       <hr />
     </div>

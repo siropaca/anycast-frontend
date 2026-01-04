@@ -1,4 +1,8 @@
-import { useDeleteChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
+import {
+  useDeleteChannelsChannelIdEpisodesEpisodeId,
+  usePostChannelsChannelIdEpisodesEpisodeIdPublish,
+  usePostChannelsChannelIdEpisodesEpisodeIdUnpublish,
+} from '@/libs/api/generated/episodes/episodes';
 import { useGetMeChannelsChannelIdEpisodesSuspense } from '@/libs/api/generated/me/me';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
@@ -8,12 +12,15 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
  *
  * @param channelId - チャンネル ID
  * @param episodeId - エピソード ID
- * @returns エピソードデータ、削除ミューテーション
+ * @returns エピソードデータ、各種ミューテーション
  */
 export function useEpisodeDetail(channelId: string, episodeId: string) {
   const { data: episodesData } =
     useGetMeChannelsChannelIdEpisodesSuspense(channelId);
   const deleteMutation = useDeleteChannelsChannelIdEpisodesEpisodeId();
+  const publishMutation = usePostChannelsChannelIdEpisodesEpisodeIdPublish();
+  const unpublishMutation =
+    usePostChannelsChannelIdEpisodesEpisodeIdUnpublish();
 
   const episodes = unwrapResponse<ResponseEpisodeResponse[]>(episodesData, []);
   const episode = episodes.find((e) => e.id === episodeId) ?? null;
@@ -21,5 +28,7 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
   return {
     episode,
     deleteMutation,
+    publishMutation,
+    unpublishMutation,
   };
 }
