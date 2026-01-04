@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEpisodeList } from '@/features/studio/channels/hooks/useEpisodeList';
+import { useEpisodeList } from '@/features/studio/episodes/hooks/useEpisodeList';
 import { Pages } from '@/libs/pages';
 
 interface Props {

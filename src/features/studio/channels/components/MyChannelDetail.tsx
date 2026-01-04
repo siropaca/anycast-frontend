@@ -3,7 +3,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
-import { EpisodeList } from '@/features/studio/channels/components/EpisodeList';
+import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { useDeleteChannel } from '@/features/studio/channels/hooks/useDeleteChannel';
 import { Pages } from '@/libs/pages';
 

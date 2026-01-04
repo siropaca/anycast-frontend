@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { describe, expect, it } from 'vitest';
-import { unwrapResponse } from './unwrapResponse';
+import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 describe('unwrapResponse', () => {
   describe('成功レスポンス（status: OK）', () => {
