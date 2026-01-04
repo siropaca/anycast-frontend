@@ -51,7 +51,6 @@ export function EditEpisode({ channelId, episodeId }: Props) {
         data: {
           title: data.title,
           description: data.description,
-          scriptPrompt: data.scriptPrompt,
           publishedAt: toISOString(data.publishedAt),
           artworkImageId: undefined, // TODO: 画像アップロード機能実装
           bgmAudioId: undefined, // TODO: BGM アップロード機能実装

@@ -51,7 +51,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <h1>{Pages.studio.episode.title}</h1>
       <p>タイトル: {episode.title}</p>
       {episode.description && <p>説明: {episode.description}</p>}
-      <p>台本プロンプト: {episode.scriptPrompt}</p>
       {episode.publishedAt && <p>公開日時: {episode.publishedAt}</p>}
 
       {error && <p>{error}</p>}
@@ -73,6 +72,8 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       >
         {deleteMutation.isPending ? '削除中...' : 'エピソードを削除'}
       </button>
+
+      <hr />
     </div>
   );
 }

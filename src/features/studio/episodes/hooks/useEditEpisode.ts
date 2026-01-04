@@ -38,7 +38,6 @@ export function useEditEpisode(channelId: string, episodeId: string) {
     ? {
         title: episode.title,
         description: episode.description ?? '',
-        scriptPrompt: episode.scriptPrompt,
         publishedAt: toDateTimeLocal(episode.publishedAt),
       }
     : null;

@@ -32,7 +32,6 @@ export function EpisodeForm({
     defaultValues: defaultValues ?? {
       title: '',
       description: '',
-      scriptPrompt: '',
       publishedAt: '',
     },
   });
@@ -60,17 +59,6 @@ export function EpisodeForm({
           {...register('description')}
         />
         {errors.description && <p>{errors.description.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="scriptPrompt">台本プロンプト</label>
-        <br />
-        <textarea
-          id="scriptPrompt"
-          className="border"
-          {...register('scriptPrompt')}
-        />
-        {errors.scriptPrompt && <p>{errors.scriptPrompt.message}</p>}
       </div>
 
       {isEditMode && (
