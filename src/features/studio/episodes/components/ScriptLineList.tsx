@@ -11,7 +11,14 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
   const { scriptLines } = useScriptLines(channelId, episodeId);
 
   if (scriptLines.length === 0) {
-    return <p>台本がありません</p>;
+    return (
+      <p>
+        <textarea className="border w-full" />
+        <button type="button" className="border">
+          台本を作成
+        </button>
+      </p>
+    );
   }
 
   return (
