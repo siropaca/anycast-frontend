@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "pnpm gen:api && next build",
+    "build": "pnpm orval && next build",
     "build-storybook": "storybook build",
     "check": "biome check --write .",
     "dev": "pnpm gen:api && next dev --turbopack -p 3210",
