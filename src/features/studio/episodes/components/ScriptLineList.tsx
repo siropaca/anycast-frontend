@@ -52,8 +52,8 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
     <ul className="space-y-2">
       {scriptLines.map((line) => (
         <li key={line.id}>
-          {line.speaker?.name}: {line.emotion && `[${line.emotion}]`}{' '}
-          {line.text}
+          {line.speaker?.name}:<br />
+          {line.emotion && `[${line.emotion}]`} {line.text}
         </li>
       ))}
     </ul>
