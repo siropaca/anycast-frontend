@@ -56,8 +56,12 @@ export function ChannelForm({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="name">チャンネル名</label>
-        <br />
-        <input id="name" type="text" className="border" {...register('name')} />
+        <input
+          id="name"
+          type="text"
+          className="border w-full"
+          {...register('name')}
+        />
         {errors.name && <p>{errors.name.message}</p>}
       </div>
 
@@ -73,8 +77,11 @@ export function ChannelForm({
 
       <div>
         <label htmlFor="categoryId">カテゴリ</label>
-        <br />
-        <select id="categoryId" className="border" {...register('categoryId')}>
+        <select
+          id="categoryId"
+          className="border w-full"
+          {...register('categoryId')}
+        >
           <option value="">選択してください</option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -104,10 +111,9 @@ export function ChannelForm({
 
             <div>
               <label htmlFor={`characters.${index}.voiceId`}>ボイス</label>
-              <br />
               <select
                 id={`characters.${index}.voiceId`}
-                className="border"
+                className="border w-full"
                 disabled={isEditMode}
                 {...register(`characters.${index}.voiceId`)}
               >
@@ -125,11 +131,10 @@ export function ChannelForm({
 
             <div>
               <label htmlFor={`characters.${index}.name`}>名前</label>
-              <br />
               <input
                 id={`characters.${index}.name`}
                 type="text"
-                className="border"
+                className="border w-full"
                 disabled={isEditMode}
                 {...register(`characters.${index}.name`)}
               />
@@ -154,7 +159,7 @@ export function ChannelForm({
                 className="border"
                 onClick={() => remove(index)}
               >
-                削除
+                − 削除
               </button>
             )}
           </div>
@@ -166,7 +171,7 @@ export function ChannelForm({
             className="border"
             onClick={() => append({ name: '', voiceId: '', persona: '' })}
           >
-            キャラクターを追加
+            ＋ キャラクターを追加
           </button>
         )}
 

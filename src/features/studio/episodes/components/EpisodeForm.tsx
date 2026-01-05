@@ -38,11 +38,10 @@ export function EpisodeForm({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="title">タイトル</label>
-        <br />
         <input
           id="title"
           type="text"
-          className="border"
+          className="border w-full"
           {...register('title')}
         />
         {errors.title && <p>{errors.title.message}</p>}
