@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
+  EPISODE_DURATION_OPTIONS,
   type ScriptGenerateFormInput,
   scriptGenerateFormSchema,
 } from '@/features/studio/episodes/schemas/scriptGenerate';
@@ -27,6 +28,7 @@ export function ScriptGenerateForm({
     resolver: zodResolver(scriptGenerateFormSchema),
     defaultValues: {
       prompt: '',
+      durationMinutes: 10,
     },
   });
 
@@ -39,12 +41,28 @@ export function ScriptGenerateForm({
           className="border w-full h-20"
           {...register('prompt')}
         />
-        {errors.prompt && (
-          <p className="text-red-500">{errors.prompt.message}</p>
-        )}
+        {errors.prompt && <p>{errors.prompt.message}</p>}
       </div>
 
-      {error && <p className="text-red-500">{error}</p>}
+      <div>
+        <label htmlFor="durationMinutes">エピソードの長さ</label>
+        <br />
+        <select
+          id="durationMinutes"
+          className="border"
+          disabled={isSubmitting}
+          {...register('durationMinutes', { valueAsNumber: true })}
+        >
+          {EPISODE_DURATION_OPTIONS.map((duration) => (
+            <option key={duration} value={duration}>
+              {duration}分
+            </option>
+          ))}
+        </select>
+        {errors.durationMinutes && <p>{errors.durationMinutes.message}</p>}
+      </div>
+
+      {error && <p>{error}</p>}
 
       <button type="submit" className="border" disabled={isSubmitting}>
         {isSubmitting ? '生成中...' : '台本を作成'}
