@@ -110,6 +110,10 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       {episode.description && <p>説明: {episode.description}</p>}
       <p>公開日時: {episode.publishedAt ?? '非公開'}</p>
 
+      {episode.artwork && (
+        <img src={episode.artwork.url} alt="" className="size-[200px]" />
+      )}
+
       {error && <p>{error}</p>}
 
       <button

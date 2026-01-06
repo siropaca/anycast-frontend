@@ -103,6 +103,10 @@ export function ChannelDetail({ channelId }: Props) {
       {channel.description && <p>説明: {channel.description}</p>}
       <p>公開日時: {channel.publishedAt ?? '非公開'}</p>
 
+      {channel.artwork && (
+        <img src={channel.artwork.url} alt="" className="size-[200px]" />
+      )}
+
       {error && <p>{error}</p>}
 
       <button
