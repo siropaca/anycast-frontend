@@ -116,6 +116,8 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
       {error && <p>{error}</p>}
 
+      <hr className="my-4" />
+
       <button
         type="button"
         className="border"

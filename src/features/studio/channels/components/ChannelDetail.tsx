@@ -109,6 +109,8 @@ export function ChannelDetail({ channelId }: Props) {
 
       {error && <p>{error}</p>}
 
+      <hr className="my-4" />
+
       <button
         type="button"
         className="border"
@@ -148,6 +150,14 @@ export function ChannelDetail({ channelId }: Props) {
           {publishMutation.isPending ? '公開しています...' : 'チャンネルを公開'}
         </button>
       )}
+
+      <hr className="my-4" />
+
+      <ul>
+        {channel.characters.map((character) => (
+          <li key={character.id}>{character.name}</li>
+        ))}
+      </ul>
 
       <hr className="my-4" />
 
