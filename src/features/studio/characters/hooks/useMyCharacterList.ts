@@ -1,5 +1,5 @@
 import { useGetMeCharactersSuspense } from '@/libs/api/generated/me/me';
-import type { ResponseCharacterResponse } from '@/libs/api/generated/schemas';
+import type { ResponseCharacterWithChannelsResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 /**
@@ -10,7 +10,10 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
 export function useMyCharacterList() {
   const { data } = useGetMeCharactersSuspense();
 
-  const characters = unwrapResponse<ResponseCharacterResponse[]>(data, []);
+  const characters = unwrapResponse<ResponseCharacterWithChannelsResponse[]>(
+    data,
+    [],
+  );
 
   return { characters };
 }

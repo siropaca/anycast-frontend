@@ -10,7 +10,10 @@ export function CharacterList() {
       {characters.length === 0 && <li>キャラクターがありません</li>}
 
       {characters.map((character) => (
-        <li key={character.id}>{character.name}</li>
+        <li key={character.id}>
+          {character.name} (
+          {character.channels.map((channel) => channel.name).join(',')})
+        </li>
       ))}
     </ul>
   );
