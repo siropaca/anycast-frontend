@@ -1,4 +1,8 @@
-import { SquaresFourIcon, VideoIcon } from '@phosphor-icons/react';
+import {
+  SquaresFourIcon,
+  UserSoundIcon,
+  VideoIcon,
+} from '@phosphor-icons/react';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 import { Pages } from '@/libs/pages';
 
@@ -16,6 +20,11 @@ export const STUDIO_MENU_SECTIONS: MenuSection[] = [
         href: Pages.studio.channels.path(),
         icon: VideoIcon,
         matchPrefix: ['/studio/channels/'],
+      },
+      {
+        label: Pages.studio.characters.title,
+        href: Pages.studio.characters.path(),
+        icon: UserSoundIcon,
       },
     ],
   },

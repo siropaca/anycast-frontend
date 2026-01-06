@@ -17,7 +17,10 @@ export function SideMenu({ sections }: Props) {
   return (
     <nav className="flex flex-col gap-1 p-4">
       {sections.map((section, index) => (
-        <div key={section.title ?? index} className={cn(index > 0 && 'mt-4')}>
+        <div
+          key={section.title ?? index}
+          className={cn('space-y-2', index > 0 && 'mt-4')}
+        >
           {section.title && (
             <p className="px-3 py-2 text-sm">[{section.title}]</p>
           )}

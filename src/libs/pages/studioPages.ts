@@ -74,4 +74,9 @@ export const studioPages = {
       `/studio/channels/${params.id}/episodes/${params.episodeId}/edit`,
     title: 'エピソード編集',
   },
+  /** キャラクター一覧 */
+  characters: {
+    path: () => '/studio/characters',
+    title: 'キャラクター',
+  },
 } as const;
