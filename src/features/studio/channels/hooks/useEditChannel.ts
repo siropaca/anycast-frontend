@@ -1,6 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import {
+  getGetChannelsChannelIdQueryKey,
   useGetChannelsChannelIdSuspense,
   usePatchChannelsChannelId,
 } from '@/libs/api/generated/channels/channels';
@@ -19,10 +21,19 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
  * @returns チャンネルデータ、フォームデータ、カテゴリ一覧、ボイス一覧、更新ミューテーション
  */
 export function useEditChannel(channelId: string) {
+  const queryClient = useQueryClient();
   const { data: channelData } = useGetChannelsChannelIdSuspense(channelId);
   const { data: categoriesData } = useGetCategoriesSuspense();
   const { data: voicesData } = useGetVoicesSuspense();
-  const updateMutation = usePatchChannelsChannelId();
+  const updateMutation = usePatchChannelsChannelId({
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetChannelsChannelIdQueryKey(channelId),
+        });
+      },
+    },
+  });
 
   const channel = unwrapResponse<ResponseChannelResponse>(channelData);
   const categories = unwrapResponse<ResponseCategoryResponse[]>(
