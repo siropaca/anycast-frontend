@@ -35,6 +35,7 @@ export function CreateChannel() {
               voiceId: c.voiceId,
               persona: c.persona,
             })),
+            connect: [],
           },
           artworkImageId: undefined, // TODO: 画像アップロード機能実装
         },

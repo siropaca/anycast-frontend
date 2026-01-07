@@ -23,12 +23,14 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
       </button>
 
       <button type="button" className="border">
-        台本を出力
+        台本をインポート
       </button>
 
-      <hr className="my-4" />
+      <button type="button" className="border">
+        台本をエクポート
+      </button>
 
-      <ul className="space-y-2">
+      <ul className="space-y-2 mt-4">
         {scriptLines.map((line) => (
           <ScriptLineItem
             key={line.id}
