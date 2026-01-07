@@ -1,7 +1,6 @@
 'use client';
 
 import { StatusCodes } from 'http-status-codes';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
@@ -96,15 +95,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
   return (
     <div>
-      <div>
-        <Link
-          href={Pages.studio.channel.path({ id: channelId })}
-          className="underline"
-        >
-          チャンネルに戻る
-        </Link>
-      </div>
-
       <h1>{Pages.studio.episode.title}</h1>
       <p>タイトル: {episode.title}</p>
       {episode.description && <p>説明: {episode.description}</p>}
@@ -115,8 +105,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       )}
 
       {error && <p>{error}</p>}
-
-      <hr className="my-4" />
 
       <button
         type="button"
@@ -161,7 +149,11 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <hr className="my-4" />
 
       <Suspense fallback={<p>読み込み中...</p>}>
-        <ScriptLineList channelId={channelId} episodeId={episodeId} />
+        <ScriptLineList
+          channelId={channelId}
+          episodeId={episodeId}
+          episodeName={episode.title}
+        />
       </Suspense>
     </div>
   );
