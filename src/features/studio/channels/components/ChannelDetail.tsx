@@ -92,12 +92,6 @@ export function ChannelDetail({ channelId }: Props) {
 
   return (
     <div>
-      <div>
-        <Link href={Pages.studio.channels.path()} className="underline">
-          チャンネルリストへ戻る
-        </Link>
-      </div>
-
       <h1>{Pages.studio.channel.title}</h1>
       <p>チャンネル名: {channel.name}</p>
       {channel.description && <p>説明: {channel.description}</p>}
