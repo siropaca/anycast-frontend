@@ -16,8 +16,14 @@ export function EditChannel({ channelId }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const { channel, defaultValues, categories, voices, updateMutation } =
-    useEditChannel(channelId);
+  const {
+    channel,
+    defaultValues,
+    defaultArtworkUrl,
+    categories,
+    voices,
+    updateMutation,
+  } = useEditChannel(channelId);
 
   /**
    * フォーム送信時のハンドラ
@@ -35,7 +41,7 @@ export function EditChannel({ channelId }: Props) {
           description: data.description,
           userPrompt: data.userPrompt,
           categoryId: data.categoryId,
-          artworkImageId: undefined, // TODO: 画像アップロード機能実装
+          artworkImageId: data.artworkImageId,
         },
       });
 
@@ -67,6 +73,7 @@ export function EditChannel({ channelId }: Props) {
         defaultValues={defaultValues}
         categories={categories}
         voices={voices}
+        defaultArtworkUrl={defaultArtworkUrl}
         isSubmitting={updateMutation.isPending}
         onSubmit={handleSubmit}
       />

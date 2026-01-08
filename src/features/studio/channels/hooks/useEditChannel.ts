@@ -47,6 +47,7 @@ export function useEditChannel(channelId: string) {
     description: channel.description,
     userPrompt: channel.userPrompt,
     categoryId: channel.category.id,
+    artworkImageId: channel.artwork?.id,
     characters: channel.characters.map((c) => ({
       name: c.name,
       voiceId: c.voice.id,
@@ -57,6 +58,7 @@ export function useEditChannel(channelId: string) {
   return {
     channel,
     defaultValues,
+    defaultArtworkUrl: channel.artwork?.url,
     categories,
     voices,
     updateMutation,

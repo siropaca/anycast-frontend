@@ -37,7 +37,7 @@ export function CreateChannel() {
             })),
             connect: [],
           },
-          artworkImageId: undefined, // TODO: 画像アップロード機能実装
+          artworkImageId: data.artworkImageId,
         },
       });
 

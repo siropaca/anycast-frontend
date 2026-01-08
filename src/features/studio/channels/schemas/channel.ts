@@ -23,6 +23,7 @@ export const channelFormSchema = z.object({
     .min(1, 'プロンプトを入力してください')
     .max(2000, 'プロンプトは2000文字以内で入力してください'),
   categoryId: z.string().min(1, 'カテゴリを選択してください'),
+  artworkImageId: z.string().optional(),
   characters: z
     .array(characterSchema)
     .min(1, 'キャラクターを1人以上追加してください')

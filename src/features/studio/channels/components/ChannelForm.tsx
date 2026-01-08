@@ -1,11 +1,15 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { StatusCodes } from 'http-status-codes';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import {
   type ChannelFormInput,
   channelFormSchema,
 } from '@/features/studio/channels/schemas/channel';
+import { usePostImages } from '@/libs/api/generated/images/images';
 import type {
   ResponseCategoryResponse,
   ResponseVoiceResponse,
@@ -16,6 +20,7 @@ interface Props {
   defaultValues?: ChannelFormInput;
   categories: ResponseCategoryResponse[];
   voices: ResponseVoiceResponse[];
+  defaultArtworkUrl?: string;
   isSubmitting?: boolean;
 
   onSubmit: (data: ChannelFormInput) => void;
@@ -26,15 +31,23 @@ export function ChannelForm({
   defaultValues,
   categories,
   voices,
+  defaultArtworkUrl,
   onSubmit,
   isSubmitting = false,
 }: Props) {
   const isEditMode = mode === 'edit';
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
+    string | undefined
+  >(defaultArtworkUrl);
+  const [uploadError, setUploadError] = useState<string | undefined>();
+  const uploadMutation = usePostImages();
 
   const {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<ChannelFormInput>({
     resolver: zodResolver(channelFormSchema),
@@ -46,6 +59,27 @@ export function ChannelForm({
       characters: [{ name: '', voiceId: '', persona: '' }],
     },
   });
+
+  function handleArtworkButtonClick() {
+    fileInputRef.current?.click();
+  }
+
+  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadError(undefined);
+
+    const response = await uploadMutation.mutateAsync({ data: { file } });
+    if (response.status !== StatusCodes.CREATED) {
+      setUploadError('画像のアップロードに失敗しました');
+      return;
+    }
+
+    const { id, url } = response.data.data;
+    setValue('artworkImageId', id, { shouldDirty: true });
+    setArtworkPreviewUrl(url);
+  }
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -73,6 +107,40 @@ export function ChannelForm({
           {...register('description')}
         />
         {errors.description && <p>{errors.description.message}</p>}
+      </div>
+
+      <div>
+        <span>アートワーク</span>
+        <br />
+        {artworkPreviewUrl && (
+          <Image
+            src={artworkPreviewUrl}
+            alt="アートワーク"
+            width={200}
+            height={200}
+            className="object-cover"
+          />
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
+        <button
+          type="button"
+          className="border"
+          onClick={handleArtworkButtonClick}
+          disabled={uploadMutation.isPending}
+        >
+          {uploadMutation.isPending
+            ? 'アップロード中...'
+            : artworkPreviewUrl
+              ? 'アートワークを変更'
+              : 'アートワークを登録'}
+        </button>
+        {uploadError && <p>{uploadError}</p>}
       </div>
 
       <div>
