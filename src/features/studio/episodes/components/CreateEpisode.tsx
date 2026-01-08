@@ -27,7 +27,6 @@ export function CreateEpisode({ channelId }: Props) {
           title: data.title,
           description: data.description,
           artworkImageId: data.artworkImageId,
-          bgmAudioId: undefined, // TODO: BGM アップロード機能実装
         },
       },
       {
