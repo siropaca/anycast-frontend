@@ -101,4 +101,24 @@ describe('studioPages', () => {
       expect(studioPages.editEpisode.title).toBe('エピソード編集');
     });
   });
+
+  describe('characters', () => {
+    it('path が /studio/characters を返す', () => {
+      expect(studioPages.characters.path()).toBe('/studio/characters');
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.characters.title).toBe('キャラクター');
+    });
+  });
+
+  describe('settings', () => {
+    it('path が /studio/settings を返す', () => {
+      expect(studioPages.settings.path()).toBe('/studio/settings');
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.settings.title).toBe('設定');
+    });
+  });
 });

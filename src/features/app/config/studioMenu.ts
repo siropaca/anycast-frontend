@@ -1,4 +1,5 @@
 import {
+  GearIcon,
   SquaresFourIcon,
   UserSoundIcon,
   VideoIcon,
@@ -25,6 +26,11 @@ export const STUDIO_MENU_SECTIONS: MenuSection[] = [
         label: Pages.studio.characters.title,
         href: Pages.studio.characters.path(),
         icon: UserSoundIcon,
+      },
+      {
+        label: Pages.studio.settings.title,
+        href: Pages.studio.settings.path(),
+        icon: GearIcon,
       },
     ],
   },

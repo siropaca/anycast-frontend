@@ -79,4 +79,9 @@ export const studioPages = {
     path: () => '/studio/characters',
     title: 'キャラクター',
   },
+  /** 設定 */
+  settings: {
+    path: () => '/studio/settings',
+    title: '設定',
+  },
 } as const;
