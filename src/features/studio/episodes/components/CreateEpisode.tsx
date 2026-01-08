@@ -26,7 +26,7 @@ export function CreateEpisode({ channelId }: Props) {
         data: {
           title: data.title,
           description: data.description,
-          artworkImageId: undefined, // TODO: 画像アップロード機能実装
+          artworkImageId: data.artworkImageId,
           bgmAudioId: undefined, // TODO: BGM アップロード機能実装
         },
       },

@@ -56,6 +56,10 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
         全体の音声を生成
       </button>
 
+      <button type="button" className="border">
+        BGMを追加
+      </button>
+
       <button
         type="button"
         className="border"

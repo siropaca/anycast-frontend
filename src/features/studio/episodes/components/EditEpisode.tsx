@@ -17,7 +17,7 @@ export function EditEpisode({ channelId, episodeId }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const { defaultValues, updateMutation } = useEditEpisode(
+  const { defaultValues, defaultArtworkUrl, updateMutation } = useEditEpisode(
     channelId,
     episodeId,
   );
@@ -37,7 +37,7 @@ export function EditEpisode({ channelId, episodeId }: Props) {
         data: {
           title: data.title,
           description: data.description,
-          artworkImageId: undefined, // TODO: 画像アップロード機能実装
+          artworkImageId: data.artworkImageId,
           bgmAudioId: undefined, // TODO: BGM アップロード機能実装
         },
       });
@@ -64,6 +64,7 @@ export function EditEpisode({ channelId, episodeId }: Props) {
       <EpisodeForm
         mode="edit"
         defaultValues={defaultValues}
+        defaultArtworkUrl={defaultArtworkUrl}
         isSubmitting={updateMutation.isPending}
         onSubmit={handleSubmit}
       />

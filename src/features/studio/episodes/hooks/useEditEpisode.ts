@@ -23,11 +23,13 @@ export function useEditEpisode(channelId: string, episodeId: string) {
   const defaultValues: EpisodeFormInput = {
     title: episode.title,
     description: episode.description ?? '',
+    artworkImageId: episode.artwork?.id,
   };
 
   return {
     episode,
     defaultValues,
+    defaultArtworkUrl: episode.artwork?.url,
     updateMutation,
   };
 }

@@ -9,6 +9,7 @@ export const episodeFormSchema = z.object({
     .string()
     .min(1, '説明を入力してください')
     .max(2000, '説明は2000文字以内で入力してください'),
+  artworkImageId: z.string().optional(),
 });
 
 export type EpisodeFormInput = z.infer<typeof episodeFormSchema>;
