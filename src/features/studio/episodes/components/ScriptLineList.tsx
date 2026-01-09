@@ -61,12 +61,10 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
     fileInputRef.current?.click();
   }
 
-  if (scriptLines.length === 0) {
-    return <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />;
-  }
-
   return (
     <>
+      <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />
+
       {exportError && <p>{exportError}</p>}
       {importError && <p>{importError}</p>}
 
@@ -77,7 +75,6 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
         className="hidden"
         onChange={handleFileSelect}
       />
-
       <label className="flex items-center gap-1">
         <input
           type="checkbox"
@@ -86,7 +83,6 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
         />
         連続再生
       </label>
-
       <button
         type="button"
         className="border"
@@ -97,15 +93,12 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
           ? `${completedCount}/${totalCount} 生成中...`
           : '音声を一括生成'}
       </button>
-
       <button type="button" className="border">
         全体の音声を生成
       </button>
-
       <button type="button" className="border">
         BGMを追加
       </button>
-
       <button
         type="button"
         className="border"
@@ -114,7 +107,6 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
       >
         {isImporting ? 'インポート中...' : '台本をインポート'}
       </button>
-
       <button
         type="button"
         className="border"
@@ -123,7 +115,6 @@ export function ScriptLineList({ channelId, episodeId, episodeName }: Props) {
       >
         {isExporting ? 'エクスポート中...' : '台本をエクスポート'}
       </button>
-
       <ul className="space-y-2 mt-4">
         {scriptLines.map((line) => (
           <ScriptLineItem
