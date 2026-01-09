@@ -160,6 +160,91 @@ export function ChannelForm({
         {errors.categoryId && <p>{errors.categoryId.message}</p>}
       </div>
 
+      <hr className="my-4" />
+
+      {!isEditMode && (
+        <>
+          <hr className="my-4" />
+
+          <fieldset>
+            <legend>キャラクター</legend>
+
+            {fields.map((field, index) => (
+              <div key={field.id}>
+                <h4>キャラクター {index + 1}</h4>
+
+                <div>
+                  <label htmlFor={`characters.${index}.voiceId`}>ボイス</label>
+                  <select
+                    id={`characters.${index}.voiceId`}
+                    className="border w-full"
+                    {...register(`characters.${index}.voiceId`)}
+                  >
+                    <option value="">選択してください</option>
+                    {voices.map((voice) => (
+                      <option key={voice.id} value={voice.id}>
+                        {voice.name} ({voice.gender})
+                      </option>
+                    ))}
+                  </select>
+                  {errors.characters?.[index]?.voiceId && (
+                    <p>{errors.characters[index].voiceId?.message}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor={`characters.${index}.name`}>名前</label>
+                  <input
+                    id={`characters.${index}.name`}
+                    type="text"
+                    className="border w-full"
+                    {...register(`characters.${index}.name`)}
+                  />
+                  {errors.characters?.[index]?.name && (
+                    <p>{errors.characters[index].name?.message}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor={`characters.${index}.persona`}>
+                    ペルソナ
+                  </label>
+                  <textarea
+                    id={`characters.${index}.persona`}
+                    className="border w-full h-20"
+                    {...register(`characters.${index}.persona`)}
+                  />
+                </div>
+
+                {fields.length > 1 && (
+                  <button
+                    type="button"
+                    className="border"
+                    onClick={() => remove(index)}
+                  >
+                    − 削除
+                  </button>
+                )}
+              </div>
+            ))}
+
+            {fields.length < 2 && (
+              <button
+                type="button"
+                className="border"
+                onClick={() => append({ name: '', voiceId: '', persona: '' })}
+              >
+                ＋ キャラクターを追加
+              </button>
+            )}
+
+            {errors.characters?.root && <p>{errors.characters.root.message}</p>}
+          </fieldset>
+
+          <hr className="my-4" />
+        </>
+      )}
+
       <div>
         <label htmlFor="userPrompt">プロンプト（台本生成用）</label>
         <textarea
@@ -169,81 +254,6 @@ export function ChannelForm({
         />
         {errors.userPrompt && <p>{errors.userPrompt.message}</p>}
       </div>
-
-      {!isEditMode && (
-        <fieldset>
-          <legend>キャラクター</legend>
-
-          {fields.map((field, index) => (
-            <div key={field.id}>
-              <h4>キャラクター {index + 1}</h4>
-
-              <div>
-                <label htmlFor={`characters.${index}.voiceId`}>ボイス</label>
-                <select
-                  id={`characters.${index}.voiceId`}
-                  className="border w-full"
-                  {...register(`characters.${index}.voiceId`)}
-                >
-                  <option value="">選択してください</option>
-                  {voices.map((voice) => (
-                    <option key={voice.id} value={voice.id}>
-                      {voice.name} ({voice.gender})
-                    </option>
-                  ))}
-                </select>
-                {errors.characters?.[index]?.voiceId && (
-                  <p>{errors.characters[index].voiceId?.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor={`characters.${index}.name`}>名前</label>
-                <input
-                  id={`characters.${index}.name`}
-                  type="text"
-                  className="border w-full"
-                  {...register(`characters.${index}.name`)}
-                />
-                {errors.characters?.[index]?.name && (
-                  <p>{errors.characters[index].name?.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor={`characters.${index}.persona`}>ペルソナ</label>
-                <textarea
-                  id={`characters.${index}.persona`}
-                  className="border w-full h-20"
-                  {...register(`characters.${index}.persona`)}
-                />
-              </div>
-
-              {fields.length > 1 && (
-                <button
-                  type="button"
-                  className="border"
-                  onClick={() => remove(index)}
-                >
-                  − 削除
-                </button>
-              )}
-            </div>
-          ))}
-
-          {fields.length < 2 && (
-            <button
-              type="button"
-              className="border"
-              onClick={() => append({ name: '', voiceId: '', persona: '' })}
-            >
-              ＋ キャラクターを追加
-            </button>
-          )}
-
-          {errors.characters?.root && <p>{errors.characters.root.message}</p>}
-        </fieldset>
-      )}
 
       <button type="submit" className="border" disabled={isSubmitting}>
         {isSubmitting
