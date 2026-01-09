@@ -49,6 +49,8 @@ export function ScriptLineItem({
       audio.play().catch(() => {
         // 自動再生がブロックされた場合は無視
       });
+    } else {
+      audio.pause();
     }
   }, [isPlaying]);
 
