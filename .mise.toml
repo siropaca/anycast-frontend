@@ -1,2 +1,14 @@
 [tools]
 node = "24.12.0"
+
+[tasks.bootstrap]
+alias = "bs"
+description = "Bootstrap project dependencies and setup"
+run = "./tools/bootstrap.sh"
+
+[tasks.clean]
+description = "Clean project dependencies and build artifacts"
+run = "pnpm run clean"
+
+[settings]
+experimental = true
