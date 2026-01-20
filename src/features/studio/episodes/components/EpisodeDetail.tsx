@@ -153,6 +153,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
           channelId={channelId}
           episodeId={episodeId}
           episodeName={episode.title}
+          fullAudio={episode.fullAudio}
         />
       </Suspense>
     </div>

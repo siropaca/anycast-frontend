@@ -148,7 +148,7 @@ export function ChannelDetail({ channelId }: Props) {
 
       <ul>
         {channel.characters.map((character) => (
-          <li key={character.id}>{character.name}</li>
+          <li key={character.id}>{character.name} ({character.voice.name})</li>
         ))}
       </ul>
 
