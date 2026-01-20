@@ -1,8 +1,6 @@
 'use client';
 
-import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { EpisodeForm } from '@/features/studio/episodes/components/EpisodeForm';
 import { useCreateEpisode } from '@/features/studio/episodes/hooks/useCreateEpisode';
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
@@ -14,31 +12,17 @@ interface Props {
 
 export function CreateEpisode({ channelId }: Props) {
   const router = useRouter();
-  const { createMutation } = useCreateEpisode(channelId);
-  const [error, setError] = useState<string | null>(null);
+  const { createEpisode, isCreating, error } = useCreateEpisode(channelId);
 
   function handleSubmit(data: EpisodeFormInput) {
-    setError(null);
-
-    createMutation.mutate(
+    createEpisode(
       {
-        channelId,
-        data: {
-          title: data.title,
-          description: data.description,
-          artworkImageId: data.artworkImageId,
-        },
+        title: data.title,
+        description: data.description,
+        artworkImageId: data.artworkImageId,
       },
       {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.CREATED) {
-            setError(
-              response.data.error?.message ?? 'エピソードの作成に失敗しました',
-            );
-            return;
-          }
-
-          const episodeId = response.data.data.id;
+        onSuccess: (episodeId) => {
           router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
         },
       },
@@ -51,11 +35,7 @@ export function CreateEpisode({ channelId }: Props) {
 
       {error && <p>{error}</p>}
 
-      <EpisodeForm
-        mode="create"
-        isSubmitting={createMutation.isPending}
-        onSubmit={handleSubmit}
-      />
+      <EpisodeForm mode="create" isSubmitting={isCreating} onSubmit={handleSubmit} />
     </div>
   );
 }

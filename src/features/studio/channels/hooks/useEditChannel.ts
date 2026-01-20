@@ -1,4 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { StatusCodes } from 'http-status-codes';
+import { useState } from 'react';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import {
@@ -7,6 +9,7 @@ import {
 } from '@/libs/api/generated/channels/channels';
 import { getGetMeChannelsChannelIdQueryKey } from '@/libs/api/generated/me/me';
 import type {
+  RequestUpdateChannelRequest,
   ResponseCategoryResponse,
   ResponseChannelResponse,
   ResponseVoiceResponse,
@@ -14,26 +17,24 @@ import type {
 import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
+interface UpdateOptions {
+  onSuccess?: () => void;
+}
+
 /**
  * チャンネル編集に必要なデータと操作を提供する
  *
  * @param channelId - チャンネル ID
- * @returns チャンネルデータ、フォームデータ、カテゴリ一覧、ボイス一覧、更新ミューテーション
+ * @returns チャンネルデータ、フォームデータ、カテゴリ一覧、ボイス一覧、更新関数
  */
 export function useEditChannel(channelId: string) {
   const queryClient = useQueryClient();
+  const [error, setError] = useState<string>();
+
   const { data: channelData } = useGetChannelsChannelIdSuspense(channelId);
   const { data: categoriesData } = useGetCategoriesSuspense();
   const { data: voicesData } = useGetVoicesSuspense();
-  const updateMutation = usePatchChannelsChannelId({
-    mutation: {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
-        });
-      },
-    },
-  });
+  const mutation = usePatchChannelsChannelId();
 
   const channel = unwrapResponse<ResponseChannelResponse>(channelData);
   const categories = unwrapResponse<ResponseCategoryResponse[]>(
@@ -55,12 +56,46 @@ export function useEditChannel(channelId: string) {
     })),
   };
 
+  /**
+   * チャンネルを更新する
+   *
+   * @param data - チャンネル更新リクエスト
+   * @param options - オプション（成功時コールバック）
+   */
+  function updateChannel(
+    data: RequestUpdateChannelRequest,
+    options?: UpdateOptions,
+  ) {
+    setError(undefined);
+
+    mutation.mutate(
+      { channelId, data },
+      {
+        onSuccess: (response) => {
+          if (response.status !== StatusCodes.OK) {
+            setError(
+              response.data.error?.message ?? 'チャンネルの更新に失敗しました',
+            );
+            return;
+          }
+
+          queryClient.invalidateQueries({
+            queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+          });
+          options?.onSuccess?.();
+        },
+      },
+    );
+  }
+
   return {
     channel,
     defaultValues,
     defaultArtworkUrl: channel.artwork?.url,
     categories,
     voices,
-    updateMutation,
+    updateChannel,
+    isUpdating: mutation.isPending,
+    error,
   };
 }

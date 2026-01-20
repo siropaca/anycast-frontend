@@ -1,8 +1,7 @@
 'use client';
 
-import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
 import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { Pages } from '@/libs/pages';
@@ -17,76 +16,25 @@ export function ChannelDetail({ channelId }: Props) {
     channel,
     isPublished,
     isMutating,
-    deleteMutation,
-    publishMutation,
-    unpublishMutation,
+    isDeleting,
+    isPublishing,
+    isUnpublishing,
+    error,
+    deleteChannel,
+    publishChannel,
+    unpublishChannel,
   } = useChannelDetail(channelId);
-  const [error, setError] = useState<string | undefined>(undefined);
 
   function handleEditClick() {
     router.push(Pages.studio.editChannel.path({ id: channelId }));
   }
 
   function handleDeleteClick() {
-    setError(undefined);
-
-    deleteMutation.mutate(
-      {
-        channelId,
+    deleteChannel({
+      onSuccess: () => {
+        router.push(Pages.studio.channels.path());
       },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.NO_CONTENT) {
-            setError(
-              response.data.error?.message ?? 'チャンネルの削除に失敗しました',
-            );
-            return;
-          }
-
-          router.push(Pages.studio.channels.path());
-        },
-      },
-    );
-  }
-
-  function handlePublishClick() {
-    setError(undefined);
-
-    publishMutation.mutate(
-      {
-        channelId,
-        data: {},
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(
-              response.data.error?.message ?? 'チャンネルの公開に失敗しました',
-            );
-          }
-        },
-      },
-    );
-  }
-
-  function handleUnpublishClick() {
-    setError(undefined);
-
-    unpublishMutation.mutate(
-      {
-        channelId,
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(
-              response.data.error?.message ??
-                'チャンネルの非公開に失敗しました',
-            );
-          }
-        },
-      },
-    );
+    });
   }
 
   return (
@@ -119,7 +67,7 @@ export function ChannelDetail({ channelId }: Props) {
         disabled={isMutating}
         onClick={handleDeleteClick}
       >
-        {deleteMutation.isPending ? '削除中...' : 'チャンネルを削除'}
+        {isDeleting ? '削除中...' : 'チャンネルを削除'}
       </button>
 
       {isPublished ? (
@@ -127,20 +75,18 @@ export function ChannelDetail({ channelId }: Props) {
           type="button"
           className="border"
           disabled={isMutating}
-          onClick={handleUnpublishClick}
+          onClick={unpublishChannel}
         >
-          {unpublishMutation.isPending
-            ? '非公開にしています...'
-            : '非公開にする'}
+          {isUnpublishing ? '非公開にしています...' : '非公開にする'}
         </button>
       ) : (
         <button
           type="button"
           className="border"
           disabled={isMutating}
-          onClick={handlePublishClick}
+          onClick={publishChannel}
         >
-          {publishMutation.isPending ? '公開しています...' : 'チャンネルを公開'}
+          {isPublishing ? '公開しています...' : 'チャンネルを公開'}
         </button>
       )}
 
@@ -148,7 +94,9 @@ export function ChannelDetail({ channelId }: Props) {
 
       <ul>
         {channel.characters.map((character) => (
-          <li key={character.id}>{character.name} ({character.voice.name})</li>
+          <li key={character.id}>
+            {character.name} ({character.voice.name})
+          </li>
         ))}
       </ul>
 

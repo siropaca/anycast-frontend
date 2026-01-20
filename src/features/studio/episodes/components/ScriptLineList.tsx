@@ -1,13 +1,18 @@
 'use client';
 
-import { StatusCodes } from 'http-status-codes';
-import { useRef, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { ScriptGenerateForm } from '@/features/studio/episodes/components/ScriptGenerateForm';
 import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLineItem';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useGenerateEpisodeAudio } from '@/features/studio/episodes/hooks/useGenerateEpisodeAudio';
 import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
+import {
+  type GenerateAudioFormInput,
+  generateAudioFormSchema,
+} from '@/features/studio/episodes/schemas/generateAudio';
 import type { ResponseEpisodeResponseFullAudio } from '@/libs/api/generated/schemas';
 
 interface Props {
@@ -26,10 +31,11 @@ export function ScriptLineList({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { scriptLines } = useScriptLines(channelId, episodeId);
-  const { generateAudioMutation } = useGenerateEpisodeAudio(
-    channelId,
-    episodeId,
-  );
+  const {
+    generateAudio,
+    isGenerating: isGeneratingAudio,
+    error: generateAudioError,
+  } = useGenerateEpisodeAudio(channelId, episodeId);
 
   const {
     exportScript,
@@ -43,8 +49,16 @@ export function ScriptLineList({
     error: importError,
   } = useImportScript(channelId, episodeId);
 
-  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
-  const [generateAudioError, setGenerateAudioError] = useState<string>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<GenerateAudioFormInput>({
+    resolver: zodResolver(generateAudioFormSchema),
+    defaultValues: {
+      voiceStyle: '',
+    },
+  });
 
   function handleExportClick() {
     exportScript();
@@ -54,31 +68,15 @@ export function ScriptLineList({
     fileInputRef.current?.click();
   }
 
-  function handleGenerateAudioClick() {
-    setGenerateAudioError(undefined);
-    setIsGeneratingAudio(true);
-
-    generateAudioMutation.mutate(
-      {
-        channelId,
-        episodeId,
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setGenerateAudioError(response.data.error.message);
-          }
-        },
-        onSettled: () => {
-          setIsGeneratingAudio(false);
-        },
-      },
-    );
+  function onSubmit(data: GenerateAudioFormInput) {
+    generateAudio({ voiceStyle: data.voiceStyle || undefined });
   }
 
   return (
     <>
       <ScriptGenerateForm channelId={channelId} episodeId={episodeId} />
+
+      <hr className="my-4" />
 
       {exportError && <p>{exportError}</p>}
       {importError && <p>{importError}</p>}
@@ -92,20 +90,23 @@ export function ScriptLineList({
         onChange={handleFileSelect}
       />
 
-      <button
-        type="button"
-        className="border"
-        disabled={isGeneratingAudio || scriptLines.length === 0}
-        onClick={handleGenerateAudioClick}
-      >
-        {isGeneratingAudio ? '音声生成中...' : 'エピソード音声を生成'}
-      </button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <textarea
+          placeholder="音声のスタイルを指定"
+          className="border w-full h-20"
+          disabled={isGeneratingAudio}
+          {...register('voiceStyle')}
+        />
+        {errors.voiceStyle && <p>{errors.voiceStyle.message}</p>}
 
-      {fullAudio && (
-        <audio controls preload="metadata">
-          <source src={fullAudio.url} type={fullAudio.mimeType} />
-        </audio>
-      )}
+        <button
+          type="submit"
+          className="border"
+          disabled={isGeneratingAudio || scriptLines.length === 0}
+        >
+          {isGeneratingAudio ? '音声生成中...' : 'エピソード音声を生成'}
+        </button>
+      </form>
 
       <button type="button" className="border">
         BGMを追加
@@ -130,6 +131,12 @@ export function ScriptLineList({
       </button>
 
       <hr className="my-4" />
+
+      {fullAudio && (
+        <audio controls preload="metadata">
+          <source src={fullAudio.url} type={fullAudio.mimeType} />
+        </audio>
+      )}
 
       <ul className="space-y-2 mt-4">
         {scriptLines.map((line) => (

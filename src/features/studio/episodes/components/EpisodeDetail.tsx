@@ -1,8 +1,7 @@
 'use client';
 
-import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
 import { Pages } from '@/libs/pages';
@@ -18,79 +17,25 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     episode,
     isPublished,
     isMutating,
-    deleteMutation,
-    publishMutation,
-    unpublishMutation,
+    isDeleting,
+    isPublishing,
+    isUnpublishing,
+    error,
+    deleteEpisode,
+    publishEpisode,
+    unpublishEpisode,
   } = useEpisodeDetail(channelId, episodeId);
-  const [error, setError] = useState<string | undefined>(undefined);
 
   function handleEditClick() {
     router.push(Pages.studio.editEpisode.path({ id: channelId, episodeId }));
   }
 
   function handleDeleteClick() {
-    setError(undefined);
-
-    deleteMutation.mutate(
-      {
-        channelId,
-        episodeId,
+    deleteEpisode({
+      onSuccess: () => {
+        router.push(Pages.studio.channel.path({ id: channelId }));
       },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.NO_CONTENT) {
-            setError(
-              response.data.error?.message ?? 'エピソードの削除に失敗しました',
-            );
-            return;
-          }
-
-          router.push(Pages.studio.channel.path({ id: channelId }));
-        },
-      },
-    );
-  }
-
-  function handlePublishClick() {
-    setError(undefined);
-
-    publishMutation.mutate(
-      {
-        channelId,
-        episodeId,
-        data: {},
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(
-              response.data.error?.message ?? 'エピソードの公開に失敗しました',
-            );
-          }
-        },
-      },
-    );
-  }
-
-  function handleUnpublishClick() {
-    setError(undefined);
-
-    unpublishMutation.mutate(
-      {
-        channelId,
-        episodeId,
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(
-              response.data.error?.message ??
-                'エピソードの非公開に失敗しました',
-            );
-          }
-        },
-      },
-    );
+    });
   }
 
   return (
@@ -121,7 +66,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         disabled={isMutating}
         onClick={handleDeleteClick}
       >
-        {deleteMutation.isPending ? '削除中...' : 'エピソードを削除'}
+        {isDeleting ? '削除中...' : 'エピソードを削除'}
       </button>
 
       {isPublished ? (
@@ -129,20 +74,18 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
           type="button"
           className="border"
           disabled={isMutating}
-          onClick={handleUnpublishClick}
+          onClick={unpublishEpisode}
         >
-          {unpublishMutation.isPending
-            ? '非公開にしています...'
-            : '非公開にする'}
+          {isUnpublishing ? '非公開にしています...' : '非公開にする'}
         </button>
       ) : (
         <button
           type="button"
           className="border"
           disabled={isMutating}
-          onClick={handlePublishClick}
+          onClick={publishEpisode}
         >
-          {publishMutation.isPending ? '公開しています...' : 'エピソードを公開'}
+          {isPublishing ? '公開しています...' : 'エピソードを公開'}
         </button>
       )}
 

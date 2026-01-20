@@ -1,7 +1,5 @@
 'use client';
 
-import { StatusCodes } from 'http-status-codes';
-import { useState } from 'react';
 import { useDeleteScriptLine } from '@/features/studio/episodes/hooks/useDeleteScriptLine';
 import type { ResponseScriptLineResponse } from '@/libs/api/generated/schemas';
 
@@ -12,37 +10,18 @@ interface Props {
 }
 
 export function ScriptLineItem({ channelId, episodeId, line }: Props) {
-  const { deleteLineMutation } = useDeleteScriptLine(channelId, episodeId);
-
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [error, setError] = useState<string>();
+  const { deleteLine, isDeleting, error } = useDeleteScriptLine(
+    channelId,
+    episodeId,
+  );
 
   function handleDelete() {
-    setError(undefined);
-    setIsDeleting(true);
-
-    deleteLineMutation.mutate(
-      {
-        channelId,
-        episodeId,
-        lineId: line.id,
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.NO_CONTENT) {
-            setError(response.data.error.message);
-          }
-        },
-        onSettled: () => {
-          setIsDeleting(false);
-        },
-      },
-    );
+    deleteLine(line.id);
   }
 
   return (
     <li>
-      <div>{line.speaker?.name}:</div>
+      <div>{line.speaker.name} ({line.speaker.voice.name}):</div>
       <div>
         {line.emotion && `[${line.emotion}]`} {line.text}
       </div>

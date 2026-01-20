@@ -1,8 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { StatusCodes } from 'http-status-codes';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGenerateScriptForm } from '@/features/studio/episodes/hooks/useGenerateScriptForm';
 import {
@@ -17,8 +15,11 @@ interface Props {
 }
 
 export function ScriptGenerateForm({ channelId, episodeId }: Props) {
-  const { generateMutation } = useGenerateScriptForm(channelId, episodeId);
-  const [error, setError] = useState<string>();
+  const {
+    generateScript,
+    isGenerating: isSubmitting,
+    error,
+  } = useGenerateScriptForm(channelId, episodeId);
 
   const {
     register,
@@ -33,28 +34,11 @@ export function ScriptGenerateForm({ channelId, episodeId }: Props) {
   });
 
   function onSubmit(data: ScriptGenerateFormInput) {
-    setError(undefined);
-
-    generateMutation.mutate(
-      {
-        channelId,
-        episodeId,
-        data: {
-          prompt: data.prompt,
-          durationMinutes: data.durationMinutes,
-        },
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(response.data.error.message);
-          }
-        },
-      },
-    );
+    generateScript({
+      prompt: data.prompt,
+      durationMinutes: data.durationMinutes,
+    });
   }
-
-  const isSubmitting = generateMutation.isPending;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
