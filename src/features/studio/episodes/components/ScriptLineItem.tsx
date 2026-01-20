@@ -42,7 +42,7 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
 
   return (
     <li>
-      <div>{line.speaker?.name}:</div>
+      <div>{line.speaker.name} ({line.speaker.voice.name}):</div>
       <div>
         {line.emotion && `[${line.emotion}]`} {line.text}
       </div>
