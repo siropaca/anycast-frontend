@@ -101,12 +101,6 @@ export function ScriptLineList({
         {isGeneratingAudio ? '音声生成中...' : 'エピソード音声を生成'}
       </button>
 
-      {fullAudio && (
-        <audio controls preload="metadata">
-          <source src={fullAudio.url} type={fullAudio.mimeType} />
-        </audio>
-      )}
-
       <button type="button" className="border">
         BGMを追加
       </button>
@@ -130,6 +124,12 @@ export function ScriptLineList({
       </button>
 
       <hr className="my-4" />
+
+      {fullAudio && (
+        <audio controls preload="metadata">
+          <source src={fullAudio.url} type={fullAudio.mimeType} />
+        </audio>
+      )}
 
       <ul className="space-y-2 mt-4">
         {scriptLines.map((line) => (
