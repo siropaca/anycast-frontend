@@ -90,11 +90,9 @@ export function ScriptLineItem({
 
   return (
     <li>
-      <div>
-        {line.speaker.name} ({line.speaker.voice.name}):
-      </div>
-
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div>{line.speaker.name}:</div>
+
         <div className="flex">
           <input
             placeholder="感情を入力"
