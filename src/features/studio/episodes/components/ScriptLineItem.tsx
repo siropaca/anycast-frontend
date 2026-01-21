@@ -14,9 +14,23 @@ interface Props {
   channelId: string;
   episodeId: string;
   line: ResponseScriptLineResponse;
+  isFirst: boolean;
+  isLast: boolean;
+  isReordering: boolean;
+  onMoveUp: (lineId: string) => void;
+  onMoveDown: (lineId: string) => void;
 }
 
-export function ScriptLineItem({ channelId, episodeId, line }: Props) {
+export function ScriptLineItem({
+  channelId,
+  episodeId,
+  line,
+  isFirst,
+  isLast,
+  isReordering,
+  onMoveUp,
+  onMoveDown,
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -47,6 +61,14 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
 
   function handleDeleteClick() {
     deleteLine(line.id);
+  }
+
+  function handleMoveUpClick() {
+    onMoveUp(line.id);
+  }
+
+  function handleMoveDownClick() {
+    onMoveDown(line.id);
   }
 
   const error = updateError ?? deleteError;
@@ -90,12 +112,22 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
             {isDeleting ? '削除中...' : '削除'}
           </button>
 
-          <button type="button" className="border">
-            上に移動
+          <button
+            type="button"
+            className="border"
+            disabled={isFirst || isReordering}
+            onClick={handleMoveUpClick}
+          >
+            {isReordering ? '移動中...' : '上に移動'}
           </button>
 
-          <button type="button" className="border">
-            下に移動
+          <button
+            type="button"
+            className="border"
+            disabled={isLast || isReordering}
+            onClick={handleMoveDownClick}
+          >
+            {isReordering ? '移動中...' : '下に移動'}
           </button>
         </div>
       </form>

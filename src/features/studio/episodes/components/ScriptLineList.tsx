@@ -8,7 +8,12 @@ import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLine
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useGenerateEpisodeAudio } from '@/features/studio/episodes/hooks/useGenerateEpisodeAudio';
 import { useImportScript } from '@/features/studio/episodes/hooks/useImportScript';
+import { useReorderScriptLines } from '@/features/studio/episodes/hooks/useReorderScriptLines';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
+import {
+  moveLineDown,
+  moveLineUp,
+} from '@/features/studio/episodes/utils/reorderScriptLines';
 import {
   type GenerateAudioFormInput,
   generateAudioFormSchema,
@@ -50,6 +55,12 @@ export function ScriptLineList({
   } = useImportScript(channelId, episodeId);
 
   const {
+    reorderLines,
+    isReordering,
+    error: reorderError,
+  } = useReorderScriptLines(channelId, episodeId);
+
+  const {
     register,
     handleSubmit,
     formState: { errors },
@@ -60,16 +71,28 @@ export function ScriptLineList({
     },
   });
 
-  function handleExportClick() {
-    exportScript();
-  }
-
   function handleImportClick() {
     fileInputRef.current?.click();
   }
 
   function onSubmit(data: GenerateAudioFormInput) {
-    generateAudio({ voiceStyle: data.voiceStyle || undefined });
+    generateAudio({ voiceStyle: data.voiceStyle });
+  }
+
+  function handleMoveUp(lineId: string) {
+    const lineIds = scriptLines.map((line) => line.id);
+    const newLineIds = moveLineUp(lineIds, lineId);
+    if (newLineIds) {
+      reorderLines(newLineIds);
+    }
+  }
+
+  function handleMoveDown(lineId: string) {
+    const lineIds = scriptLines.map((line) => line.id);
+    const newLineIds = moveLineDown(lineIds, lineId);
+    if (newLineIds) {
+      reorderLines(newLineIds);
+    }
   }
 
   return (
@@ -81,6 +104,7 @@ export function ScriptLineList({
       {exportError && <p>{exportError}</p>}
       {importError && <p>{importError}</p>}
       {generateAudioError && <p>{generateAudioError}</p>}
+      {reorderError && <p>{reorderError}</p>}
 
       <input
         ref={fileInputRef}
@@ -125,7 +149,7 @@ export function ScriptLineList({
         type="button"
         className="border"
         disabled={isExporting}
-        onClick={handleExportClick}
+        onClick={exportScript}
       >
         {isExporting ? 'エクスポート中...' : '台本をエクスポート'}
       </button>
@@ -139,12 +163,17 @@ export function ScriptLineList({
       )}
 
       <ul className="space-y-2 mt-4">
-        {scriptLines.map((line) => (
+        {scriptLines.map((line, index) => (
           <ScriptLineItem
             key={line.id}
             channelId={channelId}
             episodeId={episodeId}
             line={line}
+            isFirst={index === 0}
+            isLast={index === scriptLines.length - 1}
+            isReordering={isReordering}
+            onMoveUp={handleMoveUp}
+            onMoveDown={handleMoveDown}
           />
         ))}
       </ul>
