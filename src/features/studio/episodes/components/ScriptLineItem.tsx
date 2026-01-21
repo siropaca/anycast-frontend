@@ -80,6 +80,7 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
           >
             {isUpdating ? '更新中...' : '更新'}
           </button>
+
           <button
             type="button"
             className="border"
@@ -87,6 +88,14 @@ export function ScriptLineItem({ channelId, episodeId, line }: Props) {
             onClick={handleDeleteClick}
           >
             {isDeleting ? '削除中...' : '削除'}
+          </button>
+
+          <button type="button" className="border">
+            上に移動
+          </button>
+
+          <button type="button" className="border">
+            下に移動
           </button>
         </div>
       </form>
