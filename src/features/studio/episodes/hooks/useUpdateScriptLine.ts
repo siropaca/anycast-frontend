@@ -6,6 +6,7 @@ import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePatchChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId,
 } from '@/libs/api/generated/script/script';
+import { trimFullWidth } from '@/utils/trimFullWidth';
 
 /**
  * 台本行の更新ミューテーションを提供する
@@ -35,7 +36,10 @@ export function useUpdateScriptLine(channelId: string, episodeId: string) {
         channelId,
         episodeId,
         lineId,
-        data,
+        data: {
+          ...data,
+          text: data.text ? trimFullWidth(data.text) : undefined,
+        },
       },
       {
         onSuccess: (response) => {
