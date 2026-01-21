@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { DEV_LOGIN_CREDENTIALS } from '@/features/auth/constants';
 import { type LoginInput, loginSchema } from '@/features/auth/schemas/auth';
 import { Pages } from '@/libs/pages';
 
@@ -23,6 +24,10 @@ export function LoginForm({ redirectTo = Pages.home.path() }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
+    defaultValues:
+      process.env.NODE_ENV === 'development'
+        ? DEV_LOGIN_CREDENTIALS
+        : undefined,
   });
 
   async function onSubmit(data: LoginInput) {
