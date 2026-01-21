@@ -119,7 +119,11 @@ describe('helper', () => {
 
         // matchPrefix でマッチ
         expect(
-          isActivePath('/studio/channels/123/edit', '/studio/channels', options),
+          isActivePath(
+            '/studio/channels/123/edit',
+            '/studio/channels',
+            options,
+          ),
         ).toBe(true);
 
         // どちらにもマッチしない

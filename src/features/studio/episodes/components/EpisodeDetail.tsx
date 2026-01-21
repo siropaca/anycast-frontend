@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
@@ -46,7 +47,13 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <p>公開日時: {episode.publishedAt ?? '非公開'}</p>
 
       {episode.artwork && (
-        <img src={episode.artwork.url} alt="" className="size-[200px]" />
+        <Image
+          src={episode.artwork.url}
+          alt=""
+          width={200}
+          height={200}
+          className="size-[200px]"
+        />
       )}
 
       {error && <p>{error}</p>}

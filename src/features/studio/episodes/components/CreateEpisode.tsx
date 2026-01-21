@@ -35,7 +35,11 @@ export function CreateEpisode({ channelId }: Props) {
 
       {error && <p>{error}</p>}
 
-      <EpisodeForm mode="create" isSubmitting={isCreating} onSubmit={handleSubmit} />
+      <EpisodeForm
+        mode="create"
+        isSubmitting={isCreating}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 }

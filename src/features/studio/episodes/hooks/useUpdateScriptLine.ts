@@ -1,11 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
+import type { RequestUpdateScriptLineRequest } from '@/libs/api/generated/schemas';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePatchChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId,
 } from '@/libs/api/generated/script/script';
-import type { RequestUpdateScriptLineRequest } from '@/libs/api/generated/schemas';
 
 /**
  * 台本行の更新ミューテーションを提供する

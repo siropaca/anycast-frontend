@@ -11,13 +11,13 @@ import { useImportScript } from '@/features/studio/episodes/hooks/useImportScrip
 import { useReorderScriptLines } from '@/features/studio/episodes/hooks/useReorderScriptLines';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
 import {
-  moveLineDown,
-  moveLineUp,
-} from '@/features/studio/episodes/utils/reorderScriptLines';
-import {
   type GenerateAudioFormInput,
   generateAudioFormSchema,
 } from '@/features/studio/episodes/schemas/generateAudio';
+import {
+  moveLineDown,
+  moveLineUp,
+} from '@/features/studio/episodes/utils/reorderScriptLines';
 import type { ResponseEpisodeResponseFullAudio } from '@/libs/api/generated/schemas';
 
 interface Props {
@@ -36,6 +36,7 @@ export function ScriptLineList({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { scriptLines } = useScriptLines(channelId, episodeId);
+
   const {
     generateAudio,
     isGenerating: isGeneratingAudio,

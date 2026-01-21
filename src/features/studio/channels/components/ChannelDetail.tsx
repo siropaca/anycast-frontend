@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
@@ -45,7 +46,13 @@ export function ChannelDetail({ channelId }: Props) {
       <p>公開日時: {channel.publishedAt ?? '非公開'}</p>
 
       {channel.artwork && (
-        <img src={channel.artwork.url} alt="" className="size-[200px]" />
+        <Image
+          src={channel.artwork.url}
+          alt=""
+          width={200}
+          height={200}
+          className="size-[200px]"
+        />
       )}
 
       {error && <p>{error}</p>}
