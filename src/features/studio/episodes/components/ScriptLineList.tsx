@@ -36,6 +36,7 @@ export function ScriptLineList({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { scriptLines } = useScriptLines(channelId, episodeId);
+
   const {
     generateAudio,
     isGenerating: isGeneratingAudio,
