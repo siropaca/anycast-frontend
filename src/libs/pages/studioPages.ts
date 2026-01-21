@@ -79,6 +79,11 @@ export const studioPages = {
     path: () => '/studio/characters',
     title: 'キャラクター',
   },
+  /** BGM 一覧 */
+  bgm: {
+    path: () => '/studio/bgm',
+    title: 'BGM',
+  },
   /** 設定 */
   settings: {
     path: () => '/studio/settings',

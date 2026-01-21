@@ -112,6 +112,16 @@ describe('studioPages', () => {
     });
   });
 
+  describe('bgm', () => {
+    it('path が /studio/bgm を返す', () => {
+      expect(studioPages.bgm.path()).toBe('/studio/bgm');
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.bgm.title).toBe('BGM');
+    });
+  });
+
   describe('settings', () => {
     it('path が /studio/settings を返す', () => {
       expect(studioPages.settings.path()).toBe('/studio/settings');
