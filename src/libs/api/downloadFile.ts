@@ -1,9 +1,6 @@
 import { getSession } from 'next-auth/react';
 import { auth } from '@/libs/auth/auth';
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8081';
-
 /**
  * アクセストークンを取得する
  *
@@ -43,7 +40,7 @@ export async function downloadFile(
     (headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/v1${url}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1${url}`, {
     ...options,
     headers,
   });
