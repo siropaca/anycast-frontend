@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 import type { RequestGenerateScriptRequest } from '@/libs/api/generated/schemas';
+import { trimFullWidth } from '@/utils/trimFullWidth';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerate,
@@ -32,7 +33,10 @@ export function useGenerateScriptForm(channelId: string, episodeId: string) {
       {
         channelId,
         episodeId,
-        data,
+        data: {
+          ...data,
+          prompt: trimFullWidth(data.prompt),
+        },
       },
       {
         onSuccess: (response) => {

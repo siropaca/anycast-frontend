@@ -16,6 +16,7 @@ import type {
 } from '@/libs/api/generated/schemas';
 import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import { trimFullWidth } from '@/utils/trimFullWidth';
 
 interface UpdateOptions {
   onSuccess?: () => void;
@@ -71,7 +72,12 @@ export function useEditChannel(channelId: string) {
     mutation.mutate(
       {
         channelId,
-        data,
+        data: {
+          ...data,
+          name: trimFullWidth(data.name),
+          description: trimFullWidth(data.description),
+          userPrompt: trimFullWidth(data.userPrompt),
+        },
       },
       {
         onSuccess: (response) => {

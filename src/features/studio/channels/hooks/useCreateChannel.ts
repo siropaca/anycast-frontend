@@ -9,6 +9,7 @@ import type {
 } from '@/libs/api/generated/schemas';
 import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import { trimFullWidth } from '@/utils/trimFullWidth';
 
 interface CreateOptions {
   onSuccess?: (channelId: string) => void;
@@ -45,7 +46,14 @@ export function useCreateChannel() {
     setError(undefined);
 
     mutation.mutate(
-      { data },
+      {
+        data: {
+          ...data,
+          name: trimFullWidth(data.name),
+          description: trimFullWidth(data.description),
+          userPrompt: trimFullWidth(data.userPrompt),
+        },
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.CREATED) {

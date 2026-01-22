@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 import type { RequestCreateScriptLineRequest } from '@/libs/api/generated/schemas';
+import { trimFullWidth } from '@/utils/trimFullWidth';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptLines,
@@ -32,7 +33,11 @@ export function useCreateScriptLine(channelId: string, episodeId: string) {
       {
         channelId,
         episodeId,
-        data,
+        data: {
+          ...data,
+          text: data.text ? trimFullWidth(data.text) : undefined,
+          emotion: data.emotion ? trimFullWidth(data.emotion) : undefined,
+        },
       },
       {
         onSuccess: (response) => {
