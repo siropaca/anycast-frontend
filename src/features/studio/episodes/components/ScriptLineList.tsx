@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
+import { BgmSelector } from '@/features/studio/episodes/components/BgmSelector';
 import { ScriptGenerateForm } from '@/features/studio/episodes/components/ScriptGenerateForm';
 import { ScriptLineItem } from '@/features/studio/episodes/components/ScriptLineItem';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
@@ -19,13 +20,17 @@ import {
   moveLineDown,
   moveLineUp,
 } from '@/features/studio/episodes/utils/reorderScriptLines';
-import type { ResponseEpisodeResponseFullAudio } from '@/libs/api/generated/schemas';
+import type {
+  ResponseEpisodeResponseBgm,
+  ResponseEpisodeResponseFullAudio,
+} from '@/libs/api/generated/schemas';
 
 interface Props {
   channelId: string;
   episodeId: string;
   episodeName: string;
   fullAudio?: ResponseEpisodeResponseFullAudio;
+  bgm?: ResponseEpisodeResponseBgm;
 }
 
 export function ScriptLineList({
@@ -33,6 +38,7 @@ export function ScriptLineList({
   episodeId,
   episodeName,
   fullAudio,
+  bgm,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -135,9 +141,11 @@ export function ScriptLineList({
         </button>
       </form>
 
-      <button type="button" className="border">
-        BGMを追加
-      </button>
+      <BgmSelector
+        channelId={channelId}
+        episodeId={episodeId}
+        currentBgm={bgm ?? null}
+      />
 
       <button
         type="button"

@@ -104,6 +104,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
           episodeId={episodeId}
           episodeName={episode.title}
           fullAudio={episode.fullAudio}
+          bgm={episode.bgm}
         />
       </Suspense>
     </div>
