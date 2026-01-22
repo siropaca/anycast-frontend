@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { EMOTION_OPTIONS } from '@/features/studio/episodes/constants/emotion';
 import { useCreateScriptLine } from '@/features/studio/episodes/hooks/useCreateScriptLine';
 import { useDeleteScriptLine } from '@/features/studio/episodes/hooks/useDeleteScriptLine';
 import { useUpdateScriptLine } from '@/features/studio/episodes/hooks/useUpdateScriptLine';
@@ -22,6 +23,7 @@ interface Props {
   isFirst: boolean;
   isLast: boolean;
   isReordering: boolean;
+
   onMoveUp: (lineId: string) => void;
   onMoveDown: (lineId: string) => void;
 }
@@ -117,11 +119,14 @@ export function ScriptLineItem({
         </select>
 
         <div className="flex">
-          <input
-            placeholder="感情を入力"
-            className="border"
-            {...register('emotion')}
-          />
+          <select className="border" {...register('emotion')}>
+            {EMOTION_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+
           <input
             placeholder="台本を入力"
             className="border grow"
@@ -172,7 +177,7 @@ export function ScriptLineItem({
 
       <button
         type="button"
-        className="border"
+        className="border mt-2"
         disabled={isCreating}
         onClick={handleAddLineClick}
       >
