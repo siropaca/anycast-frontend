@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useMyCharacterList } from '@/features/studio/characters/hooks/useMyCharacterList';
+import { studioPages } from '@/libs/pages/studioPages';
 
 export function CharacterList() {
   const { characters } = useMyCharacterList();
@@ -11,8 +13,24 @@ export function CharacterList() {
 
       {characters.map((character) => (
         <li key={character.id}>
-          {character.name} (
-          {character.channels.map((channel) => channel.name).join(',')})
+          {character.name}
+          {character.channels.length > 0 && (
+            <span>
+              (
+              {character.channels.map((channel, index) => (
+                <span key={channel.id}>
+                  {index > 0 && ', '}
+                  <Link
+                    href={studioPages.channel.path({ id: channel.id })}
+                    className="underline"
+                  >
+                    {channel.name}
+                  </Link>
+                </span>
+              ))}
+              )
+            </span>
+          )}
         </li>
       ))}
     </ul>
