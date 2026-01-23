@@ -48,7 +48,10 @@ export function ScriptLineList({
   const {
     generateAudio,
     isGenerating: isGeneratingAudio,
+    status: audioJobStatus,
+    progress: audioJobProgress,
     error: generateAudioError,
+    reset: resetAudioGeneration,
   } = useGenerateEpisodeAudio(channelId, episodeId);
 
   const {
@@ -131,6 +134,37 @@ export function ScriptLineList({
           {...register('voiceStyle')}
         />
         {errors.voiceStyle && <p>{errors.voiceStyle.message}</p>}
+
+        {isGeneratingAudio && (
+          <div className="my-2">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-sm">
+                {audioJobStatus === 'pending' && 'キュー待機中...'}
+                {audioJobStatus === 'processing' && '音声生成中...'}
+              </span>
+              <span className="text-sm">{audioJobProgress}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${audioJobProgress}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {audioJobStatus === 'completed' && (
+          <div className="my-2 p-2 bg-green-100 text-green-800 rounded">
+            音声生成が完了しました
+            <button
+              type="button"
+              className="ml-2 text-sm underline"
+              onClick={resetAudioGeneration}
+            >
+              閉じる
+            </button>
+          </div>
+        )}
 
         <button
           type="submit"
