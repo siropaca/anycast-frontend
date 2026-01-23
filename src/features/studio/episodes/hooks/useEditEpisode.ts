@@ -8,6 +8,7 @@ import type {
   ResponseEpisodeResponse,
 } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import { trimFullWidth } from '@/utils/trim';
 
 interface UpdateOptions {
   onSuccess?: () => void;
@@ -50,7 +51,15 @@ export function useEditEpisode(channelId: string, episodeId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, episodeId, data },
+      {
+        channelId,
+        episodeId,
+        data: {
+          ...data,
+          title: trimFullWidth(data.title),
+          description: trimFullWidth(data.description),
+        },
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {

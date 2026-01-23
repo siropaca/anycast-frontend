@@ -17,6 +17,7 @@ export function EditChannel({ channelId }: Props) {
     channel,
     defaultValues,
     defaultArtworkUrl,
+    defaultBgm,
     categories,
     voices,
     updateChannel,
@@ -32,6 +33,8 @@ export function EditChannel({ channelId }: Props) {
         userPrompt: data.userPrompt,
         categoryId: data.categoryId,
         artworkImageId: data.artworkImageId,
+        defaultBgmId: data.defaultBgmId,
+        defaultSystemBgmId: data.defaultSystemBgmId,
       },
       {
         onSuccess: () => {
@@ -57,6 +60,7 @@ export function EditChannel({ channelId }: Props) {
         categories={categories}
         voices={voices}
         defaultArtworkUrl={defaultArtworkUrl}
+        defaultBgm={defaultBgm}
         isSubmitting={isUpdating}
         onSubmit={handleSubmit}
       />

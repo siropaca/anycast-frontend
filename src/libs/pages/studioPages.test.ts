@@ -122,6 +122,16 @@ describe('studioPages', () => {
     });
   });
 
+  describe('voices', () => {
+    it('path が /studio/voices を返す', () => {
+      expect(studioPages.voices.path()).toBe('/studio/voices');
+    });
+
+    it('title が設定されている', () => {
+      expect(studioPages.voices.title).toBe('ボイス');
+    });
+  });
+
   describe('settings', () => {
     it('path が /studio/settings を返す', () => {
       expect(studioPages.settings.path()).toBe('/studio/settings');

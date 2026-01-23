@@ -6,6 +6,7 @@ import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePatchChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId,
 } from '@/libs/api/generated/script/script';
+import { trimFullWidth } from '@/utils/trim';
 
 /**
  * 台本行の更新ミューテーションを提供する
@@ -31,7 +32,15 @@ export function useUpdateScriptLine(channelId: string, episodeId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, episodeId, lineId, data },
+      {
+        channelId,
+        episodeId,
+        lineId,
+        data: {
+          ...data,
+          text: data.text ? trimFullWidth(data.text) : undefined,
+        },
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {

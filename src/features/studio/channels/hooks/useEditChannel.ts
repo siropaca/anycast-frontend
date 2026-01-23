@@ -16,6 +16,7 @@ import type {
 } from '@/libs/api/generated/schemas';
 import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
+import { trimFullWidth } from '@/utils/trim';
 
 interface UpdateOptions {
   onSuccess?: () => void;
@@ -49,6 +50,12 @@ export function useEditChannel(channelId: string) {
     userPrompt: channel.userPrompt,
     categoryId: channel.category.id,
     artworkImageId: channel.artwork?.id,
+    defaultBgmId: channel.defaultBgm?.isDefault
+      ? undefined
+      : channel.defaultBgm?.id,
+    defaultSystemBgmId: channel.defaultBgm?.isDefault
+      ? channel.defaultBgm?.id
+      : undefined,
     characters: channel.characters.map((c) => ({
       name: c.name,
       voiceId: c.voice.id,
@@ -69,7 +76,15 @@ export function useEditChannel(channelId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, data },
+      {
+        channelId,
+        data: {
+          ...data,
+          name: trimFullWidth(data.name),
+          description: trimFullWidth(data.description),
+          userPrompt: trimFullWidth(data.userPrompt),
+        },
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -92,6 +107,7 @@ export function useEditChannel(channelId: string) {
     channel,
     defaultValues,
     defaultArtworkUrl: channel.artwork?.url,
+    defaultBgm: channel.defaultBgm,
     categories,
     voices,
     updateChannel,

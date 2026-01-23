@@ -29,7 +29,11 @@ export function useDeleteScriptLine(channelId: string, episodeId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, episodeId, lineId },
+      {
+        channelId,
+        episodeId,
+        lineId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {

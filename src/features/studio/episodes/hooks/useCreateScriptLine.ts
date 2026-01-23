@@ -1,32 +1,32 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import type { RequestGenerateScriptRequest } from '@/libs/api/generated/schemas';
+import type { RequestCreateScriptLineRequest } from '@/libs/api/generated/schemas';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
-  usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerate,
+  usePostChannelsChannelIdEpisodesEpisodeIdScriptLines,
 } from '@/libs/api/generated/script/script';
 import { trimFullWidth } from '@/utils/trim';
 
 /**
- * 台本生成フォーム用のミューテーションを提供する
+ * 台本行の作成ミューテーションを提供する
  *
  * @param channelId - チャンネル ID
  * @param episodeId - エピソード ID
- * @returns 台本生成関数、生成中フラグ、エラー
+ * @returns 作成関数、作成中フラグ、エラー
  */
-export function useGenerateScriptForm(channelId: string, episodeId: string) {
+export function useCreateScriptLine(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
   const [error, setError] = useState<string>();
 
-  const mutation = usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerate();
+  const mutation = usePostChannelsChannelIdEpisodesEpisodeIdScriptLines();
 
   /**
-   * 台本を生成する
+   * 台本行を作成する
    *
-   * @param data - 台本生成リクエスト
+   * @param data - 作成する行のデータ
    */
-  function generateScript(data: RequestGenerateScriptRequest) {
+  function createLine(data: RequestCreateScriptLineRequest) {
     setError(undefined);
 
     mutation.mutate(
@@ -35,12 +35,13 @@ export function useGenerateScriptForm(channelId: string, episodeId: string) {
         episodeId,
         data: {
           ...data,
-          prompt: trimFullWidth(data.prompt),
+          text: data.text ? trimFullWidth(data.text) : undefined,
+          emotion: data.emotion ? trimFullWidth(data.emotion) : undefined,
         },
       },
       {
         onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
+          if (response.status !== StatusCodes.CREATED) {
             setError(response.data.error.message);
             return;
           }
@@ -58,8 +59,8 @@ export function useGenerateScriptForm(channelId: string, episodeId: string) {
   }
 
   return {
-    generateScript,
-    isGenerating: mutation.isPending,
+    createLine,
+    isCreating: mutation.isPending,
     error,
   };
 }

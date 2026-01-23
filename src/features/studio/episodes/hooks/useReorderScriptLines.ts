@@ -28,7 +28,11 @@ export function useReorderScriptLines(channelId: string, episodeId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, episodeId, data: { lineIds } },
+      {
+        channelId,
+        episodeId,
+        data: { lineIds },
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {

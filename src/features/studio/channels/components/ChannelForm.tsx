@@ -9,9 +9,12 @@ import {
   type ChannelFormInput,
   channelFormSchema,
 } from '@/features/studio/channels/schemas/channel';
+import { useBgmOptions } from '@/features/studio/episodes/hooks/useBgmOptions';
+import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
 import { usePostImages } from '@/libs/api/generated/images/images';
 import type {
   ResponseCategoryResponse,
+  ResponseChannelResponseDefaultBgm,
   ResponseVoiceResponse,
 } from '@/libs/api/generated/schemas';
 
@@ -21,6 +24,7 @@ interface Props {
   categories: ResponseCategoryResponse[];
   voices: ResponseVoiceResponse[];
   defaultArtworkUrl?: string;
+  defaultBgm?: ResponseChannelResponseDefaultBgm;
   isSubmitting?: boolean;
 
   onSubmit: (data: ChannelFormInput) => void;
@@ -32,16 +36,26 @@ export function ChannelForm({
   categories,
   voices,
   defaultArtworkUrl,
+  defaultBgm,
   onSubmit,
   isSubmitting = false,
 }: Props) {
   const isEditMode = mode === 'edit';
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const bgmFileInputRef = useRef<HTMLInputElement>(null);
   const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
     string | undefined
   >(defaultArtworkUrl);
   const [uploadError, setUploadError] = useState<string | undefined>();
+  const [bgmName, setBgmName] = useState('');
   const uploadMutation = usePostImages();
+
+  const { userBgms, defaultBgms } = useBgmOptions();
+  const {
+    uploadBgm,
+    isUploading: isBgmUploading,
+    error: bgmUploadError,
+  } = useUploadBgm();
 
   const {
     register,
@@ -85,6 +99,48 @@ export function ChannelForm({
     control,
     name: 'characters',
   });
+
+  function handleBgmChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const value = event.target.value;
+
+    // 選択解除
+    if (!value) {
+      setValue('defaultBgmId', undefined, { shouldDirty: true });
+      setValue('defaultSystemBgmId', undefined, { shouldDirty: true });
+      return;
+    }
+
+    const [type, bgmId] = value.split(':');
+    if (!bgmId) return;
+
+    if (type === 'default') {
+      setValue('defaultBgmId', undefined, { shouldDirty: true });
+      setValue('defaultSystemBgmId', bgmId, { shouldDirty: true });
+    } else {
+      setValue('defaultBgmId', bgmId, { shouldDirty: true });
+      setValue('defaultSystemBgmId', undefined, { shouldDirty: true });
+    }
+  }
+
+  const currentBgmValue = defaultBgm
+    ? `${defaultBgm.isDefault ? 'default' : 'user'}:${defaultBgm.id}`
+    : '';
+
+  function handleBgmUploadClick() {
+    bgmFileInputRef.current?.click();
+  }
+
+  function handleBgmFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    uploadBgm(file, bgmName);
+    setBgmName('');
+
+    if (bgmFileInputRef.current) {
+      bgmFileInputRef.current.value = '';
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -158,6 +214,62 @@ export function ChannelForm({
           ))}
         </select>
         {errors.categoryId && <p>{errors.categoryId.message}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="defaultBgm">デフォルトBGM</label>
+        <select
+          id="defaultBgm"
+          className="border w-full"
+          defaultValue={currentBgmValue}
+          onChange={handleBgmChange}
+        >
+          <option value="">なし</option>
+          {userBgms.length > 0 && (
+            <optgroup label="マイBGM">
+              {userBgms.map((bgm) => (
+                <option key={bgm.id} value={`user:${bgm.id}`}>
+                  {bgm.name}
+                </option>
+              ))}
+            </optgroup>
+          )}
+          {defaultBgms.length > 0 && (
+            <optgroup label="デフォルト">
+              {defaultBgms.map((bgm) => (
+                <option key={bgm.id} value={`default:${bgm.id}`}>
+                  {bgm.name}
+                </option>
+              ))}
+            </optgroup>
+          )}
+        </select>
+        <div className="mt-2">
+          <input
+            ref={bgmFileInputRef}
+            type="file"
+            accept="audio/*"
+            className="hidden"
+            onChange={handleBgmFileChange}
+          />
+          <input
+            type="text"
+            placeholder="BGM名（省略時はファイル名）"
+            className="border"
+            value={bgmName}
+            disabled={isBgmUploading}
+            onChange={(e) => setBgmName(e.target.value)}
+          />
+          <button
+            type="button"
+            className="border"
+            disabled={isBgmUploading}
+            onClick={handleBgmUploadClick}
+          >
+            {isBgmUploading ? 'アップロード中...' : 'BGMをアップロード'}
+          </button>
+          {bgmUploadError && <p>{bgmUploadError}</p>}
+        </div>
       </div>
 
       <hr className="my-4" />

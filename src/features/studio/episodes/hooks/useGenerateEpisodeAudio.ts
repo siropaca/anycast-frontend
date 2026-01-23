@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { usePostChannelsChannelIdEpisodesEpisodeIdAudioGenerate } from '@/libs/api/generated/episodes/episodes';
 import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
 import type { RequestGenerateAudioRequest } from '@/libs/api/generated/schemas';
+import { trimFullWidth } from '@/utils/trim';
 
 /**
  * エピソード音声生成ミューテーションを提供する
@@ -30,7 +31,12 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
       {
         channelId,
         episodeId,
-        data,
+        data: {
+          ...data,
+          voiceStyle: data.voiceStyle
+            ? trimFullWidth(data.voiceStyle)
+            : undefined,
+        },
       },
       {
         onSuccess: (response) => {

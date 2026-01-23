@@ -3,6 +3,7 @@ import {
   MusicNotesIcon,
   SquaresFourIcon,
   UserSoundIcon,
+  UsersIcon,
   VideoIcon,
 } from '@phosphor-icons/react';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
@@ -26,12 +27,17 @@ export const STUDIO_MENU_SECTIONS: MenuSection[] = [
       {
         label: Pages.studio.characters.title,
         href: Pages.studio.characters.path(),
-        icon: UserSoundIcon,
+        icon: UsersIcon,
       },
       {
         label: Pages.studio.bgm.title,
         href: Pages.studio.bgm.path(),
         icon: MusicNotesIcon,
+      },
+      {
+        label: Pages.studio.voices.title,
+        href: Pages.studio.voices.path(),
+        icon: UserSoundIcon,
       },
       {
         label: Pages.studio.settings.title,
