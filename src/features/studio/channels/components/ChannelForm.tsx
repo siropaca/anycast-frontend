@@ -5,6 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { useDeleteChannelDefaultBgm } from '@/features/studio/channels/hooks/useDeleteChannelDefaultBgm';
 import {
   type ChannelFormInput,
   channelFormSchema,
@@ -20,6 +21,7 @@ import type {
 
 interface Props {
   mode: 'create' | 'edit';
+  channelId?: string;
   defaultValues?: ChannelFormInput;
   categories: ResponseCategoryResponse[];
   voices: ResponseVoiceResponse[];
@@ -32,6 +34,7 @@ interface Props {
 
 export function ChannelForm({
   mode,
+  channelId,
   defaultValues,
   categories,
   voices,
@@ -48,6 +51,11 @@ export function ChannelForm({
   >(defaultArtworkUrl);
   const [uploadError, setUploadError] = useState<string | undefined>();
   const [bgmName, setBgmName] = useState('');
+  const [selectedBgmValue, setSelectedBgmValue] = useState(
+    defaultBgm
+      ? `${defaultBgm.isDefault ? 'default' : 'user'}:${defaultBgm.id}`
+      : '',
+  );
   const uploadMutation = usePostImages();
 
   const { userBgms, defaultBgms } = useBgmOptions();
@@ -56,6 +64,11 @@ export function ChannelForm({
     isUploading: isBgmUploading,
     error: bgmUploadError,
   } = useUploadBgm();
+  const {
+    deleteDefaultBgm,
+    isDeletingDefaultBgm,
+    error: bgmDeleteError,
+  } = useDeleteChannelDefaultBgm(channelId ?? '');
 
   const {
     register,
@@ -100,8 +113,8 @@ export function ChannelForm({
     name: 'characters',
   });
 
-  function handleBgmChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const value = event.target.value;
+  function handleBgmChange(value: string) {
+    setSelectedBgmValue(value);
 
     // 選択解除
     if (!value) {
@@ -122,9 +135,21 @@ export function ChannelForm({
     }
   }
 
-  const currentBgmValue = defaultBgm
-    ? `${defaultBgm.isDefault ? 'default' : 'user'}:${defaultBgm.id}`
-    : '';
+  function handleBgmSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    handleBgmChange(event.target.value);
+  }
+
+  function handleBgmDelete() {
+    if (isEditMode && channelId) {
+      deleteDefaultBgm(() => {
+        setSelectedBgmValue('');
+        setValue('defaultBgmId', undefined, { shouldDirty: true });
+        setValue('defaultSystemBgmId', undefined, { shouldDirty: true });
+      });
+    } else {
+      handleBgmChange('');
+    }
+  }
 
   function handleBgmUploadClick() {
     bgmFileInputRef.current?.click();
@@ -218,32 +243,44 @@ export function ChannelForm({
 
       <div>
         <label htmlFor="defaultBgm">デフォルトBGM</label>
-        <select
-          id="defaultBgm"
-          className="border w-full"
-          defaultValue={currentBgmValue}
-          onChange={handleBgmChange}
-        >
-          <option value="">なし</option>
-          {userBgms.length > 0 && (
-            <optgroup label="マイBGM">
-              {userBgms.map((bgm) => (
-                <option key={bgm.id} value={`user:${bgm.id}`}>
-                  {bgm.name}
-                </option>
-              ))}
-            </optgroup>
+        <div className="flex gap-2">
+          <select
+            id="defaultBgm"
+            className="border flex-1"
+            value={selectedBgmValue}
+            onChange={handleBgmSelectChange}
+          >
+            <option value="">なし</option>
+            {userBgms.length > 0 && (
+              <optgroup label="マイBGM">
+                {userBgms.map((bgm) => (
+                  <option key={bgm.id} value={`user:${bgm.id}`}>
+                    {bgm.name}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+            {defaultBgms.length > 0 && (
+              <optgroup label="デフォルト">
+                {defaultBgms.map((bgm) => (
+                  <option key={bgm.id} value={`default:${bgm.id}`}>
+                    {bgm.name}
+                  </option>
+                ))}
+              </optgroup>
+            )}
+          </select>
+          {selectedBgmValue && (
+            <button
+              type="button"
+              className="border px-2"
+              disabled={isDeletingDefaultBgm}
+              onClick={handleBgmDelete}
+            >
+              {isDeletingDefaultBgm ? '削除中...' : '削除'}
+            </button>
           )}
-          {defaultBgms.length > 0 && (
-            <optgroup label="デフォルト">
-              {defaultBgms.map((bgm) => (
-                <option key={bgm.id} value={`default:${bgm.id}`}>
-                  {bgm.name}
-                </option>
-              ))}
-            </optgroup>
-          )}
-        </select>
+        </div>
         <div className="mt-2">
           <input
             ref={bgmFileInputRef}
@@ -269,6 +306,7 @@ export function ChannelForm({
             {isBgmUploading ? 'アップロード中...' : 'BGMをアップロード'}
           </button>
           {bgmUploadError && <p>{bgmUploadError}</p>}
+          {bgmDeleteError && <p>{bgmDeleteError}</p>}
         </div>
       </div>
 

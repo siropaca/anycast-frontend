@@ -56,6 +56,7 @@ export function EditChannel({ channelId }: Props) {
 
       <ChannelForm
         mode="edit"
+        channelId={channelId}
         defaultValues={defaultValues}
         categories={categories}
         voices={voices}
