@@ -65,6 +65,8 @@ export function BgmList() {
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
+      <hr className="my-4" />
+
       <ul className="space-y-2">
         {bgms.length === 0 && <li>BGMがありません</li>}
 
