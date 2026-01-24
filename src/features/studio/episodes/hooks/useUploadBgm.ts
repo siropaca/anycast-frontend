@@ -17,10 +17,10 @@ import { removeFileExtension, trimFullWidth } from '@/utils/trim';
  */
 export function useUploadBgm() {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const uploadMutation = usePostAudios();
   const createBgmMutation = usePostMeBgms();
+
+  const [error, setError] = useState<string>();
 
   const isUploading = uploadMutation.isPending || createBgmMutation.isPending;
 
@@ -46,7 +46,9 @@ export function useUploadBgm() {
           const audioId = uploadResponse.data.data.id;
 
           createBgmMutation.mutate(
-            { data: { audioId, name: bgmName } },
+            {
+              data: { audioId, name: bgmName },
+            },
             {
               onSuccess: (bgmResponse) => {
                 if (bgmResponse.status !== StatusCodes.CREATED) {
@@ -66,8 +68,9 @@ export function useUploadBgm() {
   }
 
   return {
-    uploadBgm,
     isUploading,
     error,
+
+    uploadBgm,
   };
 }

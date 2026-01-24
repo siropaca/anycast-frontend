@@ -26,13 +26,20 @@ interface DeleteOptions {
  */
 export function useChannelDetail(channelId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const { data: response } = useGetMeChannelsChannelIdSuspense(channelId);
-
   const deleteMutation = useDeleteChannelsChannelId();
   const publishMutation = usePostChannelsChannelIdPublish();
   const unpublishMutation = usePostChannelsChannelIdUnpublish();
+
+  const [error, setError] = useState<string>();
+
+  const channel = unwrapResponse<ResponseChannelResponse>(response);
+
+  const isPublished = !!channel.publishedAt;
+  const isMutating =
+    deleteMutation.isPending ||
+    publishMutation.isPending ||
+    unpublishMutation.isPending;
 
   /**
    * チャンネルを削除する
@@ -43,7 +50,9 @@ export function useChannelDetail(channelId: string) {
     setError(undefined);
 
     deleteMutation.mutate(
-      { channelId },
+      {
+        channelId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
@@ -69,7 +78,10 @@ export function useChannelDetail(channelId: string) {
     setError(undefined);
 
     publishMutation.mutate(
-      { channelId, data: {} },
+      {
+        channelId,
+        data: {},
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -94,7 +106,9 @@ export function useChannelDetail(channelId: string) {
     setError(undefined);
 
     unpublishMutation.mutate(
-      { channelId },
+      {
+        channelId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -113,14 +127,6 @@ export function useChannelDetail(channelId: string) {
     );
   }
 
-  const channel = unwrapResponse<ResponseChannelResponse>(response);
-
-  const isPublished = !!channel.publishedAt;
-  const isMutating =
-    deleteMutation.isPending ||
-    publishMutation.isPending ||
-    unpublishMutation.isPending;
-
   return {
     channel,
     isPublished,
@@ -129,6 +135,7 @@ export function useChannelDetail(channelId: string) {
     isPublishing: publishMutation.isPending,
     isUnpublishing: unpublishMutation.isPending,
     error,
+
     deleteChannel,
     publishChannel,
     unpublishChannel,

@@ -6,12 +6,6 @@ import {
   usePostChannelsChannelIdEpisodesEpisodeIdScriptImport,
 } from '@/libs/api/generated/script/script';
 
-interface UseImportScriptResult {
-  handleFileSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  isImporting: boolean;
-  error: string | undefined;
-}
-
 /**
  * 台本をテキストファイルからインポートする
  *
@@ -19,11 +13,9 @@ interface UseImportScriptResult {
  * @param episodeId - エピソード ID
  * @returns ファイル選択ハンドラ、ローディング状態、エラー
  */
-export function useImportScript(
-  channelId: string,
-  episodeId: string,
-): UseImportScriptResult {
+export function useImportScript(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
+
   const [isImporting, setIsImporting] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -77,8 +69,9 @@ export function useImportScript(
   }
 
   return {
-    handleFileSelect,
     isImporting,
     error,
+
+    handleFileSelect,
   };
 }

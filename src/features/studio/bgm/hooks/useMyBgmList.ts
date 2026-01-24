@@ -9,6 +9,7 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
  */
 export function useMyBgmList() {
   const { data } = useGetMeBgmsSuspense();
+
   const bgms = unwrapResponse<ResponseBgmWithEpisodesResponse[]>(data, []);
 
   return {

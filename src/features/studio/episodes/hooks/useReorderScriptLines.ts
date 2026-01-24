@@ -15,9 +15,9 @@ import {
  */
 export function useReorderScriptLines(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = usePostChannelsChannelIdEpisodesEpisodeIdScriptReorder();
+
+  const [error, setError] = useState<string>();
 
   /**
    * 台本行を並び替える
@@ -50,7 +50,9 @@ export function useReorderScriptLines(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : '台本行の並び替えに失敗しました';
+            err instanceof Error
+              ? err.message
+              : '台本行の並び替えに失敗しました';
           setError(message);
         },
       },
@@ -58,8 +60,9 @@ export function useReorderScriptLines(channelId: string, episodeId: string) {
   }
 
   return {
-    reorderLines,
     isReordering: mutation.isPending,
     error,
+
+    reorderLines,
   };
 }

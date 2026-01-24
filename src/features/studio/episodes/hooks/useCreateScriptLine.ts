@@ -17,9 +17,9 @@ import { trimFullWidth } from '@/utils/trim';
  */
 export function useCreateScriptLine(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = usePostChannelsChannelIdEpisodesEpisodeIdScriptLines();
+
+  const [error, setError] = useState<string>();
 
   /**
    * 台本行を作成する
@@ -64,8 +64,9 @@ export function useCreateScriptLine(channelId: string, episodeId: string) {
   }
 
   return {
-    createLine,
     isCreating: mutation.isPending,
     error,
+
+    createLine,
   };
 }

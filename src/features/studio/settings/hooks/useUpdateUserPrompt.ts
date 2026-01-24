@@ -38,7 +38,9 @@ export function useUpdateUserPrompt() {
     setError(undefined);
 
     mutation.mutate(
-      { data: { userPrompt } },
+      {
+        data: { userPrompt },
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -56,7 +58,9 @@ export function useUpdateUserPrompt() {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : 'マスタープロンプトの更新に失敗しました';
+            err instanceof Error
+              ? err.message
+              : 'マスタープロンプトの更新に失敗しました';
           setError(message);
         },
       },

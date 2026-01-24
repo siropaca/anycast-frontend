@@ -15,10 +15,10 @@ import {
  */
 export function useDeleteScriptLine(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation =
     useDeleteChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId();
+
+  const [error, setError] = useState<string>();
 
   /**
    * 台本行を削除する
@@ -59,8 +59,9 @@ export function useDeleteScriptLine(channelId: string, episodeId: string) {
   }
 
   return {
-    deleteLine,
     isDeleting: mutation.isPending,
     error,
+
+    deleteLine,
   };
 }

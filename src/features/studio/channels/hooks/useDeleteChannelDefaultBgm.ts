@@ -15,9 +15,9 @@ import {
  */
 export function useDeleteChannelDefaultBgm(channelId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = useDeleteChannelsChannelIdDefaultBgm();
+
+  const [error, setError] = useState<string>();
 
   /**
    * チャンネルからデフォルトBGMを削除する
@@ -28,7 +28,9 @@ export function useDeleteChannelDefaultBgm(channelId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId },
+      {
+        channelId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -54,8 +56,9 @@ export function useDeleteChannelDefaultBgm(channelId: string) {
   }
 
   return {
-    deleteDefaultBgm,
     isDeletingDefaultBgm: mutation.isPending,
     error,
+
+    deleteDefaultBgm,
   };
 }

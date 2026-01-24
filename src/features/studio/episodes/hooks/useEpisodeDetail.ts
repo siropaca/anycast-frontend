@@ -27,17 +27,16 @@ interface DeleteOptions {
  */
 export function useEpisodeDetail(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const { data: response } = useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense(
     channelId,
     episodeId,
   );
-
   const deleteMutation = useDeleteChannelsChannelIdEpisodesEpisodeId();
   const publishMutation = usePostChannelsChannelIdEpisodesEpisodeIdPublish();
   const unpublishMutation =
     usePostChannelsChannelIdEpisodesEpisodeIdUnpublish();
+
+  const [error, setError] = useState<string>();
 
   /**
    * エピソードを削除する
@@ -48,7 +47,10 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
     setError(undefined);
 
     deleteMutation.mutate(
-      { channelId, episodeId },
+      {
+        channelId,
+        episodeId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
@@ -74,7 +76,11 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
     setError(undefined);
 
     publishMutation.mutate(
-      { channelId, episodeId, data: {} },
+      {
+        channelId,
+        episodeId,
+        data: {},
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -102,7 +108,10 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
     setError(undefined);
 
     unpublishMutation.mutate(
-      { channelId, episodeId },
+      {
+        channelId,
+        episodeId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -140,6 +149,7 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
     isPublishing: publishMutation.isPending,
     isUnpublishing: unpublishMutation.isPending,
     error,
+
     deleteEpisode,
     publishEpisode,
     unpublishEpisode,

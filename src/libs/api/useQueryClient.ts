@@ -9,7 +9,7 @@ import { useState } from 'react';
  *
  * @returns QueryClient インスタンス
  */
-export function useQueryClient(): QueryClient {
+export function useQueryClient() {
   const [queryClient] = useState(
     () =>
       new QueryClient({

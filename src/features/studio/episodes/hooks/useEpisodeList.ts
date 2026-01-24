@@ -13,5 +13,7 @@ export function useEpisodeList(channelId: string) {
 
   const episodes = unwrapResponse<ResponseEpisodeResponse[]>(data, []);
 
-  return { episodes };
+  return {
+    episodes,
+  };
 }

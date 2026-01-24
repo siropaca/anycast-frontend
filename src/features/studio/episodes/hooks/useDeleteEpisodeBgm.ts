@@ -16,9 +16,9 @@ import {
  */
 export function useDeleteEpisodeBgm(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = useDeleteChannelsChannelIdEpisodesEpisodeIdBgm();
+
+  const [error, setError] = useState<string>();
 
   /**
    * エピソードからBGMを削除する
@@ -27,7 +27,10 @@ export function useDeleteEpisodeBgm(channelId: string, episodeId: string) {
     setError(undefined);
 
     mutation.mutate(
-      { channelId, episodeId },
+      {
+        channelId,
+        episodeId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -55,8 +58,9 @@ export function useDeleteEpisodeBgm(channelId: string, episodeId: string) {
   }
 
   return {
-    deleteBgm,
     isDeletingBgm: mutation.isPending,
     error,
+
+    deleteBgm,
   };
 }

@@ -21,8 +21,6 @@ interface CreateOptions {
  * @returns カテゴリ一覧、ボイス一覧、作成関数
  */
 export function useCreateChannel() {
-  const [error, setError] = useState<string>();
-
   const { data: categoriesData } = useGetCategoriesSuspense();
   const { data: voicesData } = useGetVoicesSuspense();
   const mutation = usePostChannels();
@@ -32,6 +30,8 @@ export function useCreateChannel() {
     [],
   );
   const voices = unwrapResponse<ResponseVoiceResponse[]>(voicesData, []);
+
+  const [error, setError] = useState<string>();
 
   /**
    * チャンネルを作成する
@@ -67,7 +67,9 @@ export function useCreateChannel() {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : 'チャンネルの作成に失敗しました';
+            err instanceof Error
+              ? err.message
+              : 'チャンネルの作成に失敗しました';
           setError(message);
         },
       },
@@ -77,8 +79,9 @@ export function useCreateChannel() {
   return {
     categories,
     voices,
-    createChannel,
     isCreating: mutation.isPending,
     error,
+
+    createChannel,
   };
 }

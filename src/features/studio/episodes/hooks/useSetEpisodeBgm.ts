@@ -16,9 +16,9 @@ import {
  */
 export function useSetEpisodeBgm(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = usePutChannelsChannelIdEpisodesEpisodeIdBgm();
+
+  const [error, setError] = useState<string>();
 
   /**
    * エピソードにBGMを設定する
@@ -32,7 +32,11 @@ export function useSetEpisodeBgm(channelId: string, episodeId: string) {
     const data = isDefault ? { defaultBgmId: bgmId } : { bgmId };
 
     mutation.mutate(
-      { channelId, episodeId, data },
+      {
+        channelId,
+        episodeId,
+        data,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
@@ -60,8 +64,9 @@ export function useSetEpisodeBgm(channelId: string, episodeId: string) {
   }
 
   return {
-    setBgm,
     isSettingBgm: mutation.isPending,
     error,
+
+    setBgm,
   };
 }

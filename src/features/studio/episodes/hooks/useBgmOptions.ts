@@ -11,14 +11,15 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
  */
 export function useBgmOptions() {
   const { data } = useGetMeBgmsSuspense({ include_default: true });
-  const bgms = unwrapResponse<ResponseBgmWithEpisodesResponse[]>(data, []);
 
-  const userBgms = bgms.filter((bgm) => !bgm.isDefault);
-  const defaultBgms = bgms.filter((bgm) => bgm.isDefault);
+  const allBgms = unwrapResponse<ResponseBgmWithEpisodesResponse[]>(data, []);
+
+  const userBgms = allBgms.filter((bgm) => !bgm.isDefault);
+  const defaultBgms = allBgms.filter((bgm) => bgm.isDefault);
 
   return {
+    allBgms,
     userBgms,
     defaultBgms,
-    allBgms: bgms,
   };
 }

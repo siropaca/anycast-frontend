@@ -15,5 +15,7 @@ export function useMyCharacterList() {
     [],
   );
 
-  return { characters };
+  return {
+    characters,
+  };
 }

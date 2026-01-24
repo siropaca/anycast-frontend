@@ -2,12 +2,6 @@ import { useState } from 'react';
 import { downloadFile } from '@/libs/api/downloadFile';
 import { getGetChannelsChannelIdEpisodesEpisodeIdScriptExportUrl } from '@/libs/api/generated/script/script';
 
-interface UseExportScriptResult {
-  exportScript: () => Promise<void>;
-  isExporting: boolean;
-  error: string | undefined;
-}
-
 /**
  * 台本をテキストファイルとしてエクスポートする
  *
@@ -20,7 +14,7 @@ export function useExportScript(
   channelId: string,
   episodeId: string,
   episodeName: string,
-): UseExportScriptResult {
+) {
   const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -45,8 +39,9 @@ export function useExportScript(
   }
 
   return {
-    exportScript,
     isExporting,
     error,
+
+    exportScript,
   };
 }

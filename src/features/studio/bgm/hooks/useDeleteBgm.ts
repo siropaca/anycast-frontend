@@ -13,9 +13,9 @@ import {
  */
 export function useDeleteBgm() {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = useDeleteMeBgmsBgmId();
+
+  const [error, setError] = useState<string>();
 
   /**
    * BGMを削除する
@@ -26,7 +26,9 @@ export function useDeleteBgm() {
     setError(undefined);
 
     mutation.mutate(
-      { bgmId },
+      {
+        bgmId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
@@ -48,8 +50,9 @@ export function useDeleteBgm() {
   }
 
   return {
-    deleteBgm,
     isDeleting: mutation.isPending,
     error,
+
+    deleteBgm,
   };
 }

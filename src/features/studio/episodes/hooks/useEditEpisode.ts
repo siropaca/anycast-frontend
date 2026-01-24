@@ -22,8 +22,6 @@ interface UpdateOptions {
  * @returns エピソードデータ、フォームデータ、更新関数
  */
 export function useEditEpisode(channelId: string, episodeId: string) {
-  const [error, setError] = useState<string>();
-
   const { data: response } = useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense(
     channelId,
     episodeId,
@@ -31,6 +29,8 @@ export function useEditEpisode(channelId: string, episodeId: string) {
   const mutation = usePatchChannelsChannelIdEpisodesEpisodeId();
 
   const episode = unwrapResponse<ResponseEpisodeResponse>(response);
+
+  const [error, setError] = useState<string>();
 
   const defaultValues: EpisodeFormInput = {
     title: episode.title,
@@ -73,7 +73,9 @@ export function useEditEpisode(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : 'エピソードの更新に失敗しました';
+            err instanceof Error
+              ? err.message
+              : 'エピソードの更新に失敗しました';
           setError(message);
         },
       },
@@ -84,8 +86,9 @@ export function useEditEpisode(channelId: string, episodeId: string) {
     episode,
     defaultValues,
     defaultArtworkUrl: episode.artwork?.url,
-    updateEpisode,
     isUpdating: mutation.isPending,
     error,
+
+    updateEpisode,
   };
 }

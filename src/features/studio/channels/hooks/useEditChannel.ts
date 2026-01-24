@@ -33,12 +33,12 @@ interface UpdateOptions {
  */
 export function useEditChannel(channelId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const { data: channelData } = useGetChannelsChannelIdSuspense(channelId);
   const { data: categoriesData } = useGetCategoriesSuspense();
   const { data: voicesData } = useGetVoicesSuspense();
   const mutation = usePatchChannelsChannelId();
+
+  const [error, setError] = useState<string>();
 
   const channel = unwrapResponse<ResponseChannelResponse>(channelData);
   const categories = unwrapResponse<ResponseCategoryResponse[]>(

@@ -12,5 +12,7 @@ export function useMyChannelList() {
 
   const channels = unwrapResponse<ResponseChannelResponse[]>(data, []);
 
-  return { channels };
+  return {
+    channels,
+  };
 }

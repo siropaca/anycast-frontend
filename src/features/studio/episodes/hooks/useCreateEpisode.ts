@@ -18,9 +18,9 @@ interface CreateOptions {
  */
 export function useCreateEpisode(channelId: string) {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = usePostChannelsChannelIdEpisodes();
+
+  const [error, setError] = useState<string>();
 
   /**
    * エピソードを作成する
@@ -59,7 +59,9 @@ export function useCreateEpisode(channelId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : 'エピソードの作成に失敗しました';
+            err instanceof Error
+              ? err.message
+              : 'エピソードの作成に失敗しました';
           setError(message);
         },
       },
@@ -67,8 +69,9 @@ export function useCreateEpisode(channelId: string) {
   }
 
   return {
-    createEpisode,
     isCreating: mutation.isPending,
     error,
+
+    createEpisode,
   };
 }

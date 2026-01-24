@@ -15,9 +15,9 @@ interface DeleteOptions {
  */
 export function useDeleteChannel() {
   const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
   const mutation = useDeleteChannelsChannelId();
+
+  const [error, setError] = useState<string>();
 
   /**
    * チャンネルを削除する
@@ -29,7 +29,9 @@ export function useDeleteChannel() {
     setError(undefined);
 
     mutation.mutate(
-      { channelId },
+      {
+        channelId,
+      },
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
@@ -46,7 +48,9 @@ export function useDeleteChannel() {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : 'チャンネルの削除に失敗しました';
+            err instanceof Error
+              ? err.message
+              : 'チャンネルの削除に失敗しました';
           setError(message);
         },
       },
@@ -54,8 +58,9 @@ export function useDeleteChannel() {
   }
 
   return {
-    deleteChannel,
     isDeleting: mutation.isPending,
     error,
+
+    deleteChannel,
   };
 }
