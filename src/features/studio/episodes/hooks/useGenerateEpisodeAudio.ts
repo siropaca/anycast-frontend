@@ -5,7 +5,10 @@ import { MESSAGES } from '@/constants/messages';
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
 import { getAudioJobsJobId } from '@/libs/api/generated/audio-jobs/audio-jobs';
 import { usePostChannelsChannelIdEpisodesEpisodeIdAudioGenerateAsync } from '@/libs/api/generated/episodes/episodes';
-import { getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey } from '@/libs/api/generated/me/me';
+import {
+  getMeAudioJobs,
+  getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey,
+} from '@/libs/api/generated/me/me';
 import type { RequestGenerateAudioAsyncRequest } from '@/libs/api/generated/schemas';
 import { useAudioJobWebSocket } from '@/libs/websocket/useAudioJobWebSocket';
 import type { JobStatus } from '@/types/job';
@@ -161,6 +164,52 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
       }
     };
   }, []);
+
+  // マウント時に処理中のジョブを確認して復帰
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
+  useEffect(() => {
+    async function restoreRunningJob() {
+      try {
+        // pending と processing のジョブを取得
+        const [pendingResponse, processingResponse] = await Promise.all([
+          getMeAudioJobs({ status: 'pending' }),
+          getMeAudioJobs({ status: 'processing' }),
+        ]);
+
+        const allJobs = [
+          ...(pendingResponse.status === StatusCodes.OK
+            ? pendingResponse.data.data
+            : []),
+          ...(processingResponse.status === StatusCodes.OK
+            ? processingResponse.data.data
+            : []),
+        ];
+
+        // 対象エピソードのジョブを探す
+        const targetJob = allJobs.find((job) => job.episodeId === episodeId);
+
+        if (targetJob) {
+          // 状態を復帰
+          setJobState({
+            jobId: targetJob.id,
+            status: targetJob.status as JobStatus,
+            progress: targetJob.progress,
+            errorMessage: null,
+          });
+
+          // WebSocket で購読開始
+          subscribe(targetJob.id);
+
+          // ポーリングも開始
+          startPolling(targetJob.id);
+        }
+      } catch {
+        // 復帰失敗は無視
+      }
+    }
+
+    restoreRunningJob();
+  }, [episodeId]);
 
   const mutation =
     usePostChannelsChannelIdEpisodesEpisodeIdAudioGenerateAsync();
