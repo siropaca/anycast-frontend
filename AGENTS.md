@@ -133,6 +133,22 @@ describe('myFunction', () => {
 - ミューテーションの `onSuccess` でキャッシュを無効化する
 - コンポーネントでは `mutate` + `onSuccess` コールバックを使用し、`mutateAsync` + try-catch は避ける
 
+### メッセージ管理
+
+- ユーザー向けのエラーメッセージやシステムメッセージは `src/constants/messages.ts` の `MESSAGES` で一元管理する
+- 将来の多言語化対応を見据え、コンポーネントやフック内にハードコードしない
+- ドメインごとにグループ化して管理する（例: `MESSAGES.channel.createError`）
+
+```typescript
+import { MESSAGES } from '@/constants/messages';
+
+// Good
+setError(MESSAGES.channel.createError);
+
+// Bad
+setError('チャンネルの作成に失敗しました');
+```
+
 ### ページパスの管理
 
 - ページのパスとタイトルは `src/libs/pages/index.ts` の `Pages` オブジェクトで一元管理する
