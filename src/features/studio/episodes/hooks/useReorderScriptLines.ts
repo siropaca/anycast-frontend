@@ -48,6 +48,11 @@ export function useReorderScriptLines(channelId: string, episodeId: string) {
               ),
           });
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : '台本行の並び替えに失敗しました';
+          setError(message);
+        },
       },
     );
   }

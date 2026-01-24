@@ -85,7 +85,7 @@ export function useEditChannel(channelId: string) {
           ...data,
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
-          userPrompt: trimFullWidth(data.userPrompt),
+          userPrompt: trimFullWidth(data.userPrompt ?? ''),
         },
       },
       {
@@ -105,6 +105,13 @@ export function useEditChannel(channelId: string) {
           });
           options?.onSuccess?.();
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error
+              ? err.message
+              : 'チャンネルの更新に失敗しました';
+          setError(message);
+        },
       },
     );
   }
@@ -116,8 +123,9 @@ export function useEditChannel(channelId: string) {
     defaultBgm: channel.defaultBgm,
     categories,
     voices,
-    updateChannel,
     isUpdating: mutation.isPending,
     error,
+
+    updateChannel,
   };
 }

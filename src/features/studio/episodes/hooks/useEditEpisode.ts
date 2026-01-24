@@ -71,6 +71,11 @@ export function useEditEpisode(channelId: string, episodeId: string) {
 
           options?.onSuccess?.();
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'エピソードの更新に失敗しました';
+          setError(message);
+        },
       },
     );
   }

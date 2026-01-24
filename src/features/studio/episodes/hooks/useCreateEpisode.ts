@@ -57,6 +57,11 @@ export function useCreateEpisode(channelId: string) {
           });
           options?.onSuccess?.(response.data.data.id);
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'エピソードの作成に失敗しました';
+          setError(message);
+        },
       },
     );
   }

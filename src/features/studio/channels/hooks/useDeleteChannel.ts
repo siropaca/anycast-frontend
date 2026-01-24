@@ -44,6 +44,11 @@ export function useDeleteChannel() {
           });
           options?.onSuccess?.();
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'チャンネルの削除に失敗しました';
+          setError(message);
+        },
       },
     );
   }

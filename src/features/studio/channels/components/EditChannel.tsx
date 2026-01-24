@@ -52,8 +52,6 @@ export function EditChannel({ channelId }: Props) {
     <div>
       <h1>{Pages.studio.editChannel.title}</h1>
 
-      {error && <p>{error}</p>}
-
       <ChannelForm
         mode="edit"
         channelId={channelId}
@@ -63,6 +61,7 @@ export function EditChannel({ channelId }: Props) {
         defaultArtworkUrl={defaultArtworkUrl}
         defaultBgm={defaultBgm}
         isSubmitting={isUpdating}
+        submitError={error}
         onSubmit={handleSubmit}
       />
     </div>

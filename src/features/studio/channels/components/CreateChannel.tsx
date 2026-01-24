@@ -41,13 +41,12 @@ export function CreateChannel() {
     <div>
       <h1>{Pages.studio.newChannel.title}</h1>
 
-      {error && <p>{error}</p>}
-
       <ChannelForm
         mode="create"
         categories={categories}
         voices={voices}
         isSubmitting={isCreating}
+        submitError={error}
         onSubmit={handleSubmit}
       />
     </div>

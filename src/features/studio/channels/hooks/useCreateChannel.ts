@@ -65,6 +65,11 @@ export function useCreateChannel() {
 
           options?.onSuccess?.(response.data.data.id);
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'チャンネルの作成に失敗しました';
+          setError(message);
+        },
       },
     );
   }

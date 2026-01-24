@@ -50,6 +50,11 @@ export function useSetEpisodeBgm(channelId: string, episodeId: string) {
             queryKey: getGetMeBgmsQueryKey(),
           });
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'BGMの設定に失敗しました';
+          setError(message);
+        },
       },
     );
   }

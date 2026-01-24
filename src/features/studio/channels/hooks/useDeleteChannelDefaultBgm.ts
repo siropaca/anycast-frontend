@@ -44,6 +44,11 @@ export function useDeleteChannelDefaultBgm(channelId: string) {
           });
           onSuccess?.();
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'BGMの削除に失敗しました';
+          setError(message);
+        },
       },
     );
   }

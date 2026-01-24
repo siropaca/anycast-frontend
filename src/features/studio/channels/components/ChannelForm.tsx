@@ -28,6 +28,7 @@ interface Props {
   defaultArtworkUrl?: string;
   defaultBgm?: ResponseChannelResponseDefaultBgm;
   isSubmitting?: boolean;
+  submitError?: string;
 
   onSubmit: (data: ChannelFormInput) => void;
 }
@@ -42,6 +43,7 @@ export function ChannelForm({
   defaultBgm,
   onSubmit,
   isSubmitting = false,
+  submitError,
 }: Props) {
   const isEditMode = mode === 'edit';
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -396,7 +398,7 @@ export function ChannelForm({
       )}
 
       <div>
-        <label htmlFor="userPrompt">プロンプト（台本生成用）</label>
+        <label htmlFor="userPrompt">チャンネル共通の台本プロンプト</label>
         <textarea
           id="userPrompt"
           className="border w-full h-20"
@@ -404,6 +406,8 @@ export function ChannelForm({
         />
         {errors.userPrompt && <p>{errors.userPrompt.message}</p>}
       </div>
+
+      {submitError && <p>{submitError}</p>}
 
       <button type="submit" className="border" disabled={isSubmitting}>
         {isSubmitting

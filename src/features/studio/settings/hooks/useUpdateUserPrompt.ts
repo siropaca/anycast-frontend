@@ -54,6 +54,11 @@ export function useUpdateUserPrompt() {
           });
           options?.onSuccess?.();
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : 'マスタープロンプトの更新に失敗しました';
+          setError(message);
+        },
       },
     );
   }

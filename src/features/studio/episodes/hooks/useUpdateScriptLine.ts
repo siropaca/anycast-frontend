@@ -56,6 +56,11 @@ export function useUpdateScriptLine(channelId: string, episodeId: string) {
               ),
           });
         },
+        onError: (err: unknown) => {
+          const message =
+            err instanceof Error ? err.message : '台本行の更新に失敗しました';
+          setError(message);
+        },
       },
     );
   }
