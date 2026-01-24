@@ -15,11 +15,8 @@ interface Props {
 }
 
 export function ScriptGenerateForm({ channelId, episodeId }: Props) {
-  const {
-    generateScript,
-    isGenerating: isSubmitting,
-    error,
-  } = useGenerateScriptForm(channelId, episodeId);
+  const { generateScript, isGenerating, status, progress, error, reset } =
+    useGenerateScriptForm(channelId, episodeId);
 
   const {
     register,
@@ -45,7 +42,7 @@ export function ScriptGenerateForm({ channelId, episodeId }: Props) {
       <div>
         <textarea
           placeholder="どんな内容のポッドキャストを作成しますか？"
-          disabled={isSubmitting}
+          disabled={isGenerating}
           className="border w-full h-20"
           {...register('prompt')}
         />
@@ -58,7 +55,7 @@ export function ScriptGenerateForm({ channelId, episodeId }: Props) {
         <select
           id="durationMinutes"
           className="border"
-          disabled={isSubmitting}
+          disabled={isGenerating}
           {...register('durationMinutes', { valueAsNumber: true })}
         >
           {EPISODE_DURATION_OPTIONS.map((duration) => (
@@ -70,10 +67,41 @@ export function ScriptGenerateForm({ channelId, episodeId }: Props) {
         {errors.durationMinutes && <p>{errors.durationMinutes.message}</p>}
       </div>
 
+      {isGenerating && (
+        <div className="my-2">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-sm">
+              {status === 'pending' && 'キュー待機中...'}
+              {status === 'processing' && '台本生成中...'}
+            </span>
+            <span className="text-sm">{progress}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {status === 'completed' && (
+        <div className="my-2 p-2 bg-green-100 text-green-800 rounded">
+          台本生成が完了しました
+          <button
+            type="button"
+            className="ml-2 text-sm underline"
+            onClick={reset}
+          >
+            閉じる
+          </button>
+        </div>
+      )}
+
       {error && <p>{error}</p>}
 
-      <button type="submit" className="border" disabled={isSubmitting}>
-        {isSubmitting ? '生成中...' : '台本を作成'}
+      <button type="submit" className="border" disabled={isGenerating}>
+        {isGenerating ? '生成中...' : '台本を作成'}
       </button>
     </form>
   );

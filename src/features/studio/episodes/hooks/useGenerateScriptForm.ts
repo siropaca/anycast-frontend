@@ -1,65 +1,41 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { StatusCodes } from 'http-status-codes';
-import { useState } from 'react';
-import type { RequestGenerateScriptRequest } from '@/libs/api/generated/schemas';
-import {
-  getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
-  usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerate,
-} from '@/libs/api/generated/script/script';
-import { trimFullWidth } from '@/utils/trim';
+import { useGenerateScriptAsync } from '@/features/studio/episodes/hooks/useGenerateScriptAsync';
+import type { RequestGenerateScriptAsyncRequest } from '@/libs/api/generated/schemas';
+import type { JobStatus } from '@/types/job';
 
 /**
  * 台本生成フォーム用のミューテーションを提供する
  *
  * @param channelId - チャンネル ID
  * @param episodeId - エピソード ID
- * @returns 台本生成関数、生成中フラグ、エラー
+ * @returns 台本生成関数、生成中フラグ、エラー、進捗
  */
 export function useGenerateScriptForm(channelId: string, episodeId: string) {
-  const queryClient = useQueryClient();
-  const [error, setError] = useState<string>();
-
-  const mutation = usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerate();
+  const {
+    isGenerating,
+    status,
+    progress,
+    error,
+    generateScript: generateScriptAsync,
+    reset,
+  } = useGenerateScriptAsync(channelId, episodeId);
 
   /**
    * 台本を生成する
    *
    * @param data - 台本生成リクエスト
    */
-  function generateScript(data: RequestGenerateScriptRequest) {
-    setError(undefined);
-
-    mutation.mutate(
-      {
-        channelId,
-        episodeId,
-        data: {
-          ...data,
-          prompt: trimFullWidth(data.prompt),
-        },
-      },
-      {
-        onSuccess: (response) => {
-          if (response.status !== StatusCodes.OK) {
-            setError(response.data.error.message);
-            return;
-          }
-
-          queryClient.invalidateQueries({
-            queryKey:
-              getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey(
-                channelId,
-                episodeId,
-              ),
-          });
-        },
-      },
-    );
+  function generateScript(data: RequestGenerateScriptAsyncRequest) {
+    generateScriptAsync(data);
   }
 
   return {
     generateScript,
-    isGenerating: mutation.isPending,
+    isGenerating,
+    status,
+    progress,
     error,
+    reset,
   };
 }
+
+export type { JobStatus };
