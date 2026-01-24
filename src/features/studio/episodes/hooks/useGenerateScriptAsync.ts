@@ -108,6 +108,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
   const { subscribe, unsubscribe, connectionError } = useJobWebSocket({
     onScriptProgress: (payload) => {
       if (payload.jobId === jobIdRef.current) {
+        clearPolling();
         setJobState((prev) => ({
           ...prev,
           progress: payload.progress,
@@ -117,38 +118,36 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     },
     onScriptCompleted: (payload) => {
       if (payload.jobId === jobIdRef.current) {
+        clearPolling();
         handleJobCompleted();
         unsubscribe(payload.jobId);
       }
     },
     onScriptFailed: (payload) => {
       if (payload.jobId === jobIdRef.current) {
+        clearPolling();
         handleJobFailed(payload.errorMessage);
         unsubscribe(payload.jobId);
       }
     },
     onConnectionError: () => {
-      // WebSocket 接続エラー時はポーリングにフォールバック
+      // WebSocket 接続エラー時はポーリングで監視
       const currentJobId = jobIdRef.current;
-      if (currentJobId) {
-        setJobState((prev) => {
-          if (prev.status !== 'completed' && prev.status !== 'failed') {
-            startPolling(currentJobId);
-          }
-          return prev;
-        });
+      if (currentJobId && !pollingIntervalRef.current) {
+        startPolling(currentJobId);
       }
     },
   });
 
-  // WebSocket 接続エラーが発生した場合、ポーリングにフォールバック
+  // WebSocket 接続エラーが発生した場合のフォールバック
   // biome-ignore lint/correctness/useExhaustiveDependencies: startPolling は状態変化時のみ実行したいため除外
   useEffect(() => {
     if (
       connectionError &&
       jobState.jobId &&
       jobState.status !== 'completed' &&
-      jobState.status !== 'failed'
+      jobState.status !== 'failed' &&
+      !pollingIntervalRef.current
     ) {
       startPolling(jobState.jobId);
     }
@@ -215,6 +214,10 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
 
           // WebSocket で購読開始
           subscribe(jobId);
+
+          // WebSocket 接続確立までの間もステータスを監視するため、
+          // ポーリングも同時に開始する（WebSocket からメッセージを受信したら停止）
+          startPolling(jobId);
         },
         onError: (error: unknown) => {
           const message =
