@@ -14,10 +14,7 @@ export const channelFormSchema = z.object({
     .string()
     .min(1, 'チャンネル名を入力してください')
     .max(255, 'チャンネル名は255文字以内で入力してください'),
-  description: z
-    .string()
-    .min(1, '説明を入力してください')
-    .max(2000, '説明は2000文字以内で入力してください'),
+  description: z.string().max(2000, '説明は2000文字以内で入力してください'),
   userPrompt: z
     .string()
     .max(2000, 'プロンプトは2000文字以内で入力してください'),
