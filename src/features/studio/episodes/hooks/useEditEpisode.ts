@@ -1,9 +1,13 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 import { MESSAGES } from '@/constants/messages';
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
 import { usePatchChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
-import { useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense } from '@/libs/api/generated/me/me';
+import {
+  getGetMeChannelsChannelIdEpisodesQueryKey,
+  useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense,
+} from '@/libs/api/generated/me/me';
 import type {
   RequestUpdateEpisodeRequest,
   ResponseEpisodeResponse,
@@ -23,6 +27,7 @@ interface UpdateOptions {
  * @returns エピソードデータ、フォームデータ、更新関数
  */
 export function useEditEpisode(channelId: string, episodeId: string) {
+  const queryClient = useQueryClient();
   const { data: response } = useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense(
     channelId,
     episodeId,
@@ -70,6 +75,9 @@ export function useEditEpisode(channelId: string, episodeId: string) {
             return;
           }
 
+          queryClient.invalidateQueries({
+            queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+          });
           options?.onSuccess?.();
         },
         onError: (err: unknown) => {

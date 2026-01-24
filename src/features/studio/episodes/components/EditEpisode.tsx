@@ -26,7 +26,7 @@ export function EditEpisode({ channelId, episodeId }: Props) {
       },
       {
         onSuccess: () => {
-          router.push(Pages.studio.channel.path({ id: channelId }));
+          router.push(Pages.studio.episode.path({ id: channelId, episodeId }));
         },
       },
     );
