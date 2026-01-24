@@ -49,9 +49,7 @@ export function useDeleteChannel() {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error
-              ? err.message
-              : MESSAGES.channel.deleteError;
+            err instanceof Error ? err.message : MESSAGES.channel.deleteError;
           setError(message);
         },
       },

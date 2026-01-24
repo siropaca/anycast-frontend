@@ -52,7 +52,9 @@ export function useDeleteScriptLine(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.scriptLine.deleteError;
+            err instanceof Error
+              ? err.message
+              : MESSAGES.scriptLine.deleteError;
           setError(message);
         },
       },

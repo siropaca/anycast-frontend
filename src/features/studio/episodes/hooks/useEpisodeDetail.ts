@@ -117,8 +117,7 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ??
-                MESSAGES.episode.unpublishError,
+              response.data.error?.message ?? MESSAGES.episode.unpublishError,
             );
             return;
           }

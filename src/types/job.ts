@@ -7,4 +7,9 @@
  * - completed: 完了
  * - failed: 失敗
  */
-export type JobStatus = 'idle' | 'pending' | 'processing' | 'completed' | 'failed';
+export type JobStatus =
+  | 'idle'
+  | 'pending'
+  | 'processing'
+  | 'completed'
+  | 'failed';

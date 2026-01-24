@@ -68,9 +68,7 @@ export function useCreateChannel() {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error
-              ? err.message
-              : MESSAGES.channel.createError;
+            err instanceof Error ? err.message : MESSAGES.channel.createError;
           setError(message);
         },
       },

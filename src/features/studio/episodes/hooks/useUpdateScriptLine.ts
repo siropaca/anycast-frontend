@@ -59,7 +59,9 @@ export function useUpdateScriptLine(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.scriptLine.updateError;
+            err instanceof Error
+              ? err.message
+              : MESSAGES.scriptLine.updateError;
           setError(message);
         },
       },

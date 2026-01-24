@@ -114,8 +114,7 @@ export function useChannelDetail(channelId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ??
-                MESSAGES.channel.unpublishError,
+              response.data.error?.message ?? MESSAGES.channel.unpublishError,
             );
             return;
           }

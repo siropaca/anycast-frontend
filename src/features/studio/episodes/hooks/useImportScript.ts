@@ -56,9 +56,7 @@ export function useImportScript(channelId: string, episodeId: string) {
       });
 
       if (response.status !== StatusCodes.OK) {
-        setError(
-          response.data.error?.message ?? MESSAGES.script.importError,
-        );
+        setError(response.data.error?.message ?? MESSAGES.script.importError);
       }
     } catch {
       setError(MESSAGES.script.importError);

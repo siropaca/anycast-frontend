@@ -108,9 +108,7 @@ export function useEditChannel(channelId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error
-              ? err.message
-              : MESSAGES.channel.updateError;
+            err instanceof Error ? err.message : MESSAGES.channel.updateError;
           setError(message);
         },
       },

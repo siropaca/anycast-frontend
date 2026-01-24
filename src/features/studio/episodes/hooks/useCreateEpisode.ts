@@ -60,9 +60,7 @@ export function useCreateEpisode(channelId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error
-              ? err.message
-              : MESSAGES.episode.createError;
+            err instanceof Error ? err.message : MESSAGES.episode.createError;
           setError(message);
         },
       },

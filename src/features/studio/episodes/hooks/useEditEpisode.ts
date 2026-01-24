@@ -74,9 +74,7 @@ export function useEditEpisode(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error
-              ? err.message
-              : MESSAGES.episode.updateError;
+            err instanceof Error ? err.message : MESSAGES.episode.updateError;
           setError(message);
         },
       },
