@@ -9,7 +9,10 @@ import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerateAsync,
 } from '@/libs/api/generated/script/script';
-import { getScriptJobsJobId } from '@/libs/api/generated/script-jobs/script-jobs';
+import {
+  getScriptJobsJobId,
+  usePostScriptJobsJobIdCancel,
+} from '@/libs/api/generated/script-jobs/script-jobs';
 import { useJobWebSocket } from '@/libs/websocket/useJobWebSocket';
 import type { JobStatus } from '@/types/job';
 import { trimFullWidth } from '@/utils/trim';
@@ -78,6 +81,22 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     clearPolling();
   }
 
+  function handleJobCanceling() {
+    setJobState((prev) => ({
+      ...prev,
+      status: 'canceling',
+    }));
+  }
+
+  function handleJobCanceled() {
+    setJobState((prev) => ({
+      ...prev,
+      status: 'canceled',
+    }));
+
+    clearPolling();
+  }
+
   function startPolling(jobId: string) {
     clearPolling();
 
@@ -98,6 +117,10 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
             handleJobCompleted();
           } else if (job.status === 'failed') {
             handleJobFailed(job.errorMessage ?? MESSAGES.script.generateError);
+          } else if (job.status === 'canceling') {
+            handleJobCanceling();
+          } else if (job.status === 'canceled') {
+            handleJobCanceled();
           }
         }
       } catch {
@@ -131,6 +154,18 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
         unsubscribe(payload.jobId);
       }
     },
+    onScriptCanceling: (payload) => {
+      if (payload.jobId === jobIdRef.current) {
+        handleJobCanceling();
+      }
+    },
+    onScriptCanceled: (payload) => {
+      if (payload.jobId === jobIdRef.current) {
+        clearPolling();
+        handleJobCanceled();
+        unsubscribe(payload.jobId);
+      }
+    },
     onConnectionError: () => {
       // WebSocket 接続エラー時はポーリングで監視
       const currentJobId = jobIdRef.current;
@@ -148,6 +183,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       jobState.jobId &&
       jobState.status !== 'completed' &&
       jobState.status !== 'failed' &&
+      jobState.status !== 'canceled' &&
       !pollingIntervalRef.current
     ) {
       startPolling(jobState.jobId);
@@ -213,6 +249,8 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
 
   const mutation =
     usePostChannelsChannelIdEpisodesEpisodeIdScriptGenerateAsync();
+
+  const cancelMutation = usePostScriptJobsJobIdCancel();
 
   /**
    * 台本を非同期で生成する
@@ -297,17 +335,65 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     });
   }
 
+  /**
+   * 台本生成をキャンセルする
+   *
+   * API が成功した時点でキャンセルは確定しているため、
+   * WebSocket の script_canceled を待たずに即座に canceled 状態に変更する。
+   */
+  function cancelScript() {
+    if (!jobState.jobId) {
+      return;
+    }
+
+    const currentJobId = jobState.jobId;
+
+    cancelMutation.mutate(
+      { jobId: currentJobId },
+      {
+        onSuccess: () => {
+          clearPolling();
+          unsubscribe(currentJobId);
+          setJobState((prev) => ({
+            ...prev,
+            status: 'canceled',
+          }));
+        },
+        onError: (error: unknown) => {
+          const message =
+            error instanceof Error
+              ? error.message
+              : MESSAGES.script.cancelError;
+          setJobState((prev) => ({
+            ...prev,
+            errorMessage: message,
+          }));
+        },
+      },
+    );
+  }
+
   const isGenerating =
+    jobState.status === 'pending' ||
+    jobState.status === 'processing' ||
+    jobState.status === 'canceling';
+
+  const isCancelable =
     jobState.status === 'pending' || jobState.status === 'processing';
+
+  const isCanceling = jobState.status === 'canceling';
 
   return {
     isGenerating,
+    isCancelable,
+    isCanceling,
     jobId: jobState.jobId,
     status: jobState.status,
     progress: jobState.progress,
     error: jobState.errorMessage,
 
     generateScript,
+    cancelScript,
     reset,
   };
 }

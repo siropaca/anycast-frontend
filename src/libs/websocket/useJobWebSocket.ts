@@ -23,6 +23,14 @@ interface AudioFailedPayload {
   errorMessage: string;
 }
 
+interface AudioCancelingPayload {
+  jobId: string;
+}
+
+interface AudioCanceledPayload {
+  jobId: string;
+}
+
 // 台本ジョブ
 interface ScriptProgressPayload {
   jobId: string;
@@ -41,22 +49,38 @@ interface ScriptFailedPayload {
   errorMessage: string;
 }
 
+interface ScriptCancelingPayload {
+  jobId: string;
+}
+
+interface ScriptCanceledPayload {
+  jobId: string;
+}
+
 type WebSocketMessage =
   | { type: 'audio_progress'; payload: AudioProgressPayload }
   | { type: 'audio_completed'; payload: AudioCompletedPayload }
   | { type: 'audio_failed'; payload: AudioFailedPayload }
+  | { type: 'audio_canceling'; payload: AudioCancelingPayload }
+  | { type: 'audio_canceled'; payload: AudioCanceledPayload }
   | { type: 'script_progress'; payload: ScriptProgressPayload }
   | { type: 'script_completed'; payload: ScriptCompletedPayload }
   | { type: 'script_failed'; payload: ScriptFailedPayload }
+  | { type: 'script_canceling'; payload: ScriptCancelingPayload }
+  | { type: 'script_canceled'; payload: ScriptCanceledPayload }
   | { type: 'pong' };
 
 interface UseJobWebSocketOptions {
   onAudioProgress?: (payload: AudioProgressPayload) => void;
   onAudioCompleted?: (payload: AudioCompletedPayload) => void;
   onAudioFailed?: (payload: AudioFailedPayload) => void;
+  onAudioCanceling?: (payload: AudioCancelingPayload) => void;
+  onAudioCanceled?: (payload: AudioCanceledPayload) => void;
   onScriptProgress?: (payload: ScriptProgressPayload) => void;
   onScriptCompleted?: (payload: ScriptCompletedPayload) => void;
   onScriptFailed?: (payload: ScriptFailedPayload) => void;
+  onScriptCanceling?: (payload: ScriptCancelingPayload) => void;
+  onScriptCanceled?: (payload: ScriptCanceledPayload) => void;
   onConnectionError?: () => void;
 }
 
@@ -77,9 +101,13 @@ export function useJobWebSocket(options: UseJobWebSocketOptions = {}) {
     onAudioProgress,
     onAudioCompleted,
     onAudioFailed,
+    onAudioCanceling,
+    onAudioCanceled,
     onScriptProgress,
     onScriptCompleted,
     onScriptFailed,
+    onScriptCanceling,
+    onScriptCanceled,
     onConnectionError,
   } = options;
 
@@ -93,18 +121,26 @@ export function useJobWebSocket(options: UseJobWebSocketOptions = {}) {
     onAudioProgress,
     onAudioCompleted,
     onAudioFailed,
+    onAudioCanceling,
+    onAudioCanceled,
     onScriptProgress,
     onScriptCompleted,
     onScriptFailed,
+    onScriptCanceling,
+    onScriptCanceled,
     onConnectionError,
   });
   callbacksRef.current = {
     onAudioProgress,
     onAudioCompleted,
     onAudioFailed,
+    onAudioCanceling,
+    onAudioCanceled,
     onScriptProgress,
     onScriptCompleted,
     onScriptFailed,
+    onScriptCanceling,
+    onScriptCanceled,
     onConnectionError,
   };
 
@@ -177,6 +213,12 @@ export function useJobWebSocket(options: UseJobWebSocketOptions = {}) {
           case 'audio_failed':
             callbacksRef.current.onAudioFailed?.(message.payload);
             break;
+          case 'audio_canceling':
+            callbacksRef.current.onAudioCanceling?.(message.payload);
+            break;
+          case 'audio_canceled':
+            callbacksRef.current.onAudioCanceled?.(message.payload);
+            break;
           case 'script_progress':
             callbacksRef.current.onScriptProgress?.(message.payload);
             break;
@@ -185,6 +227,12 @@ export function useJobWebSocket(options: UseJobWebSocketOptions = {}) {
             break;
           case 'script_failed':
             callbacksRef.current.onScriptFailed?.(message.payload);
+            break;
+          case 'script_canceling':
+            callbacksRef.current.onScriptCanceling?.(message.payload);
+            break;
+          case 'script_canceled':
+            callbacksRef.current.onScriptCanceled?.(message.payload);
             break;
           case 'pong':
             // ping/pong は接続維持用

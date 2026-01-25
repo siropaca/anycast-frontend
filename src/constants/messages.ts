@@ -35,6 +35,7 @@ export const MESSAGES = {
     generateStartError: '台本生成の開始に失敗しました',
     exportError: '台本のエクスポートに失敗しました',
     importError: '台本のインポートに失敗しました',
+    cancelError: '台本生成のキャンセルに失敗しました',
   },
   scriptLine: {
     createError: '台本行の作成に失敗しました',
@@ -45,6 +46,7 @@ export const MESSAGES = {
   audio: {
     generateError: '音声生成に失敗しました',
     generateStartError: '音声生成の開始に失敗しました',
+    cancelError: '音声生成のキャンセルに失敗しました',
   },
   bgm: {
     setError: 'BGMの設定に失敗しました',

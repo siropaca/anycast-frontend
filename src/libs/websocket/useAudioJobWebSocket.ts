@@ -21,10 +21,20 @@ interface FailedPayload {
   errorMessage: string;
 }
 
+interface CancelingPayload {
+  jobId: string;
+}
+
+interface CanceledPayload {
+  jobId: string;
+}
+
 interface UseAudioJobWebSocketOptions {
   onProgress?: (payload: ProgressPayload) => void;
   onCompleted?: (payload: CompletedPayload) => void;
   onFailed?: (payload: FailedPayload) => void;
+  onCanceling?: (payload: CancelingPayload) => void;
+  onCanceled?: (payload: CanceledPayload) => void;
   onConnectionError?: () => void;
 }
 
@@ -39,12 +49,21 @@ interface UseAudioJobWebSocketOptions {
 export function useAudioJobWebSocket(
   options: UseAudioJobWebSocketOptions = {},
 ) {
-  const { onProgress, onCompleted, onFailed, onConnectionError } = options;
+  const {
+    onProgress,
+    onCompleted,
+    onFailed,
+    onCanceling,
+    onCanceled,
+    onConnectionError,
+  } = options;
 
   return useJobWebSocket({
     onAudioProgress: onProgress,
     onAudioCompleted: onCompleted,
     onAudioFailed: onFailed,
+    onAudioCanceling: onCanceling,
+    onAudioCanceled: onCanceled,
     onConnectionError,
   });
 }

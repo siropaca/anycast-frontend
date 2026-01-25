@@ -12,10 +12,13 @@ import type { JobStatus } from '@/types/job';
 export function useGenerateScriptForm(channelId: string, episodeId: string) {
   const {
     isGenerating,
+    isCancelable,
+    isCanceling,
     status,
     progress,
     error,
     generateScript: generateScriptAsync,
+    cancelScript,
     reset,
   } = useGenerateScriptAsync(channelId, episodeId);
 
@@ -30,7 +33,10 @@ export function useGenerateScriptForm(channelId: string, episodeId: string) {
 
   return {
     generateScript,
+    cancelScript,
     isGenerating,
+    isCancelable,
+    isCanceling,
     status,
     progress,
     error,

@@ -49,7 +49,10 @@ export function ScriptLineList({
 
   const {
     generateAudio,
+    cancelAudio,
     isGenerating: isGeneratingAudio,
+    isCancelable: isAudioCancelable,
+    isCanceling: isAudioCanceling,
     status: audioJobStatus,
     progress: audioJobProgress,
     error: generateAudioError,
@@ -143,8 +146,21 @@ export function ScriptLineList({
               <span className="text-sm">
                 {audioJobStatus === 'pending' && 'キュー待機中...'}
                 {audioJobStatus === 'processing' && '音声生成中...'}
+                {audioJobStatus === 'canceling' && 'キャンセル中...'}
               </span>
-              <span className="text-sm">{audioJobProgress}%</span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm">{audioJobProgress}%</span>
+                {isAudioCancelable && (
+                  <button
+                    type="button"
+                    className="text-sm text-red-600 underline"
+                    onClick={cancelAudio}
+                    disabled={isAudioCanceling}
+                  >
+                    キャンセル
+                  </button>
+                )}
+              </div>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
@@ -158,6 +174,19 @@ export function ScriptLineList({
         {audioJobStatus === 'completed' && (
           <div className="my-2 p-2 bg-green-100 text-green-800 rounded">
             音声生成が完了しました
+            <button
+              type="button"
+              className="ml-2 text-sm underline"
+              onClick={resetAudioGeneration}
+            >
+              閉じる
+            </button>
+          </div>
+        )}
+
+        {audioJobStatus === 'canceled' && (
+          <div className="my-2 p-2 bg-gray-100 text-gray-800 rounded">
+            音声生成がキャンセルされました
             <button
               type="button"
               className="ml-2 text-sm underline"

@@ -15,8 +15,17 @@ interface Props {
 }
 
 export function ScriptGenerateForm({ channelId, episodeId }: Props) {
-  const { generateScript, isGenerating, status, progress, error, reset } =
-    useGenerateScriptForm(channelId, episodeId);
+  const {
+    generateScript,
+    cancelScript,
+    isGenerating,
+    isCancelable,
+    isCanceling,
+    status,
+    progress,
+    error,
+    reset,
+  } = useGenerateScriptForm(channelId, episodeId);
 
   const {
     register,
@@ -73,8 +82,21 @@ export function ScriptGenerateForm({ channelId, episodeId }: Props) {
             <span className="text-sm">
               {status === 'pending' && 'キュー待機中...'}
               {status === 'processing' && '台本生成中...'}
+              {status === 'canceling' && 'キャンセル中...'}
             </span>
-            <span className="text-sm">{progress}%</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm">{progress}%</span>
+              {isCancelable && (
+                <button
+                  type="button"
+                  className="text-sm text-red-600 underline"
+                  onClick={cancelScript}
+                  disabled={isCanceling}
+                >
+                  キャンセル
+                </button>
+              )}
+            </div>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
@@ -88,6 +110,19 @@ export function ScriptGenerateForm({ channelId, episodeId }: Props) {
       {status === 'completed' && (
         <div className="my-2 p-2 bg-green-100 text-green-800 rounded">
           台本生成が完了しました
+          <button
+            type="button"
+            className="ml-2 text-sm underline"
+            onClick={reset}
+          >
+            閉じる
+          </button>
+        </div>
+      )}
+
+      {status === 'canceled' && (
+        <div className="my-2 p-2 bg-gray-100 text-gray-800 rounded">
+          台本生成がキャンセルされました
           <button
             type="button"
             className="ml-2 text-sm underline"

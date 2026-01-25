@@ -3,7 +3,10 @@ import { StatusCodes } from 'http-status-codes';
 import { useEffect, useRef, useState } from 'react';
 import { MESSAGES } from '@/constants/messages';
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
-import { getAudioJobsJobId } from '@/libs/api/generated/audio-jobs/audio-jobs';
+import {
+  getAudioJobsJobId,
+  usePostAudioJobsJobIdCancel,
+} from '@/libs/api/generated/audio-jobs/audio-jobs';
 import { usePostChannelsChannelIdEpisodesEpisodeIdAudioGenerateAsync } from '@/libs/api/generated/episodes/episodes';
 import {
   getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey,
@@ -78,6 +81,22 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
     clearPolling();
   }
 
+  function handleJobCanceling() {
+    setJobState((prev) => ({
+      ...prev,
+      status: 'canceling',
+    }));
+  }
+
+  function handleJobCanceled() {
+    setJobState((prev) => ({
+      ...prev,
+      status: 'canceled',
+    }));
+
+    clearPolling();
+  }
+
   function startPolling(jobId: string) {
     clearPolling();
 
@@ -98,6 +117,10 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             handleJobCompleted();
           } else if (job.status === 'failed') {
             handleJobFailed(job.errorMessage ?? MESSAGES.audio.generateError);
+          } else if (job.status === 'canceling') {
+            handleJobCanceling();
+          } else if (job.status === 'canceled') {
+            handleJobCanceled();
           }
         }
       } catch {
@@ -131,6 +154,18 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
         unsubscribe(payload.jobId);
       }
     },
+    onCanceling: (payload) => {
+      if (payload.jobId === jobIdRef.current) {
+        handleJobCanceling();
+      }
+    },
+    onCanceled: (payload) => {
+      if (payload.jobId === jobIdRef.current) {
+        clearPolling();
+        handleJobCanceled();
+        unsubscribe(payload.jobId);
+      }
+    },
     onConnectionError: () => {
       // WebSocket 接続エラー時はポーリングで監視
       const currentJobId = jobIdRef.current;
@@ -148,6 +183,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
       jobState.jobId &&
       jobState.status !== 'completed' &&
       jobState.status !== 'failed' &&
+      jobState.status !== 'canceled' &&
       !pollingIntervalRef.current
     ) {
       startPolling(jobState.jobId);
@@ -213,6 +249,8 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
 
   const mutation =
     usePostChannelsChannelIdEpisodesEpisodeIdAudioGenerateAsync();
+
+  const cancelMutation = usePostAudioJobsJobIdCancel();
 
   /**
    * 音声を非同期で生成する
@@ -299,17 +337,65 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
     });
   }
 
+  /**
+   * 音声生成をキャンセルする
+   *
+   * API が成功した時点でキャンセルは確定しているため、
+   * WebSocket の audio_canceled を待たずに即座に canceled 状態に変更する。
+   */
+  function cancelAudio() {
+    if (!jobState.jobId) {
+      return;
+    }
+
+    const currentJobId = jobState.jobId;
+
+    cancelMutation.mutate(
+      { jobId: currentJobId },
+      {
+        onSuccess: () => {
+          clearPolling();
+          unsubscribe(currentJobId);
+          setJobState((prev) => ({
+            ...prev,
+            status: 'canceled',
+          }));
+        },
+        onError: (error: unknown) => {
+          const message =
+            error instanceof Error
+              ? error.message
+              : MESSAGES.audio.cancelError;
+          setJobState((prev) => ({
+            ...prev,
+            errorMessage: message,
+          }));
+        },
+      },
+    );
+  }
+
   const isGenerating =
+    jobState.status === 'pending' ||
+    jobState.status === 'processing' ||
+    jobState.status === 'canceling';
+
+  const isCancelable =
     jobState.status === 'pending' || jobState.status === 'processing';
+
+  const isCanceling = jobState.status === 'canceling';
 
   return {
     isGenerating,
+    isCancelable,
+    isCanceling,
     jobId: jobState.jobId,
     status: jobState.status,
     progress: jobState.progress,
     error: jobState.errorMessage,
 
     generateAudio,
+    cancelAudio,
     reset,
   };
 }
