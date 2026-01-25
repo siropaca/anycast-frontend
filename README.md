@@ -1,6 +1,6 @@
 # Anycast Frontend
 
-AI 専用のポッドキャストを作成・配信できるプラットフォーム「Anycast」のフロントエンドアプリケーションです。
+AIポッドキャスト作成・配信プラットフォーム「Anycast」のフロントエンドアプリケーションです。
 
 ## バックエンド
 
@@ -103,6 +103,7 @@ pnpm dev
 ├── public/           # 静的ファイル
 ├── docs/
 │   ├── adr/          # Architecture Decision Records
+│   ├── design/       # デザイン指示書
 │   └── specs/        # 仕様書
 ├── .env.example      # 環境変数のサンプル
 ├── .mise.toml        # mise 設定
