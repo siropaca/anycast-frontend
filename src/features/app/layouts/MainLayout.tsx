@@ -1,3 +1,4 @@
+import { ScrollArea } from '@base-ui/react/scroll-area';
 import { Sidebar } from '@/components/navigation/Sidebar';
 import { MainLayoutSideMenu } from '@/features/app/components/MainLayoutSideMenu';
 import { auth } from '@/libs/auth/auth';
@@ -17,9 +18,15 @@ export async function MainLayout({ children }: Props) {
         </Sidebar>
 
         <div className="flex-1 p-4 pt-0 flex">
-          <main className="overflow-y-auto bg-surface rounded-md flex-1 p-4">
-            {children}
-          </main>
+          <ScrollArea.Root className="bg-surface rounded-md flex-1">
+            <ScrollArea.Viewport className="h-full p-4">
+              <main>{children}</main>
+            </ScrollArea.Viewport>
+
+            <ScrollArea.Scrollbar className="flex w-2 justify-center bg-transparent p-0.5">
+              <ScrollArea.Thumb className="w-full rounded-full bg-subtle/50" />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
         </div>
       </div>
 
