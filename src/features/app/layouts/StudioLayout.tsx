@@ -13,11 +13,11 @@ export function StudioLayout({ children }: Props) {
           <StudioLayoutSideMenu />
         </Sidebar>
 
-        <main className="flex-1 p-4 pt-0 flex">
-          <div className="overflow-y-auto bg-surface rounded-md flex-1 p-4">
+        <div className="flex-1 p-4 pt-0 flex">
+          <main className="overflow-y-auto bg-surface rounded-md flex-1 p-4">
             {children}
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
 
       <div className="h-bottom-player">プレイヤー</div>
