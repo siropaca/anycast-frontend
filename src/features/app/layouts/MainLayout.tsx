@@ -23,8 +23,8 @@ export async function MainLayout({ children }: Props) {
               <main>{children}</main>
             </ScrollArea.Viewport>
 
-            <ScrollArea.Scrollbar className="flex w-2 justify-center bg-transparent p-0.5">
-              <ScrollArea.Thumb className="w-full rounded-full bg-subtle/50" />
+            <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent p-0.5">
+              <ScrollArea.Thumb className="w-full rounded-full bg-elevated/75" />
             </ScrollArea.Scrollbar>
           </ScrollArea.Root>
         </div>
