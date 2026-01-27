@@ -60,7 +60,7 @@ export function Input({
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-md border bg-transparent transition-colors',
+        'inline-flex items-center rounded-sm border bg-transparent transition-colors',
         'focus-within:ring-2 focus-within:ring-primary',
         error ? 'border-border-error' : 'border-border',
         sizeClasses[size],
