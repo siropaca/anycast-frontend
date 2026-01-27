@@ -23,6 +23,7 @@ export const Playground: Story = {
   args: {
     size: 'md',
     placeholder: 'Placeholder',
+    showCounter: false
   },
 };
 
@@ -103,11 +104,38 @@ function ClearableInputExample() {
   return (
     <Input
       value={value}
-      onChange={(e) => setValue(e.target.value)}
-      clearable
-      onClear={() => setValue('')}
       placeholder="検索"
       leftIcon={<MagnifyingGlassIcon />}
+      clearable
+      onChange={(e) => setValue(e.target.value)}
+      onClear={() => setValue('')}
+    />
+  );
+}
+
+function CounterInputExample() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Input
+      value={value}
+      placeholder="最大100文字"
+      maxLength={100}
+      showCounter
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+}
+
+function CounterWithoutMaxExample() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Input
+      value={value}
+      placeholder="文字数をカウント"
+      showCounter
+      onChange={(e) => setValue(e.target.value)}
     />
   );
 }
@@ -117,6 +145,20 @@ export const Clearable: Story = {
     <Stack direction="column" gap={24}>
       <Section title="Clearable">
         <ClearableInputExample />
+      </Section>
+    </Stack>
+  ),
+};
+
+export const WithCounter: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="With maxLength">
+        <CounterInputExample />
+      </Section>
+
+      <Section title="Without maxLength">
+        <CounterWithoutMaxExample />
       </Section>
     </Stack>
   ),

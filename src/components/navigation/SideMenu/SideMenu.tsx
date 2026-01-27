@@ -29,7 +29,7 @@ export function SideMenu({ sections }: Props) {
               key={item.label}
               href={item.href}
               className={cn(
-                'px-3 py-3 flex gap-x-4 items-center transition-colors rounded-md cursor-pointer',
+                'px-3 py-2.5 flex gap-x-4 items-center transition-colors rounded-md cursor-pointer text-sm',
                 item.isActive ? 'bg-bg-elevated' : 'hover:bg-bg-surface',
               )}
             >

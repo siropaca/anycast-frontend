@@ -11,6 +11,7 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
   error?: boolean;
   clearable?: boolean;
   onClear?: () => void;
+  showCounter?: boolean;
 };
 
 const sizeClasses: Record<Size, string> = {
@@ -31,6 +32,12 @@ const clearButtonSizeClasses: Record<Size, string> = {
   lg: 'size-5',
 };
 
+const counterSizeClasses: Record<Size, string> = {
+  sm: 'text-[10px]',
+  md: 'text-xs',
+  lg: 'text-sm',
+};
+
 export function Input({
   size = 'md',
   leftIcon,
@@ -38,14 +45,17 @@ export function Input({
   error = false,
   clearable = false,
   onClear,
+  showCounter = false,
   className,
   value,
+  maxLength,
   ...props
 }: Props) {
   const hasLeftIcon = !!leftIcon;
   const hasValue = value !== undefined && value !== '';
   const showClearButton = clearable && hasValue;
-  const hasRightContent = !!rightIcon || showClearButton;
+  const currentLength = typeof value === 'string' ? value.length : 0;
+  const hasRightContent = !!rightIcon || showClearButton || showCounter;
 
   return (
     <div
@@ -70,6 +80,7 @@ export function Input({
           'disabled:cursor-not-allowed disabled:opacity-50',
         )}
         value={value}
+        maxLength={maxLength}
         {...props}
       />
       {showClearButton && (
@@ -81,6 +92,18 @@ export function Input({
         >
           <XIcon className={clearButtonSizeClasses[size]} />
         </button>
+      )}
+      {showCounter && (
+        <span
+          className={cn(
+            'shrink-0 tabular-nums text-placeholder',
+            counterSizeClasses[size],
+          )}
+        >
+          {maxLength !== undefined
+            ? `${currentLength}/${maxLength}`
+            : currentLength}
+        </span>
       )}
       {rightIcon && (
         <span className={cn('shrink-0 text-placeholder', iconSizeClasses[size])}>
