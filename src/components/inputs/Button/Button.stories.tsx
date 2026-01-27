@@ -63,6 +63,17 @@ export const Colors: Story = {
           </Button>
         </Stack>
       </Section>
+
+      <Section title="Text">
+        <Stack>
+          <Button color="primary" variant="text">
+            Primary
+          </Button>
+          <Button color="white" variant="text">
+            White
+          </Button>
+        </Stack>
+      </Section>
     </Stack>
   ),
 };
@@ -121,6 +132,34 @@ export const AllVariants: Story = {
             Medium
           </Button>
           <Button size="lg" color="white" variant="outline">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Primary Text">
+        <Stack>
+          <Button size="sm" color="primary" variant="text">
+            Small
+          </Button>
+          <Button size="md" color="primary" variant="text">
+            Medium
+          </Button>
+          <Button size="lg" color="primary" variant="text">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="White Text">
+        <Stack>
+          <Button size="sm" color="white" variant="text">
+            Small
+          </Button>
+          <Button size="md" color="white" variant="text">
+            Medium
+          </Button>
+          <Button size="lg" color="white" variant="text">
             Large
           </Button>
         </Stack>
@@ -185,11 +224,17 @@ export const States: Story = {
           <Button color="primary" variant="outline">
             Primary Outline
           </Button>
+          <Button color="primary" variant="text">
+            Primary Text
+          </Button>
           <Button color="white" variant="solid">
             White Solid
           </Button>
           <Button color="white" variant="outline">
             White Outline
+          </Button>
+          <Button color="white" variant="text">
+            White Text
           </Button>
         </Stack>
       </Section>
@@ -202,11 +247,17 @@ export const States: Story = {
           <Button color="primary" variant="outline" disabled>
             Primary Outline
           </Button>
+          <Button color="primary" variant="text" disabled>
+            Primary Text
+          </Button>
           <Button color="white" variant="solid" disabled>
             White Solid
           </Button>
           <Button color="white" variant="outline" disabled>
             White Outline
+          </Button>
+          <Button color="white" variant="text" disabled>
+            White Text
           </Button>
         </Stack>
       </Section>

@@ -4,7 +4,7 @@ import { cn } from '@/utils/cn';
 
 type Size = 'sm' | 'md' | 'lg';
 type Color = 'primary' | 'white';
-type Variant = 'solid' | 'outline';
+type Variant = 'solid' | 'outline' | 'text';
 
 type BaseProps = {
   size?: Size;
@@ -39,12 +39,14 @@ const colorVariantClasses: Record<Color, Record<Variant, string>> = {
       'bg-primary text-white border-transparent enabled:hover:bg-primary/80 enabled:active:bg-primary/70',
     outline:
       'bg-transparent text-primary border-primary enabled:hover:bg-primary/10 enabled:active:bg-primary/20',
+    text: 'bg-transparent text-primary border-transparent enabled:hover:bg-primary/10 enabled:active:bg-primary/20',
   },
   white: {
     solid:
       'bg-white text-black border-transparent enabled:hover:bg-white/80 enabled:active:bg-white/70',
     outline:
       'bg-transparent text-white border-white enabled:hover:bg-white/10 enabled:active:bg-white/20',
+    text: 'bg-transparent text-white border-transparent enabled:hover:bg-white/10 enabled:active:bg-white/20',
   },
 };
 
