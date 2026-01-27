@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Label } from '@/components/inputs/Input/Label';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
+import { TextareaSkeleton } from '@/components/inputs/Textarea/TextareaSkeleton';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
@@ -82,6 +83,16 @@ export const WithCounter: Story = {
       <Section title="Without maxLength">
         <CounterWithoutMaxExample />
       </Section>
+    </Stack>
+  ),
+};
+
+export const Skeleton: Story = {
+  render: () => (
+    <Stack direction="column" align="stretch">
+      <TextareaSkeleton rows={3} />
+      <TextareaSkeleton rows={4} />
+      <TextareaSkeleton rows={6} />
     </Stack>
   ),
 };

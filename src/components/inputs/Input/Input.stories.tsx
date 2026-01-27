@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
+import { InputSkeleton } from '@/components/inputs/Input/InputSkeleton';
 import { Label } from '@/components/inputs/Input/Label';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
@@ -160,6 +161,16 @@ export const WithCounter: Story = {
       <Section title="Without maxLength">
         <CounterWithoutMaxExample />
       </Section>
+    </Stack>
+  ),
+};
+
+export const Skeleton: Story = {
+  render: () => (
+    <Stack direction="column">
+      <InputSkeleton size="sm" />
+      <InputSkeleton size="md" />
+      <InputSkeleton size="lg" />
     </Stack>
   ),
 };

@@ -5,6 +5,7 @@ import {
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Button } from '@/components/inputs/Button/Button';
+import { ButtonSkeleton } from '@/components/inputs/Button/ButtonSkeleton';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
@@ -215,6 +216,14 @@ export const AllVariants: Story = {
           </Button>
         </Stack>
       </Section>
+
+      <Section title="Skeleton">
+        <Stack>
+          <ButtonSkeleton size="sm" />
+          <ButtonSkeleton size="md" />
+          <ButtonSkeleton size="lg" />
+        </Stack>
+      </Section>
     </Stack>
   ),
 };
@@ -260,6 +269,16 @@ export const WithIcons: Story = {
           </Button>
         </Stack>
       </Section>
+    </Stack>
+  ),
+};
+
+export const Skeleton: Story = {
+  render: () => (
+    <Stack>
+      <ButtonSkeleton size="sm" />
+      <ButtonSkeleton size="md" />
+      <ButtonSkeleton size="lg" />
     </Stack>
   ),
 };

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Artwork } from '@/components/dataDisplay/Artwork/Artwork';
+import { ArtworkSkeleton } from '@/components/dataDisplay/Artwork/ArtworkSkeleton';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
@@ -62,6 +63,23 @@ export const AllVariants: Story = {
           <Artwork size={192} />
         </Stack>
       </Section>
+      <Section title="Skeleton">
+        <Stack>
+          <ArtworkSkeleton size={64} />
+          <ArtworkSkeleton size={128} />
+          <ArtworkSkeleton size={192} />
+        </Stack>
+      </Section>
+    </Stack>
+  ),
+};
+
+export const Skeleton: Story = {
+  render: () => (
+    <Stack>
+      <ArtworkSkeleton size={64} />
+      <ArtworkSkeleton size={128} />
+      <ArtworkSkeleton size={192} />
     </Stack>
   ),
 };
