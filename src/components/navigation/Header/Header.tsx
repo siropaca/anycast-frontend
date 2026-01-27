@@ -30,7 +30,7 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
       <div className="flex items-center gap-4">
         {isLoggedIn && (
           <Button
-            href={Pages.studio.index.path()}
+            href={Pages.studio.channels.path()}
             leftIcon={<PlusIcon size={16} />}
           >
             作成
