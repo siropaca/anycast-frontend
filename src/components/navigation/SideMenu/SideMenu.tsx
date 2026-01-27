@@ -15,7 +15,7 @@ const DEFAULT_ICON_SIZE = 24;
 
 export function SideMenu({ sections }: Props) {
   return (
-    <nav className="flex flex-col p-4 md:pr-0 md:pt-0 space-y-2">
+    <nav className="flex flex-col p-4 md:pt-0 space-y-2">
       {sections.map((section, index) => (
         <div key={section.title ?? index} className="space-y-2">
           {/* セクションタイトル */}

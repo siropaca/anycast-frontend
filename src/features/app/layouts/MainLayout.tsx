@@ -1,7 +1,7 @@
-import { BottomPlayer } from '@/features/player/components/BottomPlayer';
 import { HeaderContainer } from '@/features/app/components/HeaderContainer';
 import { LayoutBody } from '@/features/app/components/LayoutBody';
 import { MainLayoutSideMenu } from '@/features/app/components/MainLayoutSideMenu';
+import { BottomPlayer } from '@/features/player/components/BottomPlayer';
 import { auth } from '@/libs/auth/auth';
 
 interface Props {

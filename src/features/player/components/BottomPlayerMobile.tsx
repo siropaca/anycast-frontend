@@ -27,10 +27,7 @@ export function BottomPlayerMobile({
     <div className="md:hidden border-t border-border bg-bg-main">
       {/* 極細プログレスバー */}
       <div className="h-1 w-full bg-bg-elevated">
-        <div
-          className="h-full bg-primary"
-          style={{ width: `${progress}%` }}
-        />
+        <div className="h-full bg-primary" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="flex items-center justify-between px-4 h-14">

@@ -1,7 +1,7 @@
-import { BottomPlayer } from '@/features/player/components/BottomPlayer';
 import { HeaderContainer } from '@/features/app/components/HeaderContainer';
 import { LayoutBody } from '@/features/app/components/LayoutBody';
 import { SettingsLayoutSideMenu } from '@/features/app/components/SettingsLayoutSideMenu';
+import { BottomPlayer } from '@/features/player/components/BottomPlayer';
 
 interface Props {
   children: React.ReactNode;
