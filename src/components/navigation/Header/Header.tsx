@@ -1,4 +1,8 @@
+'use client';
+
+import { PlusIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
+import { Button } from '@/components/inputs/Button/Button';
 import { HeaderSearchInput } from '@/components/navigation/Header/HeaderSearchInput';
 import { MobileMenu } from '@/components/navigation/MobileMenu/MobileMenu';
 import { AuthButton } from '@/features/auth/components/AuthButton';
@@ -25,11 +29,14 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
 
       <HeaderSearchInput />
 
-      <div className="space-x-6">
+      <div className="flex items-center gap-6">
         {isLoggedIn && (
-          <Link href={Pages.studio.index.path()} className="underline">
+          <Button
+            href={Pages.studio.index.path()}
+            leftIcon={<PlusIcon size={16} />}
+          >
             作成
-          </Link>
+          </Button>
         )}
 
         {isLoggedIn && (

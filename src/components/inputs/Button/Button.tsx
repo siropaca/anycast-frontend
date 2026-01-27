@@ -1,17 +1,31 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import Link from 'next/link';
 import { cn } from '@/utils/cn';
 
 type Size = 'sm' | 'md' | 'lg';
 type Color = 'primary' | 'white';
 type Variant = 'solid' | 'outline';
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+type BaseProps = {
   size?: Size;
   color?: Color;
   variant?: Variant;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-}
+  className?: string;
+  children?: ReactNode;
+};
+
+type ButtonAsButton = BaseProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps> & {
+    href?: undefined;
+  };
+
+type ButtonAsLink = BaseProps & {
+  href: string;
+};
+
+type Props = ButtonAsButton | ButtonAsLink;
 
 const sizeClasses: Record<Size, string> = {
   sm: 'h-[var(--size-sm)] px-3 text-xs gap-1',
@@ -42,21 +56,35 @@ export function Button({
   rightIcon,
   className,
   children,
+  href,
   ...props
 }: Props) {
-  return (
-    <button
-      className={cn(
-        'inline-flex cursor-pointer items-center justify-center rounded-full border font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50',
-        sizeClasses[size],
-        colorVariantClasses[color][variant],
-        className,
-      )}
-      {...props}
-    >
+  const buttonClassName = cn(
+    'inline-flex cursor-pointer items-center justify-center rounded-full border font-medium leading-none transition-colors disabled:cursor-not-allowed disabled:opacity-50',
+    sizeClasses[size],
+    colorVariantClasses[color][variant],
+    className,
+  );
+
+  const content = (
+    <>
       {leftIcon && <span className="shrink-0">{leftIcon}</span>}
       {children}
       {rightIcon && <span className="shrink-0">{rightIcon}</span>}
+    </>
+  );
+
+  if (href !== undefined) {
+    return (
+      <Link href={href} className={buttonClassName}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button className={buttonClassName} {...props}>
+      {content}
     </button>
   );
 }

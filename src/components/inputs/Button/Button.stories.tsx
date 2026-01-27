@@ -52,6 +52,7 @@ export const Colors: Story = {
           </Button>
         </Stack>
       </Section>
+
       <Section title="Outline">
         <Stack>
           <Button color="primary" variant="outline">
@@ -82,6 +83,7 @@ export const AllVariants: Story = {
           </Button>
         </Stack>
       </Section>
+
       <Section title="Primary Outline">
         <Stack>
           <Button size="sm" color="primary" variant="outline">
@@ -95,6 +97,7 @@ export const AllVariants: Story = {
           </Button>
         </Stack>
       </Section>
+
       <Section title="White Solid">
         <Stack>
           <Button size="sm" color="white" variant="solid">
@@ -108,6 +111,7 @@ export const AllVariants: Story = {
           </Button>
         </Stack>
       </Section>
+
       <Section title="White Outline">
         <Stack>
           <Button size="sm" color="white" variant="outline">
@@ -141,6 +145,7 @@ export const WithIcons: Story = {
           </Button>
         </Stack>
       </Section>
+
       <Section title="Right Icon">
         <Stack>
           <Button size="sm" rightIcon={<MagnifyingGlassIcon size={14} />}>
@@ -154,6 +159,7 @@ export const WithIcons: Story = {
           </Button>
         </Stack>
       </Section>
+
       <Section title="Both Icons">
         <Stack>
           <Button
@@ -187,6 +193,7 @@ export const States: Story = {
           </Button>
         </Stack>
       </Section>
+
       <Section title="Disabled">
         <Stack>
           <Button color="primary" variant="solid" disabled>
