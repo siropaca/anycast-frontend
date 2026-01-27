@@ -68,13 +68,13 @@ export function Input({
       )}
     >
       {leftIcon && (
-        <span className={cn('shrink-0 text-placeholder', iconSizeClasses[size])}>
+        <span className={cn('shrink-0 text-text-placeholder', iconSizeClasses[size])}>
           {leftIcon}
         </span>
       )}
       <input
         className={cn(
-          'w-full bg-transparent text-foreground outline-none placeholder:text-placeholder',
+          'w-full bg-transparent text-text-main outline-none placeholder:text-text-placeholder',
           hasLeftIcon && 'pl-0',
           hasRightContent && 'pr-0',
           'disabled:cursor-not-allowed disabled:opacity-50',
@@ -87,7 +87,7 @@ export function Input({
         <button
           type="button"
           onClick={onClear}
-          className="shrink-0 cursor-pointer text-placeholder transition-colors hover:text-foreground"
+          className="shrink-0 cursor-pointer text-text-placeholder transition-colors hover:text-text-main"
           aria-label="クリア"
         >
           <XIcon className={clearButtonSizeClasses[size]} />
@@ -96,7 +96,7 @@ export function Input({
       {showCounter && (
         <span
           className={cn(
-            'shrink-0 tabular-nums text-placeholder',
+            'shrink-0 tabular-nums text-text-placeholder',
             counterSizeClasses[size],
           )}
         >
@@ -106,7 +106,7 @@ export function Input({
         </span>
       )}
       {rightIcon && (
-        <span className={cn('shrink-0 text-placeholder', iconSizeClasses[size])}>
+        <span className={cn('shrink-0 text-text-placeholder', iconSizeClasses[size])}>
           {rightIcon}
         </span>
       )}

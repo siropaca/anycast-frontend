@@ -21,7 +21,7 @@ export function Textarea({
       <textarea
         className={cn(
           'block w-full resize-none rounded-sm border bg-transparent px-4 py-3 text-sm transition-colors',
-          'text-foreground outline-none placeholder:text-placeholder',
+          'text-text-main outline-none placeholder:text-text-placeholder',
           'focus:ring-2 focus:ring-primary',
           'disabled:cursor-not-allowed disabled:opacity-50',
           error ? 'border-border-error' : 'border-border',
@@ -33,7 +33,7 @@ export function Textarea({
         {...props}
       />
       {showCounter && (
-        <span className="absolute bottom-2 right-3 text-xs tabular-nums text-placeholder">
+        <span className="absolute bottom-2 right-3 text-xs tabular-nums text-text-placeholder">
           {maxLength !== undefined
             ? `${currentLength}/${maxLength}`
             : currentLength}

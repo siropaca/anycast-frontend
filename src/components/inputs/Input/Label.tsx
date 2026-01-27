@@ -13,11 +13,11 @@ export function Label({
 }: Props) {
   return (
     <label
-      className={cn('block text-left text-sm font-medium text-foreground', className)}
+      className={cn('block text-left text-sm font-medium text-text-main', className)}
       {...props}
     >
       {children}
-      {required && <span className="ml-1 text-error">*</span>}
+      {required && <span className="ml-1 text-text-error">*</span>}
     </label>
   );
 }

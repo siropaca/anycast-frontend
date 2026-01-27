@@ -20,7 +20,7 @@ export function SideMenu({ sections }: Props) {
         <div key={section.title ?? index} className="space-y-2">
           {/* セクションタイトル */}
           {section.title && (
-            <p className="text-sm text-subtle">{section.title}</p>
+            <p className="text-sm text-text-subtle">{section.title}</p>
           )}
 
           {/* メニューアイテム */}

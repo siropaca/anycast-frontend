@@ -15,7 +15,7 @@ export function HelperText({
     <p
       className={cn(
         'text-xs',
-        error ? 'text-error' : 'text-placeholder',
+        error ? 'text-text-error' : 'text-text-placeholder',
         className,
       )}
       {...props}
