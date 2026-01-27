@@ -28,7 +28,7 @@ export function Artwork({ src, alt = '', size = 128, className }: Props) {
       style={{ width: size, height: size }}
       className={cn(
         'relative shrink-0 overflow-hidden rounded-md',
-        showFallback && 'bg-linear-to-br from-primary to-transparent',
+        showFallback && 'bg-linear-to-br from-primary to-primary/40',
         className,
       )}
     >
