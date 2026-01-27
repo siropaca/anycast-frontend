@@ -3,15 +3,19 @@
 import '@/features/player/styles/player-slider.css';
 import { BottomPlayerDesktop } from '@/features/player/components/BottomPlayerDesktop';
 import { BottomPlayerMobile } from '@/features/player/components/BottomPlayerMobile';
-import { useMockPlayer } from '@/features/player/hooks/useMockPlayer';
+import { useAudioPlayer } from '@/features/player/hooks/useAudioPlayer';
+import { useBottomPlayer } from '@/features/player/hooks/useBottomPlayer';
 
 export function BottomPlayer() {
+  useAudioPlayer();
+
   const {
-    track,
+    currentTrack,
     isPlaying,
+    currentTimeMs,
+    durationMs,
     volume,
     isMuted,
-    currentTimeMs,
     hasPrevious,
     hasNext,
     onPlayPause,
@@ -20,17 +24,17 @@ export function BottomPlayer() {
     onSeek,
     onVolumeChange,
     onToggleMute,
-  } = useMockPlayer();
+  } = useBottomPlayer();
 
   return (
     <section aria-label="オーディオプレイヤー">
       <BottomPlayerDesktop
-        title={track.title}
-        channelName={track.channelName}
-        artworkUrl={track.artworkUrl}
+        title={currentTrack?.title ?? ''}
+        channelName={currentTrack?.channelName}
+        artworkUrl={currentTrack?.artworkUrl}
         isPlaying={isPlaying}
         currentTimeMs={currentTimeMs}
-        durationMs={track.durationMs}
+        durationMs={durationMs}
         volume={volume}
         isMuted={isMuted}
         hasPrevious={hasPrevious}
@@ -44,12 +48,12 @@ export function BottomPlayer() {
       />
 
       <BottomPlayerMobile
-        title={track.title}
-        channelName={track.channelName}
-        artworkUrl={track.artworkUrl}
+        title={currentTrack?.title ?? ''}
+        channelName={currentTrack?.channelName}
+        artworkUrl={currentTrack?.artworkUrl}
         isPlaying={isPlaying}
         currentTimeMs={currentTimeMs}
-        durationMs={track.durationMs}
+        durationMs={durationMs}
         onPlayPause={onPlayPause}
       />
     </section>

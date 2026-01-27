@@ -147,7 +147,7 @@ describe('playerStore', () => {
     it('再生位置が3秒以上の場合は先頭にシークする', () => {
       const track = createTrack();
       usePlayerStore.getState().play(track);
-      usePlayerStore.getState()._setCurrentTime(5000);
+      usePlayerStore.getState().setCurrentTime(5000);
       usePlayerStore.getState().previous();
 
       const state = usePlayerStore.getState();
@@ -159,7 +159,7 @@ describe('playerStore', () => {
       const track1 = createTrack({ id: 'track-1' });
       const track2 = createTrack({ id: 'track-2', title: 'トラック2' });
       usePlayerStore.getState().play(track2, [track1, track2]);
-      usePlayerStore.getState()._setCurrentTime(1000);
+      usePlayerStore.getState().setCurrentTime(1000);
       usePlayerStore.getState().previous();
 
       const state = usePlayerStore.getState();
@@ -173,7 +173,7 @@ describe('playerStore', () => {
       const track1 = createTrack({ id: 'track-1' });
       const track2 = createTrack({ id: 'track-2' });
       usePlayerStore.getState().play(track1, [track1, track2]);
-      usePlayerStore.getState()._setCurrentTime(1000);
+      usePlayerStore.getState().setCurrentTime(1000);
       usePlayerStore.getState().previous();
 
       const state = usePlayerStore.getState();
@@ -185,7 +185,7 @@ describe('playerStore', () => {
     it('単体再生の場合は先頭にシークする', () => {
       const track = createTrack();
       usePlayerStore.getState().play(track);
-      usePlayerStore.getState()._setCurrentTime(1000);
+      usePlayerStore.getState().setCurrentTime(1000);
       usePlayerStore.getState().previous();
 
       expect(usePlayerStore.getState().currentTimeMs).toBe(0);
@@ -232,28 +232,28 @@ describe('playerStore', () => {
     });
   });
 
-  describe('_setCurrentTime()', () => {
+  describe('setCurrentTime()', () => {
     it('currentTimeMs を更新する', () => {
-      usePlayerStore.getState()._setCurrentTime(12345);
+      usePlayerStore.getState().setCurrentTime(12345);
 
       expect(usePlayerStore.getState().currentTimeMs).toBe(12345);
     });
   });
 
-  describe('_setDuration()', () => {
+  describe('setDuration()', () => {
     it('durationMs を更新する', () => {
-      usePlayerStore.getState()._setDuration(60000);
+      usePlayerStore.getState().setDuration(60000);
 
       expect(usePlayerStore.getState().durationMs).toBe(60000);
     });
   });
 
-  describe('_setIsPlaying()', () => {
+  describe('setIsPlaying()', () => {
     it('isPlaying を更新する', () => {
-      usePlayerStore.getState()._setIsPlaying(true);
+      usePlayerStore.getState().setIsPlaying(true);
       expect(usePlayerStore.getState().isPlaying).toBe(true);
 
-      usePlayerStore.getState()._setIsPlaying(false);
+      usePlayerStore.getState().setIsPlaying(false);
       expect(usePlayerStore.getState().isPlaying).toBe(false);
     });
   });

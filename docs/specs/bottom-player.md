@@ -120,9 +120,9 @@ interface PlayerActions {
   toggleMute: () => void;
 
   // 内部更新（useAudioPlayer から呼ばれる）
-  _setCurrentTime: (timeMs: number) => void;
-  _setDuration: (durationMs: number) => void;
-  _setIsPlaying: (isPlaying: boolean) => void;
+  setCurrentTime: (timeMs: number) => void;
+  setDuration: (durationMs: number) => void;
+  setIsPlaying: (isPlaying: boolean) => void;
 }
 ```
 
@@ -188,7 +188,7 @@ seek(timeMs)       ──────>  audio.currentTime 設定     ───�
 volume 変更        ──────>  audio.volume 設定           ────>  音量変更
 
                             timeupdate イベント        <────  Audio API
-                   ──────>  _setCurrentTime 呼び出し
+                   ──────>  setCurrentTime 呼び出し
                             ended イベント             <────  Audio API
                    ──────>  next() 呼び出し
 ```
