@@ -10,7 +10,9 @@ export function moveLineUp(
   targetId: string,
 ): string[] | null {
   const index = lineIds.indexOf(targetId);
-  if (index <= 0) return null;
+  if (index <= 0) {
+    return null;
+  }
 
   const newLineIds = [...lineIds];
   [newLineIds[index - 1], newLineIds[index]] = [
@@ -33,7 +35,9 @@ export function moveLineDown(
   targetId: string,
 ): string[] | null {
   const index = lineIds.indexOf(targetId);
-  if (index < 0 || index >= lineIds.length - 1) return null;
+  if (index < 0 || index >= lineIds.length - 1) {
+    return null;
+  }
 
   const newLineIds = [...lineIds];
   [newLineIds[index], newLineIds[index + 1]] = [
