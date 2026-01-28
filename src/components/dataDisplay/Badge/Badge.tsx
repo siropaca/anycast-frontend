@@ -16,13 +16,6 @@ interface Props {
   className?: string;
 }
 
-/**
- * 数値バッジ
- *
- * @param count - 表示するカウント（99 を超える場合は「99+」表示）
- * @param size - バッジのサイズ
- * @param className - 追加の CSS クラス
- */
 export function Badge({ count, size = 'md', className }: Props) {
   if (count <= 0) return null;
 
