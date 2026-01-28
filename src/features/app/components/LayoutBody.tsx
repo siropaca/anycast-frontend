@@ -17,7 +17,7 @@ export function LayoutBody({ sideMenu, children }: Props) {
             <main>{children}</main>
           </ScrollArea.Viewport>
 
-          <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent p-0.5">
+          <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent pl-1">
             <ScrollArea.Thumb className="w-full rounded-full bg-bg-elevated/75" />
           </ScrollArea.Scrollbar>
         </ScrollArea.Root>
