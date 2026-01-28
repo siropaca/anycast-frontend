@@ -2,9 +2,9 @@ import { PlusIcon } from '@phosphor-icons/react/ssr';
 import Link from 'next/link';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { HeaderAvatarMenu } from '@/components/navigation/Header/HeaderAvatarMenu';
-import { HeaderNotificationButton } from '@/features/notification/components/HeaderNotificationButton';
 import { HeaderSearchInput } from '@/components/navigation/Header/HeaderSearchInput';
 import { MobileMenu } from '@/components/navigation/MobileMenu/MobileMenu';
+import { HeaderNotificationButton } from '@/features/notification/components/HeaderNotificationButton';
 import { Pages } from '@/libs/pages';
 
 interface Props {

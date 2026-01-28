@@ -1,7 +1,7 @@
 'use client';
 
-import { formatTime } from '@/utils/date';
 import { cn } from '@/utils/cn';
+import { formatTime } from '@/utils/date';
 
 interface Props {
   currentTimeMs: number;

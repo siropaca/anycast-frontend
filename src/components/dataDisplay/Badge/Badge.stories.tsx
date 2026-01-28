@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Badge } from '@/components/dataDisplay/Badge/Badge';
-import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 
 const meta = {
