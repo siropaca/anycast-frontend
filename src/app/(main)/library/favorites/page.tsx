@@ -26,6 +26,7 @@ const bookmarks = [
   { id: 15, title: 'ゲーム実況振り返り', subtext: 'GameStream' },
 ];
 
+// TODO: モック実装
 export default function LibraryFavoritesPage() {
   return (
     <div>
