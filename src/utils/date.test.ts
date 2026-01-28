@@ -1,4 +1,4 @@
-import { formatTime } from '@/features/player/utils/formatTime';
+import { formatTime } from '@/utils/date';
 
 describe('formatTime', () => {
   describe('formatTime()', () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { formatTime } from '@/features/player/utils/formatTime';
+import { formatTime } from '@/utils/date';
 import { cn } from '@/utils/cn';
 
 interface Props {

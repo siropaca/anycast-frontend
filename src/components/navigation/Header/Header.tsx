@@ -2,6 +2,7 @@ import { PlusIcon } from '@phosphor-icons/react/ssr';
 import Link from 'next/link';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { HeaderAvatarMenu } from '@/components/navigation/Header/HeaderAvatarMenu';
+import { HeaderNotificationButton } from '@/features/notification/components/HeaderNotificationButton';
 import { HeaderSearchInput } from '@/components/navigation/Header/HeaderSearchInput';
 import { MobileMenu } from '@/components/navigation/MobileMenu/MobileMenu';
 import { Pages } from '@/libs/pages';
@@ -19,7 +20,7 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
 
         <Link
           href={Pages.home.path()}
-          className="text-xl font-bold text-primary"
+          className="text-xl font-semibold text-primary"
         >
           Anycast
         </Link>
@@ -38,7 +39,10 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
         )}
 
         {isLoggedIn ? (
-          <HeaderAvatarMenu />
+          <>
+            <HeaderNotificationButton />
+            <HeaderAvatarMenu />
+          </>
         ) : (
           <div className="flex items-center gap-2">
             <Button variant="text" color="secondary" href={Pages.signup.path()}>

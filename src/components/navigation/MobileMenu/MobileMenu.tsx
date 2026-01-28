@@ -27,7 +27,7 @@ export function MobileMenu({ children }: Props) {
               <XIcon size={24} weight="bold" aria-label="メニューを閉じる" />
             </Dialog.Close>
 
-            <span className="text-xl font-bold text-primary">Anycast</span>
+            <span className="text-xl font-semibold text-primary">Anycast</span>
           </div>
 
           <ScrollArea.Root className="flex-1 min-h-0">
