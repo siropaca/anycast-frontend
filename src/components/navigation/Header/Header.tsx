@@ -32,7 +32,7 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
         {isLoggedIn && (
           <Button
             href={Pages.studio.channels.path()}
-            leftIcon={<PlusIcon size={16} />}
+            leftIcon={<PlusIcon size={18} />}
           >
             作成
           </Button>
