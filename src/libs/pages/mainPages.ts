@@ -23,25 +23,21 @@ export const mainPages = {
     path: () => '/',
     title: 'ホーム',
   },
-
   /** ログイン */
   login: {
     path: (params?: LoginSearchParams) => `/login${buildQuery(params)}`,
     title: 'ログイン',
   },
-
   /** 新規登録 */
   signup: {
     path: (params?: SignupSearchParams) => `/signup${buildQuery(params)}`,
     title: '新規登録',
   },
-
   /** 探索 */
   explore: {
     path: (params?: ExploreSearchParams) => `/explore${buildQuery(params)}`,
     title: '探索',
   },
-
   /** ライブラリ */
   library: {
     /** フォロー中 */

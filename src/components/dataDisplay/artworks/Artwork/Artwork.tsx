@@ -19,8 +19,14 @@ export function Artwork({
   className,
 }: Props) {
   return (
-    <div className={cn('rounded-md p-2 hover:bg-bg-elevated', className)}>
+    <div
+      className={cn(
+        'rounded-md p-4 hover:bg-bg-elevated cursor-pointer',
+        className,
+      )}
+    >
       <ArtworkImage src={src} alt={alt} size={size} />
+
       <div className="mt-2" style={{ width: size }}>
         <p className="truncate text-sm font-medium">{title}</p>
         {subtext && (

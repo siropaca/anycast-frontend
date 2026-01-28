@@ -11,9 +11,9 @@ export function LayoutBody({ sideMenu, children }: Props) {
     <div className="flex flex-1 overflow-hidden">
       <Sidebar>{sideMenu}</Sidebar>
 
-      <div className="flex-1 pr-4 flex">
-        <ScrollArea.Root className="bg-bg-surface rounded-md flex-1">
-          <ScrollArea.Viewport className="h-full p-4">
+      <div className="min-w-0 flex-1 pr-4 flex">
+        <ScrollArea.Root className="bg-bg-surface rounded-md flex-1 min-w-0">
+          <ScrollArea.Viewport className="h-full p-6">
             <main>{children}</main>
           </ScrollArea.Viewport>
 
