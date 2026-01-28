@@ -61,6 +61,24 @@ export const LongText: Story = {
   },
 };
 
+export const WithSubtext2: Story = {
+  args: {
+    src: sampleImage,
+    title: 'Episode Title',
+    subtext: 'Channel Name',
+    subtext2: 'Category',
+  },
+};
+
+export const Rounded: Story = {
+  args: {
+    src: sampleImage,
+    title: 'User Name',
+    subtext: '@username',
+    rounded: true,
+  },
+};
+
 export const AllVariants: Story = {
   args: { title: '' },
   render: () => (
@@ -94,6 +112,31 @@ export const AllVariants: Story = {
             subtext="170px"
           />
           <Artwork src={sampleImage} size={220} title="Large" subtext="220px" />
+        </Stack>
+      </Section>
+
+      <Section title="Rounded">
+        <Stack align="start">
+          <Artwork
+            src={sampleImage}
+            size={128}
+            title="User Name"
+            subtext="@username"
+            rounded
+          />
+          <Artwork size={128} title="No Image" subtext="@user" rounded />
+        </Stack>
+      </Section>
+
+      <Section title="With Subtext2">
+        <Stack align="start">
+          <Artwork
+            src={sampleImage}
+            size={128}
+            title="Episode Title"
+            subtext="Channel Name"
+            subtext2="Category"
+          />
         </Stack>
       </Section>
     </Stack>
