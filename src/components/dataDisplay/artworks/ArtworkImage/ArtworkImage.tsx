@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-export function ArtworkImage({ src, alt = '', size = 128, className }: Props) {
+export function ArtworkImage({ src, alt = '', size, className }: Props) {
   const [hasError, setHasError] = useState(false);
 
   const showFallback = !src || hasError;
@@ -25,9 +25,10 @@ export function ArtworkImage({ src, alt = '', size = 128, className }: Props) {
 
   return (
     <div
-      style={{ width: size, height: size }}
+      style={size ? { width: size, height: size } : undefined}
       className={cn(
         'relative shrink-0 overflow-hidden rounded-md',
+        !size && 'aspect-square w-full',
         showFallback && 'bg-linear-to-br from-primary to-primary/40',
         className,
       )}
