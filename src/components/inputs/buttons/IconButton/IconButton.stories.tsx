@@ -35,6 +35,10 @@ export const Playground: Story = {
 };
 
 export const Sizes: Story = {
+  args: {
+    icon: <PlusIcon size={20} />,
+    'aria-label': '追加',
+  },
   render: () => (
     <Stack>
       <IconButton icon={<PlusIcon size={16} />} aria-label="追加" size="sm" />
@@ -45,6 +49,10 @@ export const Sizes: Story = {
 };
 
 export const Colors: Story = {
+  args: {
+    icon: <HeartIcon size={20} />,
+    'aria-label': 'お気に入り',
+  },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Solid">
@@ -120,6 +128,10 @@ export const Colors: Story = {
 };
 
 export const AllVariants: Story = {
+  args: {
+    icon: <PlusIcon size={20} />,
+    'aria-label': '追加',
+  },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Primary Solid">
@@ -360,6 +372,10 @@ export const AllVariants: Story = {
 };
 
 export const States: Story = {
+  args: {
+    icon: <PlusIcon size={20} />,
+    'aria-label': '追加',
+  },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Enabled">
@@ -493,6 +509,10 @@ export const States: Story = {
 };
 
 export const Skeleton: Story = {
+  args: {
+    icon: <PlusIcon size={20} />,
+    'aria-label': '追加',
+  },
   render: () => (
     <Stack>
       <IconButtonSkeleton size="sm" />
