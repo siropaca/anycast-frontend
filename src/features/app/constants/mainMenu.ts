@@ -3,9 +3,9 @@ import {
   CheckSquareOffsetIcon,
   ClockCounterClockwiseIcon,
   CompassIcon,
-  GearIcon,
   HeartIcon,
   HouseIcon,
+  UserIcon,
   VideoIcon,
 } from '@phosphor-icons/react';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
@@ -57,14 +57,14 @@ export const MY_PAGE_SECTION: MenuSection = {
   title: 'マイページ',
   items: [
     {
+      label: 'プロフィール',
+      href: '#', // コンポーネント側で書き換え
+      icon: UserIcon,
+    },
+    {
       label: '作成したチャンネル',
       href: Pages.studio.channels.path(),
       icon: VideoIcon,
-    },
-    {
-      label: Pages.settings.index.title,
-      href: Pages.settings.index.path(),
-      icon: GearIcon,
     },
   ],
 };

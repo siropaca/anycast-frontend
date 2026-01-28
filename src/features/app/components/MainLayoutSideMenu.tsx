@@ -1,7 +1,10 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { withActiveState } from '@/components/navigation/SideMenu/helper';
+import {
+  withActiveState,
+  withProfileHref,
+} from '@/components/navigation/SideMenu/helper';
 import { SideMenu } from '@/components/navigation/SideMenu/SideMenu';
 import {
   MAIN_MENU_SECTIONS,
@@ -10,16 +13,21 @@ import {
 
 interface Props {
   isLoggedIn: boolean;
+  username?: string;
 }
 
-export function MainLayoutSideMenu({ isLoggedIn }: Props) {
+export function MainLayoutSideMenu({ isLoggedIn, username }: Props) {
   const pathname = usePathname();
 
   const sections = isLoggedIn
     ? [...MAIN_MENU_SECTIONS, MY_PAGE_SECTION]
     : MAIN_MENU_SECTIONS;
 
-  const sectionsWithActive = withActiveState(sections, pathname);
+  const sectionsWithProfile = username
+    ? withProfileHref(sections, username)
+    : sections;
+
+  const sectionsWithActive = withActiveState(sectionsWithProfile, pathname);
 
   return <SideMenu sections={sectionsWithActive} />;
 }

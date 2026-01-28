@@ -3,6 +3,7 @@ import {
   isActivePath,
   removeQueryString,
   withActiveState,
+  withProfileHref,
 } from '@/components/navigation/SideMenu/helper';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 
@@ -245,6 +246,76 @@ describe('helper', () => {
       withActiveState(sections, '/');
 
       expect(sections[0].items[0].isActive).toBeUndefined();
+    });
+  });
+
+  describe('withProfileHref()', () => {
+    const mockIcon = (() => null) as unknown as MenuSection['items'][0]['icon'];
+
+    it('プロフィールアイテムの href をユーザー名で置き換える', () => {
+      const sections: MenuSection[] = [
+        {
+          items: [
+            { label: 'プロフィール', href: '#', icon: mockIcon },
+            { label: '設定', href: '/settings', icon: mockIcon },
+          ],
+        },
+      ];
+
+      const result = withProfileHref(sections, 'hoge');
+
+      expect(result[0].items[0].href).toBe('/@hoge');
+      expect(result[0].items[1].href).toBe('/settings');
+    });
+
+    it('プロフィールアイテムがない場合は変更しない', () => {
+      const sections: MenuSection[] = [
+        {
+          items: [
+            { label: 'Home', href: '/', icon: mockIcon },
+            { label: '設定', href: '/settings', icon: mockIcon },
+          ],
+        },
+      ];
+
+      const result = withProfileHref(sections, 'hoge');
+
+      expect(result[0].items[0].href).toBe('/');
+      expect(result[0].items[1].href).toBe('/settings');
+    });
+
+    it('複数セクションを処理できる', () => {
+      const sections: MenuSection[] = [
+        {
+          title: 'Main',
+          items: [{ label: 'Home', href: '/', icon: mockIcon }],
+        },
+        {
+          title: 'マイページ',
+          items: [
+            { label: 'プロフィール', href: '#', icon: mockIcon },
+            { label: '設定', href: '/settings', icon: mockIcon },
+          ],
+        },
+      ];
+
+      const result = withProfileHref(sections, 'testuser');
+
+      expect(result[0].items[0].href).toBe('/');
+      expect(result[1].items[0].href).toBe('/@testuser');
+      expect(result[1].items[1].href).toBe('/settings');
+    });
+
+    it('元のセクションを変更しない', () => {
+      const sections: MenuSection[] = [
+        {
+          items: [{ label: 'プロフィール', href: '#', icon: mockIcon }],
+        },
+      ];
+
+      withProfileHref(sections, 'hoge');
+
+      expect(sections[0].items[0].href).toBe('#');
     });
   });
 });

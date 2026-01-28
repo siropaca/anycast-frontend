@@ -2,6 +2,7 @@ import type {
   IsActivePathOptions,
   MenuSection,
 } from '@/components/navigation/SideMenu/types';
+import { Pages } from '@/libs/pages';
 
 export type { IsActivePathOptions } from '@/components/navigation/SideMenu/types';
 
@@ -77,5 +78,26 @@ export function withActiveState(
         matchPrefix: item.matchPrefix,
       }),
     })),
+  }));
+}
+
+/**
+ * プロフィールアイテムの href をユーザー名で置き換える
+ *
+ * @param sections - メニューセクション
+ * @param username - ユーザー名
+ * @returns プロフィールの href が更新されたセクション
+ */
+export function withProfileHref(
+  sections: MenuSection[],
+  username: string,
+): MenuSection[] {
+  return sections.map((section) => ({
+    ...section,
+    items: section.items.map((item) =>
+      item.label === 'プロフィール'
+        ? { ...item, href: Pages.user.path(username) }
+        : item,
+    ),
   }));
 }

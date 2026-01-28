@@ -11,7 +11,9 @@ interface Props {
 export async function MainLayout({ children }: Props) {
   const { isLoggedIn } = await auth();
 
-  const sideMenu = <MainLayoutSideMenu isLoggedIn={isLoggedIn} />;
+  const sideMenu = (
+    <MainLayoutSideMenu isLoggedIn={isLoggedIn} username="hoge" />
+  );
 
   return (
     <div className="flex flex-col h-screen">
