@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         hostname: 'storage.googleapis.com',
         pathname: '/anycast-prd/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
     ],
   },
 };
