@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
+import { cn } from '@/utils/cn';
 
 interface User {
   id: string;
@@ -58,11 +59,12 @@ const columns = [
     header: 'ステータス',
     accessor: (user: User) => (
       <span
-        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs ${
+        className={cn(
+          'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs',
           user.status === 'active'
             ? 'bg-status-published-bg text-status-published'
-            : 'bg-status-draft-bg text-status-draft'
-        }`}
+            : 'bg-status-draft-bg text-status-draft',
+        )}
       >
         {user.status === 'active' ? '有効' : '無効'}
       </span>
