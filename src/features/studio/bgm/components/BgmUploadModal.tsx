@@ -1,48 +1,40 @@
 'use client';
 
 import { MusicNoteIcon, PlusIcon } from '@phosphor-icons/react';
-import { useRef, useState } from 'react';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Input } from '@/components/inputs/Input/Input';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { FormModal } from '@/components/utils/Modal/FormModal';
-import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
+import { useBgmUploadModal } from '@/features/studio/bgm/hooks/useBgmUploadModal';
 
 export function BgmUploadModal() {
-  const [open, setOpen] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [bgmName, setBgmName] = useState('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  const { uploadBgm, isUploading, error: uploadError } = useUploadBgm();
+  const {
+    open,
+    setOpen,
+    fileInputRef,
+    bgmName,
+    setBgmName,
+    selectedFile,
+    isUploading,
+    uploadError,
+    reset,
+    openFilePicker,
+    selectFile,
+    submit,
+  } = useBgmUploadModal();
 
   function handleOpenChange(isOpen: boolean) {
     setOpen(isOpen);
     if (!isOpen) {
-      setBgmName('');
-      setSelectedFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      reset();
     }
-  }
-
-  function handleFileSelect() {
-    fileInputRef.current?.click();
   }
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
+      selectFile(file);
     }
-  }
-
-  function handleUpload() {
-    if (!selectedFile) return;
-
-    uploadBgm(selectedFile, bgmName);
-    setOpen(false);
   }
 
   return (
@@ -54,7 +46,7 @@ export function BgmUploadModal() {
       submitDisabled={!selectedFile}
       isSubmitting={isUploading}
       onOpenChange={handleOpenChange}
-      onSubmit={handleUpload}
+      onSubmit={submit}
     >
       <div className="space-y-4">
         {/* ファイル */}
@@ -74,7 +66,7 @@ export function BgmUploadModal() {
               color="secondary"
               leftIcon={<MusicNoteIcon size={16} />}
               disabled={isUploading}
-              onClick={handleFileSelect}
+              onClick={openFilePicker}
             >
               ファイルを選択
             </Button>
