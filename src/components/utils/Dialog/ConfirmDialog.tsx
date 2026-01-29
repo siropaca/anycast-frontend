@@ -16,6 +16,7 @@ interface Props {
   confirmColor?: ButtonColor;
   size?: Size;
   open?: boolean;
+
   onOpenChange?: (open: boolean) => void;
   onConfirm?: () => void;
 }
@@ -42,12 +43,12 @@ export function ConfirmDialog({
 
         <Dialog.Footer>
           <Dialog.Close>
-            <Button variant="outline" color="secondary" className="w-26">
+            <Button variant="outline" color="secondary">
               {cancelLabel}
             </Button>
           </Dialog.Close>
 
-          <Button color={confirmColor} className="min-w-26" onClick={onConfirm}>
+          <Button color={confirmColor} onClick={onConfirm}>
             {confirmLabel}
           </Button>
         </Dialog.Footer>
