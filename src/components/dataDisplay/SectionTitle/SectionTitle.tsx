@@ -26,7 +26,7 @@ export function SectionTitle({
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center justify-between gap-4 font-bold',
+        'flex min-h-(--size-md) flex-wrap items-center justify-between gap-4 font-bold',
         className,
       )}
     >
