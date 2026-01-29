@@ -35,7 +35,7 @@ export function ChannelList() {
           <ArtworkImage
             src={channel.artwork?.url}
             alt={channel.name}
-            size={48}
+            size={50}
           />
           <span className="text-sm">{channel.name}</span>
         </div>
