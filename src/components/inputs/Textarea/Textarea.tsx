@@ -25,7 +25,7 @@ export function Textarea({
           'text-text-main outline-none placeholder:text-text-placeholder',
           'focus:ring-2 focus:ring-primary',
           'disabled:cursor-not-allowed disabled:opacity-50',
-          error ? 'border-border-error' : 'border-border',
+          error ? 'border-border-danger' : 'border-border',
           showCounter && 'pb-8',
           className,
         )}

@@ -4,13 +4,12 @@
   /* Primary */
   --color-primary: #2e86c1;
   --color-secondary: #ffffff;
-  --color-danger: #ef4444;
-  --color-badge: #ef4444;
 
   /* Background */
   --color-bg-main: #0a0a0a;
   --color-bg-surface: #181818;
   --color-bg-elevated: #272727;
+  --color-bg-badge: #ef4444;
   --color-bg-hover: rgba(255, 255, 255, 0.05);
   --color-bg-hover-strong: rgba(255, 255, 255, 0.1);
   --color-bg-highlight: rgba(255, 255, 255, 0.03);
@@ -19,11 +18,12 @@
   --color-text-main: #ffffff;
   --color-text-subtle: #aaaaaa;
   --color-text-placeholder: rgba(255, 255, 255, 0.5);
-  --color-text-error: #ef4444;
+  --color-text-danger: #ef4444;
+  --color-text-required: #ef4444;
 
   /* Border */
   --color-border: #3a3a3a;
-  --color-border-error: #ef4444;
+  --color-border-danger: #ef4444;
 
   /* Status */
   --color-status-published: #4ade80;

@@ -70,7 +70,7 @@ export function Checkbox({
           className={cn(
             'inline-flex items-center justify-center rounded-[4px] border transition-colors',
             'peer-focus-visible:ring-2 peer-focus-visible:ring-primary',
-            error ? 'border-border-error' : 'border-border',
+            error ? 'border-border-danger' : 'border-border',
             'peer-checked:border-primary peer-checked:bg-primary',
             indeterminate && 'border-primary bg-primary',
             !disabled && 'hover:border-primary',

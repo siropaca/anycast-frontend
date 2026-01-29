@@ -22,7 +22,7 @@ export function Badge({ count, size = 'md', className }: Props) {
   return (
     <span
       className={cn(
-        'pointer-events-none flex items-center justify-center rounded-full bg-badge font-semibold text-white',
+        'pointer-events-none flex items-center justify-center rounded-full bg-bg-badge font-semibold text-white',
         sizeClasses[size],
         className,
       )}

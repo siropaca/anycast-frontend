@@ -94,7 +94,7 @@ export function Select<T extends string>({
           'inline-flex items-center justify-between rounded-sm border bg-bg-elevated transition-colors',
           'focus:ring-2 focus:ring-primary focus:outline-none',
           'disabled:cursor-not-allowed disabled:opacity-50',
-          error ? 'border-border-error' : 'border-border',
+          error ? 'border-border-danger' : 'border-border',
           triggerSizeClasses[size],
           className,
         )}

@@ -25,9 +25,9 @@ export const colorVariantClasses: Record<
   },
   danger: {
     solid:
-      'bg-danger text-white border-transparent hover:bg-danger/80 active:bg-danger/70',
+      'bg-text-danger text-white border-transparent hover:bg-text-danger/80 active:bg-text-danger/70',
     outline:
-      'bg-transparent text-danger border-danger hover:bg-danger/10 active:bg-danger/20',
-    text: 'bg-transparent text-danger border-transparent hover:bg-danger/10 active:bg-danger/20',
+      'bg-transparent text-text-danger border-text-danger hover:bg-text-danger/10 active:bg-text-danger/20',
+    text: 'bg-transparent text-text-danger border-transparent hover:bg-text-danger/10 active:bg-text-danger/20',
   },
 };
