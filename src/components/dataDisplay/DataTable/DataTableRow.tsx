@@ -48,7 +48,10 @@ export function DataTableRow<T>({ columns, row, onRowClick }: Props<T>) {
         role="button"
       >
         {columns.map((column) => (
-          <td key={column.key} className={column.className ?? 'px-4 py-3 text-sm md:text-base'}>
+          <td
+            key={column.key}
+            className={column.className ?? 'px-4 py-3 text-sm md:text-base'}
+          >
             {renderCell(column)}
           </td>
         ))}
@@ -59,7 +62,10 @@ export function DataTableRow<T>({ columns, row, onRowClick }: Props<T>) {
   return (
     <tr className="border-b border-border last:border-b-0">
       {columns.map((column) => (
-        <td key={column.key} className={column.className ?? 'px-4 py-3 text-sm md:text-base'}>
+        <td
+          key={column.key}
+          className={column.className ?? 'px-4 py-3 text-sm md:text-base'}
+        >
           {renderCell(column)}
         </td>
       ))}

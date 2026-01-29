@@ -43,11 +43,7 @@ export function BottomPlayerDesktop({
   return (
     <div className="hidden md:flex items-center h-bottom-player px-6 bg-bg-main">
       <div className="flex-1 min-w-0">
-        <TrackInfo
-          title={title}
-          subtitle={subtitle}
-          artworkUrl={artworkUrl}
-        />
+        <TrackInfo title={title} subtitle={subtitle} artworkUrl={artworkUrl} />
       </div>
 
       <div className="flex-1 flex justify-center">
