@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 import { Pagination } from '@/components/navigation/Pagination/Pagination';
+import { PaginationSkeleton } from '@/components/navigation/Pagination/PaginationSkeleton';
+import { Stack } from '@/libs/storybook/Stack';
 
 const meta = {
   title: 'navigation/Pagination',
@@ -87,4 +89,19 @@ export const Interactive: Story = {
     onPageChange: () => {},
   },
   render: () => <InteractiveExample />,
+};
+
+export const Skeleton: Story = {
+  args: {
+    currentPage: 1,
+    totalPages: 10,
+    onPageChange: () => {},
+  },
+  render: () => (
+    <Stack direction="column" gap={16}>
+      <PaginationSkeleton />
+      <PaginationSkeleton pageCount={3} />
+      <PaginationSkeleton pageCount={7} />
+    </Stack>
+  ),
 };
