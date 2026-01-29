@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 export default function StudioVoicesPage() {
   return (
     <div className="space-y-6">
-      <SectionTitle title={Pages.studio.voices.title} />
+      <SectionTitle
+        title={Pages.studio.voices.title}
+        description="キャラクターで使用できるボイスの確認ができます"
+      />
 
       <Suspense fallback={<p>読み込み中...</p>}>
         <VoiceList />

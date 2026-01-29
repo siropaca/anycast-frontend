@@ -23,7 +23,7 @@ export function LayoutBody({ sideMenu, children }: Props) {
         <ScrollArea.Root className="bg-bg-surface rounded-md flex-1 min-w-0">
           <ScrollArea.Viewport
             id={MAIN_SCROLL_VIEWPORT_ID}
-            className="h-full p-6"
+            className="h-full p-6 pt-5"
           >
             <main>{children}</main>
           </ScrollArea.Viewport>

@@ -16,6 +16,7 @@ export default function StudioChannelsPage() {
     <div className="space-y-6">
       <SectionTitle
         title={Pages.studio.channels.title}
+        description="作成したチャンネルの管理ができます"
         action={
           <Button href={Pages.studio.newChannel.path()} leftIcon={<PlusIcon />}>
             新規追加

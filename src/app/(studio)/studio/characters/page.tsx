@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 export default function StudioCharactersPage() {
   return (
     <div className="space-y-6">
-      <SectionTitle title={Pages.studio.characters.title} />
+      <SectionTitle
+        title={Pages.studio.characters.title}
+        description="エピソードで使用しているキャラクターの管理ができます"
+      />
 
       <Suspense fallback={<p>読み込み中...</p>}>
         <CharacterList />

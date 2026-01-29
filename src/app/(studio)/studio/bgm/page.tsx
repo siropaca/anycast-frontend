@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 export default function StudioBgmPage() {
   return (
     <div className="space-y-6">
-      <SectionTitle title={Pages.studio.bgm.title} />
+      <SectionTitle
+        title={Pages.studio.bgm.title}
+        description="エピソードで使用するBGMの管理ができます"
+      />
 
       <Suspense fallback={<p>読み込み中...</p>}>
         <BgmList />
