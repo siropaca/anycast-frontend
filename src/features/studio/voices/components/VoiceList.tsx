@@ -14,7 +14,7 @@ export function VoiceList() {
           <li key={voice.id} className="border">
             <div className="flex-1">
               <span>{voice.name}</span>
-              <span className="ml-2 text-sm text-gray-500">
+              <span className="ml-2 text-sm text-text-subtle">
                 ({voice.gender})
               </span>
             </div>
