@@ -71,6 +71,37 @@ function add(a: number, b: number): number {
 - Props の定義順序: 必須プロパティ → オプショナルプロパティ → 空行 → 関数
 - コンポーネント内のハンドラー関数は `function` 宣言で定義する（アロー関数ではなく）
 
+### カスタムフックの設計
+
+- カスタムフックには**宣言的な操作関数**を定義し、イベントハンドラーはコンポーネント側に置く
+- 宣言的な操作関数の例: `reset()`, `submit()`, `openFilePicker()`, `selectFile(file)`
+- イベントハンドラー（`handleXxx`）はコンポーネント側で定義し、イベントオブジェクトから値を抽出してフックの操作関数を呼び出す
+
+```typescript
+// カスタムフック - 宣言的な操作を提供
+function useUploadModal() {
+  const [file, setFile] = useState<File | null>(null);
+
+  function reset() { setFile(null); }
+  function selectFile(file: File) { setFile(file); }
+  function submit() { /* 送信処理 */ }
+
+  return { file, reset, selectFile, submit };
+}
+
+// コンポーネント - イベントを操作に変換
+function UploadModal() {
+  const { file, reset, selectFile, submit } = useUploadModal();
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file) selectFile(file);
+  }
+
+  return <input type="file" onChange={handleFileChange} />;
+}
+```
+
 ```typescript
 interface Props {
   id: string;
