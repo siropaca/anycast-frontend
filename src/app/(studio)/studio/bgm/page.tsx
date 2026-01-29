@@ -1,10 +1,8 @@
-import { PlusIcon } from '@phosphor-icons/react/ssr';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { Button } from '@/components/inputs/buttons/Button/Button';
 import { BgmList } from '@/features/studio/bgm/components/BgmList';
-import { BgmUploadForm } from '@/features/studio/bgm/components/BgmUploadForm';
+import { BgmUploadModal } from '@/features/studio/bgm/components/BgmUploadModal';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -18,10 +16,8 @@ export default function StudioBgmPage() {
       <SectionTitle
         title={Pages.studio.bgm.title}
         description="エピソードで使用するBGMの管理ができます"
-        action={<Button leftIcon={<PlusIcon size={18} />}>新規追加</Button>}
+        action={<BgmUploadModal />}
       />
-
-      <BgmUploadForm />
 
       <Suspense fallback={<p>読み込み中...</p>}>
         <BgmList />
