@@ -25,6 +25,7 @@ export function useBottomPlayer() {
   const setVolume = usePlayerStore((s) => s.setVolume);
   const toggleMute = usePlayerStore((s) => s.toggleMute);
 
+  const hasPlayer = currentTrack !== null;
   const hasPrevious = true;
   const hasNext = queueIndex < queue.length - 1 && queue.length > 1;
 
@@ -33,6 +34,7 @@ export function useBottomPlayer() {
   }
 
   return {
+    hasPlayer,
     currentTrack,
     isPlaying,
     currentTimeMs,

@@ -10,6 +10,7 @@ export function BottomPlayer() {
   useAudioPlayer();
 
   const {
+    hasPlayer,
     currentTrack,
     isPlaying,
     currentTimeMs,
@@ -25,6 +26,10 @@ export function BottomPlayer() {
     onVolumeChange,
     onToggleMute,
   } = useBottomPlayer();
+
+  if (!hasPlayer) {
+    return null;
+  }
 
   return (
     <section aria-label="オーディオプレイヤー">

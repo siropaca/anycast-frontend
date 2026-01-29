@@ -1,5 +1,9 @@
+'use client';
+
 import { ScrollArea } from '@base-ui/react/scroll-area';
 import { Sidebar } from '@/components/navigation/Sidebar';
+import { useBottomPlayer } from '@/features/player/hooks/useBottomPlayer';
+import { cn } from '@/utils/cn';
 
 export const MAIN_SCROLL_VIEWPORT_ID = 'main-scroll-viewport';
 
@@ -9,11 +13,13 @@ interface Props {
 }
 
 export function LayoutBody({ sideMenu, children }: Props) {
+  const { hasPlayer } = useBottomPlayer();
+
   return (
     <div className="flex flex-1 overflow-hidden">
       <Sidebar>{sideMenu}</Sidebar>
 
-      <div className="min-w-0 flex-1 pr-4 flex">
+      <div className={cn('min-w-0 flex-1 pr-4 flex', !hasPlayer && 'pb-4')}>
         <ScrollArea.Root className="bg-bg-surface rounded-md flex-1 min-w-0">
           <ScrollArea.Viewport
             id={MAIN_SCROLL_VIEWPORT_ID}
@@ -22,7 +28,7 @@ export function LayoutBody({ sideMenu, children }: Props) {
             <main>{children}</main>
           </ScrollArea.Viewport>
 
-          <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent pl-1">
+          <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent pl-1 py-2">
             <ScrollArea.Thumb className="w-full rounded-full bg-bg-elevated/75" />
           </ScrollArea.Scrollbar>
         </ScrollArea.Root>
