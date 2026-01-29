@@ -41,7 +41,6 @@ export function BgmList() {
     }
   }
 
-
   const columns = [
     {
       key: 'name',

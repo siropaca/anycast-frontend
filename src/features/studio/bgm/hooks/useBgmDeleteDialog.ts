@@ -8,7 +8,8 @@ import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schem
  * @returns ダイアログの状態と操作関数
  */
 export function useBgmDeleteDialog() {
-  const [deleteTarget, setDeleteTarget] = useState<ResponseBgmWithEpisodesResponse | null>(null);
+  const [deleteTarget, setDeleteTarget] =
+    useState<ResponseBgmWithEpisodesResponse | null>(null);
   const { deleteBgm, isDeleting } = useDeleteBgm();
 
   const isOpen = deleteTarget !== null;
