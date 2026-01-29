@@ -19,7 +19,9 @@ export function FormLabel({
       {...props}
     >
       {children}
-      {required && <span className="ml-1 inline-block text-text-required">*</span>}
+      {required && (
+        <span className="ml-1 inline-block text-text-required">*</span>
+      )}
     </label>
   );
 }

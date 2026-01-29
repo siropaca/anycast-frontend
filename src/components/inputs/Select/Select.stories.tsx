@@ -1,8 +1,8 @@
 import { GlobeIcon, UserIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
-import { HelperText } from '@/components/inputs/Input/HelperText';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Select } from '@/components/inputs/Select/Select';
 import { SelectSkeleton } from '@/components/inputs/Select/SelectSkeleton';
 import { Section } from '@/libs/storybook/Section';

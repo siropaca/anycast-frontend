@@ -1,10 +1,10 @@
 import { EnvelopeIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { InputSkeleton } from '@/components/inputs/Input/InputSkeleton';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Section } from '@/libs/storybook/Section';
 import { Stack } from '@/libs/storybook/Stack';
 

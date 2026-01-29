@@ -11,7 +11,12 @@ interface Props {
   onOpenChange?: (open: boolean) => void;
 }
 
-export function ModalRoot({ open, onOpenChange, defaultOpen, children }: Props) {
+export function ModalRoot({
+  open,
+  onOpenChange,
+  defaultOpen,
+  children,
+}: Props) {
   return (
     <Dialog.Root
       open={open}

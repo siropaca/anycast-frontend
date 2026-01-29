@@ -1,9 +1,9 @@
 'use client';
 
 import { MusicNoteIcon, PlusIcon } from '@phosphor-icons/react';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Input } from '@/components/inputs/Input/Input';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { FormModal } from '@/components/utils/Modal/FormModal';
 import { useBgmUploadModal } from '@/features/studio/bgm/hooks/useBgmUploadModal';
 
@@ -51,7 +51,9 @@ export function BgmUploadModal() {
       <div className="space-y-4">
         {/* ファイル */}
         <div className="space-y-2">
-          <FormLabel htmlFor="bgm-file" required>ファイル</FormLabel>
+          <FormLabel htmlFor="bgm-file" required>
+            ファイル
+          </FormLabel>
           <input
             id="bgm-file"
             ref={fileInputRef}

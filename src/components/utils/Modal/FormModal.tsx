@@ -52,10 +52,7 @@ export function FormModal({
               {cancelLabel}
             </Button>
           </Modal.Close>
-          <Button
-            disabled={submitDisabled || isSubmitting}
-            onClick={onSubmit}
-          >
+          <Button disabled={submitDisabled || isSubmitting} onClick={onSubmit}>
             {isSubmitting ? '処理中...' : submitLabel}
           </Button>
         </Modal.Footer>

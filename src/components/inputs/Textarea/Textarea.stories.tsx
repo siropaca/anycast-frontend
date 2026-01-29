@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
-import { HelperText } from '@/components/inputs/Input/HelperText';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { TextareaSkeleton } from '@/components/inputs/Textarea/TextareaSkeleton';
 import { Section } from '@/libs/storybook/Section';
