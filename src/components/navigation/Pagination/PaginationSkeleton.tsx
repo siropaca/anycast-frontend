@@ -15,6 +15,7 @@ export function PaginationSkeleton({ pageCount = 5, className }: Props) {
       </div>
 
       {Array.from({ length: pageCount }, (_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: スケルトンは静的なリストで順序が変わらない
         <Skeleton key={i} className="size-8 rounded-md" />
       ))}
 
