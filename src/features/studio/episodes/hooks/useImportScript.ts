@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptImport,
@@ -56,10 +56,12 @@ export function useImportScript(channelId: string, episodeId: string) {
       });
 
       if (response.status !== StatusCodes.OK) {
-        setError(response.data.error?.message ?? MESSAGES.script.importError);
+        setError(
+          response.data.error?.message ?? '台本のインポートに失敗しました',
+        );
       }
     } catch {
-      setError(MESSAGES.script.importError);
+      setError('台本のインポートに失敗しました');
     } finally {
       setIsImporting(false);
       // ファイル入力をリセット（同じファイルを再選択できるように）

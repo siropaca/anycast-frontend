@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import {
   getGetMeBgmsQueryKey,
   useDeleteMeBgmsBgmId,
@@ -41,7 +41,7 @@ export function useDeleteBgm() {
       return true;
     } catch (err: unknown) {
       const message =
-        err instanceof Error ? err.message : MESSAGES.bgm.deleteError;
+        err instanceof Error ? err.message : 'BGMの削除に失敗しました';
       setError(message);
       return false;
     }

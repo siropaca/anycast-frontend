@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect, useRef, useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
 import { getMeScriptJobs } from '@/libs/api/generated/me/me';
 import type { RequestGenerateScriptAsyncRequest } from '@/libs/api/generated/schemas';
@@ -116,7 +116,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
           if (job.status === 'completed') {
             handleJobCompleted();
           } else if (job.status === 'failed') {
-            handleJobFailed(job.errorMessage ?? MESSAGES.script.generateError);
+            handleJobFailed(job.errorMessage ?? '台本生成に失敗しました');
           } else if (job.status === 'canceling') {
             handleJobCanceling();
           } else if (job.status === 'canceled') {
@@ -284,7 +284,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
               errorMessage:
                 'error' in response.data
                   ? response.data.error.message
-                  : MESSAGES.script.generateStartError,
+                  : '台本生成の開始に失敗しました',
             }));
             return;
           }
@@ -308,7 +308,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
           const message =
             error instanceof Error
               ? error.message
-              : MESSAGES.script.generateStartError;
+              : '台本生成の開始に失敗しました';
           setJobState((prev) => ({
             ...prev,
             status: 'failed',
@@ -363,7 +363,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
           const message =
             error instanceof Error
               ? error.message
-              : MESSAGES.script.cancelError;
+              : '台本生成のキャンセルに失敗しました';
           setJobState((prev) => ({
             ...prev,
             errorMessage: message,

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { MESSAGES } from '@/constants/messages';
+import { VALIDATION_MESSAGES } from '@/constants/messages';
 
 /**
  * エピソードの長さ（分）
@@ -9,9 +9,9 @@ export const EPISODE_DURATION_OPTIONS = [5, 10, 15] as const;
 export const scriptGenerateFormSchema = z.object({
   prompt: z
     .string()
-    .max(2000, MESSAGES.validation.maxLength('プロンプト', 2000)),
+    .max(2000, VALIDATION_MESSAGES.maxLength('プロンプト', 2000)),
   durationMinutes: z.number({
-    message: MESSAGES.validation.select('エピソードの長さ'),
+    message: VALIDATION_MESSAGES.select('エピソードの長さ'),
   }),
 });
 

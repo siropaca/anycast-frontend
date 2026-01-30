@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import { downloadFile } from '@/libs/api/downloadFile';
 import { getGetChannelsChannelIdEpisodesEpisodeIdScriptExportUrl } from '@/libs/api/generated/script/script';
 
@@ -33,7 +33,7 @@ export function useExportScript(
       );
       await downloadFile(url, `${episodeName}.txt`);
     } catch {
-      setError(MESSAGES.script.exportError);
+      setError('台本のエクスポートに失敗しました');
     } finally {
       setIsExporting(false);
     }

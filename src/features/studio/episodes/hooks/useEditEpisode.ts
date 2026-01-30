@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
 import { usePatchChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import {
@@ -64,7 +64,7 @@ export function useEditEpisode(channelId: string, episodeId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? MESSAGES.episode.updateError,
+              response.data.error?.message ?? 'エピソードの更新に失敗しました',
             );
             return;
           }
@@ -76,7 +76,9 @@ export function useEditEpisode(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.episode.updateError;
+            err instanceof Error
+              ? err.message
+              : 'エピソードの更新に失敗しました';
           setError(message);
         },
       },

@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import {
   useDeleteChannelsChannelId,
   usePostChannelsChannelIdPublish,
@@ -58,7 +58,7 @@ export function useChannelDetail(channelId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
             setError(
-              response.data.error?.message ?? MESSAGES.channel.deleteError,
+              response.data.error?.message ?? 'チャンネルの削除に失敗しました',
             );
             return;
           }
@@ -87,7 +87,7 @@ export function useChannelDetail(channelId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? MESSAGES.channel.publishError,
+              response.data.error?.message ?? 'チャンネルの公開に失敗しました',
             );
             return;
           }
@@ -114,7 +114,8 @@ export function useChannelDetail(channelId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? MESSAGES.channel.unpublishError,
+              response.data.error?.message ??
+                'チャンネルの非公開に失敗しました',
             );
             return;
           }

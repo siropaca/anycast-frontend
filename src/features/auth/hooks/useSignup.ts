@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import type { SignupInput } from '@/features/auth/schemas/auth';
 import { usePostAuthRegister } from '@/libs/api/generated/auth/auth';
 import { Pages } from '@/libs/pages';
@@ -39,7 +39,9 @@ export function useSignup(redirectTo: string = Pages.home.path()) {
       {
         onSuccess: async (response) => {
           if (response.status !== 201) {
-            setError(response.data.error?.message ?? MESSAGES.auth.signupError);
+            setError(
+              response.data.error?.message ?? 'ユーザー登録に失敗しました',
+            );
             return;
           }
 
@@ -60,7 +62,7 @@ export function useSignup(redirectTo: string = Pages.home.path()) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.auth.signupError;
+            err instanceof Error ? err.message : 'ユーザー登録に失敗しました';
           setError(message);
         },
       },

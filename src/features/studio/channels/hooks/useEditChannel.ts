@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import {
@@ -92,7 +92,7 @@ export function useEditChannel(channelId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? MESSAGES.channel.updateError,
+              response.data.error?.message ?? 'チャンネルの更新に失敗しました',
             );
             return;
           }
@@ -107,7 +107,9 @@ export function useEditChannel(channelId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.channel.updateError;
+            err instanceof Error
+              ? err.message
+              : 'チャンネルの更新に失敗しました';
           setError(message);
         },
       },

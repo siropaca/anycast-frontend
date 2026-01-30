@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useEffect, useRef, useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
 import {
   getAudioJobsJobId,
@@ -116,7 +116,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
           if (job.status === 'completed') {
             handleJobCompleted();
           } else if (job.status === 'failed') {
-            handleJobFailed(job.errorMessage ?? MESSAGES.audio.generateError);
+            handleJobFailed(job.errorMessage ?? '音声生成に失敗しました');
           } else if (job.status === 'canceling') {
             handleJobCanceling();
           } else if (job.status === 'canceled') {
@@ -286,7 +286,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
               errorMessage:
                 'error' in response.data
                   ? response.data.error.message
-                  : MESSAGES.audio.generateStartError,
+                  : '音声生成の開始に失敗しました',
             }));
             return;
           }
@@ -310,7 +310,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
           const message =
             error instanceof Error
               ? error.message
-              : MESSAGES.audio.generateStartError;
+              : '音声生成の開始に失敗しました';
           setJobState((prev) => ({
             ...prev,
             status: 'failed',
@@ -363,7 +363,9 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
         },
         onError: (error: unknown) => {
           const message =
-            error instanceof Error ? error.message : MESSAGES.audio.cancelError;
+            error instanceof Error
+              ? error.message
+              : '音声生成のキャンセルに失敗しました';
           setJobState((prev) => ({
             ...prev,
             errorMessage: message,

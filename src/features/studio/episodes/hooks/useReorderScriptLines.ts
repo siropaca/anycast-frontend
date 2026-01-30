@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   usePostChannelsChannelIdEpisodesEpisodeIdScriptReorder,
@@ -53,7 +53,7 @@ export function useReorderScriptLines(channelId: string, episodeId: string) {
           const message =
             err instanceof Error
               ? err.message
-              : MESSAGES.scriptLine.reorderError;
+              : '台本行の並び替えに失敗しました';
           setError(message);
         },
       },

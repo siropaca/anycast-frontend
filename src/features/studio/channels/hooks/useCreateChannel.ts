@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import { usePostChannels } from '@/libs/api/generated/channels/channels';
@@ -65,7 +65,7 @@ export function useCreateChannel() {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.CREATED) {
             setError(
-              response.data.error?.message ?? MESSAGES.channel.createError,
+              response.data.error?.message ?? 'チャンネルの作成に失敗しました',
             );
             return;
           }
@@ -74,7 +74,9 @@ export function useCreateChannel() {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.channel.createError;
+            err instanceof Error
+              ? err.message
+              : 'チャンネルの作成に失敗しました';
           setError(message);
         },
       },

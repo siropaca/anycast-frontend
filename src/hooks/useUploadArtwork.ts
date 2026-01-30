@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import { usePostImages } from '@/libs/api/generated/images/images';
 
 interface UploadResult {
@@ -35,7 +35,7 @@ export function useUploadArtwork() {
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.CREATED) {
-            setError(MESSAGES.image.uploadError);
+            setError('画像のアップロードに失敗しました');
             return;
           }
 
@@ -44,7 +44,9 @@ export function useUploadArtwork() {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.image.uploadError;
+            err instanceof Error
+              ? err.message
+              : '画像のアップロードに失敗しました';
           setError(message);
         },
       },

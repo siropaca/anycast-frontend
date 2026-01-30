@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import { useDeleteChannelsChannelIdDefaultBgm } from '@/libs/api/generated/channels/channels';
 import {
   getGetMeBgmsQueryKey,
@@ -35,7 +35,7 @@ export function useDeleteChannelDefaultBgm(channelId: string) {
       {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
-            setError(response.data.error?.message ?? MESSAGES.bgm.deleteError);
+            setError(response.data.error?.message ?? 'BGMの削除に失敗しました');
             return;
           }
 
@@ -49,7 +49,7 @@ export function useDeleteChannelDefaultBgm(channelId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.bgm.deleteError;
+            err instanceof Error ? err.message : 'BGMの削除に失敗しました';
           setError(message);
         },
       },

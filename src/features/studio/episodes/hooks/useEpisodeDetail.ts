@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import {
   useDeleteChannelsChannelIdEpisodesEpisodeId,
   usePostChannelsChannelIdEpisodesEpisodeIdPublish,
@@ -56,7 +56,7 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.NO_CONTENT) {
             setError(
-              response.data.error?.message ?? MESSAGES.episode.deleteError,
+              response.data.error?.message ?? 'エピソードの削除に失敗しました',
             );
             return;
           }
@@ -86,7 +86,7 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? MESSAGES.episode.publishError,
+              response.data.error?.message ?? 'エピソードの公開に失敗しました',
             );
             return;
           }
@@ -117,7 +117,8 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
         onSuccess: (response) => {
           if (response.status !== StatusCodes.OK) {
             setError(
-              response.data.error?.message ?? MESSAGES.episode.unpublishError,
+              response.data.error?.message ??
+                'エピソードの非公開に失敗しました',
             );
             return;
           }

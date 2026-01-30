@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import type { RequestCreateScriptLineRequest } from '@/libs/api/generated/schemas';
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
@@ -57,9 +57,7 @@ export function useCreateScriptLine(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error
-              ? err.message
-              : MESSAGES.scriptLine.createError;
+            err instanceof Error ? err.message : '台本行の作成に失敗しました';
           setError(message);
         },
       },

@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   useDeleteChannelsChannelIdEpisodesEpisodeIdScriptLinesLineId,
@@ -52,9 +52,7 @@ export function useDeleteScriptLine(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error
-              ? err.message
-              : MESSAGES.scriptLine.deleteError;
+            err instanceof Error ? err.message : '台本行の削除に失敗しました';
           setError(message);
         },
       },

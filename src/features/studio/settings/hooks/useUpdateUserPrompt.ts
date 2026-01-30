@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import {
   getGetMeQueryKey,
   useGetMe,
@@ -47,7 +47,7 @@ export function useUpdateUserPrompt() {
           if (response.status !== StatusCodes.OK) {
             setError(
               response.data.error?.message ??
-                MESSAGES.settings.updateUserPromptError,
+                'マスタープロンプトの更新に失敗しました',
             );
             return;
           }
@@ -61,7 +61,7 @@ export function useUpdateUserPrompt() {
           const message =
             err instanceof Error
               ? err.message
-              : MESSAGES.settings.updateUserPromptError;
+              : 'マスタープロンプトの更新に失敗しました';
           setError(message);
         },
       },

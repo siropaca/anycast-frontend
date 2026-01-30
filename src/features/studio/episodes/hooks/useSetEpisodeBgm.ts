@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-import { MESSAGES } from '@/constants/messages';
+
 import { usePutChannelsChannelIdEpisodesEpisodeIdBgm } from '@/libs/api/generated/episodes/episodes';
 import {
   getGetMeBgmsQueryKey,
@@ -57,7 +57,7 @@ export function useSetEpisodeBgm(channelId: string, episodeId: string) {
         },
         onError: (err: unknown) => {
           const message =
-            err instanceof Error ? err.message : MESSAGES.bgm.setError;
+            err instanceof Error ? err.message : 'BGMの設定に失敗しました';
           setError(message);
         },
       },
