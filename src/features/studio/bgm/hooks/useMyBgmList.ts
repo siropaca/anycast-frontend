@@ -28,6 +28,7 @@ export function useMyBgmList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data } = useGetMeBgmsSuspense({
+    include_system: true,
     limit: DEFAULT_LIMIT,
     offset: (currentPage - 1) * DEFAULT_LIMIT,
   });
