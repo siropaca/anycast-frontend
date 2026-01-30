@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { DashboardContent } from '@/features/studio/dashboard/components/DashboardContent';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -8,5 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default function StudioPage() {
-  return <DashboardContent />;
+  return (
+    <div className="space-y-6">
+      <SectionTitle title={Pages.studio.dashboard.title} />
+
+      <div>ここにコンテンツ</div>
+    </div>
+  );
 }
