@@ -86,7 +86,10 @@ export function BgmUploadModal() {
 
         {/* BGM名 */}
         <div className="space-y-2">
-          <FormLabel htmlFor="bgm-name" description="省略時はファイル名になります">
+          <FormLabel
+            htmlFor="bgm-name"
+            description="省略時はファイル名になります"
+          >
             BGM名
           </FormLabel>
           <Input
