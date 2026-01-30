@@ -30,11 +30,6 @@ export const MAIN_MENU_SECTIONS: MenuSection[] = [
     title: 'ライブラリ',
     items: [
       {
-        label: Pages.library.following.title,
-        href: Pages.library.following.path(),
-        icon: CheckSquareOffsetIcon,
-      },
-      {
         label: Pages.library.playList.title,
         href: Pages.library.playList.path(),
         icon: PlaylistIcon,
@@ -43,6 +38,11 @@ export const MAIN_MENU_SECTIONS: MenuSection[] = [
         label: Pages.library.likes.title,
         href: Pages.library.likes.path(),
         icon: ThumbsUpIcon,
+      },
+      {
+        label: Pages.library.following.title,
+        href: Pages.library.following.path(),
+        icon: CheckSquareOffsetIcon,
       },
       {
         label: Pages.library.history.title,
