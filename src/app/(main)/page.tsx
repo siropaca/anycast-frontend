@@ -44,7 +44,7 @@ const recentlyPlayed = [
 // TODO: モック実装
 export default function HomePage() {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <ContentSection title="おすすめのエピソード" moreHref="/episodes">
         {recommendedEpisodes.map((item) => (
           <Artwork

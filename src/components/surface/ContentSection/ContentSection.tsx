@@ -13,7 +13,7 @@ interface Props {
 export function ContentSection({ title, moreHref, children }: Props) {
   return (
     <section>
-      <div className="mb-2 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <SectionTitle title={title} />
 
         {moreHref && (
@@ -26,7 +26,7 @@ export function ContentSection({ title, moreHref, children }: Props) {
         )}
       </div>
 
-      <ScrollArea.Root className="relative">
+      <ScrollArea.Root className="relative py-2">
         <ScrollArea.Viewport className="overflow-x-auto">
           <div className="inline-flex space-x-2">{children}</div>
         </ScrollArea.Viewport>
