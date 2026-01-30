@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
@@ -35,13 +36,14 @@ export default function LibraryFollowingPage() {
 
       <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {followingUsers.map((user) => (
-          <Artwork
-            key={user.id}
-            src={`https://picsum.photos/seed/user-${user.id}/400/400`}
-            title={user.title}
-            subtext={user.subtext}
-            rounded
-          />
+          <Link key={user.id} href={Pages.user.path(user.subtext)}>
+            <Artwork
+              src={`https://picsum.photos/seed/user-${user.id}/400/400`}
+              title={user.title}
+              subtext={user.subtext}
+              rounded
+            />
+          </Link>
         ))}
       </div>
     </div>
