@@ -6,20 +6,30 @@ import {
   PlayIcon,
   TrashIcon,
 } from '@phosphor-icons/react';
+import { useState } from 'react';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
+import { Tag } from '@/components/dataDisplay/Tag/Tag';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { Pagination } from '@/components/navigation/Pagination/Pagination';
 import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
+import { BgmUsageDialog } from '@/features/studio/bgm/components/BgmUsageDialog';
 import { useBgmDeleteDialog } from '@/features/studio/bgm/hooks/useBgmDeleteDialog';
 import { useBgmPlayer } from '@/features/studio/bgm/hooks/useBgmPlayer';
 import { useMyBgmList } from '@/features/studio/bgm/hooks/useMyBgmList';
 import type { ResponseBgmWithEpisodesResponse } from '@/libs/api/generated/schemas';
+import { Pages } from '@/libs/pages';
+
+interface DialogState {
+  type: 'channels' | 'episodes';
+  items: { label: string; href: string }[];
+}
 
 export function BgmList() {
   const { bgms, currentPage, totalPages, setCurrentPage } = useMyBgmList();
   const { isBgmPlaying, playBgm, pauseBgm } = useBgmPlayer();
   const deleteDialog = useBgmDeleteDialog();
+  const [dialogState, setDialogState] = useState<DialogState | null>(null);
 
   function handlePageChange(page: number) {
     setCurrentPage(page);
@@ -50,6 +60,67 @@ export function BgmList() {
       ),
     },
     {
+      key: 'type',
+      header: '種別',
+      accessor: (bgm: ResponseBgmWithEpisodesResponse) => (
+        <Tag
+          label={bgm.isSystem ? 'システム' : 'カスタム'}
+          color={bgm.isSystem ? 'gray' : 'blue'}
+        />
+      ),
+    },
+    {
+      key: 'channels',
+      header: '使用チャンネル',
+      accessor: (bgm: ResponseBgmWithEpisodesResponse) =>
+        bgm.channels.length > 0 ? (
+          <button
+            type="button"
+            className="text-sm text-primary hover:underline cursor-pointer"
+            onClick={() =>
+              setDialogState({
+                type: 'channels',
+                items: bgm.channels.map((channel) => ({
+                  label: channel.name,
+                  href: Pages.studio.channel.path({ id: channel.id }),
+                })),
+              })
+            }
+          >
+            {bgm.channels.length} チャンネル
+          </button>
+        ) : (
+          <span className="text-sm text-text-secondary">—</span>
+        ),
+    },
+    {
+      key: 'episodes',
+      header: '使用エピソード',
+      accessor: (bgm: ResponseBgmWithEpisodesResponse) =>
+        bgm.episodes.length > 0 ? (
+          <button
+            type="button"
+            className="text-sm text-primary hover:underline cursor-pointer"
+            onClick={() =>
+              setDialogState({
+                type: 'episodes',
+                items: bgm.episodes.map((episode) => ({
+                  label: episode.title,
+                  href: Pages.studio.episode.path({
+                    id: episode.channel.id,
+                    episodeId: episode.id,
+                  }),
+                })),
+              })
+            }
+          >
+            {bgm.episodes.length} エピソード
+          </button>
+        ) : (
+          <span className="text-sm text-text-secondary">—</span>
+        ),
+    },
+    {
       key: 'actions',
       header: '',
       className: 'w-0 px-4 py-3',
@@ -75,12 +146,14 @@ export function BgmList() {
             aria-label="編集"
             color="secondary"
             variant="text"
+            disabled={bgm.isSystem}
           />
           <IconButton
             icon={<TrashIcon size={18} />}
             aria-label="削除"
             color="danger"
             variant="text"
+            disabled={bgm.isSystem}
             onClick={() => deleteDialog.open(bgm)}
           />
         </div>
@@ -120,6 +193,17 @@ export function BgmList() {
         confirmColor="danger"
         onOpenChange={(open) => !open && deleteDialog.close()}
         onConfirm={deleteDialog.confirm}
+      />
+
+      <BgmUsageDialog
+        title={
+          dialogState?.type === 'channels' ? '使用チャンネル' : '使用エピソード'
+        }
+        items={dialogState?.items ?? []}
+        open={dialogState !== null}
+        onOpenChange={(open) => {
+          if (!open) setDialogState(null);
+        }}
       />
     </div>
   );
