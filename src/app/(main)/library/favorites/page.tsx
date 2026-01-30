@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-const bookmarks = [
+const items = [
   { id: 1, title: 'テクノロジーの未来', subtext: 'TechCast' },
   { id: 2, title: '朝の瞑想ガイド', subtext: 'マインドフルネス FM' },
   { id: 3, title: '世界のニュースまとめ', subtext: 'グローバルニュース' },
@@ -33,10 +33,10 @@ export default function LibraryFavoritesPage() {
       <SectionTitle title={Pages.library.favorites.title} />
 
       <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {bookmarks.map((item) => (
+        {items.map((item) => (
           <Artwork
             key={item.id}
-            src={`https://picsum.photos/seed/bookmark-${item.id}/400/400`}
+            src={`https://picsum.photos/seed/favorite-${item.id}/400/400`}
             title={item.title}
             subtext={item.subtext}
           />

@@ -67,12 +67,12 @@ describe('mainPages', () => {
       expect(mainPages.library.following.title).toBe('フォロー中');
     });
 
-    it('bookmarks の path が /library/bookmarks を返す', () => {
-      expect(mainPages.library.bookmarks.path()).toBe('/library/bookmarks');
+    it('playList の path が /library/playlist を返す', () => {
+      expect(mainPages.library.playList.path()).toBe('/library/playlist');
     });
 
-    it('bookmarks の title が設定されている', () => {
-      expect(mainPages.library.bookmarks.title).toBe('後で聴く');
+    it('playList の title が設定されている', () => {
+      expect(mainPages.library.playList.title).toBe('再生リスト');
     });
 
     it('favorites の path が /library/favorites を返す', () => {

@@ -50,10 +50,10 @@ export const mainPages = {
       path: () => '/library/following',
       title: 'フォロー中',
     },
-    /** 後で聴く */
-    bookmarks: {
-      path: () => '/library/bookmarks',
-      title: '後で聴く',
+    /** 再生リスト */
+    playList: {
+      path: () => '/library/playlist',
+      title: '再生リスト',
     },
     /** お気に入り */
     favorites: {

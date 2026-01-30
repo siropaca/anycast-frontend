@@ -74,12 +74,12 @@ describe('Pages', () => {
       expect(Pages.library.following.title).toBe('フォロー中');
     });
 
-    it('後で聴くページのパスを返す', () => {
-      expect(Pages.library.bookmarks.path()).toBe('/library/bookmarks');
+    it('再生リストページのパスを返す', () => {
+      expect(Pages.library.playList.path()).toBe('/library/playlist');
     });
 
-    it('後で聴くのタイトルを返す', () => {
-      expect(Pages.library.bookmarks.title).toBe('後で聴く');
+    it('再生リストのタイトルを返す', () => {
+      expect(Pages.library.playList.title).toBe('再生リスト');
     });
 
     it('お気に入りページのパスを返す', () => {
