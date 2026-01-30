@@ -19,5 +19,7 @@ export function useRecommendedChannels() {
   const response =
     unwrapPaginatedResponse<ResponseRecommendedChannelListResponse>(data);
 
-  return { channels: response.data };
+  return {
+    channels: response.data,
+  };
 }

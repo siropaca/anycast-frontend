@@ -5,10 +5,7 @@ import { ContentSection } from '@/components/surface/ContentSection/ContentSecti
 import { ContentSectionEmpty } from '@/components/surface/ContentSection/ContentSectionEmpty';
 import { RecommendedEpisodesSkeleton } from '@/features/home/components/RecommendedEpisodesSkeleton';
 import { ARTWORK_SIZE } from '@/features/home/constants/layout';
-import {
-  getEpisodeArtworkUrl,
-  useRecommendedEpisodes,
-} from '@/features/home/hooks/useRecommendedEpisodes';
+import { useRecommendedEpisodes } from '@/features/home/hooks/useRecommendedEpisodes';
 
 export function RecommendedEpisodes() {
   const { episodes } = useRecommendedEpisodes();
@@ -28,7 +25,7 @@ export function RecommendedEpisodes() {
       {episodes.map((episode) => (
         <Artwork
           key={episode.id}
-          src={getEpisodeArtworkUrl(episode)}
+          src={episode.artwork?.url}
           title={episode.title}
           subtext={episode.channel.name}
           size={ARTWORK_SIZE}
