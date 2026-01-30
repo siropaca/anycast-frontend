@@ -51,7 +51,7 @@ export const Sizes: Story = {
 export const Colors: Story = {
   args: {
     icon: <HeartIcon size={20} />,
-    'aria-label': 'お気に入り',
+    'aria-label': '高評価',
   },
   render: () => (
     <Stack direction="column" gap={24}>
@@ -59,19 +59,19 @@ export const Colors: Story = {
         <Stack>
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="primary"
             variant="solid"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="secondary"
             variant="solid"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="danger"
             variant="solid"
           />
@@ -82,19 +82,19 @@ export const Colors: Story = {
         <Stack>
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="primary"
             variant="outline"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="secondary"
             variant="outline"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="danger"
             variant="outline"
           />
@@ -105,19 +105,19 @@ export const Colors: Story = {
         <Stack>
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="primary"
             variant="text"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="secondary"
             variant="text"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             color="danger"
             variant="text"
           />
@@ -216,21 +216,21 @@ export const AllVariants: Story = {
         <Stack>
           <IconButton
             icon={<HeartIcon size={16} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="sm"
             color="secondary"
             variant="solid"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="md"
             color="secondary"
             variant="solid"
           />
           <IconButton
             icon={<HeartIcon size={24} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="lg"
             color="secondary"
             variant="solid"
@@ -242,21 +242,21 @@ export const AllVariants: Story = {
         <Stack>
           <IconButton
             icon={<HeartIcon size={16} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="sm"
             color="secondary"
             variant="outline"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="md"
             color="secondary"
             variant="outline"
           />
           <IconButton
             icon={<HeartIcon size={24} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="lg"
             color="secondary"
             variant="outline"
@@ -268,21 +268,21 @@ export const AllVariants: Story = {
         <Stack>
           <IconButton
             icon={<HeartIcon size={16} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="sm"
             color="secondary"
             variant="text"
           />
           <IconButton
             icon={<HeartIcon size={20} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="md"
             color="secondary"
             variant="text"
           />
           <IconButton
             icon={<HeartIcon size={24} />}
-            aria-label="お気に入り"
+            aria-label="高評価"
             size="lg"
             color="secondary"
             variant="text"

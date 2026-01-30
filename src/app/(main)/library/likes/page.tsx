@@ -4,7 +4,7 @@ import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
-  title: Pages.library.favorites.title,
+  title: Pages.library.likes.title,
   robots: { index: false },
 };
 
@@ -27,16 +27,16 @@ const items = [
 ];
 
 // TODO: モック実装
-export default function LibraryFavoritesPage() {
+export default function LibraryLikesPage() {
   return (
     <div>
-      <SectionTitle title={Pages.library.favorites.title} />
+      <SectionTitle title={Pages.library.likes.title} />
 
       <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {items.map((item) => (
           <Artwork
             key={item.id}
-            src={`https://picsum.photos/seed/favorite-${item.id}/400/400`}
+            src={`https://picsum.photos/seed/like-${item.id}/400/400`}
             title={item.title}
             subtext={item.subtext}
           />

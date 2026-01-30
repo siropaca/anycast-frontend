@@ -2,9 +2,9 @@ import {
   CheckSquareOffsetIcon,
   ClockCounterClockwiseIcon,
   CompassIcon,
-  HeartIcon,
   HouseIcon,
   PlaylistIcon,
+  ThumbsUpIcon,
   UserIcon,
   VideoIcon,
 } from '@phosphor-icons/react';
@@ -40,9 +40,9 @@ export const MAIN_MENU_SECTIONS: MenuSection[] = [
         icon: PlaylistIcon,
       },
       {
-        label: Pages.library.favorites.title,
-        href: Pages.library.favorites.path(),
-        icon: HeartIcon,
+        label: Pages.library.likes.title,
+        href: Pages.library.likes.path(),
+        icon: ThumbsUpIcon,
       },
       {
         label: Pages.library.history.title,

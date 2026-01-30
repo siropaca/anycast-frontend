@@ -265,7 +265,7 @@ export const WithIcons: Story = {
             leftIcon={<HeartIcon size={16} />}
             rightIcon={<PlusIcon size={16} />}
           >
-            お気に入りに追加
+            高評価に追加
           </Button>
         </Stack>
       </Section>

@@ -225,12 +225,12 @@ describe('helper', () => {
         {
           title: 'Library',
           items: [
-            { label: 'Favorites', href: '/library/favorites', icon: mockIcon },
+            { label: 'Likes', href: '/library/likes', icon: mockIcon },
           ],
         },
       ];
 
-      const result = withActiveState(sections, '/library/favorites');
+      const result = withActiveState(sections, '/library/likes');
 
       expect(result[0].items[0].isActive).toBe(false);
       expect(result[1].items[0].isActive).toBe(true);
