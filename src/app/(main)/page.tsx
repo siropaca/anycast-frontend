@@ -16,14 +16,17 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="flex flex-col gap-6">
+      {/* おすすめのエピソード */}
       <Suspense fallback={<RecommendedEpisodesSkeleton />}>
         <RecommendedEpisodes />
       </Suspense>
 
+      {/* おすすめのチャンネル */}
       <Suspense fallback={<RecommendedChannelsSkeleton />}>
         <RecommendedChannels />
       </Suspense>
 
+      {/* 最近聴いたコンテンツ */}
       <Suspense fallback={<RecentlyPlayedSkeleton />}>
         <RecentlyPlayed />
       </Suspense>

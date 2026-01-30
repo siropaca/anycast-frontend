@@ -13,7 +13,7 @@ export function RecommendedChannels() {
   // エンプティ
   if (channels.length === 0) {
     return (
-      <ContentSectionEmpty message="チャンネルはありません">
+      <ContentSectionEmpty message="おすすめのチャンネルはありません">
         <RecommendedChannelsSkeleton />
       </ContentSectionEmpty>
     );

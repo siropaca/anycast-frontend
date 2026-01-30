@@ -13,7 +13,7 @@ export function RecommendedEpisodes() {
   // エンプティ
   if (episodes.length === 0) {
     return (
-      <ContentSectionEmpty message="エピソードはありません">
+      <ContentSectionEmpty message="おすすめのエピソードはありません">
         <RecommendedEpisodesSkeleton />
       </ContentSectionEmpty>
     );
