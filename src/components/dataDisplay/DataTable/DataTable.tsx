@@ -29,7 +29,7 @@ export function DataTable<T>({
             {columns.map((column) => (
               <th
                 key={column.key}
-                className="px-4 py-3 text-left text-sm text-text-subtle"
+                className="truncate px-4 py-3 text-left text-sm text-text-subtle"
               >
                 {column.header}
               </th>
