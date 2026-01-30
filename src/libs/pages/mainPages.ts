@@ -25,7 +25,7 @@ export const mainPages = {
   },
   /** ユーザー */
   user: {
-    path: (username: string) => `/@${username}`,
+    path: (username: string) => `/users/${username}`,
     title: (username: string) => `@${username}`,
   },
   /** ログイン */

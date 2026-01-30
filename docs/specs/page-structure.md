@@ -32,7 +32,7 @@ Anycast のページ構成と URL 設計を定義する。
 | ホーム | `/` | チャンネル一覧を表示 | ✅ | |
 | 探索 | `/explore` | カテゴリ一覧・検索（`?q=xxx`） | ✅ | |
 | カテゴリ別 | `/explore/:category` | 特定カテゴリのチャンネル一覧 | | |
-| ユーザー | `/@:username` | ユーザーが配信しているチャンネル一覧 | ✅ | |
+| ユーザー | `/users/:username` | ユーザーが配信しているチャンネル一覧 | ✅ | |
 | チャンネル | `/channel/:channelSlug` | チャンネル詳細とエピソード一覧 | | |
 | エピソード | `/episode/:episodeId` | エピソード再生ページ | | |
 | 利用規約 | `/legal/terms` | 利用規約 | | |
@@ -85,12 +85,12 @@ Anycast のページ構成と URL 設計を定義する。
 
 ### ユーザー URL
 
-`/@:username` 形式を採用。
+`/users/:username` 形式を採用。`/@:username` からのアクセスは Next.js の rewrites で `/users/:username` にリダイレクトする。
 
 **理由:**
 
-- Twitter、GitHub など多くのサービスで採用されている馴染みのある形式
-- ユーザーページであることが URL から明確
+- `/users/` プレフィックスにより他のルートとの競合を回避
+- `/@:username` の rewrites を維持し、SNS 等で馴染みのある URL 形式も引き続き利用可能
 
 ### クリエイター機能
 

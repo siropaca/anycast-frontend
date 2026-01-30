@@ -264,7 +264,7 @@ describe('helper', () => {
 
       const result = withProfileHref(sections, 'hoge');
 
-      expect(result[0].items[0].href).toBe('/@hoge');
+      expect(result[0].items[0].href).toBe('/users/hoge');
       expect(result[0].items[1].href).toBe('/settings');
     });
 
@@ -302,7 +302,7 @@ describe('helper', () => {
       const result = withProfileHref(sections, 'testuser');
 
       expect(result[0].items[0].href).toBe('/');
-      expect(result[1].items[0].href).toBe('/@testuser');
+      expect(result[1].items[0].href).toBe('/users/testuser');
       expect(result[1].items[1].href).toBe('/settings');
     });
 

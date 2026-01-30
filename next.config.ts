@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/@:username',
-        destination: '/:username',
+        destination: '/users/:username',
       },
     ];
   },
