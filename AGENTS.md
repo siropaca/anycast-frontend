@@ -5,7 +5,8 @@
 | ファイル | 説明 |
 |----------|------|
 | [docs/adr/](docs/adr/) | Architecture Decision Records |
-| [docs/specs/](docs/specs/) | 仕様書（認証、ページ構成、UI レイアウト） |
+| [docs/pages/](docs/pages/) | ページ構成と URL 設計 |
+| [docs/specs/](docs/specs/) | 仕様書（認証、UI レイアウト） |
 
 ## ドキュメント管理ルール
 
