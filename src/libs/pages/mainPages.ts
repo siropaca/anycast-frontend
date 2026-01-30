@@ -28,6 +28,16 @@ export const mainPages = {
     path: (username: string) => `/users/${username}`,
     title: (username: string) => `@${username}`,
   },
+  /** チャンネル詳細 */
+  channel: {
+    path: (channelSlug: string) => `/channel/${channelSlug}`,
+    title: 'チャンネル詳細',
+  },
+  /** エピソード詳細 */
+  episode: {
+    path: (episodeId: string) => `/episode/${episodeId}`,
+    title: 'エピソード詳細',
+  },
   /** ログイン */
   login: {
     path: (params?: LoginSearchParams) => `/login${buildQuery(params)}`,

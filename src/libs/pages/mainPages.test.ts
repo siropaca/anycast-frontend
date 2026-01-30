@@ -44,6 +44,26 @@ describe('mainPages', () => {
     });
   });
 
+  describe('channel', () => {
+    it('path が /channel/:channelSlug を返す', () => {
+      expect(mainPages.channel.path('my-channel')).toBe('/channel/my-channel');
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.channel.title).toBe('チャンネル詳細');
+    });
+  });
+
+  describe('episode', () => {
+    it('path が /episode/:episodeId を返す', () => {
+      expect(mainPages.episode.path('ep-123')).toBe('/episode/ep-123');
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.episode.title).toBe('エピソード詳細');
+    });
+  });
+
   describe('explore', () => {
     it('パラメータなしで /explore を返す', () => {
       expect(mainPages.explore.path()).toBe('/explore');

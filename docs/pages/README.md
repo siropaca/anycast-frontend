@@ -33,8 +33,8 @@ Anycast のページ構成と URL 設計を定義する。
 | 探索 | `/explore` | カテゴリ一覧・検索（`?q=xxx`） | ✅ | | |
 | カテゴリ別 | `/explore/:category` | 特定カテゴリのチャンネル一覧 | | | |
 | ユーザー | `/users/:username` | ユーザーが配信しているチャンネル一覧 | ✅ | | |
-| チャンネル | `/channel/:channelSlug` | チャンネル詳細とエピソード一覧 | | | [詳細](./channel-detail.md) |
-| エピソード | `/episode/:episodeId` | エピソード再生ページ | | | [詳細](./episode-detail.md) |
+| チャンネル | `/channel/:channelSlug` | チャンネル詳細とエピソード一覧 | ✅ | | [詳細](./channel-detail.md) |
+| エピソード | `/episode/:episodeId` | エピソード再生ページ | ✅ | | [詳細](./episode-detail.md) |
 | 利用規約 | `/legal/terms` | 利用規約 | | | |
 | プライバシーポリシー | `/legal/privacy` | プライバシーポリシー | | | |
 

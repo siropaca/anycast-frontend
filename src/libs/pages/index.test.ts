@@ -47,6 +47,26 @@ describe('Pages', () => {
     });
   });
 
+  describe('channel', () => {
+    it('チャンネル詳細ページのパスを返す', () => {
+      expect(Pages.channel.path('my-channel')).toBe('/channel/my-channel');
+    });
+
+    it('タイトルを返す', () => {
+      expect(Pages.channel.title).toBe('チャンネル詳細');
+    });
+  });
+
+  describe('episode', () => {
+    it('エピソード詳細ページのパスを返す', () => {
+      expect(Pages.episode.path('ep-123')).toBe('/episode/ep-123');
+    });
+
+    it('タイトルを返す', () => {
+      expect(Pages.episode.title).toBe('エピソード詳細');
+    });
+  });
+
   describe('explore', () => {
     it('探索ページのパスを返す', () => {
       expect(Pages.explore.path()).toBe('/explore');
