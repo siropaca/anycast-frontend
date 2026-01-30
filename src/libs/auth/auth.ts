@@ -5,9 +5,9 @@ import {
   postAuthLogin,
   postAuthOauthGoogle,
 } from '@/libs/api/generated/auth/auth';
-import { Pages } from '@/libs/pages';
 import { deduplicatedRefresh } from '@/libs/auth/refresh';
 import { isTokenExpiringSoon } from '@/libs/auth/token';
+import { Pages } from '@/libs/pages';
 
 // ---------------------------------------------------------------------------
 // 型拡張
@@ -165,8 +165,7 @@ const nextAuth = NextAuth({
     async signOut(message) {
       // JWT strategy では { token } を受け取る
       if ('token' in message && message.token) {
-        const { accessToken, refreshToken } =
-          message.token as ExtendedJWT;
+        const { accessToken, refreshToken } = message.token as ExtendedJWT;
         if (refreshToken) {
           try {
             await fetch(

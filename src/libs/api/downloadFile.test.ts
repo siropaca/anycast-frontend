@@ -42,7 +42,9 @@ function createBlobResponse(
     status,
     headers: new Headers(),
     blob: vi.fn().mockResolvedValue(blobData),
-    json: vi.fn().mockResolvedValue({ error: { message: `HTTP error: ${status}` } }),
+    json: vi
+      .fn()
+      .mockResolvedValue({ error: { message: `HTTP error: ${status}` } }),
   };
 }
 
@@ -60,12 +62,8 @@ describe('downloadFile', () => {
     vi.spyOn(document, 'createElement').mockReturnValue(
       mockLink as unknown as HTMLElement,
     );
-    vi.spyOn(document.body, 'appendChild').mockImplementation(
-      (node) => node,
-    );
-    vi.spyOn(document.body, 'removeChild').mockImplementation(
-      (node) => node,
-    );
+    vi.spyOn(document.body, 'appendChild').mockImplementation((node) => node);
+    vi.spyOn(document.body, 'removeChild').mockImplementation((node) => node);
   });
 
   afterEach(() => {
@@ -120,9 +118,7 @@ describe('downloadFile', () => {
       mockFetch.mockResolvedValue(createBlobResponse(StatusCodes.UNAUTHORIZED));
       mockGetSession.mockResolvedValue({ accessToken: 'access-token-1' });
 
-      await expect(
-        downloadFile('/files/123', 'test.mp3'),
-      ).rejects.toThrow();
+      await expect(downloadFile('/files/123', 'test.mp3')).rejects.toThrow();
       expect(mockFetch).toHaveBeenCalledTimes(1);
     });
   });

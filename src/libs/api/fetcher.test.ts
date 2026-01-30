@@ -24,10 +24,7 @@ vi.stubGlobal('fetch', mockFetch);
  * @param body - レスポンスボディ
  * @returns Response オブジェクト
  */
-function createJsonResponse(
-  status: number,
-  body: unknown,
-): Partial<Response> {
+function createJsonResponse(status: number, body: unknown): Partial<Response> {
   return {
     ok: status >= 200 && status < 300,
     status,
@@ -114,9 +111,7 @@ describe('customFetcher', () => {
             error: { message: 'Unauthorized' },
           }),
         )
-        .mockResolvedValueOnce(
-          createJsonResponse(StatusCodes.OK, { id: '1' }),
-        );
+        .mockResolvedValueOnce(createJsonResponse(StatusCodes.OK, { id: '1' }));
 
       // 2 回目の getSession で新しいトークンを返す
       mockGetSession
