@@ -50,7 +50,7 @@ export function ChannelForm({
     error: artworkUploadError,
   } = useUploadArtwork();
 
-  const { userBgms, defaultBgms } = useBgmOptions();
+  const { userBgms, systemBgms } = useBgmOptions();
 
   const {
     uploadBgm,
@@ -90,7 +90,7 @@ export function ChannelForm({
   const [bgmName, setBgmName] = useState('');
   const [selectedBgmValue, setSelectedBgmValue] = useState(
     defaultBgm
-      ? `${defaultBgm.isDefault ? 'default' : 'user'}:${defaultBgm.id}`
+      ? `${defaultBgm.isSystem ? 'system' : 'user'}:${defaultBgm.id}`
       : '',
   );
 
@@ -128,7 +128,7 @@ export function ChannelForm({
     const [type, bgmId] = value.split(':');
     if (!bgmId) return;
 
-    if (type === 'default') {
+    if (type === 'system') {
       setValue('defaultBgmId', undefined, { shouldDirty: true });
       setValue('defaultSystemBgmId', bgmId, { shouldDirty: true });
     } else {
@@ -262,10 +262,10 @@ export function ChannelForm({
                 ))}
               </optgroup>
             )}
-            {defaultBgms.length > 0 && (
-              <optgroup label="デフォルト">
-                {defaultBgms.map((bgm) => (
-                  <option key={bgm.id} value={`default:${bgm.id}`}>
+            {systemBgms.length > 0 && (
+              <optgroup label="システム">
+                {systemBgms.map((bgm) => (
+                  <option key={bgm.id} value={`system:${bgm.id}`}>
                     {bgm.name}
                   </option>
                 ))}

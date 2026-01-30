@@ -30,7 +30,7 @@ export function useSetEpisodeBgm(channelId: string, episodeId: string) {
   function setBgm(bgmId: string, isDefault: boolean) {
     setError(undefined);
 
-    const data = isDefault ? { defaultBgmId: bgmId } : { bgmId };
+    const data = isDefault ? { systemBgmId: bgmId } : { bgmId };
 
     mutation.mutate(
       {

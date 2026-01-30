@@ -5,21 +5,21 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
 /**
  * BGM選択肢を取得する
  *
- * ユーザーBGMとデフォルトBGMを分けて返す。
+ * ユーザーBGMとシステムBGMを分けて返す。
  *
- * @returns ユーザーBGM、デフォルトBGM、全BGMの配列
+ * @returns ユーザーBGM、システムBGM、全BGMの配列
  */
 export function useBgmOptions() {
-  const { data } = useGetMeBgmsSuspense({ include_default: true });
+  const { data } = useGetMeBgmsSuspense({ include_system: true });
 
   const allBgms = unwrapResponse<ResponseBgmWithEpisodesResponse[]>(data, []);
 
-  const userBgms = allBgms.filter((bgm) => !bgm.isDefault);
-  const defaultBgms = allBgms.filter((bgm) => bgm.isDefault);
+  const userBgms = allBgms.filter((bgm) => !bgm.isSystem);
+  const systemBgms = allBgms.filter((bgm) => bgm.isSystem);
 
   return {
     allBgms,
     userBgms,
-    defaultBgms,
+    systemBgms,
   };
 }

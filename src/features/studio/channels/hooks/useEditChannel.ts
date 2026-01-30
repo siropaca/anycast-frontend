@@ -53,10 +53,10 @@ export function useEditChannel(channelId: string) {
     userPrompt: channel.userPrompt,
     categoryId: channel.category.id,
     artworkImageId: channel.artwork?.id,
-    defaultBgmId: channel.defaultBgm?.isDefault
+    defaultBgmId: channel.defaultBgm?.isSystem
       ? undefined
       : channel.defaultBgm?.id,
-    defaultSystemBgmId: channel.defaultBgm?.isDefault
+    defaultSystemBgmId: channel.defaultBgm?.isSystem
       ? channel.defaultBgm?.id
       : undefined,
     characters: channel.characters.map((c) => ({

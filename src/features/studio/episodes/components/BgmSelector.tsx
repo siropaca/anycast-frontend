@@ -17,7 +17,7 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [bgmName, setBgmName] = useState('');
 
-  const { userBgms, defaultBgms } = useBgmOptions();
+  const { userBgms, systemBgms } = useBgmOptions();
 
   const {
     setBgm,
@@ -43,7 +43,7 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
     const [type, bgmId] = value.split(':');
     if (!bgmId) return;
 
-    setBgm(bgmId, type === 'default');
+    setBgm(bgmId, type === 'system');
   }
 
   function handleDeleteClick() {
@@ -67,7 +67,7 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
   }
 
   const currentValue = currentBgm
-    ? `${currentBgm.isDefault ? 'default' : 'user'}:${currentBgm.id}`
+    ? `${currentBgm.isSystem ? 'system' : 'user'}:${currentBgm.id}`
     : '';
 
   return (
@@ -89,10 +89,10 @@ export function BgmSelector({ channelId, episodeId, currentBgm }: Props) {
               ))}
             </optgroup>
           )}
-          {defaultBgms.length > 0 && (
-            <optgroup label="デフォルト">
-              {defaultBgms.map((bgm) => (
-                <option key={bgm.id} value={`default:${bgm.id}`}>
+          {systemBgms.length > 0 && (
+            <optgroup label="システム">
+              {systemBgms.map((bgm) => (
+                <option key={bgm.id} value={`system:${bgm.id}`}>
                   {bgm.name}
                 </option>
               ))}
