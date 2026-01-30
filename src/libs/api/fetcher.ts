@@ -7,7 +7,7 @@ import { auth } from '@/libs/auth/auth';
  *
  * @returns アクセストークン（存在しない場合は undefined）
  */
-async function getAccessToken(): Promise<string | undefined> {
+export async function getAccessToken(): Promise<string | undefined> {
   // クライアントサイド
   if (typeof window !== 'undefined') {
     const session = await getSession();
@@ -17,6 +17,43 @@ async function getAccessToken(): Promise<string | undefined> {
   // サーバーサイド
   const { session } = await auth();
   return session?.accessToken;
+}
+
+/**
+ * fetch リクエストを実行する
+ *
+ * @param url - API エンドポイント（ベースパスからの相対パス）
+ * @param options - fetch オプション
+ * @param accessToken - アクセストークン
+ * @returns fetch レスポンス
+ */
+export async function doFetch(
+  url: string,
+  options: RequestInit | undefined,
+  accessToken: string | undefined,
+): Promise<Response> {
+  const headers: HeadersInit = {
+    ...options?.headers,
+  };
+
+  if (accessToken) {
+    (headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
+  }
+
+  return fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1${url}`, {
+    ...options,
+    headers,
+  });
+}
+
+/**
+ * 401 レスポンスの場合にセッションを再取得してリトライすべきかを判定する
+ *
+ * @param url - リクエスト先 URL
+ * @returns リトライすべきなら true
+ */
+function shouldRetryOn401(url: string): boolean {
+  return typeof window !== 'undefined' && !url.startsWith('/auth/');
 }
 
 /**
@@ -31,22 +68,17 @@ export async function customFetcher<TResponse>(
   url: string,
   options?: RequestInit,
 ): Promise<TResponse> {
-  const headers: HeadersInit = {
-    ...options?.headers,
-  };
-
   const accessToken = await getAccessToken();
-  if (accessToken) {
-    (headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
-  }
+  let response = await doFetch(url, options, accessToken);
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1${url}`,
-    {
-      ...options,
-      headers,
-    },
-  );
+  // 401 リアクティブリトライ
+  if (response.status === StatusCodes.UNAUTHORIZED && shouldRetryOn401(url)) {
+    const session = await getSession();
+    const newToken = session?.accessToken;
+    if (newToken && newToken !== accessToken) {
+      response = await doFetch(url, options, newToken);
+    }
+  }
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));

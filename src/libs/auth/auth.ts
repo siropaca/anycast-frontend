@@ -6,17 +6,32 @@ import {
   postAuthOauthGoogle,
 } from '@/libs/api/generated/auth/auth';
 import { Pages } from '@/libs/pages';
+import { deduplicatedRefresh } from '@/libs/auth/refresh';
+import { isTokenExpiringSoon } from '@/libs/auth/token';
+
+// ---------------------------------------------------------------------------
+// 型拡張
+// ---------------------------------------------------------------------------
 
 declare module 'next-auth' {
   interface Session {
     accessToken?: string;
-  }
-
-  interface JWT {
-    id?: string;
-    accessToken?: string;
+    error?: 'RefreshTokenError';
   }
 }
+
+/** jwt コールバック内で使用する拡張 JWT 型 */
+interface ExtendedJWT {
+  id?: string;
+  accessToken?: string;
+  refreshToken?: string;
+  error?: 'RefreshTokenError';
+  [key: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// NextAuth 設定
+// ---------------------------------------------------------------------------
 
 const nextAuth = NextAuth({
   providers: [
@@ -42,8 +57,9 @@ const nextAuth = NextAuth({
 
           const data = response.data.data;
           const user = data?.user;
-          const token = data?.token;
-          if (!user || !token) {
+          const accessToken = data?.accessToken;
+          const refreshToken = data?.refreshToken;
+          if (!user || !accessToken) {
             return null;
           }
 
@@ -52,7 +68,8 @@ const nextAuth = NextAuth({
             email: user.email ?? '',
             name: user.displayName ?? '',
             image: user.avatarUrl ?? null,
-            accessToken: token,
+            accessToken,
+            refreshToken,
           };
         } catch {
           return null;
@@ -83,35 +100,93 @@ const nextAuth = NextAuth({
 
           const data = response.data.data;
           const backendUser = data?.user;
-          const token = data?.token;
-          if (!backendUser?.id || !token) {
+          const backendAccessToken = data?.accessToken;
+          if (!backendUser?.id || !backendAccessToken) {
             return false;
           }
 
           user.id = backendUser.id;
-          (user as { accessToken?: string }).accessToken = token;
+          (user as { accessToken?: string }).accessToken = backendAccessToken;
+          (user as { refreshToken?: string }).refreshToken = data?.refreshToken;
         } catch {
           return false;
         }
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token: rawToken, user }) {
+      const token = rawToken as ExtendedJWT;
+
+      // 初回ログイン時: user からトークンを引き継ぐ
       if (user) {
         token.id = user.id as string;
         token.accessToken = (user as { accessToken?: string }).accessToken;
+        token.refreshToken = (user as { refreshToken?: string }).refreshToken;
+        token.error = undefined;
+        return token;
       }
+
+      // アクセストークンがまだ有効な場合はそのまま返す
+      if (token.accessToken && !isTokenExpiringSoon(token.accessToken)) {
+        return token;
+      }
+
+      // アクセストークンの有効期限が近い or 切れている → リフレッシュ
+      if (token.refreshToken) {
+        try {
+          const result = await deduplicatedRefresh(token.refreshToken);
+          token.accessToken = result.accessToken;
+          token.refreshToken = result.refreshToken;
+          token.error = undefined;
+          return token;
+        } catch {
+          token.error = 'RefreshTokenError';
+          return token;
+        }
+      }
+
       return token;
     },
-    async session({ session, token }) {
-      const jwtToken = token as { id?: string; accessToken?: string };
-      if (jwtToken.id) {
-        (session.user as { id: string }).id = jwtToken.id;
+    async session({ session, token: rawToken }) {
+      const token = rawToken as ExtendedJWT;
+      if (token.id) {
+        (session.user as { id: string }).id = token.id;
       }
-      if (jwtToken.accessToken) {
-        session.accessToken = jwtToken.accessToken;
+      if (token.accessToken) {
+        session.accessToken = token.accessToken;
+      }
+      if (token.error) {
+        session.error = token.error;
       }
       return session;
+    },
+  },
+  events: {
+    async signOut(message) {
+      // JWT strategy では { token } を受け取る
+      if ('token' in message && message.token) {
+        const { accessToken, refreshToken } =
+          message.token as ExtendedJWT;
+        if (refreshToken) {
+          try {
+            await fetch(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/logout`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  ...(accessToken
+                    ? { Authorization: `Bearer ${accessToken}` }
+                    : {}),
+                },
+                body: JSON.stringify({ refreshToken }),
+              },
+            );
+          } catch {
+            // ログアウト API の失敗は無視（トークンは自然に期限切れになる）
+          }
+        }
+      }
     },
   },
   session: {

@@ -1,22 +1,6 @@
+import { StatusCodes } from 'http-status-codes';
 import { getSession } from 'next-auth/react';
-import { auth } from '@/libs/auth/auth';
-
-/**
- * アクセストークンを取得する
- *
- * @returns アクセストークン（存在しない場合は undefined）
- */
-async function getAccessToken(): Promise<string | undefined> {
-  // クライアントサイド
-  if (typeof window !== 'undefined') {
-    const session = await getSession();
-    return session?.accessToken;
-  }
-
-  // サーバーサイド
-  const { session } = await auth();
-  return session?.accessToken;
-}
+import { doFetch, getAccessToken } from '@/libs/api/fetcher';
 
 /**
  * API からファイルをダウンロードする
@@ -31,22 +15,17 @@ export async function downloadFile(
   filename: string,
   options?: RequestInit,
 ): Promise<void> {
-  const headers: HeadersInit = {
-    ...options?.headers,
-  };
-
   const accessToken = await getAccessToken();
-  if (accessToken) {
-    (headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
-  }
+  let response = await doFetch(url, options, accessToken);
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1${url}`,
-    {
-      ...options,
-      headers,
-    },
-  );
+  // 401 リアクティブリトライ
+  if (response.status === StatusCodes.UNAUTHORIZED) {
+    const session = await getSession();
+    const newToken = session?.accessToken;
+    if (newToken && newToken !== accessToken) {
+      response = await doFetch(url, options, newToken);
+    }
+  }
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));

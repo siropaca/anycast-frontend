@@ -8,6 +8,11 @@ vi.mock('next-auth/react', () => ({
   getSession: (...args: unknown[]) => mockGetSession(...args),
 }));
 
+// auth のモック（fetcher.ts 経由でインポートされるため）
+vi.mock('@/libs/auth/auth', () => ({
+  auth: vi.fn().mockResolvedValue({ session: null }),
+}));
+
 // fetch のモック
 const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
