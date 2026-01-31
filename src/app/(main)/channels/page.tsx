@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -32,7 +33,7 @@ export default function ChannelsPage() {
     <div>
       <SectionTitle title={Pages.channels.title} />
 
-      <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      <ArtworkGrid>
         {mockChannels.map((channel) => (
           <Artwork
             key={channel.id}
@@ -41,7 +42,7 @@ export default function ChannelsPage() {
             subtext={channel.category}
           />
         ))}
-      </div>
+      </ArtworkGrid>
     </div>
   );
 }

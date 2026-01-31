@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-
-import { PlaybackHistoryList } from '@/app/(main)/library/history/_components/PlaybackHistoryList';
-import { PlaybackHistoryListSkeleton } from '@/app/(main)/library/history/_components/PlaybackHistoryListSkeleton';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { PlaybackHistoryList } from '@/features/library/history/components/PlaybackHistoryList';
+import { PlaybackHistoryListSkeleton } from '@/features/library/history/components/PlaybackHistoryListSkeleton';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {

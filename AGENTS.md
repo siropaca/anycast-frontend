@@ -155,6 +155,7 @@ describe('myFunction', () => {
 
 - page.tsx には必ず `export const metadata` を定義する
 - 認証必須ページ（`(studio)`, `(settings)` など）には `robots: { index: false }` を付与する
+- `src/app/` 配下にはページ（`page.tsx`, `layout.tsx` など）のみ配置し、コンポーネントやフックは `src/features/` に配置する
 
 ## 実装上の注意事項
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -34,7 +35,7 @@ export default function LibraryFollowingPage() {
     <div>
       <SectionTitle title={Pages.library.following.title} />
 
-      <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      <ArtworkGrid>
         {followingUsers.map((user) => (
           <Link key={user.id} href={Pages.user.path(user.subtext)}>
             <Artwork
@@ -45,7 +46,7 @@ export default function LibraryFollowingPage() {
             />
           </Link>
         ))}
-      </div>
+      </ArtworkGrid>
     </div>
   );
 }

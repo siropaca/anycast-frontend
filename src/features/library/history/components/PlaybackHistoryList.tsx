@@ -1,26 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-
-import { useLikes } from '@/app/(main)/library/likes/_components/useLikes';
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
+import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
+import { usePlaybackHistory } from '@/features/library/history/hooks/usePlaybackHistory';
 import { Pages } from '@/libs/pages';
 
-export function LikeList() {
-  const { items } = useLikes();
+export function PlaybackHistoryList() {
+  const { items } = usePlaybackHistory();
 
   // エンプティ
   if (items.length === 0) {
     return (
-      <p className="py-12 text-center text-text-subtle">
-        高評価したエピソードはありません
-      </p>
+      <p className="py-12 text-center text-text-subtle">再生履歴はありません</p>
     );
   }
 
   // 通常表示
   return (
-    <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+    <ArtworkGrid>
       {items.map((item) => (
         <Link
           key={item.episode.id}
@@ -33,6 +31,6 @@ export function LikeList() {
           />
         </Link>
       ))}
-    </div>
+    </ArtworkGrid>
   );
 }
