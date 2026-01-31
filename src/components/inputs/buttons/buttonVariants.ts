@@ -1,5 +1,5 @@
 export type ButtonSize = 'sm' | 'md' | 'lg';
-export type ButtonColor = 'primary' | 'secondary' | 'danger';
+export type ButtonColor = 'primary' | 'secondary' | 'danger' | 'inverse';
 export type ButtonVariant = 'solid' | 'outline' | 'text';
 
 export const buttonBaseClasses =
@@ -29,5 +29,12 @@ export const colorVariantClasses: Record<
     outline:
       'bg-transparent text-text-danger border-text-danger hover:bg-text-danger/10 active:bg-text-danger/20',
     text: 'bg-transparent text-text-danger border-transparent hover:bg-text-danger/10 active:bg-text-danger/20',
+  },
+  inverse: {
+    solid:
+      'bg-white text-text-inverse border-transparent hover:bg-white/90 active:bg-white/80',
+    outline:
+      'bg-white text-text-inverse border-border hover:bg-white/90 active:bg-white/80',
+    text: 'bg-transparent text-text-inverse border-transparent hover:bg-white/10 active:bg-white/20',
   },
 };

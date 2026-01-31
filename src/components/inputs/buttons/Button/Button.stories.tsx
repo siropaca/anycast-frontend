@@ -54,6 +54,9 @@ export const Colors: Story = {
           <Button color="danger" variant="solid">
             Danger
           </Button>
+          <Button color="inverse" variant="solid">
+            Inverse
+          </Button>
         </Stack>
       </Section>
 
@@ -68,6 +71,9 @@ export const Colors: Story = {
           <Button color="danger" variant="outline">
             Danger
           </Button>
+          <Button color="inverse" variant="outline">
+            Inverse
+          </Button>
         </Stack>
       </Section>
 
@@ -81,6 +87,9 @@ export const Colors: Story = {
           </Button>
           <Button color="danger" variant="text">
             Danger
+          </Button>
+          <Button color="inverse" variant="text">
+            Inverse
           </Button>
         </Stack>
       </Section>
@@ -184,6 +193,48 @@ export const AllVariants: Story = {
             Medium
           </Button>
           <Button size="lg" color="danger" variant="text">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Inverse Solid">
+        <Stack>
+          <Button size="sm" color="inverse" variant="solid">
+            Small
+          </Button>
+          <Button size="md" color="inverse" variant="solid">
+            Medium
+          </Button>
+          <Button size="lg" color="inverse" variant="solid">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Inverse Outline">
+        <Stack>
+          <Button size="sm" color="inverse" variant="outline">
+            Small
+          </Button>
+          <Button size="md" color="inverse" variant="outline">
+            Medium
+          </Button>
+          <Button size="lg" color="inverse" variant="outline">
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Inverse Text">
+        <Stack>
+          <Button size="sm" color="inverse" variant="text">
+            Small
+          </Button>
+          <Button size="md" color="inverse" variant="text">
+            Medium
+          </Button>
+          <Button size="lg" color="inverse" variant="text">
             Large
           </Button>
         </Stack>
@@ -315,6 +366,15 @@ export const States: Story = {
           <Button color="danger" variant="text">
             Danger Text
           </Button>
+          <Button color="inverse" variant="solid">
+            Inverse Solid
+          </Button>
+          <Button color="inverse" variant="outline">
+            Inverse Outline
+          </Button>
+          <Button color="inverse" variant="text">
+            Inverse Text
+          </Button>
         </Stack>
       </Section>
 
@@ -346,6 +406,15 @@ export const States: Story = {
           </Button>
           <Button color="danger" variant="text" disabled>
             Danger Text
+          </Button>
+          <Button color="inverse" variant="solid" disabled>
+            Inverse Solid
+          </Button>
+          <Button color="inverse" variant="outline" disabled>
+            Inverse Outline
+          </Button>
+          <Button color="inverse" variant="text" disabled>
+            Inverse Text
           </Button>
         </Stack>
       </Section>

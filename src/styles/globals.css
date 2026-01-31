@@ -19,6 +19,7 @@
 
   /* Text */
   --color-text-main: #ffffff;
+  --color-text-inverse: #1a1a1a;
   --color-text-subtle: #aaaaaa;
   --color-text-placeholder: rgba(255, 255, 255, 0.5);
   --color-text-danger: #ef4444;
