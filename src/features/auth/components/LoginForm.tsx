@@ -1,15 +1,16 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { EnvelopeIcon } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { PasswordToggleButton } from '@/components/inputs/buttons/PasswordToggleButton/PasswordToggleButton';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
-import { PasswordToggleButton } from '@/components/inputs/buttons/PasswordToggleButton/PasswordToggleButton';
 import { DEV_LOGIN_CREDENTIALS } from '@/features/auth/constants';
 import { type LoginInput, loginSchema } from '@/features/auth/schemas/auth';
 import { Pages } from '@/libs/pages';
@@ -22,6 +23,7 @@ export function LoginForm({ redirectTo = Pages.home.path() }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
 
   const {
     register,
@@ -51,6 +53,22 @@ export function LoginForm({ redirectTo = Pages.home.path() }: Props) {
 
     router.push(redirectTo);
     router.refresh();
+  }
+
+  if (!showEmailForm) {
+    return (
+      <Button
+        type="button"
+        color="secondary"
+        variant="outline"
+        size="lg"
+        className="w-full"
+        leftIcon={<EnvelopeIcon />}
+        onClick={() => setShowEmailForm(true)}
+      >
+        メールアドレスでログイン
+      </Button>
+    );
   }
 
   return (
