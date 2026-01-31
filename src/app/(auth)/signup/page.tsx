@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { AuthCard } from '@/features/auth/components/AuthCard';
 import { AuthDivider } from '@/features/auth/components/AuthDivider';
 import { AuthHeading } from '@/features/auth/components/AuthHeading';
 import { OAuthButton } from '@/features/auth/components/OAuthButton';
@@ -20,7 +21,7 @@ export default async function SignupPage({ searchParams }: Props) {
   const { redirect } = await searchParams;
 
   return (
-    <div className="flex w-full max-w-md flex-col items-center gap-8 rounded-md border border-border bg-bg-surface p-8">
+    <AuthCard>
       <AuthHeading subtitle="アカウントを作成" />
 
       {/* OAuth ボタン */}
@@ -45,6 +46,6 @@ export default async function SignupPage({ searchParams }: Props) {
           ログイン
         </Link>
       </p>
-    </div>
+    </AuthCard>
   );
 }
