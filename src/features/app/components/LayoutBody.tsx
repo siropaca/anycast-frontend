@@ -1,7 +1,7 @@
 'use client';
 
 import { ScrollArea } from '@base-ui/react/scroll-area';
-import { Sidebar } from '@/components/navigation/Sidebar';
+import { Sidebar } from '@/components/navigation/Sidebar/Sidebar';
 import { useBottomPlayer } from '@/features/player/hooks/useBottomPlayer';
 import { cn } from '@/utils/cn';
 

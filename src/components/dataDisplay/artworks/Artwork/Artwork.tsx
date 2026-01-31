@@ -33,9 +33,18 @@ export function Artwork({
         className,
       )}
     >
-      <ArtworkImage src={src} alt={alt} size={size} priority={priority} rounded={rounded} />
+      <ArtworkImage
+        src={src}
+        alt={alt}
+        size={size}
+        priority={priority}
+        rounded={rounded}
+      />
 
-      <div className="mt-2" style={size ? { width: size } : undefined}>
+      <div
+        className="mt-2 space-y-1"
+        style={size ? { width: size } : undefined}
+      >
         <p className="truncate text-sm">{title}</p>
         {subtext && (
           <p className="truncate text-sm text-text-subtle">{subtext}</p>

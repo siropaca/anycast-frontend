@@ -12,7 +12,14 @@ interface Props {
   className?: string;
 }
 
-export function PlayList({ src, size, priority, title, episodeCount, className }: Props) {
+export function PlayList({
+  src,
+  size,
+  priority,
+  title,
+  episodeCount,
+  className,
+}: Props) {
   return (
     <div
       className={cn(
