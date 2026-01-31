@@ -31,7 +31,11 @@ export const WithDescription: Story = {
 export const WithAction: Story = {
   args: {
     title: 'セクションタイトル',
-    action: <button className="text-sm text-primary">アクション</button>,
+    action: (
+      <button type="button" className="text-sm text-primary">
+        アクション
+      </button>
+    ),
   },
 };
 
@@ -56,7 +60,11 @@ export const AllVariants: Story = {
       <Section title="With Action">
         <SectionTitle
           title="セクションタイトル"
-          action={<button className="text-sm text-primary">アクション</button>}
+          action={
+            <button type="button" className="text-sm text-primary">
+              アクション
+            </button>
+          }
         />
       </Section>
 
@@ -64,7 +72,11 @@ export const AllVariants: Story = {
         <SectionTitle
           title="セクションタイトル"
           description="セクションの説明文がここに入ります"
-          action={<button className="text-sm text-primary">アクション</button>}
+          action={
+            <button type="button" className="text-sm text-primary">
+              アクション
+            </button>
+          }
         />
       </Section>
     </Stack>
