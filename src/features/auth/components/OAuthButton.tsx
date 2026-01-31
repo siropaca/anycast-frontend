@@ -1,7 +1,7 @@
 'use client';
 
-import { GoogleLogo } from '@phosphor-icons/react';
 import { signIn } from 'next-auth/react';
+import { GoogleIcon } from '@/components/dataDisplay/icons/GoogleIcon';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Pages } from '@/libs/pages';
 
@@ -9,18 +9,18 @@ interface Props {
   redirectTo?: string;
 }
 
-export function OAuthButtons({ redirectTo = Pages.home.path() }: Props) {
+export function OAuthButton({ redirectTo = Pages.home.path() }: Props) {
   return (
     <Button
       type="button"
-      color="secondary"
+      color="inverse"
       variant="outline"
       size="lg"
-      className="w-full"
-      leftIcon={<GoogleLogo weight="bold" />}
+      className="w-full rounded-sm"
+      leftIcon={<GoogleIcon size={20} />}
       onClick={() => signIn('google', { callbackUrl: redirectTo })}
     >
-      Google でログイン
+      Googleでログイン
     </Button>
   );
 }

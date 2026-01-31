@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AuthDivider } from '@/features/auth/components/AuthDivider';
 import { AuthHeading } from '@/features/auth/components/AuthHeading';
-import { OAuthButtons } from '@/features/auth/components/OAuthButtons';
+import { OAuthButton } from '@/features/auth/components/OAuthButton';
 import { SignupForm } from '@/features/auth/components/SignupForm';
 import { Pages } from '@/libs/pages';
 import type { SignupSearchParams } from '@/libs/pages/mainPages';
@@ -25,7 +25,7 @@ export default async function SignupPage({ searchParams }: Props) {
 
       {/* OAuth ボタン */}
       <div className="w-full">
-        <OAuthButtons redirectTo={redirect} />
+        <OAuthButton redirectTo={redirect} />
       </div>
 
       <AuthDivider />

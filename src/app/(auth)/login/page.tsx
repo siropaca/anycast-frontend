@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AuthDivider } from '@/features/auth/components/AuthDivider';
 import { AuthHeading } from '@/features/auth/components/AuthHeading';
 import { LoginForm } from '@/features/auth/components/LoginForm';
-import { OAuthButtons } from '@/features/auth/components/OAuthButtons';
+import { OAuthButton } from '@/features/auth/components/OAuthButton';
 import { Pages } from '@/libs/pages';
 import type { LoginSearchParams } from '@/libs/pages/mainPages';
 
@@ -25,7 +25,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
       {/* OAuth ボタン */}
       <div className="w-full">
-        <OAuthButtons redirectTo={redirect} />
+        <OAuthButton redirectTo={redirect} />
       </div>
 
       <AuthDivider />
