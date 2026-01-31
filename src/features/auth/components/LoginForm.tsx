@@ -5,6 +5,11 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { Button } from '@/components/inputs/buttons/Button/Button';
+import { HelperText } from '@/components/inputs/Input/HelperText';
+import { Input } from '@/components/inputs/Input/Input';
+import { PasswordToggleButton } from '@/components/inputs/buttons/PasswordToggleButton/PasswordToggleButton';
 import { DEV_LOGIN_CREDENTIALS } from '@/features/auth/constants';
 import { type LoginInput, loginSchema } from '@/features/auth/schemas/auth';
 import { Pages } from '@/libs/pages';
@@ -13,10 +18,10 @@ interface Props {
   redirectTo?: string;
 }
 
-// TODO: 仮コンポーネント
 export function LoginForm({ redirectTo = Pages.home.path() }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -49,38 +54,59 @@ export function LoginForm({ redirectTo = Pages.home.path() }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {error && <p>{error}</p>}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+      {error && (
+        <HelperText error className="text-center">
+          {error}
+        </HelperText>
+      )}
 
-      <div>
-        <label htmlFor="email">メールアドレス</label>
-        <br />
-        <input
+      <div className="flex flex-col gap-2.5">
+        <FormLabel htmlFor="email">メールアドレス</FormLabel>
+        <Input
           id="email"
           type="email"
+          size="lg"
           autoComplete="email"
+          placeholder="mail@example.com"
+          error={!!errors.email}
           {...register('email')}
-          className="border"
         />
-        {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && <HelperText error>{errors.email.message}</HelperText>}
       </div>
 
-      <div>
-        <label htmlFor="password">パスワード</label>
-        <br />
-        <input
+      <div className="flex flex-col gap-2.5">
+        <FormLabel htmlFor="password">パスワード</FormLabel>
+        <Input
           id="password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
+          size="lg"
           autoComplete="current-password"
+          placeholder="パスワードを入力"
+          error={!!errors.password}
+          rightIcon={
+            <PasswordToggleButton
+              visible={showPassword}
+              onToggle={() => setShowPassword((prev) => !prev)}
+            />
+          }
           {...register('password')}
-          className="border"
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <HelperText error>{errors.password.message}</HelperText>
+        )}
       </div>
 
-      <button type="submit" disabled={isSubmitting} className="border">
+      <Button
+        type="submit"
+        color="primary"
+        variant="solid"
+        size="lg"
+        className="mt-2 w-full"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? 'ログイン中...' : 'ログイン'}
-      </button>
+      </Button>
     </form>
   );
 }

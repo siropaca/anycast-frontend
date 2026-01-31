@@ -10,8 +10,9 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
   rightIcon?: ReactNode;
   error?: boolean;
   clearable?: boolean;
-  onClear?: () => void;
   showCounter?: boolean;
+
+  onClear?: () => void;
 };
 
 const sizeClasses: Record<Size, string> = {

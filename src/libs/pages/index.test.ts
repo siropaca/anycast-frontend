@@ -32,7 +32,7 @@ describe('Pages', () => {
   });
 
   describe('signup', () => {
-    it('サインアップページのパスを返す', () => {
+    it('新規登録ページのパスを返す', () => {
       expect(Pages.signup.path()).toBe('/signup');
     });
 
