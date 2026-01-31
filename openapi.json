@@ -848,6 +848,77 @@
             }
         },
         "/channels/{channelId}/episodes": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "指定したチャンネルのエピソード一覧を取得します。オーナーの場合は全エピソード、それ以外は公開済みエピソードのみ返します。",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "episodes"
+                ],
+                "summary": "チャンネルのエピソード一覧取得",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "チャンネル ID",
+                        "name": "channelId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "取得件数（デフォルト: 20、最大: 100）",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "オフセット（デフォルト: 0）",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.EpisodeListWithPaginationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -2288,7 +2359,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "指定したエピソードをデフォルトプレイリスト（再生リスト）に追加します",
+                "description": "指定したエピソードをデフォルトプレイリスト（後で聴く）に追加します",
                 "consumes": [
                     "application/json"
                 ],
@@ -2298,7 +2369,7 @@
                 "tags": [
                     "episodes"
                 ],
-                "summary": "再生リストに追加",
+                "summary": "デフォルトプレイリスト（後で聴く）に追加",
                 "parameters": [
                     {
                         "type": "string",
@@ -2353,7 +2424,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "指定したエピソードをデフォルトプレイリスト（再生リスト）から削除します",
+                "description": "指定したエピソードをデフォルトプレイリスト（後で聴く）から削除します",
                 "consumes": [
                     "application/json"
                 ],
@@ -2363,7 +2434,7 @@
                 "tags": [
                     "episodes"
                 ],
-                "summary": "再生リストから削除",
+                "summary": "デフォルトプレイリスト（後で聴く）から削除",
                 "parameters": [
                     {
                         "type": "string",
@@ -2548,6 +2619,126 @@
                     "episodes"
                 ],
                 "summary": "再生履歴を削除",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "エピソード ID",
+                        "name": "episodeId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/episodes/{episodeId}/reactions": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "エピソードにリアクションを登録します（既存の場合は更新）",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "episodes"
+                ],
+                "summary": "リアクション登録・更新",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "エピソード ID",
+                        "name": "episodeId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "リアクション登録リクエスト",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CreateOrUpdateReactionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ReactionDataResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.ReactionDataResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "エピソードへのリアクションを解除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "episodes"
+                ],
+                "summary": "リアクション解除",
                 "parameters": [
                     {
                         "type": "string",
@@ -3864,7 +4055,7 @@
                         "BearerAuth": []
                     }
                 ],
-                "description": "デフォルトプレイリスト（再生リスト）の内容を取得します",
+                "description": "デフォルトプレイリスト（後で聴く）の内容を取得します",
                 "consumes": [
                     "application/json"
                 ],
@@ -3874,7 +4065,7 @@
                 "tags": [
                     "me"
                 ],
-                "summary": "再生リスト一覧取得",
+                "summary": "デフォルトプレイリスト（後で聴く）一覧取得",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4786,7 +4977,7 @@
         },
         "/recommendations/episodes": {
             "get": {
-                "description": "おすすめエピソード一覧を取得します。未ログイン時は人気順・新着順、ログイン時は途中再生・再生リスト・パーソナライズに基づく結果を返します。",
+                "description": "おすすめエピソード一覧を取得します。未ログイン時は人気順・新着順、ログイン時は途中再生・デフォルトプレイリスト（後で聴く）・パーソナライズに基づく結果を返します。",
                 "consumes": [
                     "application/json"
                 ],
@@ -4954,6 +5145,178 @@
                     },
                     "403": {
                         "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "指定されたユーザーの公開プロフィールと公開チャンネル一覧を取得します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "ユーザー取得",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ユーザー ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.PublicUserDataResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}/follow": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "ユーザーをフォローします",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "フォロー登録",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ユーザー ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/response.FollowDataResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "ユーザーのフォローを解除します",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "フォロー解除",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ユーザー ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -5282,6 +5645,21 @@
                 "title": {
                     "type": "string",
                     "maxLength": 255
+                }
+            }
+        },
+        "request.CreateOrUpdateReactionRequest": {
+            "type": "object",
+            "required": [
+                "reactionType"
+            ],
+            "properties": {
+                "reactionType": {
+                    "type": "string",
+                    "enum": [
+                        "like",
+                        "bad"
+                    ]
                 }
             }
         },
@@ -6613,6 +6991,17 @@
                 }
             }
         },
+        "response.FollowDataResponse": {
+            "type": "object",
+            "required": [
+                "data"
+            ],
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/response.FollowResponse"
+                }
+            }
+        },
         "response.FollowItemResponse": {
             "type": "object",
             "required": [
@@ -6643,6 +7032,25 @@
                 },
                 "pagination": {
                     "$ref": "#/definitions/response.PaginationResponse"
+                }
+            }
+        },
+        "response.FollowResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "id",
+                "targetUserId"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "targetUserId": {
+                    "type": "string"
                 }
             }
         },
@@ -7293,6 +7701,132 @@
                     "type": "string"
                 },
                 "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.PublicUserChannelResponse": {
+            "type": "object",
+            "required": [
+                "category",
+                "createdAt",
+                "description",
+                "id",
+                "name",
+                "updatedAt"
+            ],
+            "properties": {
+                "artwork": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/response.ArtworkResponse"
+                        }
+                    ],
+                    "x-nullable": true
+                },
+                "category": {
+                    "$ref": "#/definitions/response.CategoryResponse"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "publishedAt": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.PublicUserDataResponse": {
+            "type": "object",
+            "required": [
+                "data"
+            ],
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/response.PublicUserResponse"
+                }
+            }
+        },
+        "response.PublicUserResponse": {
+            "type": "object",
+            "required": [
+                "channels",
+                "createdAt",
+                "displayName",
+                "id",
+                "username"
+            ],
+            "properties": {
+                "avatar": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/response.AvatarResponse"
+                        }
+                    ],
+                    "x-nullable": true
+                },
+                "channels": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.PublicUserChannelResponse"
+                    }
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.ReactionDataResponse": {
+            "type": "object",
+            "required": [
+                "data"
+            ],
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/response.ReactionResponse"
+                }
+            }
+        },
+        "response.ReactionResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "episodeId",
+                "id",
+                "reactionType"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "episodeId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "reactionType": {
                     "type": "string"
                 }
             }
