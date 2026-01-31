@@ -19,7 +19,9 @@ export function LayoutBody({ sideMenu, children }: Props) {
     <div className="flex flex-1 overflow-hidden">
       <Sidebar>{sideMenu}</Sidebar>
 
-      <div className={cn('min-w-0 flex-1 pr-4 flex', !hasPlayer && 'pb-4')}>
+      <div
+        className={cn('min-w-0 flex-1 px-4 md:pl-0 flex', !hasPlayer && 'pb-4')}
+      >
         <ScrollArea.Root className="bg-bg-surface rounded-md flex-1 min-w-0">
           <ScrollArea.Viewport
             id={MAIN_SCROLL_VIEWPORT_ID}
