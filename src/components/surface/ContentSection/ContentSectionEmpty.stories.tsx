@@ -29,7 +29,7 @@ export const Playground: Story = {
 };
 
 export const AllVariants: Story = {
-  args: { message: '' },
+  args: { message: '', children: null },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Default">

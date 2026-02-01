@@ -37,7 +37,7 @@ export const WithMoreLink: Story = {
 };
 
 export const AllVariants: Story = {
-  args: { title: '' },
+  args: { title: '', children: null },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Default">

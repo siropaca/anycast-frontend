@@ -23,6 +23,7 @@ export const Playground: Story = {
 };
 
 export const Colors: Story = {
+  args: { label: 'Green', color: 'green' },
   render: () => (
     <Stack>
       <Tag label="Green" color="green" />
@@ -33,6 +34,7 @@ export const Colors: Story = {
 };
 
 export const AllVariants: Story = {
+  args: { label: '公開中', color: 'green' },
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Colors">
