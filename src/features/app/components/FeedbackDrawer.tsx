@@ -8,6 +8,7 @@ import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { Drawer } from '@/components/utils/Drawer/Drawer';
+import { useSubmitFeedback } from '@/features/app/hooks/useSubmitFeedback';
 import type { FeedbackInput } from '@/features/app/schemas/feedback';
 import { feedbackSchema } from '@/features/app/schemas/feedback';
 import { useScreenCapture } from '@/hooks/useScreenCapture';
@@ -23,6 +24,7 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isValid },
   } = useForm<FeedbackInput>({
     resolver: zodResolver(feedbackSchema),
@@ -33,14 +35,26 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
   const { screenshot, previewUrl, isCapturing, capture, clear } =
     useScreenCapture();
 
+  const { isSubmitting, error, submitFeedback } = useSubmitFeedback();
+
   function onSubmit(data: FeedbackInput) {
-    // TODO: フィードバック送信処理
-    console.log(data, screenshot);
+    submitFeedback(data, {
+      screenshot: screenshot ?? undefined,
+      onSuccess: () => {
+        reset();
+        clear();
+        onOpenChange(false);
+      },
+    });
   }
 
   return (
     <Drawer.Root open={open} onOpenChange={onOpenChange}>
-      <Drawer.Content side="right" hidden={isCapturing} className="w-feedback-drawer">
+      <Drawer.Content
+        side="right"
+        hidden={isCapturing}
+        className="w-feedback-drawer"
+      >
         <Drawer.Header className="border-b border-border">
           <span className="text-xl font-semibold">フィードバックを送信</span>
           <div className="ml-auto">
@@ -63,7 +77,7 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
                 </FormLabel>
                 <Textarea
                   id="feedback-content"
-                  rows={6}
+                  rows={8}
                   placeholder="問題と思われる点について詳しくお聞かせください"
                   className="w-full"
                   {...register('content')}
@@ -140,11 +154,14 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
 
           {/* フッター */}
           <div className="shrink-0 border-t border-border p-4">
+            {error && <p className="mb-4 text-sm text-text-danger">{error}</p>}
+
             <Button
               type="submit"
               size="lg"
               className="w-full"
               disabled={!isValid}
+              loading={isSubmitting}
             >
               送信
             </Button>
