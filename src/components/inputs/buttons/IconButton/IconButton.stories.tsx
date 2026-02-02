@@ -31,6 +31,7 @@ export const Playground: Story = {
     size: 'md',
     color: 'primary',
     variant: 'solid',
+    loading: false,
   },
 };
 
@@ -433,6 +434,46 @@ export const States: Story = {
             aria-label="追加"
             color="danger"
             variant="text"
+          />
+        </Stack>
+      </Section>
+
+      <Section title="Loading">
+        <Stack>
+          <IconButton
+            icon={<PlusIcon size={20} />}
+            aria-label="追加"
+            color="primary"
+            variant="solid"
+            loading
+          />
+          <IconButton
+            icon={<PlusIcon size={20} />}
+            aria-label="追加"
+            color="primary"
+            variant="outline"
+            loading
+          />
+          <IconButton
+            icon={<PlusIcon size={20} />}
+            aria-label="追加"
+            color="primary"
+            variant="text"
+            loading
+          />
+          <IconButton
+            icon={<PlusIcon size={20} />}
+            aria-label="追加"
+            color="secondary"
+            variant="solid"
+            loading
+          />
+          <IconButton
+            icon={<PlusIcon size={20} />}
+            aria-label="追加"
+            color="danger"
+            variant="solid"
+            loading
           />
         </Stack>
       </Section>

@@ -1,3 +1,4 @@
+import { SpinnerGapIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import type {
@@ -15,6 +16,7 @@ interface BaseProps {
   size?: ButtonSize;
   color?: ButtonColor;
   variant?: ButtonVariant;
+  loading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   className?: string;
@@ -38,10 +40,17 @@ const sizeClasses: Record<ButtonSize, string> = {
   lg: 'h-[var(--size-lg)] px-5 text-base gap-2',
 };
 
+const spinnerSizeMap: Record<ButtonSize, number> = {
+  sm: 14,
+  md: 16,
+  lg: 18,
+};
+
 export function Button({
   size = 'md',
   color = 'primary',
   variant = 'solid',
+  loading = false,
   leftIcon,
   rightIcon,
   className,
@@ -56,24 +65,42 @@ export function Button({
     className,
   );
 
+  const spinner = (
+    <SpinnerGapIcon size={spinnerSizeMap[size]} className="animate-spin" />
+  );
+
   const content = (
     <>
-      {leftIcon && <span className="shrink-0">{leftIcon}</span>}
+      {loading ? (
+        <span className="shrink-0">{spinner}</span>
+      ) : (
+        leftIcon && <span className="shrink-0">{leftIcon}</span>
+      )}
       <span className="truncate">{children}</span>
-      {rightIcon && <span className="shrink-0">{rightIcon}</span>}
+      {!loading && rightIcon && <span className="shrink-0">{rightIcon}</span>}
     </>
   );
 
   if (href !== undefined) {
     return (
-      <Link href={href} className={buttonClassName}>
+      <Link
+        href={href}
+        className={buttonClassName}
+        aria-busy={loading}
+        aria-disabled={loading || undefined}
+      >
         {content}
       </Link>
     );
   }
 
   return (
-    <button className={buttonClassName} {...props}>
+    <button
+      className={buttonClassName}
+      aria-busy={loading}
+      {...props}
+      {...(loading ? { disabled: true } : {})}
+    >
       {content}
     </button>
   );

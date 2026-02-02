@@ -1,3 +1,4 @@
+import { SpinnerGapIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import type {
@@ -17,6 +18,7 @@ interface BaseProps {
   size?: ButtonSize;
   color?: ButtonColor;
   variant?: ButtonVariant;
+  loading?: boolean;
   className?: string;
 }
 
@@ -37,11 +39,18 @@ const sizeClasses: Record<ButtonSize, string> = {
   lg: 'size-[var(--size-lg)] text-base',
 };
 
+const spinnerSizeMap: Record<ButtonSize, number> = {
+  sm: 16,
+  md: 20,
+  lg: 24,
+};
+
 export function IconButton({
   icon,
   size = 'md',
   color = 'primary',
   variant = 'solid',
+  loading = false,
   className,
   href,
   ...props
@@ -53,21 +62,34 @@ export function IconButton({
     className,
   );
 
+  const content = loading ? (
+    <SpinnerGapIcon size={spinnerSizeMap[size]} className="animate-spin" />
+  ) : (
+    icon
+  );
+
   if (href !== undefined) {
     return (
       <Link
         href={href}
         className={buttonClassName}
         aria-label={props['aria-label']}
+        aria-busy={loading}
+        aria-disabled={loading || undefined}
       >
-        {icon}
+        {content}
       </Link>
     );
   }
 
   return (
-    <button className={buttonClassName} {...props}>
-      {icon}
+    <button
+      className={buttonClassName}
+      aria-busy={loading}
+      {...props}
+      {...(loading ? { disabled: true } : {})}
+    >
+      {content}
     </button>
   );
 }

@@ -26,6 +26,7 @@ export const Playground: Story = {
     size: 'md',
     color: 'primary',
     variant: 'solid',
+    loading: false,
     children: 'Button',
   },
 };
@@ -324,6 +325,46 @@ export const WithIcons: Story = {
   ),
 };
 
+export const Loading: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Loading">
+        <Stack>
+          <Button size="sm" loading>
+            Small
+          </Button>
+          <Button size="md" loading>
+            Medium
+          </Button>
+          <Button size="lg" loading>
+            Large
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Loading Colors">
+        <Stack>
+          <Button color="primary" variant="solid" loading>
+            Primary
+          </Button>
+          <Button color="secondary" variant="solid" loading>
+            Secondary
+          </Button>
+          <Button color="danger" variant="solid" loading>
+            Danger
+          </Button>
+          <Button color="primary" variant="outline" loading>
+            Outline
+          </Button>
+          <Button color="primary" variant="text" loading>
+            Text
+          </Button>
+        </Stack>
+      </Section>
+    </Stack>
+  ),
+};
+
 export const Skeleton: Story = {
   render: () => (
     <Stack>
@@ -374,6 +415,29 @@ export const States: Story = {
           </Button>
           <Button color="inverse" variant="text">
             Inverse Text
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Loading">
+        <Stack>
+          <Button color="primary" variant="solid" loading>
+            Primary Solid
+          </Button>
+          <Button color="primary" variant="outline" loading>
+            Primary Outline
+          </Button>
+          <Button color="primary" variant="text" loading>
+            Primary Text
+          </Button>
+          <Button color="secondary" variant="solid" loading>
+            Secondary Solid
+          </Button>
+          <Button color="danger" variant="solid" loading>
+            Danger Solid
+          </Button>
+          <Button color="inverse" variant="solid" loading>
+            Inverse Solid
           </Button>
         </Stack>
       </Section>
