@@ -9,14 +9,12 @@ import { Pages } from '@/libs/pages';
 export function PlaybackHistoryList() {
   const { items } = usePlaybackHistory();
 
-  // エンプティ
   if (items.length === 0) {
     return (
       <p className="py-12 text-center text-text-subtle">再生履歴はありません</p>
     );
   }
 
-  // 通常表示
   return (
     <ArtworkGrid>
       {items.map((item, index) => (

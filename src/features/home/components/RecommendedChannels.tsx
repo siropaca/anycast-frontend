@@ -13,7 +13,6 @@ import { Pages } from '@/libs/pages';
 export function RecommendedChannels() {
   const { channels } = useRecommendedChannels();
 
-  // エンプティ
   if (channels.length === 0) {
     return (
       <ContentSectionEmpty message="おすすめのチャンネルはありません">
@@ -22,7 +21,6 @@ export function RecommendedChannels() {
     );
   }
 
-  // 通常表示
   return (
     <ContentSection
       title="おすすめのチャンネル"

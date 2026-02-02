@@ -13,7 +13,6 @@ import { Pages } from '@/libs/pages';
 export function FavoriteUsers() {
   const { items } = useFavoriteUsers();
 
-  // エンプティ
   if (items.length === 0) {
     return (
       <ContentSectionEmpty message="お気に入りのユーザーはいません">
@@ -22,7 +21,6 @@ export function FavoriteUsers() {
     );
   }
 
-  // 通常表示
   return (
     <ContentSection
       title="お気に入りのユーザー"

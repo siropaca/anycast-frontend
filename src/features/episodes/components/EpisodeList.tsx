@@ -9,7 +9,6 @@ import { Pages } from '@/libs/pages';
 export function EpisodeList() {
   const { episodes } = useEpisodes();
 
-  // エンプティ
   if (episodes.length === 0) {
     return (
       <p className="py-12 text-center text-text-subtle">
@@ -18,7 +17,6 @@ export function EpisodeList() {
     );
   }
 
-  // 通常表示
   return (
     <ArtworkGrid>
       {episodes.map((episode, index) => (

@@ -11,7 +11,6 @@ import { Pages } from '@/libs/pages';
 export function RecentlyPlayed() {
   const { items } = useRecentlyPlayed();
 
-  // エンプティ
   if (items.length === 0) {
     return (
       <ContentSectionEmpty message="最近聴いたコンテンツはありません">
@@ -20,7 +19,6 @@ export function RecentlyPlayed() {
     );
   }
 
-  // 通常表示
   return (
     <ContentSection
       title="最近聴いたコンテンツ"

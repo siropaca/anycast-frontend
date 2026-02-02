@@ -9,7 +9,6 @@ import { Pages } from '@/libs/pages';
 export function ChannelList() {
   const { channels } = useChannels();
 
-  // エンプティ
   if (channels.length === 0) {
     return (
       <p className="py-12 text-center text-text-subtle">
@@ -18,7 +17,6 @@ export function ChannelList() {
     );
   }
 
-  // 通常表示
   return (
     <ArtworkGrid>
       {channels.map((channel, index) => (

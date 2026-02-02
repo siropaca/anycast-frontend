@@ -13,7 +13,6 @@ import { Pages } from '@/libs/pages';
 export function RecommendedEpisodes() {
   const { episodes } = useRecommendedEpisodes();
 
-  // エンプティ
   if (episodes.length === 0) {
     return (
       <ContentSectionEmpty message="おすすめのエピソードはありません">
@@ -22,7 +21,6 @@ export function RecommendedEpisodes() {
     );
   }
 
-  // 通常表示
   return (
     <ContentSection
       title="おすすめのエピソード"

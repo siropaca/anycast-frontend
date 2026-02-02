@@ -9,7 +9,6 @@ import { Pages } from '@/libs/pages';
 export function FollowingList() {
   const { items } = useFollowing();
 
-  // エンプティ
   if (items.length === 0) {
     return (
       <p className="py-12 text-center text-text-subtle">
@@ -18,7 +17,6 @@ export function FollowingList() {
     );
   }
 
-  // 通常表示
   return (
     <ArtworkGrid>
       {items.map((item, index) => (
