@@ -1,5 +1,4 @@
 import {
-  ChatCircleIcon,
   GearIcon,
   MusicNotesIcon,
   SquaresFourIcon,
@@ -10,10 +9,6 @@ import {
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 import { Pages } from '@/libs/pages';
 
-interface StudioMenuOptions {
-  onFeedbackClick: () => void;
-}
-
 interface StudioMenuSections {
   sections: MenuSection[];
   bottomSections: MenuSection[];
@@ -22,13 +17,9 @@ interface StudioMenuSections {
 /**
  * スタジオ用のメニューセクションを生成する
  *
- * @param options - メニューオプション
- * @param options.onFeedbackClick - フィードバックボタンのクリックハンドラー
  * @returns メニューセクション（上部と下部固定）
  */
-export function createStudioMenuSections(
-  options: StudioMenuOptions,
-): StudioMenuSections {
+export function createStudioMenuSections(): StudioMenuSections {
   return {
     sections: [
       {
@@ -70,11 +61,6 @@ export function createStudioMenuSections(
             label: Pages.studio.settings.title,
             href: Pages.studio.settings.path(),
             icon: GearIcon,
-          },
-          {
-            label: 'フィードバックを送信',
-            icon: ChatCircleIcon,
-            onClick: options.onFeedbackClick,
           },
         ],
       },

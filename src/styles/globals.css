@@ -24,6 +24,7 @@
   --color-text-placeholder: rgba(255, 255, 255, 0.5);
   --color-text-danger: #ef4444;
   --color-text-required: #ef4444;
+  --color-text-link: #2e86c1;
 
   /* Border */
   --color-border: #3a3a3a;
@@ -47,6 +48,7 @@
   --spacing-12: 48px;
   --spacing-header: 56px;
   --spacing-sidebar: 250px;
+  --spacing-feedback-drawer: 420px;
   --spacing-bottom-player: 88px;
   --spacing-scrollbar: 8px;
 
