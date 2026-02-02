@@ -1,3 +1,5 @@
+'use client';
+
 import { SpinnerGapIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
