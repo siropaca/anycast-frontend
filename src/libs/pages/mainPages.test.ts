@@ -98,7 +98,7 @@ describe('mainPages', () => {
     });
 
     it('title が設定されている', () => {
-      expect(mainPages.explore.title).toBe('見つける');
+      expect(mainPages.explore.title).toBe('探索');
     });
   });
 

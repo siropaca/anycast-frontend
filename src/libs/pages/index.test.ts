@@ -92,7 +92,7 @@ describe('Pages', () => {
   });
 
   describe('explore', () => {
-    it('見つけるページのパスを返す', () => {
+    it('探索ページのパスを返す', () => {
       expect(Pages.explore.path()).toBe('/explore');
     });
 
@@ -105,7 +105,7 @@ describe('Pages', () => {
     });
 
     it('タイトルを返す', () => {
-      expect(Pages.explore.title).toBe('見つける');
+      expect(Pages.explore.title).toBe('探索');
     });
   });
 
