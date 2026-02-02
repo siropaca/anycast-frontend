@@ -13,9 +13,22 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function IconItem({ name, children }: { name: string; children: React.ReactNode }) {
+function IconItem({
+  name,
+  children,
+}: {
+  name: string;
+  children: React.ReactNode;
+}) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 8,
+      }}
+    >
       {children}
       <span style={{ fontSize: 12, color: '#888' }}>{name}</span>
     </div>
