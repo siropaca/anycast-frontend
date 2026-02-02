@@ -116,4 +116,19 @@ export const mainPages = {
       title: '履歴',
     },
   },
+  /** 利用規約 */
+  terms: {
+    path: () => '/terms',
+    title: '利用規約',
+  },
+  /** プライバシーポリシー */
+  privacy: {
+    path: () => '/privacy',
+    title: 'プライバシーポリシー',
+  },
+  /** お問い合わせ */
+  contact: {
+    path: () => '/contact',
+    title: 'お問い合わせ',
+  },
 } as const;

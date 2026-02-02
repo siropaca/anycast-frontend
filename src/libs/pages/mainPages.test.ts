@@ -102,6 +102,36 @@ describe('mainPages', () => {
     });
   });
 
+  describe('terms', () => {
+    it('path が /terms を返す', () => {
+      expect(mainPages.terms.path()).toBe('/terms');
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.terms.title).toBe('利用規約');
+    });
+  });
+
+  describe('privacy', () => {
+    it('path が /privacy を返す', () => {
+      expect(mainPages.privacy.path()).toBe('/privacy');
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.privacy.title).toBe('プライバシーポリシー');
+    });
+  });
+
+  describe('contact', () => {
+    it('path が /contact を返す', () => {
+      expect(mainPages.contact.path()).toBe('/contact');
+    });
+
+    it('title が設定されている', () => {
+      expect(mainPages.contact.title).toBe('お問い合わせ');
+    });
+  });
+
   describe('library', () => {
     it('following の path が /library/following を返す', () => {
       expect(mainPages.library.following.path()).toBe('/library/following');

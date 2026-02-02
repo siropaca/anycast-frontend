@@ -1,6 +1,8 @@
 'use client';
 
 import { ScrollArea } from '@base-ui/react/scroll-area';
+import { Copyright } from '@/components/navigation/Copyright/Copyright';
+import { FooterLinks } from '@/components/navigation/FooterLinks/FooterLinks';
 import { Sidebar } from '@/components/navigation/Sidebar/Sidebar';
 import { useBottomPlayer } from '@/features/player/hooks/useBottomPlayer';
 import { cn } from '@/utils/cn';
@@ -28,6 +30,11 @@ export function LayoutBody({ sideMenu, children }: Props) {
             className="h-full p-6 pt-5"
           >
             <main>{children}</main>
+
+            <div className="text-center pb-6 pt-10 space-y-4 mt-6">
+              <FooterLinks />
+              <Copyright />
+            </div>
           </ScrollArea.Viewport>
 
           <ScrollArea.Scrollbar className="flex w-scrollbar justify-center bg-transparent pl-1 py-2">
