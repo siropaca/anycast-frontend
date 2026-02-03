@@ -9,10 +9,13 @@ interface Props {
 }
 
 export async function MainLayout({ children }: Props) {
-  const { isLoggedIn } = await auth();
+  const { session, isLoggedIn } = await auth();
 
   const sideMenu = (
-    <MainLayoutSideMenu isLoggedIn={isLoggedIn} username="hoge" />
+    <MainLayoutSideMenu
+      isLoggedIn={isLoggedIn}
+      username={session?.user?.username}
+    />
   );
 
   return (

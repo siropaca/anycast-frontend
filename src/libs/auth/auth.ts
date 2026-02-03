@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { type DefaultSession } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import {
@@ -17,12 +17,17 @@ declare module 'next-auth' {
   interface Session {
     accessToken?: string;
     error?: 'RefreshTokenError';
+    user: {
+      id: string;
+      username?: string;
+    } & DefaultSession['user'];
   }
 }
 
 /** jwt コールバック内で使用する拡張 JWT 型 */
 interface ExtendedJWT {
   id?: string;
+  username?: string;
   accessToken?: string;
   refreshToken?: string;
   error?: 'RefreshTokenError';
@@ -65,6 +70,7 @@ const nextAuth = NextAuth({
 
           return {
             id: user.id ?? '',
+            username: user.username,
             email: user.email ?? '',
             name: user.displayName ?? '',
             image: user.avatarUrl ?? null,
@@ -106,6 +112,7 @@ const nextAuth = NextAuth({
           }
 
           user.id = backendUser.id;
+          (user as { username?: string }).username = backendUser.username;
           (user as { accessToken?: string }).accessToken = backendAccessToken;
           (user as { refreshToken?: string }).refreshToken = data?.refreshToken;
         } catch {
@@ -120,6 +127,7 @@ const nextAuth = NextAuth({
       // 初回ログイン時: user からトークンを引き継ぐ
       if (user) {
         token.id = user.id as string;
+        token.username = (user as { username?: string }).username;
         token.accessToken = (user as { accessToken?: string }).accessToken;
         token.refreshToken = (user as { refreshToken?: string }).refreshToken;
         token.error = undefined;
@@ -150,7 +158,10 @@ const nextAuth = NextAuth({
     async session({ session, token: rawToken }) {
       const token = rawToken as ExtendedJWT;
       if (token.id) {
-        (session.user as { id: string }).id = token.id;
+        session.user.id = token.id;
+      }
+      if (token.username) {
+        session.user.username = token.username;
       }
       if (token.accessToken) {
         session.accessToken = token.accessToken;
@@ -215,6 +226,7 @@ export const authMiddleware = nextAuth.auth;
  */
 export async function auth() {
   const session = await nextAuth.auth();
+
   return {
     session,
     isLoggedIn: !!session,
