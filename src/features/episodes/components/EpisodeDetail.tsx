@@ -1,6 +1,8 @@
 'use client';
 
+import { useChannel } from '@/features/channels/hooks/useChannel';
 import { useEpisode } from '@/features/episodes/hooks/useEpisode';
+import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
 import { useEpisodeReaction } from '@/features/episodes/hooks/useEpisodeReaction';
 
 interface Props {
@@ -14,12 +16,24 @@ export function EpisodeDetail({
   episodeId,
   isLoggedIn = false,
 }: Props) {
+  const { channel } = useChannel(channelId);
   const { episode } = useEpisode(channelId, episodeId);
+  const { isEpisodePlaying, playEpisode, pauseEpisode } = useEpisodePlayer(
+    channel.name,
+  );
   const { currentReaction, isPending, toggleReaction } =
     useEpisodeReaction(episodeId);
 
   function handleGoodClick() {
     toggleReaction('like');
+  }
+
+  function handlePlayClick() {
+    if (isEpisodePlaying(episode)) {
+      pauseEpisode();
+    } else {
+      playEpisode(episode);
+    }
   }
 
   function handleBadClick() {
@@ -28,8 +42,13 @@ export function EpisodeDetail({
 
   return (
     <div>
-      <button type="button" className="border">
-        再生
+      <button
+        type="button"
+        className="border"
+        onClick={handlePlayClick}
+        disabled={!episode.fullAudio}
+      >
+        {isEpisodePlaying(episode) ? '一時停止' : '再生'}
       </button>
 
       {isLoggedIn && (
@@ -56,6 +75,7 @@ export function EpisodeDetail({
       <button type="button" className="border">
         再生リストに追加
       </button>
+
       <pre>{JSON.stringify(episode, null, 2)}</pre>
     </div>
   );
