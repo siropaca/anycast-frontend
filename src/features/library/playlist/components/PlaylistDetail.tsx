@@ -28,7 +28,7 @@ export function PlaylistDetail({ playlistId }: Props) {
             <Link
               key={item.id}
               href={Pages.episode.path({
-                channelSlug: item.episode.channel.id,
+                channelId: item.episode.channel.id,
                 episodeId: item.episode.id,
               })}
             >

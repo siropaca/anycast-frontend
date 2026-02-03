@@ -35,7 +35,7 @@ Anycast のページ構成と URL 設計を定義する。
 | おすすめのエピソード | `/episodes`                               | おすすめエピソード一覧 | ✅ | | [詳細](./episodes.md) |
 | おすすめのチャンネル | `/channels`                               | おすすめチャンネル一覧 | ✅ | | [詳細](./channels.md) |
 | ユーザー       | `/users/:username`                        | ユーザーが配信しているチャンネル一覧 | ✅ | | |
-| チャンネル      | `/channel/:channelSlug`                   | チャンネル詳細とエピソード一覧 | ✅ | | [詳細](./channel-detail.md) |
+| チャンネル      | `/channel/:channelId`                     | チャンネル詳細とエピソード一覧 | ✅ | | [詳細](./channel-detail.md) |
 | エピソード      | `/channel/:channelId/episodes/:episodeId` | エピソード再生ページ | ✅ | | [詳細](./episode-detail.md) |
 | 利用規約       | `/terms`                                  | 利用規約 | ✅ | | |
 | プライバシーポリシー | `/privacy`                                | プライバシーポリシー | ✅ | | |

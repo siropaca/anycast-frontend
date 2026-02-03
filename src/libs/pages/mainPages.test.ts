@@ -45,10 +45,12 @@ describe('mainPages', () => {
   });
 
   describe('channel', () => {
-    it('path が /channel/:channelSlug を返す', () => {
-      expect(mainPages.channel.path({ channelSlug: 'my-channel' })).toBe(
-        '/channel/my-channel',
-      );
+    it('path が /channel/:channelId を返す', () => {
+      expect(
+        mainPages.channel.path({
+          channelId: '123e4567-e89b-12d3-a456-426614174000',
+        }),
+      ).toBe('/channel/123e4567-e89b-12d3-a456-426614174000');
     });
 
     it('title が設定されている', () => {
@@ -59,8 +61,13 @@ describe('mainPages', () => {
   describe('episode', () => {
     it('path が /channel/:channelId/episodes/:episodeId を返す', () => {
       expect(
-        mainPages.episode.path({ channelSlug: 'ch-456', episodeId: 'ep-123' }),
-      ).toBe('/channel/ch-456/episodes/ep-123');
+        mainPages.episode.path({
+          channelId: '123e4567-e89b-12d3-a456-426614174000',
+          episodeId: '987fcdeb-51a2-34d6-b789-426614174999',
+        }),
+      ).toBe(
+        '/channel/123e4567-e89b-12d3-a456-426614174000/episodes/987fcdeb-51a2-34d6-b789-426614174999',
+      );
     });
 
     it('title が設定されている', () => {

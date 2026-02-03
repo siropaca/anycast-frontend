@@ -30,7 +30,7 @@ export function RecommendedEpisodes() {
         <Link
           key={episode.id}
           href={Pages.episode.path({
-            channelSlug: episode.channel.id,
+            channelId: episode.channel.id,
             episodeId: episode.id,
           })}
         >

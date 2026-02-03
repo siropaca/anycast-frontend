@@ -23,7 +23,7 @@ export function LikeList() {
         <Link
           key={item.episode.id}
           href={Pages.episode.path({
-            channelSlug: item.episode.channel.id,
+            channelId: item.episode.channel.id,
             episodeId: item.episode.id,
           })}
         >

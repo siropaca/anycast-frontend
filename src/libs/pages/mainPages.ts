@@ -7,12 +7,12 @@ export interface UserParams {
 
 /** チャンネル詳細ページのパラメータ */
 export interface ChannelParams {
-  channelSlug: string;
+  channelId: string;
 }
 
 /** エピソード詳細ページのパラメータ */
 export interface EpisodeParams {
-  channelSlug: string;
+  channelId: string;
   episodeId: string;
 }
 
@@ -56,13 +56,13 @@ export const mainPages = {
   },
   /** チャンネル詳細 */
   channel: {
-    path: (params: ChannelParams) => `/channel/${params.channelSlug}`,
+    path: (params: ChannelParams) => `/channel/${params.channelId}`,
     title: 'チャンネル詳細',
   },
   /** エピソード詳細 */
   episode: {
     path: (params: EpisodeParams) =>
-      `/channel/${params.channelSlug}/episodes/${params.episodeId}`,
+      `/channel/${params.channelId}/episodes/${params.episodeId}`,
     title: 'エピソード詳細',
   },
   /** ログイン */

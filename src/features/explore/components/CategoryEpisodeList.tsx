@@ -27,7 +27,7 @@ export function CategoryEpisodeList({ categorySlug }: Props) {
         <Link
           key={episode.id}
           href={Pages.episode.path({
-            channelSlug: episode.channel.id,
+            channelId: episode.channel.id,
             episodeId: episode.id,
           })}
         >

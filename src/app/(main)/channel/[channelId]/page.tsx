@@ -10,8 +10,8 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { channelSlug } = await params;
-  const response = await getChannelsChannelId(channelSlug);
+  const { channelId } = await params;
+  const response = await getChannelsChannelId(channelId);
   const channel = unwrapResponse<ResponseChannelResponse>(response);
 
   return {
@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ChannelPage({ params }: Props) {
-  const { channelSlug } = await params;
-  const response = await getChannelsChannelId(channelSlug);
+  const { channelId } = await params;
+  const response = await getChannelsChannelId(channelId);
   const channel = unwrapResponse<ResponseChannelResponse>(response);
 
   return (

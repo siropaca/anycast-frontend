@@ -1,4 +1,4 @@
-# チャンネル詳細 (`/channel/:channelSlug`)
+# チャンネル詳細 (`/channel/:channelId`)
 
 リスナー向けのチャンネル公開ページ。認証不要でアクセスできる。
 

@@ -22,7 +22,7 @@ export function ChannelList() {
       {channels.map((channel, index) => (
         <Link
           key={channel.id}
-          href={Pages.channel.path({ channelSlug: channel.id })}
+          href={Pages.channel.path({ channelId: channel.id })}
         >
           <Artwork
             src={channel.artwork?.url}
