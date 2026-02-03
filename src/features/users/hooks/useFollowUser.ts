@@ -1,7 +1,6 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import { getGetMeFollowsQueryKey } from '@/libs/api/generated/me/me';
 import type { ResponseFollowStatusResponse } from '@/libs/api/generated/schemas/responseFollowStatusResponse';
 import {
@@ -19,15 +18,9 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
  * @returns フォロー状態と操作
  */
 export function useFollowUser(username: string) {
-  const { data: session, status } = useSession();
   const queryClient = useQueryClient();
 
-  const isLoggedIn = status === 'authenticated';
-  const isOwnProfile = isLoggedIn && session?.user?.username === username;
-
-  const { data: followStatusData } = useGetUsersUsernameFollow(username, {
-    query: { enabled: isLoggedIn && !isOwnProfile },
-  });
+  const { data: followStatusData } = useGetUsersUsernameFollow(username);
 
   const followStatus = followStatusData
     ? unwrapResponse<ResponseFollowStatusResponse>(followStatusData, {
@@ -64,8 +57,6 @@ export function useFollowUser(username: string) {
 
   return {
     isFollowing,
-    isOwnProfile,
-    isLoggedIn,
     isPending: isFollowPending || isUnfollowPending,
 
     toggleFollow,

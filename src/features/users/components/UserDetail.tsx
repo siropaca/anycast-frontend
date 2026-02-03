@@ -5,16 +5,16 @@ import { useUser } from '@/features/users/hooks/useUser';
 
 interface Props {
   username: string;
+  isOwnProfile?: boolean;
 }
 
-export function UserDetail({ username }: Props) {
+export function UserDetail({ username, isOwnProfile = false }: Props) {
   const { user } = useUser(username);
-  const { isFollowing, isOwnProfile, isLoggedIn, isPending, toggleFollow } =
-    useFollowUser(username);
+  const { isFollowing, isPending, toggleFollow } = useFollowUser(username);
 
   return (
     <div>
-      {isLoggedIn && !isOwnProfile && (
+      {!isOwnProfile && (
         <button
           type="button"
           className="border"
