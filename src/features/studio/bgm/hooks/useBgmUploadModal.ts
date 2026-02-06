@@ -32,22 +32,27 @@ export function useBgmUploadModal() {
 
   function submit() {
     if (!selectedFile) return;
-    uploadBgm(selectedFile, bgmName);
-    setOpen(false);
+    uploadBgm(selectedFile, bgmName, {
+      onSuccess: () => {
+        setOpen(false);
+        reset();
+      },
+    });
   }
 
   const isDirty = selectedFile !== null || bgmName !== '';
 
   return {
     open,
-    setOpen,
     fileInputRef,
     bgmName,
-    setBgmName,
     selectedFile,
     isUploading,
     uploadError,
     isDirty,
+
+    setOpen,
+    setBgmName,
     reset,
     openFilePicker,
     selectFile,

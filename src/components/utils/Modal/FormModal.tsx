@@ -17,6 +17,7 @@ interface Props {
   submitDisabled?: boolean;
   submitDisabledReason?: string;
   isSubmitting?: boolean;
+  submittingLabel?: string;
 
   onOpenChange?: (open: boolean) => void;
   onSubmit?: () => void;
@@ -33,6 +34,7 @@ export function FormModal({
   submitDisabled = false,
   submitDisabledReason,
   isSubmitting = false,
+  submittingLabel = '処理中...',
   onOpenChange,
   onSubmit,
 }: Props) {
@@ -62,11 +64,11 @@ export function FormModal({
           <Button
             disabled={submitDisabled || isSubmitting}
             disabledReason={
-              isSubmitting ? '処理中...' : submitDisabledReason
+              isSubmitting ? submittingLabel : submitDisabledReason
             }
             onClick={onSubmit}
           >
-            {isSubmitting ? '処理中...' : submitLabel}
+            {isSubmitting ? submittingLabel : submitLabel}
           </Button>
         </Modal.Footer>
       </Modal.Content>

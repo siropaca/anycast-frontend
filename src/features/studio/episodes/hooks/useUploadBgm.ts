@@ -31,8 +31,14 @@ export function useUploadBgm() {
    *
    * @param file - アップロードする音声ファイル
    * @param name - BGMの名前（空の場合はファイル名から拡張子を除いた名前を使用）
+   * @param options - オプション
+   * @param options.onSuccess - アップロード成功時のコールバック
    */
-  function uploadBgm(file: File, name: string) {
+  function uploadBgm(
+    file: File,
+    name: string,
+    options?: { onSuccess?: () => void },
+  ) {
     setError(undefined);
     const bgmName = trimFullWidth(name) || removeFileExtension(file.name);
 
@@ -64,6 +70,7 @@ export function useUploadBgm() {
                   queryKey: getGetMeBgmsQueryKey(),
                 });
                 toast.success({ title: 'BGMを追加しました' });
+                options?.onSuccess?.();
               },
             },
           );
