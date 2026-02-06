@@ -375,6 +375,43 @@ export const Skeleton: Story = {
   ),
 };
 
+export const DisabledReason: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Disabled with Reason">
+        <Stack>
+          <Button disabled disabledReason="先にフォームを入力してください">
+            送信
+          </Button>
+          <Button
+            color="secondary"
+            variant="outline"
+            disabled
+            disabledReason="権限がありません"
+          >
+            編集
+          </Button>
+          <Button
+            color="danger"
+            disabled
+            disabledReason="他のユーザーが使用中です"
+          >
+            削除
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Loading with Reason">
+        <Stack>
+          <Button loading disabledReason="保存中です...">
+            保存
+          </Button>
+        </Stack>
+      </Section>
+    </Stack>
+  ),
+};
+
 export const States: Story = {
   render: () => (
     <Stack direction="column" gap={24}>

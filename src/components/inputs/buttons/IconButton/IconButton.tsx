@@ -12,6 +12,7 @@ import {
   buttonBaseClasses,
   colorVariantClasses,
 } from '@/components/inputs/buttons/buttonVariants';
+import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 import { cn } from '@/utils/cn';
 
 interface BaseProps {
@@ -21,6 +22,8 @@ interface BaseProps {
   color?: ButtonColor;
   variant?: ButtonVariant;
   loading?: boolean;
+  disabled?: boolean;
+  disabledReason?: string;
   className?: string;
 }
 
@@ -55,8 +58,12 @@ export function IconButton({
   loading = false,
   className,
   href,
+  disabled,
+  disabledReason,
   ...props
 }: Props) {
+  const isDisabled = disabled || loading;
+
   const buttonClassName = cn(
     buttonBaseClasses,
     sizeClasses[size],
@@ -71,27 +78,47 @@ export function IconButton({
   );
 
   if (href !== undefined) {
-    return (
+    const link = (
       <Link
         href={href}
         className={buttonClassName}
         aria-label={props['aria-label']}
         aria-busy={loading}
-        aria-disabled={loading || undefined}
+        aria-disabled={isDisabled || undefined}
       >
         {content}
       </Link>
     );
+
+    if (isDisabled && disabledReason) {
+      return (
+        <Tooltip label={disabledReason}>
+          <span className="inline-flex">{link}</span>
+        </Tooltip>
+      );
+    }
+
+    return link;
   }
 
-  return (
+  const button = (
     <button
       className={buttonClassName}
       aria-busy={loading}
+      disabled={isDisabled}
       {...props}
-      {...(loading ? { disabled: true } : {})}
     >
       {content}
     </button>
   );
+
+  if (isDisabled && disabledReason) {
+    return (
+      <Tooltip label={disabledReason}>
+        <span className="inline-flex">{button}</span>
+      </Tooltip>
+    );
+  }
+
+  return button;
 }

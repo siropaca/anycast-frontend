@@ -372,6 +372,58 @@ export const AllVariants: Story = {
   ),
 };
 
+export const DisabledReason: Story = {
+  args: {
+    icon: <PlusIcon size={20} />,
+    'aria-label': '追加',
+  },
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Disabled with Reason">
+        <Stack>
+          <IconButton
+            icon={<PlusIcon size={20} />}
+            aria-label="追加"
+            color="primary"
+            variant="solid"
+            disabled
+            disabledReason="追加上限に達しました"
+          />
+          <IconButton
+            icon={<PencilSimpleIcon size={20} />}
+            aria-label="編集"
+            color="secondary"
+            variant="outline"
+            disabled
+            disabledReason="権限がありません"
+          />
+          <IconButton
+            icon={<TrashIcon size={20} />}
+            aria-label="削除"
+            color="danger"
+            variant="solid"
+            disabled
+            disabledReason="他のユーザーが使用中です"
+          />
+        </Stack>
+      </Section>
+
+      <Section title="Loading with Reason">
+        <Stack>
+          <IconButton
+            icon={<PlusIcon size={20} />}
+            aria-label="追加"
+            color="primary"
+            variant="solid"
+            loading
+            disabledReason="処理中です..."
+          />
+        </Stack>
+      </Section>
+    </Stack>
+  ),
+};
+
 export const States: Story = {
   args: {
     icon: <PlusIcon size={20} />,
