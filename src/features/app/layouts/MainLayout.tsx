@@ -1,7 +1,6 @@
 import { HeaderContainer } from '@/features/app/components/HeaderContainer';
 import { LayoutBody } from '@/features/app/components/LayoutBody';
 import { MainLayoutSideMenu } from '@/features/app/components/MainLayoutSideMenu';
-import { BottomPlayer } from '@/features/player/components/BottomPlayer';
 import { auth } from '@/libs/auth/auth';
 
 interface Props {
@@ -19,10 +18,9 @@ export async function MainLayout({ children }: Props) {
   );
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full">
       <HeaderContainer sideMenu={sideMenu} />
       <LayoutBody sideMenu={sideMenu}>{children}</LayoutBody>
-      <BottomPlayer />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { ToastProvider } from '@/components/feedback/Toast/ToastProvider';
+import { BottomPlayer } from '@/features/player/components/BottomPlayer';
 import { useQueryClient } from '@/libs/api/useQueryClient';
 import { SessionGuard } from '@/libs/auth/SessionGuard';
 
@@ -23,7 +24,12 @@ export function Providers({ children }: Props) {
         refetchOnWindowFocus
       >
         <ToastProvider>
-          <SessionGuard>{children}</SessionGuard>
+          <SessionGuard>
+            <div className="flex flex-col h-screen">
+              <div className="flex-1 min-h-0">{children}</div>
+              <BottomPlayer />
+            </div>
+          </SessionGuard>
         </ToastProvider>
       </SessionProvider>
     </QueryClientProvider>
