@@ -9,6 +9,7 @@ import { auth } from '@/libs/auth/auth';
 
 import { ChannelEpisodeList } from './ChannelEpisodeList';
 import { EpisodeActionBar } from './EpisodeActionBar';
+import { EpisodeDescription } from './EpisodeDescription';
 import { EpisodeHeader } from './EpisodeHeader';
 
 interface Props {
@@ -27,12 +28,14 @@ export async function EpisodeDetail({ channelId, episodeId }: Props) {
 
   return (
     <div className="space-y-8">
+      {/* ヘッダー */}
       <EpisodeHeader
         episode={episode}
         channel={channel}
         channelId={channelId}
       />
 
+      {/* アクションボタン */}
       <EpisodeActionBar
         episode={episode}
         channelName={channel.name}
@@ -40,13 +43,9 @@ export async function EpisodeDetail({ channelId, episodeId }: Props) {
       />
 
       {/* 説明セクション */}
-      <section>
-        <h2 className="mb-3 text-lg font-bold">説明</h2>
-        <p className="whitespace-pre-wrap text-sm text-text-subtle">
-          {episode.description || '説明はありません'}
-        </p>
-      </section>
+      <EpisodeDescription description={episode.description} />
 
+      {/* こちらのエピソードもおすすめ */}
       <ChannelEpisodeList
         episodes={channel.episodes}
         currentEpisodeId={episode.id}
