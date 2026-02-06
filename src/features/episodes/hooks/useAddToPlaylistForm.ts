@@ -1,6 +1,6 @@
 'use client';
 
-import { type FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useAddToPlaylist } from '@/features/episodes/hooks/useAddToPlaylist';
 import { useGetMePlaylists } from '@/libs/api/generated/me/me';
@@ -40,15 +40,14 @@ export function useAddToPlaylistForm({
     () => new Set(currentPlaylistIds),
   );
   const [isCreatingNew, setIsCreatingNew] = useState(false);
-  const [newPlaylistName, setNewPlaylistName] = useState('');
 
   const prevOpenRef = useRef(open);
+  const savedIdsRef = useRef<string[] | null>(null);
 
   useEffect(() => {
     if (open && !prevOpenRef.current) {
-      setSelectedIds(new Set(currentPlaylistIds));
+      setSelectedIds(new Set(savedIdsRef.current ?? currentPlaylistIds));
       setIsCreatingNew(false);
-      setNewPlaylistName('');
       clearError();
     }
     prevOpenRef.current = open;
@@ -66,16 +65,15 @@ export function useAddToPlaylistForm({
     });
   }
 
-  async function handleCreatePlaylist(e: FormEvent) {
-    e.preventDefault();
-
-    const trimmed = newPlaylistName.trim();
-    if (!trimmed) return;
-
-    const playlist = await createPlaylist(trimmed);
+  /**
+   * 新しいプレイリストを作成し、選択状態に追加する
+   *
+   * @param name - プレイリスト名
+   */
+  async function handleCreatePlaylist(name: string) {
+    const playlist = await createPlaylist(name);
     if (playlist) {
       setSelectedIds((prev) => new Set(prev).add(playlist.id));
-      setNewPlaylistName('');
       setIsCreatingNew(false);
     }
   }
@@ -85,6 +83,7 @@ export function useAddToPlaylistForm({
 
     const success = await updatePlaylists(episodeId, ids);
     if (success) {
+      savedIdsRef.current = ids;
       onClose();
     }
   }
@@ -94,11 +93,9 @@ export function useAddToPlaylistForm({
     isLoading,
     selectedIds,
     isCreatingNew,
-    newPlaylistName,
     isPending,
     error,
 
-    setNewPlaylistName,
     setIsCreatingNew,
     handleCheckboxChange,
     handleCreatePlaylist,

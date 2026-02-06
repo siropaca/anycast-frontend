@@ -4,9 +4,8 @@ import { PlusIcon, SpinnerGapIcon } from '@phosphor-icons/react';
 
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Checkbox } from '@/components/inputs/Checkbox/Checkbox';
-import { HelperText } from '@/components/inputs/Input/HelperText';
-import { Input } from '@/components/inputs/Input/Input';
 import { Modal } from '@/components/utils/Modal/Modal';
+import { CreatePlaylistForm } from '@/features/episodes/components/CreatePlaylistForm';
 import { useAddToPlaylistForm } from '@/features/episodes/hooks/useAddToPlaylistForm';
 
 interface Props {
@@ -28,10 +27,8 @@ export function AddToPlaylistModal({
     isLoading,
     selectedIds,
     isCreatingNew,
-    newPlaylistName,
     isPending,
     error,
-    setNewPlaylistName,
     setIsCreatingNew,
     handleCheckboxChange,
     handleCreatePlaylist,
@@ -75,29 +72,11 @@ export function AddToPlaylistModal({
           )}
 
           {isCreatingNew ? (
-            // プレイリスト作成
-            <form onSubmit={handleCreatePlaylist} className="space-y-3">
-              <div className="flex gap-3">
-                <Input
-                  size="sm"
-                  placeholder="プレイリスト名"
-                  value={newPlaylistName}
-                  maxLength={100}
-                  autoFocus
-                  onChange={(e) => setNewPlaylistName(e.target.value)}
-                />
-                <Button
-                  type="submit"
-                  size="sm"
-                  disabled={!newPlaylistName.trim() || isPending}
-                  loading={isPending}
-                >
-                  作成
-                </Button>
-              </div>
-
-              {error && <HelperText error>{error}</HelperText>}
-            </form>
+            <CreatePlaylistForm
+              isPending={isPending}
+              serverError={error}
+              onSubmit={handleCreatePlaylist}
+            />
           ) : (
             // プレイリスト作成ボタン
             <button
@@ -118,7 +97,7 @@ export function AddToPlaylistModal({
             </Button>
           </Modal.Close>
 
-          <Button onClick={handleSave} loading={isPending}>
+          <Button loading={isPending} onClick={handleSave}>
             保存
           </Button>
         </Modal.Footer>
