@@ -105,7 +105,7 @@ export function Button({
     if (isDisabled && disabledReason) {
       return (
         <Tooltip label={disabledReason}>
-          <span className="inline-flex">{link}</span>
+          <span className={cn('inline-flex', className)}>{link}</span>
         </Tooltip>
       );
     }
@@ -127,7 +127,7 @@ export function Button({
   if (isDisabled && disabledReason) {
     return (
       <Tooltip label={disabledReason}>
-        <span className="inline-flex">{button}</span>
+        <span className={cn('inline-flex', className)}>{button}</span>
       </Tooltip>
     );
   }

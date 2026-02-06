@@ -85,7 +85,7 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
       <Drawer.Content
         side="right"
         hidden={isCapturing}
-        className="w-feedback-drawer"
+        className="w-feedback-drawer border-l border-border"
       >
         <Drawer.Header className="border-b border-border">
           <span className="text-xl font-semibold">フィードバックを送信</span>
@@ -206,6 +206,7 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
                 size="lg"
                 className="w-full"
                 disabled={!isValid}
+                disabledReason="フィードバックの内容を入力してください"
                 loading={isSubmitting}
               >
                 送信
