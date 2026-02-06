@@ -23,6 +23,25 @@ const languageOptions = [
   { label: '한국어', value: 'ko' },
 ];
 
+const groupedOptions = [
+  {
+    label: '果物',
+    options: [
+      { label: 'りんご', value: 'apple' },
+      { label: 'バナナ', value: 'banana' },
+      { label: 'いちご', value: 'strawberry' },
+    ],
+  },
+  {
+    label: '野菜',
+    options: [
+      { label: 'にんじん', value: 'carrot' },
+      { label: 'トマト', value: 'tomato' },
+      { label: 'きゅうり', value: 'cucumber' },
+    ],
+  },
+];
+
 const meta = {
   title: 'inputs/Select',
   component: Select,
@@ -138,6 +157,57 @@ export const Skeleton: Story = {
       <SelectSkeleton size="sm" />
       <SelectSkeleton size="md" />
       <SelectSkeleton size="lg" />
+    </Stack>
+  ),
+};
+
+export const Grouped: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Grouped Options">
+        <Select
+          options={groupedOptions}
+          placeholder="食材を選択"
+        />
+      </Section>
+
+      <Section title="Grouped + Flat Mixed">
+        <Select
+          options={[
+            { label: '指定なし', value: 'none' },
+            ...groupedOptions,
+          ]}
+          placeholder="食材を選択"
+        />
+      </Section>
+    </Stack>
+  ),
+};
+
+function GroupedControlledExample() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <Stack direction="column" gap={8}>
+      <Select
+        options={groupedOptions}
+        value={value}
+        onValueChange={setValue}
+        placeholder="食材を選択"
+      />
+      <span style={{ fontSize: '12px', color: '#888' }}>
+        選択中: {value ?? '未選択'}
+      </span>
+    </Stack>
+  );
+}
+
+export const GroupedControlled: Story = {
+  render: () => (
+    <Stack direction="column" gap={24}>
+      <Section title="Controlled with Groups">
+        <GroupedControlledExample />
+      </Section>
     </Stack>
   ),
 };

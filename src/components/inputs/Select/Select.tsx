@@ -9,8 +9,13 @@ type Option<T extends string> = {
   value: T;
 };
 
-type Props<T extends string> = {
+type OptionGroup<T extends string> = {
+  label: string;
   options: Option<T>[];
+};
+
+type Props<T extends string> = {
+  options: (Option<T> | OptionGroup<T>)[];
   value?: T | null;
   defaultValue?: T;
   onValueChange?: (value: T | null) => void;
@@ -48,6 +53,32 @@ const caretSizeClasses: Record<Size, string> = {
   lg: 'size-5',
 };
 
+/**
+ * オプションがグループかどうかを判定する
+ *
+ * @param item - 判定対象
+ * @returns グループの場合 true
+ */
+function isOptionGroup<T extends string>(
+  item: Option<T> | OptionGroup<T>,
+): item is OptionGroup<T> {
+  return 'options' in item;
+}
+
+/**
+ * フラット/グループ混在の options からすべての Option を取得する
+ *
+ * @param items - options 配列
+ * @returns フラットな Option 配列
+ */
+function flattenOptions<T extends string>(
+  items: (Option<T> | OptionGroup<T>)[],
+): Option<T>[] {
+  return items.flatMap((item) =>
+    isOptionGroup(item) ? item.options : [item],
+  );
+}
+
 export function Select<T extends string>({
   options,
   value,
@@ -68,6 +99,7 @@ export function Select<T extends string>({
   }
 
   const hasValue = value !== undefined && value !== null && value !== '';
+  const allOptions = flattenOptions(options);
 
   return (
     <div
@@ -96,11 +128,21 @@ export function Select<T extends string>({
         <option value="" disabled hidden>
           {placeholder}
         </option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        {options.map((item) =>
+          isOptionGroup(item) ? (
+            <optgroup key={item.label} label={item.label}>
+              {item.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </optgroup>
+          ) : (
+            <option key={item.value} value={item.value}>
+              {item.label}
+            </option>
+          ),
+        )}
       </select>
 
       {/* 表示用レイヤー（pointer-events-none でクリックを select に透過） */}
@@ -123,7 +165,7 @@ export function Select<T extends string>({
           )}
         >
           {hasValue
-            ? options.find((opt) => opt.value === value)?.label
+            ? allOptions.find((opt) => opt.value === value)?.label
             : placeholder}
         </span>
 

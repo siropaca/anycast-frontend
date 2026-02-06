@@ -1,9 +1,16 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { PlusIcon, TrashIcon, UploadIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { Input } from '@/components/inputs/Input/Input';
+import { Select } from '@/components/inputs/Select/Select';
+import { Textarea } from '@/components/inputs/Textarea/Textarea';
+import { Button } from '@/components/inputs/buttons/Button/Button';
 import { useDeleteChannelDefaultBgm } from '@/features/studio/channels/hooks/useDeleteChannelDefaultBgm';
 import {
   type ChannelFormInput,
@@ -137,10 +144,6 @@ export function ChannelForm({
     }
   }
 
-  function handleBgmSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    handleBgmChange(event.target.value);
-  }
-
   function handleBgmDelete() {
     if (isEditMode && channelId) {
       deleteDefaultBgm(() => {
@@ -169,253 +172,339 @@ export function ChannelForm({
     }
   }
 
+  const categoryOptions = categories.map((category) => ({
+    label: category.name ?? '',
+    value: category.id ?? '',
+  }));
+
+  const bgmOptions = [
+    ...(userBgms.length > 0
+      ? [
+          {
+            label: 'マイBGM',
+            options: userBgms.map((bgm) => ({
+              label: bgm.name,
+              value: `user:${bgm.id}`,
+            })),
+          },
+        ]
+      : []),
+    ...(systemBgms.length > 0
+      ? [
+          {
+            label: 'システム',
+            options: systemBgms.map((bgm) => ({
+              label: bgm.name,
+              value: `system:${bgm.id}`,
+            })),
+          },
+        ]
+      : []),
+  ];
+
+  const voiceOptions = voices.map((voice) => ({
+    label: `${voice.name} (${voice.gender})`,
+    value: voice.id ?? '',
+  }));
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="name">チャンネル名</label>
-        <input
-          id="name"
-          type="text"
-          className="border w-full"
-          {...register('name')}
-        />
-        {errors.name && <p>{errors.name.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="description">説明</label>
-        <textarea
-          id="description"
-          className="border w-full h-20"
-          {...register('description')}
-        />
-        {errors.description && <p>{errors.description.message}</p>}
-      </div>
-
-      <div>
-        <span>アートワーク</span>
-        <br />
-        {artworkPreviewUrl && (
-          <Image
-            src={artworkPreviewUrl}
-            alt="アートワーク"
-            width={200}
-            height={200}
-            className="object-cover"
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      {/* チャンネル基本情報 */}
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <FormLabel htmlFor="name" required>
+            チャンネル名
+          </FormLabel>
+          <Input
+            id="name"
+            maxLength={255}
+            error={!!errors.name}
+            {...register('name')}
           />
-        )}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-        <button
-          type="button"
-          className="border"
-          onClick={handleArtworkButtonClick}
-          disabled={isArtworkUploading}
-        >
-          {isArtworkUploading
-            ? 'アップロード中...'
-            : artworkPreviewUrl
-              ? 'アートワークを変更'
-              : 'アートワークを登録'}
-        </button>
-        {artworkUploadError && <p>{artworkUploadError}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="categoryId">カテゴリ</label>
-        <select
-          id="categoryId"
-          className="border w-full"
-          {...register('categoryId')}
-        >
-          <option value="">選択してください</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-        {errors.categoryId && <p>{errors.categoryId.message}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="defaultBgm">デフォルトBGM</label>
-        <div className="flex gap-2">
-          <select
-            id="defaultBgm"
-            className="border flex-1"
-            value={selectedBgmValue}
-            onChange={handleBgmSelectChange}
-          >
-            <option value="">なし</option>
-            {userBgms.length > 0 && (
-              <optgroup label="マイBGM">
-                {userBgms.map((bgm) => (
-                  <option key={bgm.id} value={`user:${bgm.id}`}>
-                    {bgm.name}
-                  </option>
-                ))}
-              </optgroup>
-            )}
-            {systemBgms.length > 0 && (
-              <optgroup label="システム">
-                {systemBgms.map((bgm) => (
-                  <option key={bgm.id} value={`system:${bgm.id}`}>
-                    {bgm.name}
-                  </option>
-                ))}
-              </optgroup>
-            )}
-          </select>
-          {selectedBgmValue && (
-            <button
-              type="button"
-              className="border px-2"
-              disabled={isDeletingDefaultBgm}
-              onClick={handleBgmDelete}
-            >
-              {isDeletingDefaultBgm ? '削除中...' : '削除'}
-            </button>
+          {errors.name && (
+            <p className="text-sm text-text-danger">{errors.name.message}</p>
           )}
         </div>
-        <div className="mt-2">
+
+        <div className="space-y-2">
+          <FormLabel htmlFor="description">説明</FormLabel>
+          <Textarea
+            id="description"
+            rows={4}
+            maxLength={2000}
+            showCounter
+            error={!!errors.description}
+            {...register('description')}
+          />
+          {errors.description && (
+            <p className="text-sm text-text-danger">
+              {errors.description.message}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <FormLabel>アートワーク</FormLabel>
+          {artworkPreviewUrl && (
+            <Image
+              src={artworkPreviewUrl}
+              alt="アートワーク"
+              width={200}
+              height={200}
+              className="rounded-lg object-cover"
+            />
+          )}
           <input
-            ref={bgmFileInputRef}
+            ref={fileInputRef}
             type="file"
-            accept="audio/*"
+            accept="image/*"
             className="hidden"
-            onChange={handleBgmFileChange}
+            onChange={handleFileChange}
           />
-          <input
-            type="text"
-            placeholder="BGM名（省略時はファイル名）"
-            className="border"
-            value={bgmName}
-            disabled={isBgmUploading}
-            onChange={(e) => setBgmName(e.target.value)}
+          <div>
+            <Button
+              type="button"
+              variant="outline"
+              color="secondary"
+              loading={isArtworkUploading}
+              onClick={handleArtworkButtonClick}
+            >
+              {artworkPreviewUrl
+                ? 'アートワークを変更'
+                : 'アートワークを登録'}
+            </Button>
+          </div>
+          {artworkUploadError && (
+            <p className="text-sm text-text-danger">{artworkUploadError}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <FormLabel htmlFor="categoryId" required>
+            カテゴリ
+          </FormLabel>
+          <Controller
+            name="categoryId"
+            control={control}
+            render={({ field }) => (
+              <Select
+                name="categoryId"
+                options={categoryOptions}
+                value={field.value || null}
+                onValueChange={(value) => field.onChange(value ?? '')}
+                placeholder="選択してください"
+                error={!!errors.categoryId}
+              />
+            )}
           />
-          <button
-            type="button"
-            className="border"
-            disabled={isBgmUploading}
-            onClick={handleBgmUploadClick}
-          >
-            {isBgmUploading ? 'アップロード中...' : 'BGMをアップロード'}
-          </button>
-          {bgmUploadError && <p>{bgmUploadError}</p>}
-          {bgmDeleteError && <p>{bgmDeleteError}</p>}
+          {errors.categoryId && (
+            <p className="text-sm text-text-danger">
+              {errors.categoryId.message}
+            </p>
+          )}
         </div>
       </div>
 
-      <hr className="my-4" />
-
-      {!isEditMode && (
-        <>
-          <hr className="my-4" />
-
-          <fieldset>
-            <legend>キャラクター</legend>
-
-            {fields.map((field, index) => (
-              <div key={field.id}>
-                <h4>キャラクター {index + 1}</h4>
-
-                <div>
-                  <label htmlFor={`characters.${index}.voiceId`}>ボイス</label>
-                  <select
-                    id={`characters.${index}.voiceId`}
-                    className="border w-full"
-                    {...register(`characters.${index}.voiceId`)}
-                  >
-                    <option value="">選択してください</option>
-                    {voices.map((voice) => (
-                      <option key={voice.id} value={voice.id}>
-                        {voice.name} ({voice.gender})
-                      </option>
-                    ))}
-                  </select>
-                  {errors.characters?.[index]?.voiceId && (
-                    <p>{errors.characters[index].voiceId?.message}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor={`characters.${index}.name`}>名前</label>
-                  <input
-                    id={`characters.${index}.name`}
-                    type="text"
-                    className="border w-full"
-                    {...register(`characters.${index}.name`)}
-                  />
-                  {errors.characters?.[index]?.name && (
-                    <p>{errors.characters[index].name?.message}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor={`characters.${index}.persona`}>
-                    ペルソナ
-                  </label>
-                  <textarea
-                    id={`characters.${index}.persona`}
-                    className="border w-full h-20"
-                    {...register(`characters.${index}.persona`)}
-                  />
-                </div>
-
-                {fields.length > 1 && (
-                  <button
-                    type="button"
-                    className="border"
-                    onClick={() => remove(index)}
-                  >
-                    − 削除
-                  </button>
-                )}
-              </div>
-            ))}
-
-            {fields.length < 2 && (
-              <button
+      {/* デフォルトBGM */}
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <FormLabel htmlFor="defaultBgm">デフォルトBGM</FormLabel>
+          <div className="flex items-center gap-2">
+            <div className="flex-1">
+              <Select
+                name="defaultBgm"
+                options={bgmOptions}
+                value={selectedBgmValue || null}
+                onValueChange={(value) => handleBgmChange(value ?? '')}
+                placeholder="なし"
+              />
+            </div>
+            {selectedBgmValue && (
+              <Button
                 type="button"
-                className="border"
-                onClick={() => append({ name: '', voiceId: '', persona: '' })}
+                variant="outline"
+                color="danger"
+                size="sm"
+                loading={isDeletingDefaultBgm}
+                onClick={handleBgmDelete}
               >
-                ＋ キャラクターを追加
-              </button>
+                削除
+              </Button>
             )}
-
-            {errors.characters?.root && <p>{errors.characters.root.message}</p>}
-          </fieldset>
-
-          <hr className="my-4" />
-        </>
-      )}
-
-      <div>
-        <label htmlFor="userPrompt">チャンネル共通の台本プロンプト</label>
-        <textarea
-          id="userPrompt"
-          className="border w-full h-20"
-          {...register('userPrompt')}
-        />
-        {errors.userPrompt && <p>{errors.userPrompt.message}</p>}
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              ref={bgmFileInputRef}
+              type="file"
+              accept="audio/*"
+              className="hidden"
+              onChange={handleBgmFileChange}
+            />
+            <Input
+              placeholder="BGM名（省略時はファイル名）"
+              value={bgmName}
+              disabled={isBgmUploading}
+              onChange={(e) => setBgmName(e.target.value)}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              color="secondary"
+              loading={isBgmUploading}
+              leftIcon={<UploadIcon />}
+              onClick={handleBgmUploadClick}
+            >
+              BGMをアップロード
+            </Button>
+          </div>
+          {bgmUploadError && (
+            <p className="text-sm text-text-danger">{bgmUploadError}</p>
+          )}
+          {bgmDeleteError && (
+            <p className="text-sm text-text-danger">{bgmDeleteError}</p>
+          )}
+        </div>
       </div>
 
-      {submitError && <p>{submitError}</p>}
+      {/* プロンプト */}
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <FormLabel
+            htmlFor="userPrompt"
+            helpText="エピソード生成時に台本プロンプトとして使用されます"
+          >
+            チャンネル共通の台本プロンプト
+          </FormLabel>
+          <Textarea
+            id="userPrompt"
+            rows={6}
+            maxLength={2000}
+            showCounter
+            error={!!errors.userPrompt}
+            {...register('userPrompt')}
+          />
+          {errors.userPrompt && (
+            <p className="text-sm text-text-danger">
+              {errors.userPrompt.message}
+            </p>
+          )}
+        </div>
+      </div>
 
-      <button type="submit" className="border" disabled={isSubmitting}>
-        {isSubmitting
-          ? '保存中...'
-          : isEditMode
-            ? 'チャンネルを更新'
-            : 'チャンネルを作成'}
-      </button>
+      {/* キャラクター（新規作成時のみ） */}
+      {!isEditMode && (
+        <div className="space-y-6">
+          <SectionTitle title="キャラクター" level="h3" />
+
+          {fields.map((field, index) => (
+            <div
+              key={field.id}
+              className="space-y-4 rounded-lg border border-border-default p-4"
+            >
+              <div className="flex items-center justify-between">
+                <h4 className="font-bold">キャラクター {index + 1}</h4>
+                {fields.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="text"
+                    color="danger"
+                    size="sm"
+                    leftIcon={<TrashIcon />}
+                    onClick={() => remove(index)}
+                  >
+                    削除
+                  </Button>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <FormLabel htmlFor={`characters.${index}.voiceId`} required>
+                  ボイス
+                </FormLabel>
+                <Controller
+                  name={`characters.${index}.voiceId`}
+                  control={control}
+                  render={({ field: selectField }) => (
+                    <Select
+                      name={`characters.${index}.voiceId`}
+                      options={voiceOptions}
+                      value={selectField.value || null}
+                      onValueChange={(value) =>
+                        selectField.onChange(value ?? '')
+                      }
+                      placeholder="選択してください"
+                      error={!!errors.characters?.[index]?.voiceId}
+                    />
+                  )}
+                />
+                {errors.characters?.[index]?.voiceId && (
+                  <p className="text-sm text-text-danger">
+                    {errors.characters[index].voiceId?.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <FormLabel htmlFor={`characters.${index}.name`} required>
+                  名前
+                </FormLabel>
+                <Input
+                  id={`characters.${index}.name`}
+                  maxLength={255}
+                  error={!!errors.characters?.[index]?.name}
+                  {...register(`characters.${index}.name`)}
+                />
+                {errors.characters?.[index]?.name && (
+                  <p className="text-sm text-text-danger">
+                    {errors.characters[index].name?.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <FormLabel htmlFor={`characters.${index}.persona`}>
+                  ペルソナ
+                </FormLabel>
+                <Textarea
+                  id={`characters.${index}.persona`}
+                  rows={4}
+                  maxLength={2000}
+                  showCounter
+                  {...register(`characters.${index}.persona`)}
+                />
+              </div>
+            </div>
+          ))}
+
+          {fields.length < 2 && (
+            <Button
+              type="button"
+              variant="outline"
+              color="secondary"
+              leftIcon={<PlusIcon />}
+              onClick={() => append({ name: '', voiceId: '', persona: '' })}
+            >
+              キャラクターを追加
+            </Button>
+          )}
+
+          {errors.characters?.root && (
+            <p className="text-sm text-text-danger">
+              {errors.characters.root.message}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 送信 */}
+      <div className="space-y-4">
+        {submitError && (
+          <p className="text-sm text-text-danger">{submitError}</p>
+        )}
+        <Button type="submit" loading={isSubmitting}>
+          {isEditMode ? 'チャンネルを更新' : 'チャンネルを作成'}
+        </Button>
+      </div>
     </form>
   );
 }
