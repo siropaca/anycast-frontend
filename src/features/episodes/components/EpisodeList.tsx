@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { useEpisodes } from '@/features/episodes/hooks/useEpisodes';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
+import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import { Pages } from '@/libs/pages';
 
 export function EpisodeList() {
   const { episodes } = useEpisodes();
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   if (episodes.length === 0) {
     return (
@@ -32,6 +34,7 @@ export function EpisodeList() {
             title={episode.title}
             subtext={episode.channel.name}
             priority={index < 6}
+            isPlaying={episode.id === nowPlayingEpisodeId}
           />
         </Link>
       ))}

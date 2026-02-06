@@ -8,10 +8,12 @@ import { ContentSectionEmpty } from '@/components/surface/ContentSection/Content
 import { RecommendedEpisodesSkeleton } from '@/features/home/components/RecommendedEpisodesSkeleton';
 import { ARTWORK_SIZE } from '@/features/home/constants/layout';
 import { useRecommendedEpisodes } from '@/features/home/hooks/useRecommendedEpisodes';
+import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import { Pages } from '@/libs/pages';
 
 export function RecommendedEpisodes() {
   const { episodes } = useRecommendedEpisodes();
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   if (episodes.length === 0) {
     return (
@@ -40,6 +42,7 @@ export function RecommendedEpisodes() {
             subtext={episode.channel.name}
             size={ARTWORK_SIZE}
             priority={index < 8}
+            isPlaying={episode.id === nowPlayingEpisodeId}
           />
         </Link>
       ))}

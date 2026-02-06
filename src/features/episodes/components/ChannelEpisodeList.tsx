@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import {
@@ -5,6 +7,7 @@ import {
   Artwork,
 } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ContentSection } from '@/components/surface/ContentSection/ContentSection';
+import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas/responseEpisodeResponse';
 import { Pages } from '@/libs/pages';
 import { formatDate } from '@/utils/date';
@@ -21,6 +24,7 @@ export function ChannelEpisodeList({
   channelId,
 }: Props) {
   const otherEpisodes = episodes.filter((ep) => ep.id !== currentEpisodeId);
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   if (otherEpisodes.length === 0) {
     return null;
@@ -45,6 +49,7 @@ export function ChannelEpisodeList({
                 ? formatDate(new Date(ep.publishedAt))
                 : undefined
             }
+            isPlaying={ep.id === nowPlayingEpisodeId}
           />
         </Link>
       ))}

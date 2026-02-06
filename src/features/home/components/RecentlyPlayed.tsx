@@ -6,10 +6,12 @@ import { ContentSectionEmpty } from '@/components/surface/ContentSection/Content
 import { RecentlyPlayedSkeleton } from '@/features/home/components/RecentlyPlayedSkeleton';
 import { ARTWORK_SIZE } from '@/features/home/constants/layout';
 import { useRecentlyPlayed } from '@/features/home/hooks/useRecentlyPlayed';
+import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import { Pages } from '@/libs/pages';
 
 export function RecentlyPlayed() {
   const { items } = useRecentlyPlayed();
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   if (items.length === 0) {
     return (
@@ -32,6 +34,7 @@ export function RecentlyPlayed() {
           subtext={item.episode.channel.name}
           size={ARTWORK_SIZE}
           priority={index < 8}
+          isPlaying={item.episode.id === nowPlayingEpisodeId}
         />
       ))}
     </ContentSection>

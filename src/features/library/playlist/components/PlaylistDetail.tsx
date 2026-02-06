@@ -5,6 +5,7 @@ import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
 import { usePlaylistDetail } from '@/features/library/playlist/hooks/usePlaylistDetail';
+import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 
 export function PlaylistDetail({ playlistId }: Props) {
   const { playlist } = usePlaylistDetail(playlistId);
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   return (
     <div>
@@ -37,6 +39,7 @@ export function PlaylistDetail({ playlistId }: Props) {
                 title={item.episode.title}
                 subtext={item.episode.channel.name}
                 priority={index < 6}
+                isPlaying={item.episode.id === nowPlayingEpisodeId}
               />
             </Link>
           ))}

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { useCategoryEpisodes } from '@/features/explore/hooks/useCategoryEpisodes';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
+import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 
 export function CategoryEpisodeList({ categorySlug }: Props) {
   const { episodes } = useCategoryEpisodes(categorySlug);
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   if (episodes.length === 0) {
     return (
@@ -36,6 +38,7 @@ export function CategoryEpisodeList({ categorySlug }: Props) {
             title={episode.title}
             subtext={episode.channel.name}
             priority={index < 6}
+            isPlaying={episode.id === nowPlayingEpisodeId}
           />
         </Link>
       ))}

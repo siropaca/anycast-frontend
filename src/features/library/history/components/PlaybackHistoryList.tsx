@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { Artwork } from '@/components/dataDisplay/artworks/Artwork/Artwork';
 import { ArtworkGrid } from '@/features/home/components/ArtworkGrid';
 import { usePlaybackHistory } from '@/features/library/history/hooks/usePlaybackHistory';
+import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
 import { Pages } from '@/libs/pages';
 
 export function PlaybackHistoryList() {
   const { items } = usePlaybackHistory();
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   if (items.length === 0) {
     return (
@@ -30,6 +32,7 @@ export function PlaybackHistoryList() {
             title={item.episode.title}
             subtext={item.episode.channel.name}
             priority={index < 6}
+            isPlaying={item.episode.id === nowPlayingEpisodeId}
           />
         </Link>
       ))}
