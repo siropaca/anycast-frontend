@@ -3,6 +3,7 @@
 import { SpinnerGapIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 import type {
   ButtonColor,
   ButtonSize,
@@ -12,7 +13,6 @@ import {
   buttonBaseClasses,
   colorVariantClasses,
 } from '@/components/inputs/buttons/buttonVariants';
-import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 import { cn } from '@/utils/cn';
 
 interface BaseProps {

@@ -24,7 +24,10 @@ export function Pagination({
   const pages = generatePageNumbers(currentPage, totalPages, siblingsCount);
 
   return (
-    <nav aria-label="ページネーション" className="flex items-center justify-center gap-1">
+    <nav
+      aria-label="ページネーション"
+      className="flex items-center justify-center gap-1"
+    >
       <PaginationButton
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}

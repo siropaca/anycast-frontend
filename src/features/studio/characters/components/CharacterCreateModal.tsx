@@ -109,7 +109,9 @@ export function CharacterCreateModal() {
       title="キャラクターを作成"
       size="lg"
       submitDisabled={isCreating || isArtworkUploading}
-      submitDisabledReason={isArtworkUploading ? '画像アップロード中...' : undefined}
+      submitDisabledReason={
+        isArtworkUploading ? '画像アップロード中...' : undefined
+      }
       isSubmitting={isCreating}
       onOpenChange={handleOpenChange}
       onSubmit={handleSubmit(handleFormSubmit)}
@@ -189,9 +191,7 @@ export function CharacterCreateModal() {
             error={!!errors.name}
             {...register('name')}
           />
-          {errors.name && (
-            <HelperText error>{errors.name.message}</HelperText>
-          )}
+          {errors.name && <HelperText error>{errors.name.message}</HelperText>}
         </div>
 
         {/* ボイス */}
@@ -237,9 +237,7 @@ export function CharacterCreateModal() {
           )}
         </div>
 
-        {createError && (
-          <HelperText error>{createError}</HelperText>
-        )}
+        {createError && <HelperText error>{createError}</HelperText>}
       </div>
     </FormModal>
   );

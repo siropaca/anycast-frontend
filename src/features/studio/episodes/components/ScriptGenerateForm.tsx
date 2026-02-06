@@ -53,7 +53,13 @@ export function ScriptGenerateForm({ channelId, episodeId }: Props) {
       prompt: restoredPrompt ?? '',
       durationMinutes: restoredDurationMinutes ?? DEFAULT_DURATION_MINUTES,
     });
-  }, [restoredPrompt, restoredDurationMinutes, isDirty, isGenerating, resetForm]);
+  }, [
+    restoredPrompt,
+    restoredDurationMinutes,
+    isDirty,
+    isGenerating,
+    resetForm,
+  ]);
 
   function onSubmit(data: ScriptGenerateFormInput) {
     generateScript({

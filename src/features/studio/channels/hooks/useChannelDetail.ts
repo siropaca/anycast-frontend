@@ -135,9 +135,7 @@ export function useChannelDetail(channelId: string) {
       return true;
     } catch (err: unknown) {
       const message =
-        err instanceof Error
-          ? err.message
-          : 'チャンネルの非公開に失敗しました';
+        err instanceof Error ? err.message : 'チャンネルの非公開に失敗しました';
       setError(message);
       toast.error({ title: message });
       return false;

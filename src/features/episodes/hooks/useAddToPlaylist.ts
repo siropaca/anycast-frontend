@@ -10,8 +10,8 @@ import {
   getGetMePlaylistsQueryKey,
   usePostMePlaylists,
 } from '@/libs/api/generated/me/me';
-import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import type { ResponsePlaylistResponse } from '@/libs/api/generated/schemas/responsePlaylistResponse';
+import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 /**
  * プレイリストへのエピソード登録更新・新規プレイリスト作成を管理する
@@ -61,9 +61,7 @@ export function useAddToPlaylist() {
       return true;
     } catch (err: unknown) {
       const message =
-        err instanceof Error
-          ? err.message
-          : 'プレイリストの更新に失敗しました';
+        err instanceof Error ? err.message : 'プレイリストの更新に失敗しました';
       setError(message);
       return false;
     }
@@ -99,9 +97,7 @@ export function useAddToPlaylist() {
       return playlist;
     } catch (err: unknown) {
       const message =
-        err instanceof Error
-          ? err.message
-          : 'プレイリストの作成に失敗しました';
+        err instanceof Error ? err.message : 'プレイリストの作成に失敗しました';
       setError(message);
       return null;
     }

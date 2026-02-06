@@ -48,7 +48,8 @@ export function ChannelEpisodeList({
         }
       />
 
-      <div className="mt-2">
+      <div>
+        {/* エピソードリスト */}
         {otherEpisodes.map((ep) => (
           <ChannelEpisodeListItem
             key={ep.id}
@@ -63,6 +64,7 @@ export function ChannelEpisodeList({
         ))}
       </div>
 
+      {/* 再生リストモーダル */}
       <AddToPlaylistModal
         open={playlistTarget.isOpen}
         episodeId={playlistTarget.episodeId}

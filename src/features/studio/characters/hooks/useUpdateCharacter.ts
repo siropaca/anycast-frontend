@@ -58,9 +58,7 @@ export function useUpdateCharacter() {
       return true;
     } catch (err: unknown) {
       const message =
-        err instanceof Error
-          ? err.message
-          : 'キャラクターの更新に失敗しました';
+        err instanceof Error ? err.message : 'キャラクターの更新に失敗しました';
       setError(message);
       toast.error({ title: message });
       return false;

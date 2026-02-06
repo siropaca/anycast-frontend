@@ -14,6 +14,7 @@ interface Props {
   channelId: string;
   channelName: string;
   isPlaying: boolean;
+
   onPlay: () => void;
   onPause: () => void;
   onAddToPlaylist: () => void;
@@ -39,7 +40,7 @@ export function ChannelEpisodeListItem({
   }
 
   return (
-    <div className="flex gap-4 border-b border-border py-4 last:border-b-0">
+    <div className="flex gap-6 border-b border-border py-4 last:border-b-0 mt-2">
       <Link
         href={Pages.episode.path({ channelId, episodeId: episode.id })}
         className="shrink-0"
@@ -47,57 +48,61 @@ export function ChannelEpisodeListItem({
         <ArtworkImage
           src={episode.artwork?.url}
           alt={episode.title}
-          size={100}
+          size={120}
           isPlaying={isPlaying}
         />
       </Link>
 
       <div className="flex min-w-0 flex-1 flex-col justify-between">
-        <div className="space-y-1">
+        <div>
+          {/* タイトル */}
           <Link
             href={Pages.episode.path({ channelId, episodeId: episode.id })}
+            className="mb-2 inline-block hover:underline font-semibold leading-snug"
           >
-            <h3 className="text-sm font-bold leading-snug">
-              {isPlaying && (
-                <span className="mr-1.5 inline-block size-2 rounded-full bg-primary align-middle" />
-              )}
-              {episode.title}
-            </h3>
+            {episode.title}
           </Link>
-          <p className="text-xs text-text-subtle">{channelName}</p>
+
+          <br />
+
+          {/* チャンネル名 */}
+          <Link
+            href={Pages.channel.path({ channelId })}
+            className="mb-2 inline-block hover:underline text-sm text-text-subtle"
+          >
+            {channelName}
+          </Link>
+
+          {/* 説明 */}
           {episode.description && (
-            <p className="line-clamp-3 text-xs text-text-subtle">
+            <p className="line-clamp-3 text-sm text-text-subtle">
               {episode.description}
             </p>
           )}
         </div>
 
         <div className="mt-2 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="text-xs text-text-subtle">
+            {/* 公開日 */}
             {episode.publishedAt && (
-              <span className="text-xs text-text-subtle">
-                {formatDateJP(new Date(episode.publishedAt))}
-              </span>
+              <span>{formatDateJP(new Date(episode.publishedAt))}</span>
             )}
-            {episode.publishedAt && durationMs != null && (
-              <span className="text-xs text-text-subtle">&bull;</span>
-            )}
-            {durationMs != null && (
-              <span className="text-xs text-text-subtle">
-                {formatDuration(durationMs)}
-              </span>
-            )}
+
+            {episode.publishedAt && durationMs != null && <span>・</span>}
+
+            {/* 再生時間 */}
+            {durationMs != null && <span>{formatDuration(durationMs)}</span>}
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-3">
             <IconButton
-              icon={<ListPlusIcon size={20} />}
+              icon={<ListPlusIcon size={24} />}
               aria-label="プレイリストに追加"
-              size="sm"
               variant="text"
               color="secondary"
               onClick={onAddToPlaylist}
             />
+
             <IconButton
               icon={
                 isPlaying ? (
@@ -107,7 +112,6 @@ export function ChannelEpisodeListItem({
                 )
               }
               aria-label={isPlaying ? '一時停止' : '再生'}
-              size="sm"
               color="primary"
               disabled={!episode.fullAudio}
               disabledReason="音声が生成されていません"

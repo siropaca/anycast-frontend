@@ -47,9 +47,7 @@ export function BgmEditModal({ editModal }: BgmEditModalProps) {
           />
         </div>
 
-        {editModal.error && (
-          <HelperText error>{editModal.error}</HelperText>
-        )}
+        {editModal.error && <HelperText error>{editModal.error}</HelperText>}
       </div>
     </FormModal>
   );

@@ -104,9 +104,7 @@ export function BgmUploadModal() {
           />
         </div>
 
-        {uploadError && (
-          <HelperText error>{uploadError}</HelperText>
-        )}
+        {uploadError && <HelperText error>{uploadError}</HelperText>}
       </div>
     </FormModal>
   );

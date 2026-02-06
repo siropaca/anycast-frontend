@@ -52,7 +52,9 @@ export function useEpisodePlayer(channelName: string) {
       const savedProgress = episode.playback;
       if (savedProgress && savedProgress.progressMs > 0) {
         const durationMs = episode.fullAudio?.durationMs ?? 0;
-        const isNearEnd = durationMs > 0 && durationMs - savedProgress.progressMs < NEAR_END_THRESHOLD_MS;
+        const isNearEnd =
+          durationMs > 0 &&
+          durationMs - savedProgress.progressMs < NEAR_END_THRESHOLD_MS;
 
         if (!savedProgress.completed && !isNearEnd) {
           seek(savedProgress.progressMs);

@@ -166,9 +166,7 @@ export function ChannelDetail({ channelId }: Props) {
         confirmLabel={
           publishDialog.action === 'publish' ? '公開' : '非公開にする'
         }
-        confirmColor={
-          publishDialog.action === 'publish' ? 'primary' : 'danger'
-        }
+        confirmColor={publishDialog.action === 'publish' ? 'primary' : 'danger'}
         onOpenChange={(open) => !open && publishDialog.close()}
         onConfirm={publishDialog.confirm}
       />

@@ -38,8 +38,11 @@ export function CharacterEditModal({
   open,
   onOpenChange,
 }: Props) {
-  const { isUpdating, error: updateError, updateCharacter } =
-    useUpdateCharacter();
+  const {
+    isUpdating,
+    error: updateError,
+    updateCharacter,
+  } = useUpdateCharacter();
   const {
     uploadArtwork,
     isUploading: isArtworkUploading,
@@ -133,9 +136,7 @@ export function CharacterEditModal({
       submitLabel="保存"
       submitDisabled={!isDirty || isUpdating || isArtworkUploading}
       submitDisabledReason={
-        isArtworkUploading
-          ? '画像アップロード中...'
-          : '変更がありません'
+        isArtworkUploading ? '画像アップロード中...' : '変更がありません'
       }
       isSubmitting={isUpdating}
       onOpenChange={handleOpenChange}
@@ -216,9 +217,7 @@ export function CharacterEditModal({
             error={!!errors.name}
             {...register('name')}
           />
-          {errors.name && (
-            <HelperText error>{errors.name.message}</HelperText>
-          )}
+          {errors.name && <HelperText error>{errors.name.message}</HelperText>}
         </div>
 
         {/* ボイス */}
@@ -264,9 +263,7 @@ export function CharacterEditModal({
           )}
         </div>
 
-        {updateError && (
-          <HelperText error>{updateError}</HelperText>
-        )}
+        {updateError && <HelperText error>{updateError}</HelperText>}
       </div>
     </FormModal>
   );

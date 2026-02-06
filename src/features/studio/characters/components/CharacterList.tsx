@@ -35,9 +35,7 @@ export function CharacterList() {
   const deleteDialog = useCharacterDeleteDialog();
   const [editTarget, setEditTarget] =
     useState<ResponseCharacterWithChannelsResponse | null>(null);
-  const [usageDialog, setUsageDialog] = useState<UsageDialogState | null>(
-    null,
-  );
+  const [usageDialog, setUsageDialog] = useState<UsageDialogState | null>(null);
 
   function handlePageChange(page: number) {
     setCurrentPage(page);

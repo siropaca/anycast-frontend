@@ -1,4 +1,9 @@
-import { formatDateJP, formatDuration, formatTime, formatYearMonth } from '@/utils/date';
+import {
+  formatDateJP,
+  formatDuration,
+  formatTime,
+  formatYearMonth,
+} from '@/utils/date';
 
 describe('date', () => {
   describe('formatYearMonth()', () => {

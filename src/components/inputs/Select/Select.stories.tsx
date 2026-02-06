@@ -165,18 +165,12 @@ export const Grouped: Story = {
   render: () => (
     <Stack direction="column" gap={24}>
       <Section title="Grouped Options">
-        <Select
-          options={groupedOptions}
-          placeholder="食材を選択"
-        />
+        <Select options={groupedOptions} placeholder="食材を選択" />
       </Section>
 
       <Section title="Grouped + Flat Mixed">
         <Select
-          options={[
-            { label: '指定なし', value: 'none' },
-            ...groupedOptions,
-          ]}
+          options={[{ label: '指定なし', value: 'none' }, ...groupedOptions]}
           placeholder="食材を選択"
         />
       </Section>

@@ -426,8 +426,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     status: jobState.status,
     progress: jobState.progress,
     error: jobState.errorMessage,
-    restoredPrompt:
-      jobState.prompt ?? latestCompletedJob?.prompt ?? null,
+    restoredPrompt: jobState.prompt ?? latestCompletedJob?.prompt ?? null,
     restoredDurationMinutes:
       jobState.durationMinutes ?? latestCompletedJob?.durationMinutes ?? null,
 

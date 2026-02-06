@@ -100,7 +100,8 @@ export function usePlaybackTracking() {
       // トラック変更時: 前のエピソードの最終進捗を送信
       if (trackChanged && prevTrack?.type === 'episode') {
         const completed =
-          prevState.durationMs - prevState.currentTimeMs < COMPLETED_THRESHOLD_MS;
+          prevState.durationMs - prevState.currentTimeMs <
+          COMPLETED_THRESHOLD_MS;
         sendProgress(prevTrack.id, prevState.currentTimeMs, completed);
         stopInterval();
         cancelPlayCountTimer();
@@ -118,10 +119,7 @@ export function usePlaybackTracking() {
       }
 
       // 再生開始（トラック変更 or 一時停止→再開）
-      if (
-        state.isPlaying &&
-        (!prevState.isPlaying || trackChanged)
-      ) {
+      if (state.isPlaying && (!prevState.isPlaying || trackChanged)) {
         sendProgress(currentTrack.id, state.currentTimeMs, false);
         startInterval();
 

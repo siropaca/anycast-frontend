@@ -131,5 +131,4 @@ describe('studioPages', () => {
       expect(studioPages.voices.title).toBe('ボイス');
     });
   });
-
 });

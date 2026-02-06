@@ -7,11 +7,11 @@ import { useRef, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
+import { Button } from '@/components/inputs/buttons/Button/Button';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
-import { Button } from '@/components/inputs/buttons/Button/Button';
 import { useDeleteChannelDefaultBgm } from '@/features/studio/channels/hooks/useDeleteChannelDefaultBgm';
 import {
   type ChannelFormInput,
@@ -222,9 +222,7 @@ export function ChannelForm({
             error={!!errors.name}
             {...register('name')}
           />
-          {errors.name && (
-            <HelperText error>{errors.name.message}</HelperText>
-          )}
+          {errors.name && <HelperText error>{errors.name.message}</HelperText>}
         </div>
 
         <div className="space-y-2">
@@ -268,9 +266,7 @@ export function ChannelForm({
               loading={isArtworkUploading}
               onClick={handleArtworkButtonClick}
             >
-              {artworkPreviewUrl
-                ? 'アートワークを変更'
-                : 'アートワークを登録'}
+              {artworkPreviewUrl ? 'アートワークを変更' : 'アートワークを登録'}
             </Button>
           </div>
           {artworkUploadError && (
@@ -354,12 +350,8 @@ export function ChannelForm({
               BGMをアップロード
             </Button>
           </div>
-          {bgmUploadError && (
-            <HelperText error>{bgmUploadError}</HelperText>
-          )}
-          {bgmDeleteError && (
-            <HelperText error>{bgmDeleteError}</HelperText>
-          )}
+          {bgmUploadError && <HelperText error>{bgmUploadError}</HelperText>}
+          {bgmDeleteError && <HelperText error>{bgmDeleteError}</HelperText>}
         </div>
       </div>
 
@@ -491,9 +483,7 @@ export function ChannelForm({
 
       {/* 送信 */}
       <div className="space-y-4">
-        {submitError && (
-          <HelperText error>{submitError}</HelperText>
-        )}
+        {submitError && <HelperText error>{submitError}</HelperText>}
         <Button type="submit" loading={isSubmitting}>
           {isEditMode ? 'チャンネルを更新' : 'チャンネルを作成'}
         </Button>

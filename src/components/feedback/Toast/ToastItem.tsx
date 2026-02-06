@@ -2,8 +2,8 @@
 
 import { Toast } from '@base-ui/react/toast';
 import { CheckCircleIcon, XCircleIcon } from '@phosphor-icons/react';
-import type { ToastObject, ToastType } from '@/components/feedback/Toast/types';
 import { ToastClose } from '@/components/feedback/Toast/ToastClose';
+import type { ToastObject, ToastType } from '@/components/feedback/Toast/types';
 import { cn } from '@/utils/cn';
 
 const iconMap: Record<ToastType, typeof CheckCircleIcon> = {

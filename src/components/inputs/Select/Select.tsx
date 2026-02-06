@@ -74,9 +74,7 @@ function isOptionGroup<T extends string>(
 function flattenOptions<T extends string>(
   items: (Option<T> | OptionGroup<T>)[],
 ): Option<T>[] {
-  return items.flatMap((item) =>
-    isOptionGroup(item) ? item.options : [item],
-  );
+  return items.flatMap((item) => (isOptionGroup(item) ? item.options : [item]));
 }
 
 export function Select<T extends string>({
@@ -146,7 +144,12 @@ export function Select<T extends string>({
       </select>
 
       {/* 表示用レイヤー（pointer-events-none でクリックを select に透過） */}
-      <div className={cn('pointer-events-none flex w-full items-center', gapClasses[size])}>
+      <div
+        className={cn(
+          'pointer-events-none flex w-full items-center',
+          gapClasses[size],
+        )}
+      >
         {leftIcon && (
           <span
             className={cn(
@@ -170,7 +173,10 @@ export function Select<T extends string>({
         </span>
 
         <span
-          className={cn('shrink-0 text-text-placeholder', caretSizeClasses[size])}
+          className={cn(
+            'shrink-0 text-text-placeholder',
+            caretSizeClasses[size],
+          )}
         >
           <CaretDownIcon />
         </span>

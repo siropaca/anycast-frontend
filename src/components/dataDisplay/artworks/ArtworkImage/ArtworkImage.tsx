@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { cn } from '@/utils/cn';
 import { NowPlayingIndicator } from '@/components/dataDisplay/artworks/NowPlayingIndicator/NowPlayingIndicator';
+import { cn } from '@/utils/cn';
 
 interface Props {
   src?: string;

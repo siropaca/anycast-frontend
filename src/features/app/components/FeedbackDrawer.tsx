@@ -199,7 +199,9 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
             {/* フッター */}
             <div className="shrink-0 border-t border-border p-4">
               {error && (
-                <HelperText error className="mb-4">{error}</HelperText>
+                <HelperText error className="mb-4">
+                  {error}
+                </HelperText>
               )}
 
               <Button

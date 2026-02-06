@@ -38,9 +38,7 @@ export function GeneralTabContent({
       {errors.userPrompt && (
         <HelperText error>{errors.userPrompt.message}</HelperText>
       )}
-      {serverError && (
-        <HelperText error>{serverError}</HelperText>
-      )}
+      {serverError && <HelperText error>{serverError}</HelperText>}
     </div>
   );
 }

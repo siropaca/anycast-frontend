@@ -44,7 +44,11 @@ export function ConfirmDialog({
         <Dialog.Title>{title}</Dialog.Title>
         {description && <Dialog.Description>{description}</Dialog.Description>}
 
-        {error && <HelperText error className="mt-2">{error}</HelperText>}
+        {error && (
+          <HelperText error className="mt-2">
+            {error}
+          </HelperText>
+        )}
 
         <Dialog.Footer>
           <Dialog.Close>
