@@ -150,6 +150,7 @@ export function BgmList() {
             color="secondary"
             variant="text"
             disabled={bgm.isSystem}
+            disabledReason="システムBGMは編集できません"
             onClick={() => editModal.open(bgm)}
           />
           <IconButton
@@ -158,6 +159,7 @@ export function BgmList() {
             color="danger"
             variant="text"
             disabled={bgm.isSystem}
+            disabledReason="システムBGMは削除できません"
             onClick={() => deleteDialog.open(bgm)}
           />
         </div>
