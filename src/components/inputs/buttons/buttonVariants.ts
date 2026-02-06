@@ -11,7 +11,7 @@ export const colorVariantClasses: Record<
 > = {
   primary: {
     solid:
-      'bg-primary text-white border-transparent hover:bg-primary/80 active:bg-primary/70',
+      'bg-primary text-white border-transparent hover:bg-primary-hover active:bg-primary-active',
     outline:
       'bg-transparent text-primary border-primary hover:bg-primary/10 active:bg-primary/20',
     text: 'bg-transparent text-primary border-transparent hover:bg-primary/10 active:bg-primary/20',

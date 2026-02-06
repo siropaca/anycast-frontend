@@ -6,6 +6,8 @@
 
   /* Primary */
   --color-primary: #2e86c1;
+  --color-primary-hover: rgba(46, 134, 193, 0.8);
+  --color-primary-active: rgba(46, 134, 193, 0.7);
   --color-secondary: #ffffff;
 
   /* Background */
