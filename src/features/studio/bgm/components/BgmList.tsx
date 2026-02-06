@@ -174,13 +174,11 @@ export function BgmList() {
         keyExtractor={(bgm) => bgm.id}
       />
 
-      <div className="flex justify-center">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
 
       <ConfirmDialog
         trigger={<span className="hidden" />}
