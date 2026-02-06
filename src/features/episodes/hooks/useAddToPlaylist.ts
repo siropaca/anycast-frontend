@@ -53,9 +53,16 @@ export function useAddToPlaylist() {
         return false;
       }
 
-      await queryClient.invalidateQueries({
-        queryKey: getGetMePlaylistsQueryKey(),
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: getGetMePlaylistsQueryKey(),
+        }),
+        queryClient.invalidateQueries({
+          predicate: (query) =>
+            typeof query.queryKey[0] === 'string' &&
+            query.queryKey[0].startsWith('/me/playlists/'),
+        }),
+      ]);
 
       toast.success({ title: 'プレイリストを更新しました' });
       return true;
