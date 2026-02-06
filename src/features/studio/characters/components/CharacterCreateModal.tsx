@@ -107,6 +107,7 @@ export function CharacterCreateModal() {
       title="キャラクターを作成"
       size="lg"
       submitDisabled={isCreating || isArtworkUploading}
+      submitDisabledReason={isArtworkUploading ? '画像アップロード中...' : undefined}
       isSubmitting={isCreating}
       onOpenChange={handleOpenChange}
       onSubmit={handleSubmit(handleFormSubmit)}

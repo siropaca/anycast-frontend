@@ -15,6 +15,7 @@ interface Props {
   size?: Size;
   open?: boolean;
   submitDisabled?: boolean;
+  submitDisabledReason?: string;
   isSubmitting?: boolean;
 
   onOpenChange?: (open: boolean) => void;
@@ -30,6 +31,7 @@ export function FormModal({
   size = 'md',
   open,
   submitDisabled = false,
+  submitDisabledReason,
   isSubmitting = false,
   onOpenChange,
   onSubmit,
@@ -48,11 +50,22 @@ export function FormModal({
 
         <Modal.Footer>
           <Modal.Close>
-            <Button variant="outline" color="secondary" disabled={isSubmitting}>
+            <Button
+              variant="outline"
+              color="secondary"
+              disabled={isSubmitting}
+              disabledReason="処理中はキャンセルできません"
+            >
               {cancelLabel}
             </Button>
           </Modal.Close>
-          <Button disabled={submitDisabled || isSubmitting} onClick={onSubmit}>
+          <Button
+            disabled={submitDisabled || isSubmitting}
+            disabledReason={
+              isSubmitting ? '処理中...' : submitDisabledReason
+            }
+            onClick={onSubmit}
+          >
             {isSubmitting ? '処理中...' : submitLabel}
           </Button>
         </Modal.Footer>

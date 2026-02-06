@@ -21,7 +21,11 @@ export default function StudioCharactersPage() {
         action={
           <Suspense
             fallback={
-              <Button leftIcon={<PlusIcon size={18} />} disabled>
+              <Button
+                leftIcon={<PlusIcon size={18} />}
+                disabled
+                disabledReason="読み込み中..."
+              >
                 新規追加
               </Button>
             }

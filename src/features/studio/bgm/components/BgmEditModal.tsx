@@ -23,6 +23,11 @@ export function BgmEditModal({ editModal }: BgmEditModalProps) {
       title="BGMを編集"
       submitLabel="保存"
       submitDisabled={!editModal.bgmName.trim() || !editModal.isDirty}
+      submitDisabledReason={
+        !editModal.bgmName.trim()
+          ? 'BGM名を入力してください'
+          : '変更がありません'
+      }
       isSubmitting={editModal.isUpdating}
       onOpenChange={handleOpenChange}
       onSubmit={editModal.submit}

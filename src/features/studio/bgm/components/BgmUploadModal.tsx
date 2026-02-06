@@ -48,6 +48,7 @@ export function BgmUploadModal() {
       title="BGMをアップロード"
       submitLabel="アップロード"
       submitDisabled={!selectedFile}
+      submitDisabledReason="ファイルを選択してください"
       isSubmitting={isUploading}
       onOpenChange={handleOpenChange}
       onSubmit={submit}
