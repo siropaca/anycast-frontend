@@ -15,11 +15,11 @@ const sizeClasses: Record<Size, string> = {
   lg: 'h-[var(--size-lg)]',
 };
 
-export function InputSkeleton({ size = 'md', width = 240, className }: Props) {
+export function InputSkeleton({ size = 'md', width, className }: Props) {
   return (
     <Skeleton
       style={{ width }}
-      className={cn('rounded-sm', sizeClasses[size], className)}
+      className={cn('w-60 rounded-sm', sizeClasses[size], className)}
     />
   );
 }

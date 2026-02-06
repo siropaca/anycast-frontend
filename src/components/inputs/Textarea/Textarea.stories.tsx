@@ -90,9 +90,9 @@ export const WithCounter: Story = {
 export const Skeleton: Story = {
   render: () => (
     <Stack direction="column" align="stretch">
-      <TextareaSkeleton rows={3} />
-      <TextareaSkeleton rows={4} />
-      <TextareaSkeleton rows={6} />
+      <TextareaSkeleton height={96} />
+      <TextareaSkeleton height={120} />
+      <TextareaSkeleton height={168} />
     </Stack>
   ),
 };

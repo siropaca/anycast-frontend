@@ -10,21 +10,15 @@ interface Props {
 }
 
 const sizeClasses: Record<Size, string> = {
-  sm: 'h-[var(--size-sm)]',
-  md: 'h-[var(--size-md)]',
-  lg: 'h-[var(--size-lg)]',
-};
-
-const defaultWidths: Record<Size, number> = {
-  sm: 64,
-  md: 80,
-  lg: 96,
+  sm: 'h-[var(--size-sm)] w-16',
+  md: 'h-[var(--size-md)] w-20',
+  lg: 'h-[var(--size-lg)] w-24',
 };
 
 export function ButtonSkeleton({ size = 'md', width, className }: Props) {
   return (
     <Skeleton
-      style={{ width: width ?? defaultWidths[size] }}
+      style={{ width }}
       className={cn('rounded-full', sizeClasses[size], className)}
     />
   );
