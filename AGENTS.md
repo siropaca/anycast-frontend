@@ -5,8 +5,9 @@
 | ファイル | 説明 |
 |----------|------|
 | [docs/adr/](docs/adr/) | Architecture Decision Records |
+| [docs/design/](docs/design/) | デザイン指示書・UI デザインガイドライン |
 | [docs/pages/](docs/pages/) | ページ構成と URL 設計 |
-| [docs/specs/](docs/specs/) | 仕様書（認証、UI レイアウト） |
+| [docs/specs/](docs/specs/) | 仕様書（認証、UI レイアウト、オーディオプレイヤー） |
 
 ## ドキュメント管理ルール
 
@@ -67,6 +68,8 @@ function add(a: number, b: number): number {
 - `useCallback` / `useMemo` はパフォーマンスチューニングが必要になるまで使用しない
 - コンポーネントの props は必ず `interface Props` で定義してから使用する
 - `src/components/` 配下のコンポーネントはできるだけ Presentational Component にする
+- `src/components/` のサブディレクトリはカテゴリ別に分類する（`dataDisplay`, `inputs`, `navigation`, `surface`, `feedback`, `utils`）
+- ローディング状態には `XxxSkeleton` コンポーネントを作成する（例: `AvatarSkeleton`, `ButtonSkeleton`）
 - `className` の結合や条件式を使う場合は `cn()` を使用する（`src/utils/cn.ts`）
 - コンポーネントでカラートークン（`red-500`、`gray-400` など）を直接使用しない。必ず `global.css` にセマンティックトークンとして定義してから使用する
 - Props の定義順序: 必須プロパティ → オプショナルプロパティ → 空行 → 関数
@@ -142,6 +145,12 @@ describe('myFunction', () => {
   });
 });
 ```
+
+### Storybook
+
+- `src/components/` 配下の共有コンポーネントには `*.stories.tsx` を作成する
+- feature 固有のコンポーネントには Stories は不要
+- Stories ファイルはコンポーネントと同じディレクトリに配置する
 
 ## 開発環境
 

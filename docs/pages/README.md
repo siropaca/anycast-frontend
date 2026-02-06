@@ -62,6 +62,7 @@ Anycast のページ構成と URL 設計を定義する。
 | チャンネル詳細 | `/studio/channels/:id` | チャンネル詳細とエピソード一覧 | ✅ | | |
 | チャンネル編集 | `/studio/channels/:id/edit` | チャンネル情報の編集 | ✅ | | |
 | エピソード作成 | `/studio/channels/:id/episodes/new` | 新規エピソード作成（台本作成→音声生成） | ✅ | | |
+| エピソード詳細 | `/studio/channels/:id/episodes/:episodeId` | エピソード詳細（プレビュー） | ✅ | | |
 | エピソード編集 | `/studio/channels/:id/episodes/:episodeId/edit` | エピソードの編集 | ✅ | | |
 | キャラクター一覧 | `/studio/characters` | 自分のキャラクター一覧 | ✅ | | |
 | BGM 一覧 | `/studio/bgm` | BGM 一覧・管理 | ✅ | | |

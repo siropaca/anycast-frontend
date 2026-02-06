@@ -69,50 +69,66 @@ pnpm dev
 
 ```
 .
-├── .storybook/       # Storybook 設定
+├── .storybook/          # Storybook 設定
 ├── src/
-│   ├── app/          # Next.js App Router
-│   │   ├── (auth)/   # 認証ページ（ログイン、新規登録）
-│   │   ├── (main)/   # 公開ページ
-│   │   ├── (settings)/ # 設定ページ（認証必須）
-│   │   └── (studio)/ # Studio ページ（認証必須）
-│   ├── components/   # 共通コンポーネント
-│   │   ├── dataDisplay/ # データ表示
-│   │   ├── feedback/    # フィードバック
-│   │   ├── inputs/      # 入力
-│   │   ├── navigation/  # ナビゲーション
-│   │   ├── surface/     # サーフェス
-│   │   └── utils/       # ユーティリティ
+│   ├── app/             # Next.js App Router
+│   │   ├── (auth)/      #   認証ページ（ログイン、新規登録）
+│   │   ├── (main)/      #   公開ページ
+│   │   ├── (settings)/  #   設定ページ（認証必須）
+│   │   └── (studio)/    #   Studio ページ（認証必須）
+│   ├── components/      # 共通コンポーネント
+│   │   ├── dataDisplay/ #   データ表示（Avatar, Badge, DataTable, Tag, Tooltip, artworks）
+│   │   ├── feedback/    #   フィードバック（Toast, Skeleton）
+│   │   ├── inputs/      #   入力（Input, Textarea, Select, Checkbox, buttons）
+│   │   ├── navigation/  #   ナビゲーション（Header, SideMenu, Sidebar, Pagination）
+│   │   ├── surface/     #   サーフェス（ContentSection）
+│   │   └── utils/       #   汎用 UI（Dialog, Modal, Drawer）
 │   ├── constants/       # 定数ファイル
-│   ├── features/     # 機能ごとのモジュール
-│   │   ├── app/          # アプリ共通
-│   │   ├── auth/         # 認証機能
-│   │   ├── player/       # オーディオプレイヤー
-│   │   ├── settings/     # 設定機能
-│   │   │   └── account/     # アカウント設定
-│   │   └── studio/       # Studio 機能
-│   │       ├── channels/    # チャンネル管理
-│   │       ├── dashboard/   # ダッシュボード
-│   │       └── episodes/    # エピソード管理
-│   ├── hooks/        # カスタムフック
-│   ├── libs/         # 機能別ライブラリ（auth, api, paths など）
-│   ├── stores/       # Zustand ストア
-│   ├── test/         # テスト設定
-│   ├── types/        # 型定義
-│   ├── utils/        # 汎用ユーティリティ
-│   └── middleware.ts # 認証ガード
-├── public/           # 静的ファイル
+│   ├── features/        # 機能ごとのモジュール
+│   │   ├── app/         #   アプリ基盤（レイアウト、プロバイダー）
+│   │   ├── auth/        #   認証
+│   │   ├── channels/    #   チャンネル詳細（公開側）
+│   │   ├── episodes/    #   エピソード詳細（公開側）
+│   │   ├── explore/     #   探索
+│   │   ├── home/        #   ホーム
+│   │   ├── library/     #   ライブラリ（following, history, likes, playlist）
+│   │   ├── notification/ #  通知
+│   │   ├── player/      #   オーディオプレイヤー
+│   │   ├── settings/    #   設定
+│   │   ├── studio/      #   Studio 機能
+│   │   │   ├── bgm/        # BGM 管理
+│   │   │   ├── channels/   # チャンネル管理
+│   │   │   ├── characters/ # キャラクター管理
+│   │   │   ├── episodes/   # エピソード管理
+│   │   │   ├── settings/   # Studio 設定
+│   │   │   └── voices/     # ボイス管理
+│   │   └── users/       #   ユーザープロフィール
+│   ├── hooks/           # カスタムフック
+│   ├── libs/            # 外部ライブラリ統合
+│   │   ├── api/         #   API クライアント（generated/ は orval 生成）
+│   │   ├── auth/        #   認証ライブラリ
+│   │   ├── pages/       #   ページパス定義
+│   │   ├── storybook/   #   Storybook ヘルパー
+│   │   └── websocket/   #   WebSocket
+│   ├── stores/          # Zustand ストア
+│   ├── styles/          # グローバルスタイル
+│   ├── test/            # テスト設定
+│   ├── types/           # 型定義
+│   ├── utils/           # 汎用ユーティリティ
+│   └── middleware.ts    # 認証ガード
+├── public/              # 静的ファイル
 ├── docs/
-│   ├── adr/          # Architecture Decision Records
-│   ├── design/       # デザイン指示書
-│   └── specs/        # 仕様書
-├── .env.example      # 環境変数のサンプル
-├── .mise.toml        # mise 設定
-├── biome.json        # Biome 設定
-├── knip.json         # knip 設定
-├── openapi.json      # OpenAPI 定義（バックエンドから取得）
-├── orval.config.ts   # orval 設定
+│   ├── adr/             # Architecture Decision Records
+│   ├── design/          # デザイン指示書
+│   ├── pages/           # ページ構成と URL 設計
+│   └── specs/           # 仕様書
+├── .env.example         # 環境変数のサンプル
+├── .mise.toml           # mise 設定
+├── biome.json           # Biome 設定
+├── knip.json            # knip 設定
+├── openapi.json         # OpenAPI 定義（バックエンドから取得）
+├── orval.config.ts      # orval 設定
 ├── package.json
 ├── README.md
-└── CLAUDE.md
+└── AGENTS.md            # AI エージェント向け開発規約
 ```
