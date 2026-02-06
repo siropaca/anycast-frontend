@@ -41,6 +41,7 @@ export function CharacterCreateModal() {
     control,
     handleSubmit,
     setValue,
+    watch,
     reset,
     formState: { errors, isDirty },
   } = useForm<CharacterFormInput>({
@@ -218,6 +219,7 @@ export function CharacterCreateModal() {
             showCounter
             disabled={isCreating}
             error={!!errors.persona}
+            value={watch('persona')}
             {...register('persona')}
           />
           {errors.persona && (

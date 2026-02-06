@@ -1,21 +1,22 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { Modal } from '@/components/utils/Modal/Modal';
 import { useUpdateUserPrompt } from '@/features/studio/settings/hooks/useUpdateUserPrompt';
+import {
+  type StudioSettingsFormInput,
+  studioSettingsFormSchema,
+} from '@/features/studio/settings/schemas/studioSettings';
 import { useDiscardGuard } from '@/hooks/useDiscardGuard';
 
 interface Props {
   open: boolean;
 
   onOpenChange: (open: boolean) => void;
-}
-
-interface FormInput {
-  userPrompt: string;
 }
 
 export function StudioSettingsModal({ open, onOpenChange }: Props) {
@@ -25,8 +26,10 @@ export function StudioSettingsModal({ open, onOpenChange }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { isDirty },
-  } = useForm<FormInput>({
+    watch,
+    formState: { isDirty, errors },
+  } = useForm<StudioSettingsFormInput>({
+    resolver: zodResolver(studioSettingsFormSchema),
     values: {
       userPrompt: currentUserPrompt,
     },
@@ -59,14 +62,23 @@ export function StudioSettingsModal({ open, onOpenChange }: Props) {
                 htmlFor="userPrompt"
                 helpText="すべてのチャンネルとエピソードで適用されるプロンプトです。"
               >
-                共通のプロンプト
+                共通プロンプト
               </FormLabel>
               <Textarea
                 id="userPrompt"
                 rows={8}
                 className="w-full"
+                maxLength={2000}
+                showCounter
+                error={!!errors.userPrompt}
+                value={watch('userPrompt')}
                 {...register('userPrompt')}
               />
+              {errors.userPrompt && (
+                <p className="text-sm text-text-danger">
+                  {errors.userPrompt.message}
+                </p>
+              )}
               {error && <p className="text-sm text-text-danger">{error}</p>}
             </div>
           )}

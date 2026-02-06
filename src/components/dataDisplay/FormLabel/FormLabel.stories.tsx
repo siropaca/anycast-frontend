@@ -46,7 +46,7 @@ export const Default: Story = {
 
       <Section title="With Help Text">
         <FormLabel helpText="すべてのエピソード生成時に共通で適用されるプロンプトです">
-          共通のプロンプト
+          共通プロンプト
         </FormLabel>
       </Section>
 
