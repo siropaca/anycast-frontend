@@ -13,7 +13,7 @@ export function ToastProvider({ children }: Props) {
     <Toast.Provider timeout={3000} limit={3}>
       {children}
       <Toast.Portal>
-        <Toast.Viewport className="fixed right-4 bottom-4 z-(--z-toast) flex flex-col gap-3">
+        <Toast.Viewport className="fixed top-4 right-4 z-(--z-toast) flex flex-col gap-3">
           <ToastList />
         </Toast.Viewport>
       </Toast.Portal>
