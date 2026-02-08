@@ -22,7 +22,9 @@ export function UserProfileInfo({
         <p className="text-text-subtle">@{username}</p>
       </div>
 
-      {bio && <p className="text-sm leading-relaxed">{bio}</p>}
+      {bio && (
+        <p className="whitespace-pre-wrap text-sm leading-relaxed">{bio}</p>
+      )}
 
       <p className="flex items-center gap-1.5 text-sm text-text-subtle">
         <CalendarBlankIcon size={16} />

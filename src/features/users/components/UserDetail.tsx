@@ -46,6 +46,7 @@ export function UserDetail({
         </div>
 
         <UserProfileActions
+          user={user}
           isOwnProfile={isOwnProfile}
           isLoggedIn={isLoggedIn}
           isFollowing={isFollowing}
