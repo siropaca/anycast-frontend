@@ -2,7 +2,8 @@
 
 import {
   DotsThreeIcon,
-  PencilSimpleIcon,
+  EyeIcon,
+  EyeSlashIcon,
   TrashIcon,
 } from '@phosphor-icons/react';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
@@ -10,16 +11,19 @@ import { DropdownMenu } from '@/components/inputs/DropdownMenu/DropdownMenu';
 import { DropdownMenuItem } from '@/components/inputs/DropdownMenu/DropdownMenuItem';
 
 interface Props {
-  disabled?: boolean;
-  disabledReason?: string;
-  onEdit: () => void;
+  isPublished: boolean;
+  disabled: boolean;
+
+  onPublish: () => void;
+  onUnpublish: () => void;
   onDelete: () => void;
 }
 
-export function PlaylistDetailMenu({
+export function ChannelDetailMenu({
+  isPublished,
   disabled,
-  disabledReason,
-  onEdit,
+  onPublish,
+  onUnpublish,
   onDelete,
 }: Props) {
   return (
@@ -33,11 +37,19 @@ export function PlaylistDetailMenu({
         />
       }
       disabled={disabled}
-      disabledReason={disabledReason}
     >
-      <DropdownMenuItem icon={<PencilSimpleIcon size={16} />} onClick={onEdit}>
-        編集
-      </DropdownMenuItem>
+      {isPublished ? (
+        <DropdownMenuItem
+          icon={<EyeSlashIcon size={16} />}
+          onClick={onUnpublish}
+        >
+          非公開にする
+        </DropdownMenuItem>
+      ) : (
+        <DropdownMenuItem icon={<EyeIcon size={16} />} onClick={onPublish}>
+          公開する
+        </DropdownMenuItem>
+      )}
 
       <DropdownMenuItem
         icon={<TrashIcon size={16} />}
