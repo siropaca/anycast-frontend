@@ -20,6 +20,7 @@ export function UsernameSection() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isDirty },
   } = useForm<UsernameFormInput>({
     resolver: zodResolver(usernameFormSchema),
@@ -47,6 +48,7 @@ export function UsernameSection() {
               maxLength={20}
               showCounter
               error={hasError}
+              value={watch('username')}
               {...register('username')}
             />
           )}
@@ -60,7 +62,7 @@ export function UsernameSection() {
           disabledReason="変更がありません"
           loading={isUpdating}
         >
-          保存
+          ユーザー名を変更
         </Button>
       </form>
     </section>

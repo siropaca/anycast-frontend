@@ -6,7 +6,7 @@ import { MESSAGES } from '@/constants/messages';
 import { useToast } from '@/hooks/useToast';
 import {
   getGetMeQueryKey,
-  useGetMe,
+  useGetMeSuspense,
   usePatchMeUsername,
 } from '@/libs/api/generated/me/me';
 
@@ -21,11 +21,11 @@ export function useUpdateUsername() {
   const toast = useToast();
   const [error, setError] = useState<string>();
 
-  const { data: meResponse } = useGetMe();
+  const { data: meResponse } = useGetMeSuspense();
   const mutation = usePatchMeUsername();
 
   const currentUsername =
-    meResponse?.status === StatusCodes.OK ? meResponse.data.data.username : '';
+    meResponse.status === StatusCodes.OK ? meResponse.data.data.username : '';
 
   /**
    * ユーザー名を更新する
