@@ -12,7 +12,7 @@ interface Props {
 export function DialogDescription({ className, children }: Props) {
   return (
     <Dialog.Description
-      className={cn('mt-2 text-sm text-text-subtle', className)}
+      className={cn('mt-2 whitespace-pre-line text-sm text-text-subtle', className)}
     >
       {children}
     </Dialog.Description>

@@ -31,7 +31,9 @@ export function DeleteAccountSection() {
           </Button>
         }
         title="アカウントを削除"
-        description="本当にアカウントを削除しますか？すべてのデータが完全に削除され、この操作は取り消せません。"
+        description={
+          '本当にアカウントを削除しますか？\nすべてのデータが完全に削除され、この操作は取り消せません。'
+        }
         error={error}
         confirmLabel="削除"
         confirmColor="danger"
