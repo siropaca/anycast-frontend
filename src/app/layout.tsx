@@ -1,17 +1,12 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Noto_Sans_JP } from 'next/font/google';
 import { Providers } from '@/features/app/providers/Providers';
 import '@/styles/globals.css';
 
-const lineSeedJP = localFont({
-  src: [
-    { path: '../fonts/LINESeedJP-Thin.woff2', weight: '100' },
-    { path: '../fonts/LINESeedJP-Regular.woff2', weight: '400' },
-    { path: '../fonts/LINESeedJP-Bold.woff2', weight: '700' },
-    { path: '../fonts/LINESeedJP-ExtraBold.woff2', weight: '800' },
-  ],
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
   display: 'swap',
-  variable: '--font-line-seed-jp',
+  variable: '--font-noto-sans-jp',
 });
 
 export const metadata: Metadata = {
@@ -28,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={lineSeedJP.variable}>
+    <html lang="ja" className={notoSansJP.variable}>
       <body className="h-screen overflow-hidden">
         <Providers>{children}</Providers>
       </body>

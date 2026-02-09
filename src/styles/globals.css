@@ -2,7 +2,7 @@
 
 @theme inline {
   /* Font */
-  --font-sans: var(--font-line-seed-jp), sans-serif;
+  --font-sans: var(--font-noto-sans-jp), sans-serif;
 
   /* Primary */
   --color-primary: #2e86c1;
