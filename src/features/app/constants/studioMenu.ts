@@ -30,6 +30,7 @@ export function createStudioMenuSections(
   return {
     sections: [
       {
+        title: 'Studio',
         items: [
           {
             label: Pages.studio.dashboard.title,
