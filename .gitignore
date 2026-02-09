@@ -42,6 +42,7 @@ next-env.d.ts
 
 # editor
 .idea/*
+!.idea/icon.png
 
 # generated
 /src/libs/api/generated
