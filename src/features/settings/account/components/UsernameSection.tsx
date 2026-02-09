@@ -2,9 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { useUpdateUsername } from '@/features/settings/account/hooks/useUpdateUsername';
@@ -40,19 +40,17 @@ export function UsernameSection() {
       />
 
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-        <div className="space-y-1">
-          <FormLabel htmlFor="username">ユーザー名</FormLabel>
-          <Input
-            id="username"
-            maxLength={20}
-            showCounter
-            error={!!errors.username}
-            {...register('username')}
-          />
-          {errors.username && (
-            <HelperText error>{errors.username.message}</HelperText>
+        <FormField label="ユーザー名" error={errors.username?.message}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              maxLength={20}
+              showCounter
+              error={hasError}
+              {...register('username')}
+            />
           )}
-        </div>
+        </FormField>
 
         {error && <HelperText error>{error}</HelperText>}
 

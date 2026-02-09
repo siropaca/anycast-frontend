@@ -3,10 +3,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { PasswordToggleButton } from '@/components/inputs/buttons/PasswordToggleButton/PasswordToggleButton';
+import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { useChangePassword } from '@/features/settings/account/hooks/useChangePassword';
@@ -58,66 +58,66 @@ export function PasswordSection() {
 
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
         {hasPassword && (
-          <div className="space-y-1">
-            <FormLabel htmlFor="currentPassword">現在のパスワード</FormLabel>
-            <Input
-              id="currentPassword"
-              type={showCurrentPassword ? 'text' : 'password'}
-              autoComplete="current-password"
-              error={!!errors.currentPassword}
-              rightIcon={
-                <PasswordToggleButton
-                  visible={showCurrentPassword}
-                  onToggle={() => setShowCurrentPassword((prev) => !prev)}
-                />
-              }
-              {...register('currentPassword')}
-            />
-            {errors.currentPassword && (
-              <HelperText error>{errors.currentPassword.message}</HelperText>
+          <FormField
+            label="現在のパスワード"
+            error={errors.currentPassword?.message}
+          >
+            {({ id, hasError }) => (
+              <Input
+                id={id}
+                type={showCurrentPassword ? 'text' : 'password'}
+                autoComplete="current-password"
+                error={hasError}
+                rightIcon={
+                  <PasswordToggleButton
+                    visible={showCurrentPassword}
+                    onToggle={() => setShowCurrentPassword((prev) => !prev)}
+                  />
+                }
+                {...register('currentPassword')}
+              />
             )}
-          </div>
+          </FormField>
         )}
 
-        <div className="space-y-1">
-          <FormLabel htmlFor="newPassword">新しいパスワード</FormLabel>
-          <Input
-            id="newPassword"
-            type={showNewPassword ? 'text' : 'password'}
-            autoComplete="new-password"
-            error={!!errors.newPassword}
-            rightIcon={
-              <PasswordToggleButton
-                visible={showNewPassword}
-                onToggle={() => setShowNewPassword((prev) => !prev)}
-              />
-            }
-            {...register('newPassword')}
-          />
-          {errors.newPassword && (
-            <HelperText error>{errors.newPassword.message}</HelperText>
+        <FormField label="新しいパスワード" error={errors.newPassword?.message}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              type={showNewPassword ? 'text' : 'password'}
+              autoComplete="new-password"
+              error={hasError}
+              rightIcon={
+                <PasswordToggleButton
+                  visible={showNewPassword}
+                  onToggle={() => setShowNewPassword((prev) => !prev)}
+                />
+              }
+              {...register('newPassword')}
+            />
           )}
-        </div>
+        </FormField>
 
-        <div className="space-y-1">
-          <FormLabel htmlFor="confirmPassword">パスワード（確認）</FormLabel>
-          <Input
-            id="confirmPassword"
-            type={showConfirmPassword ? 'text' : 'password'}
-            autoComplete="new-password"
-            error={!!errors.confirmPassword}
-            rightIcon={
-              <PasswordToggleButton
-                visible={showConfirmPassword}
-                onToggle={() => setShowConfirmPassword((prev) => !prev)}
-              />
-            }
-            {...register('confirmPassword')}
-          />
-          {errors.confirmPassword && (
-            <HelperText error>{errors.confirmPassword.message}</HelperText>
+        <FormField
+          label="パスワード（確認）"
+          error={errors.confirmPassword?.message}
+        >
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              type={showConfirmPassword ? 'text' : 'password'}
+              autoComplete="new-password"
+              error={hasError}
+              rightIcon={
+                <PasswordToggleButton
+                  visible={showConfirmPassword}
+                  onToggle={() => setShowConfirmPassword((prev) => !prev)}
+                />
+              }
+              {...register('confirmPassword')}
+            />
           )}
-        </div>
+        </FormField>
 
         {error && <HelperText error>{error}</HelperText>}
 
