@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { PlaybackHistoryList } from '@/features/library/history/components/PlaybackHistoryList';
 import { PlaybackHistoryListSkeleton } from '@/features/library/history/components/PlaybackHistoryListSkeleton';
 import { Pages } from '@/libs/pages';
@@ -12,12 +11,8 @@ export const metadata: Metadata = {
 
 export default function LibraryHistoryPage() {
   return (
-    <div>
-      <SectionTitle title={Pages.library.history.title} />
-
-      <Suspense fallback={<PlaybackHistoryListSkeleton />}>
-        <PlaybackHistoryList />
-      </Suspense>
-    </div>
+    <Suspense fallback={<PlaybackHistoryListSkeleton />}>
+      <PlaybackHistoryList />
+    </Suspense>
   );
 }
