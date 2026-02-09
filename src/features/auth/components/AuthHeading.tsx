@@ -1,3 +1,5 @@
+import { HeaderLogo } from '@/components/navigation/Header/HeaderLogo';
+
 interface Props {
   subtitle: string;
 }
@@ -5,8 +7,8 @@ interface Props {
 export function AuthHeading({ subtitle }: Props) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <h1 className="text-2xl font-bold text-primary">Anycast</h1>
-      <p className="text-sm text-text-subtle">{subtitle}</p>
+      <HeaderLogo className="h-8 w-auto" />
+      <p className="text-sm text-text-subtle mt-2">{subtitle}</p>
     </div>
   );
 }
