@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { VALIDATION_MESSAGES } from '@/constants/messages';
 
-const characterSchema = z.object({
+const createCharacterSchema = z.object({
+  mode: z.literal('create'),
   name: z.string().min(1, VALIDATION_MESSAGES.required('名前')).max(255),
   voiceId: z.string().min(1, VALIDATION_MESSAGES.select('ボイス')),
   persona: z
@@ -9,6 +10,16 @@ const characterSchema = z.object({
     .max(2000, VALIDATION_MESSAGES.maxLength('ペルソナ', 2000))
     .optional(),
 });
+
+const connectCharacterSchema = z.object({
+  mode: z.literal('connect'),
+  characterId: z.string().min(1, VALIDATION_MESSAGES.select('キャラクター')),
+});
+
+const characterSchema = z.discriminatedUnion('mode', [
+  createCharacterSchema,
+  connectCharacterSchema,
+]);
 
 export const channelBasicInfoSchema = z.object({
   name: z

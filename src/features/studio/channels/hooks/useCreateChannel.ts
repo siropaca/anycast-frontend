@@ -43,6 +43,18 @@ export function useCreateChannel() {
   function createChannel(data: ChannelFormInput, options?: CreateOptions) {
     setError(undefined);
 
+    const createCharacters = data.characters
+      .filter((c) => c.mode === 'create')
+      .map((c) => ({
+        name: c.name,
+        voiceId: c.voiceId,
+        persona: c.persona,
+      }));
+
+    const connectCharacters = data.characters
+      .filter((c) => c.mode === 'connect')
+      .map((c) => ({ id: c.characterId }));
+
     mutation.mutate(
       {
         data: {
@@ -51,12 +63,8 @@ export function useCreateChannel() {
           categoryId: data.categoryId,
           artworkImageId: data.artworkImageId,
           characters: {
-            create: data.characters.map((c) => ({
-              name: c.name,
-              voiceId: c.voiceId,
-              persona: c.persona,
-            })),
-            connect: [],
+            create: createCharacters,
+            connect: connectCharacters,
           },
         },
       },

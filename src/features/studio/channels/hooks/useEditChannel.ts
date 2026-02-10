@@ -50,6 +50,7 @@ export function useEditChannel(channelId: string) {
     categoryId: channel.category.id,
     artworkImageId: channel.artwork?.id,
     characters: channel.characters.map((c) => ({
+      mode: 'create' as const,
       name: c.name,
       voiceId: c.voice.id,
       persona: c.persona ?? '',

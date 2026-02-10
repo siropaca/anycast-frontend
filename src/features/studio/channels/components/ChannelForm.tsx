@@ -1,15 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  PlusIcon,
-  TrashIcon,
-} from '@phosphor-icons/react';
+import { ArrowLeftIcon, ArrowRightIcon, PlusIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
@@ -17,6 +12,7 @@ import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { StepBar } from '@/components/navigation/StepBar/StepBar';
+import { CharacterSlot } from '@/features/studio/channels/components/CharacterSlot';
 import {
   type ChannelFormInput,
   channelBasicInfoSchema,
@@ -25,6 +21,7 @@ import {
 import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 import type {
   ResponseCategoryResponse,
+  ResponseCharacterResponse,
   ResponseVoiceResponse,
 } from '@/libs/api/generated/schemas';
 
@@ -45,6 +42,7 @@ interface Props {
   defaultArtworkUrl?: string;
   isSubmitting?: boolean;
   submitError?: string;
+  myCharacters?: ResponseCharacterResponse[];
 
   onSubmit: (data: ChannelFormInput) => void;
 }
@@ -58,6 +56,7 @@ export function ChannelForm({
   onSubmit,
   isSubmitting = false,
   submitError,
+  myCharacters,
 }: Props) {
   const {
     uploadArtwork,
@@ -79,7 +78,7 @@ export function ChannelForm({
       name: '',
       description: '',
       categoryId: '',
-      characters: [{ name: '', voiceId: '', persona: '' }],
+      characters: [{ mode: 'create', name: '', voiceId: '', persona: '' }],
     },
   });
 
@@ -127,19 +126,20 @@ export function ChannelForm({
     setCurrentStep(1);
   }
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control,
     name: 'characters',
   });
 
+  const watchedCharacters = useWatch({ control, name: 'characters' });
+
+  const selectedCharacterIds = (watchedCharacters ?? []).map((c) =>
+    c.mode === 'connect' ? c.characterId : '',
+  );
+
   const categoryOptions = categories.map((category) => ({
     label: category.name ?? '',
     value: category.id ?? '',
-  }));
-
-  const voiceOptions = voices.map((voice) => ({
-    label: `${voice.name} (${voice.gender})`,
-    value: voice.id ?? '',
   }));
 
   return (
@@ -244,85 +244,34 @@ export function ChannelForm({
           <div className="space-y-6">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {fields.map((field, index) => (
-                <div
+                <CharacterSlot
                   key={field.id}
-                  className="space-y-4 rounded-lg border border-border p-4"
-                >
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold">キャラクター {index + 1}</h4>
-                    {fields.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="text"
-                        color="danger"
-                        size="sm"
-                        leftIcon={<TrashIcon />}
-                        onClick={() => remove(index)}
-                      >
-                        削除
-                      </Button>
-                    )}
-                  </div>
-
-                  <FormField
-                    label="ボイス"
-                    required
-                    error={errors.characters?.[index]?.voiceId?.message}
-                  >
-                    {({ hasError }) => (
-                      <Controller
-                        name={`characters.${index}.voiceId`}
-                        control={control}
-                        render={({ field: selectField }) => (
-                          <Select
-                            name={`characters.${index}.voiceId`}
-                            options={voiceOptions}
-                            value={selectField.value || null}
-                            onValueChange={(value) =>
-                              selectField.onChange(value ?? '')
-                            }
-                            placeholder="選択してください"
-                            error={hasError}
-                          />
-                        )}
-                      />
-                    )}
-                  </FormField>
-
-                  <FormField
-                    label="名前"
-                    required
-                    error={errors.characters?.[index]?.name?.message}
-                  >
-                    {({ id, hasError }) => (
-                      <Input
-                        id={id}
-                        maxLength={255}
-                        error={hasError}
-                        {...register(`characters.${index}.name`)}
-                      />
-                    )}
-                  </FormField>
-
-                  <FormField label="ペルソナ">
-                    {({ id }) => (
-                      <Textarea
-                        id={id}
-                        rows={8}
-                        maxLength={2000}
-                        showCounter
-                        {...register(`characters.${index}.persona`)}
-                      />
-                    )}
-                  </FormField>
-                </div>
+                  index={index}
+                  mode={watchedCharacters?.[index]?.mode ?? 'create'}
+                  control={control}
+                  errors={errors}
+                  voices={voices}
+                  register={register}
+                  update={update}
+                  canRemove={fields.length > 1}
+                  onRemove={() => remove(index)}
+                  myCharacters={myCharacters}
+                  selectedCharacterIds={selectedCharacterIds}
+                />
               ))}
 
               {fields.length < 2 && (
                 <button
                   type="button"
                   className="flex min-h-48 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border text-text-subtle transition-colors hover:border-primary hover:text-primary"
-                  onClick={() => append({ name: '', voiceId: '', persona: '' })}
+                  onClick={() =>
+                    append({
+                      mode: 'create',
+                      name: '',
+                      voiceId: '',
+                      persona: '',
+                    })
+                  }
                 >
                   <PlusIcon size={32} />
                   <span className="text-sm">キャラクターを追加</span>

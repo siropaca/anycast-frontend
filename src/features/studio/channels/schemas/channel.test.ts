@@ -9,6 +9,7 @@ describe('channelFormSchema', () => {
     categoryId: 'category-1',
     characters: [
       {
+        mode: 'create' as const,
         name: 'キャラクター1',
         voiceId: 'voice-1',
         persona: 'テストペルソナ',
@@ -24,7 +25,9 @@ describe('channelFormSchema', () => {
   it('persona が空でもパースが成功する', () => {
     const input = {
       ...validInput,
-      characters: [{ name: 'キャラクター1', voiceId: 'voice-1' }],
+      characters: [
+        { mode: 'create' as const, name: 'キャラクター1', voiceId: 'voice-1' },
+      ],
     };
     const result = channelFormSchema.safeParse(input);
     expect(result.success).toBe(true);
@@ -34,8 +37,16 @@ describe('channelFormSchema', () => {
     const input = {
       ...validInput,
       characters: [
-        { name: 'キャラクター1', voiceId: 'voice-1' },
-        { name: 'キャラクター2', voiceId: 'voice-2' },
+        {
+          mode: 'create' as const,
+          name: 'キャラクター1',
+          voiceId: 'voice-1',
+        },
+        {
+          mode: 'create' as const,
+          name: 'キャラクター2',
+          voiceId: 'voice-2',
+        },
       ],
     };
     const result = channelFormSchema.safeParse(input);
@@ -46,9 +57,21 @@ describe('channelFormSchema', () => {
     const input = {
       ...validInput,
       characters: [
-        { name: 'キャラクター1', voiceId: 'voice-1' },
-        { name: 'キャラクター2', voiceId: 'voice-2' },
-        { name: 'キャラクター3', voiceId: 'voice-3' },
+        {
+          mode: 'create' as const,
+          name: 'キャラクター1',
+          voiceId: 'voice-1',
+        },
+        {
+          mode: 'create' as const,
+          name: 'キャラクター2',
+          voiceId: 'voice-2',
+        },
+        {
+          mode: 'create' as const,
+          name: 'キャラクター3',
+          voiceId: 'voice-3',
+        },
       ],
     };
     const result = channelFormSchema.safeParse(input);
@@ -71,5 +94,39 @@ describe('channelFormSchema', () => {
     const input = { ...validInput, categoryId: '' };
     const result = channelFormSchema.safeParse(input);
     expect(result.success).toBe(false);
+  });
+
+  it('connect モードで既存キャラクターを指定できる', () => {
+    const input = {
+      ...validInput,
+      characters: [{ mode: 'connect' as const, characterId: 'char-1' }],
+    };
+    const result = channelFormSchema.safeParse(input);
+    expect(result.success).toBe(true);
+  });
+
+  it('connect モードで characterId が空の場合はエラー', () => {
+    const input = {
+      ...validInput,
+      characters: [{ mode: 'connect' as const, characterId: '' }],
+    };
+    const result = channelFormSchema.safeParse(input);
+    expect(result.success).toBe(false);
+  });
+
+  it('create と connect の混在でパースが成功する', () => {
+    const input = {
+      ...validInput,
+      characters: [
+        { mode: 'connect' as const, characterId: 'char-1' },
+        {
+          mode: 'create' as const,
+          name: 'キャラクター2',
+          voiceId: 'voice-2',
+        },
+      ],
+    };
+    const result = channelFormSchema.safeParse(input);
+    expect(result.success).toBe(true);
   });
 });

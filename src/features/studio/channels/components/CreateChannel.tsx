@@ -5,6 +5,7 @@ import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle
 import { ChannelForm } from '@/features/studio/channels/components/ChannelForm';
 import { useCreateChannel } from '@/features/studio/channels/hooks/useCreateChannel';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
+import { useMyCharacterOptions } from '@/features/studio/characters/hooks/useMyCharacterOptions';
 import { Pages } from '@/libs/pages';
 
 export function CreateChannel() {
@@ -12,6 +13,7 @@ export function CreateChannel() {
 
   const { categories, voices, createChannel, isCreating, error } =
     useCreateChannel();
+  const { characters: myCharacters } = useMyCharacterOptions();
 
   function handleSubmit(data: ChannelFormInput) {
     createChannel(data, {
@@ -30,6 +32,7 @@ export function CreateChannel() {
         voices={voices}
         isSubmitting={isCreating}
         submitError={error}
+        myCharacters={myCharacters}
         onSubmit={handleSubmit}
       />
     </div>
