@@ -1,15 +1,12 @@
 'use client';
 
 import { TrashIcon, UploadIcon } from '@phosphor-icons/react';
-import { useRef, useState } from 'react';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Modal } from '@/components/utils/Modal/Modal';
-import { useUpdateChannelDefaultBgm } from '@/features/studio/channels/hooks/useUpdateChannelDefaultBgm';
-import { useBgmOptions } from '@/features/studio/episodes/hooks/useBgmOptions';
-import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
+import { useChannelDefaultBgmModal } from '@/features/studio/channels/hooks/useChannelDefaultBgmModal';
 import { useToast } from '@/hooks/useToast';
 import type { ResponseChannelResponseDefaultBgm } from '@/libs/api/generated/schemas';
 
@@ -21,17 +18,6 @@ interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
-/**
- * 現在のデフォルトBGMから Select の値を算出する
- *
- * @param bgm - 現在のデフォルトBGM
- * @returns Select の value 文字列
- */
-function toSelectValue(bgm?: ResponseChannelResponseDefaultBgm): string {
-  if (!bgm) return '';
-  return `${bgm.isSystem ? 'system' : 'user'}:${bgm.id}`;
-}
-
 export function ChannelDefaultBgmModal({
   channelId,
   currentDefaultBgm,
@@ -39,89 +25,42 @@ export function ChannelDefaultBgmModal({
   onOpenChange,
 }: Props) {
   const toast = useToast();
-  const { userBgms, systemBgms } = useBgmOptions();
-  const { isUpdating, error, setDefaultBgm, removeDefaultBgm } =
-    useUpdateChannelDefaultBgm(channelId);
-  const { uploadBgm, isUploading, error: uploadError } = useUploadBgm();
-
-  const bgmFileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedValue, setSelectedValue] = useState(
-    toSelectValue(currentDefaultBgm),
-  );
-  const [bgmName, setBgmName] = useState('');
-
-  const hasChanged = selectedValue !== toSelectValue(currentDefaultBgm);
-
-  const bgmOptions = [
-    ...(userBgms.length > 0
-      ? [
-          {
-            label: 'マイBGM',
-            options: userBgms.map((bgm) => ({
-              label: bgm.name,
-              value: `user:${bgm.id}`,
-            })),
-          },
-        ]
-      : []),
-    ...(systemBgms.length > 0
-      ? [
-          {
-            label: 'システム',
-            options: systemBgms.map((bgm) => ({
-              label: bgm.name,
-              value: `system:${bgm.id}`,
-            })),
-          },
-        ]
-      : []),
-  ];
+  const {
+    bgmOptions,
+    selectedValue,
+    bgmName,
+    hasChanged,
+    isBgmLoading,
+    isUpdating,
+    isUploading,
+    error,
+    uploadError,
+    bgmFileInputRef,
+    select,
+    clearSelection,
+    updateBgmName,
+    save,
+    upload,
+    openFilePicker,
+  } = useChannelDefaultBgmModal(channelId, currentDefaultBgm);
 
   function handleSave() {
-    if (!selectedValue) {
-      // BGM 解除
-      removeDefaultBgm({
-        onSuccess: () => {
-          onOpenChange(false);
-          toast.success({ title: 'デフォルトBGMを解除しました' });
-        },
-      });
-      return;
-    }
+    const message = selectedValue
+      ? 'デフォルトBGMを設定しました'
+      : 'デフォルトBGMを解除しました';
 
-    const [type, bgmId] = selectedValue.split(':');
-    if (!bgmId) return;
-
-    setDefaultBgm(
-      type === 'user' ? bgmId : undefined,
-      type === 'system' ? bgmId : undefined,
-      {
-        onSuccess: () => {
-          onOpenChange(false);
-          toast.success({ title: 'デフォルトBGMを設定しました' });
-        },
+    save({
+      onSuccess: () => {
+        onOpenChange(false);
+        toast.success({ title: message });
       },
-    );
-  }
-
-  function handleRemove() {
-    setSelectedValue('');
-  }
-
-  function handleUploadClick() {
-    bgmFileInputRef.current?.click();
+    });
   }
 
   function handleBgmFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-
-    uploadBgm(file, bgmName);
-    setBgmName('');
-
-    if (bgmFileInputRef.current) {
-      bgmFileInputRef.current.value = '';
-    }
+    upload(file);
   }
 
   return (
@@ -140,8 +79,9 @@ export function ChannelDefaultBgmModal({
                   name="defaultBgm"
                   options={bgmOptions}
                   value={selectedValue || null}
-                  onValueChange={(value) => setSelectedValue(value ?? '')}
+                  onValueChange={(value) => select(value ?? '')}
                   placeholder="なし"
+                  disabled={isBgmLoading}
                 />
               </div>
               {selectedValue && (
@@ -151,7 +91,7 @@ export function ChannelDefaultBgmModal({
                   color="danger"
                   size="sm"
                   leftIcon={<TrashIcon size={16} />}
-                  onClick={handleRemove}
+                  onClick={clearSelection}
                 >
                   解除
                 </Button>
@@ -170,7 +110,7 @@ export function ChannelDefaultBgmModal({
                 placeholder="BGM名（省略時はファイル名）"
                 value={bgmName}
                 disabled={isUploading}
-                onChange={(e) => setBgmName(e.target.value)}
+                onChange={(e) => updateBgmName(e.target.value)}
               />
               <Button
                 type="button"
@@ -178,7 +118,7 @@ export function ChannelDefaultBgmModal({
                 color="secondary"
                 loading={isUploading}
                 leftIcon={<UploadIcon size={16} />}
-                onClick={handleUploadClick}
+                onClick={openFilePicker}
               >
                 アップロード
               </Button>
