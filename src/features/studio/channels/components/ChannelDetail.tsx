@@ -104,8 +104,12 @@ export function ChannelDetail({ channelId }: Props) {
         <div className="flex flex-1 flex-col gap-3">
           <p className="text-sm text-text-subtle">{channel.category.name}</p>
 
-          {channel.description && (
+          {channel.description ? (
             <p className="whitespace-pre-wrap">{channel.description}</p>
+          ) : (
+            <p className="text-sm text-text-subtle">
+              説明文が設定されていません
+            </p>
           )}
         </div>
       </div>

@@ -1,9 +1,11 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
 
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import { usePostChannels } from '@/libs/api/generated/channels/channels';
+import { getGetMeChannelsQueryKey } from '@/libs/api/generated/me/me';
 import type {
   ResponseCategoryResponse,
   ResponseVoiceResponse,
@@ -22,6 +24,7 @@ interface CreateOptions {
  * @returns カテゴリ一覧、ボイス一覧、作成関数
  */
 export function useCreateChannel() {
+  const queryClient = useQueryClient();
   const { data: categoriesData } = useGetCategoriesSuspense();
   const { data: voicesData } = useGetVoicesSuspense();
   const mutation = usePostChannels();
@@ -77,6 +80,9 @@ export function useCreateChannel() {
             return;
           }
 
+          queryClient.invalidateQueries({
+            queryKey: getGetMeChannelsQueryKey(),
+          });
           options?.onSuccess?.(response.data.data.id);
         },
         onError: (err: unknown) => {

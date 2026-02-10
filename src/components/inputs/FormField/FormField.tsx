@@ -35,7 +35,7 @@ export function FormField({
   const hasError = !!error;
 
   return (
-    <div className={cn('space-y-2', className)}>
+    <div className={cn('space-y-2.5', className)}>
       <FormLabel
         htmlFor={id}
         required={required}
