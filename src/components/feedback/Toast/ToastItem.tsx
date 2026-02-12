@@ -1,7 +1,7 @@
 'use client';
 
 import { Toast } from '@base-ui/react/toast';
-import { CheckCircleIcon, XCircleIcon } from '@phosphor-icons/react';
+import { CheckCircleIcon, InfoIcon, XCircleIcon } from '@phosphor-icons/react';
 import { ToastClose } from '@/components/feedback/Toast/ToastClose';
 import type { ToastObject, ToastType } from '@/components/feedback/Toast/types';
 import { cn } from '@/utils/cn';
@@ -9,11 +9,13 @@ import { cn } from '@/utils/cn';
 const iconMap: Record<ToastType, typeof CheckCircleIcon> = {
   success: CheckCircleIcon,
   error: XCircleIcon,
+  info: InfoIcon,
 };
 
 const iconColorMap: Record<ToastType, string> = {
   success: 'text-green-400',
   error: 'text-red-400',
+  info: 'text-blue-400',
 };
 
 interface Props {

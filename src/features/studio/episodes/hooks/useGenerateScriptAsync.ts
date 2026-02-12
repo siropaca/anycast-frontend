@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { useEffect, useRef, useState } from 'react';
 
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
+import { useToast } from '@/hooks/useToast';
 import { useGetMeScriptJobsSuspense } from '@/libs/api/generated/me/me';
 import type {
   RequestGenerateScriptAsyncRequest,
@@ -30,6 +31,7 @@ interface ScriptJobState {
   errorMessage: string | null;
   prompt: string | null;
   durationMinutes: number | null;
+  startedAt: number | null;
 }
 
 /**
@@ -41,6 +43,7 @@ interface ScriptJobState {
  */
 export function useGenerateScriptAsync(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   // Suspense でジョブデータを取得
   const { data: pendingResponse } = useGetMeScriptJobsSuspense({
@@ -91,6 +94,9 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
         errorMessage: null,
         prompt: runningJob.prompt ?? null,
         durationMinutes: runningJob.durationMinutes ?? null,
+        startedAt: Date.parse(
+          runningJob.startedAt ?? runningJob.createdAt,
+        ),
       };
     }
 
@@ -101,6 +107,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       errorMessage: null,
       prompt: null,
       durationMinutes: null,
+      startedAt: null,
     };
   });
 
@@ -119,8 +126,10 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       ...prev,
       status: 'completed',
       progress: 100,
+      startedAt: null,
     }));
 
+    toast.success({ title: '台本の生成が完了しました' });
     clearPolling();
 
     queryClient.invalidateQueries({
@@ -144,8 +153,13 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       ...prev,
       status: 'failed',
       errorMessage,
+      startedAt: null,
     }));
 
+    toast.error({
+      title: '台本の生成に失敗しました',
+      description: errorMessage,
+    });
     clearPolling();
   }
 
@@ -160,6 +174,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     setJobState((prev) => ({
       ...prev,
       status: 'canceled',
+      startedAt: null,
     }));
 
     clearPolling();
@@ -179,6 +194,9 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
             ...prev,
             progress: job.progress,
             status: job.status as JobStatus,
+            startedAt:
+              prev.startedAt ??
+              (job.startedAt ? Date.parse(job.startedAt) : null),
           }));
 
           if (job.status === 'completed') {
@@ -297,6 +315,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       errorMessage: null,
       prompt: null,
       durationMinutes: null,
+      startedAt: Date.now(),
     });
 
     mutation.mutate(
@@ -318,24 +337,26 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
                 'error' in response.data
                   ? response.data.error.message
                   : '台本生成の開始に失敗しました',
+              startedAt: null,
             }));
             return;
           }
 
-          const jobId = response.data.data.id;
+          const job = response.data.data;
 
           setJobState((prev) => ({
             ...prev,
-            jobId,
+            jobId: job.id,
             status: 'pending',
+            startedAt: Date.parse(job.createdAt),
           }));
 
           // WebSocket で購読開始
-          subscribe(jobId);
+          subscribe(job.id);
 
           // WebSocket 接続確立までの間もステータスを監視するため、
           // ポーリングも同時に開始する（WebSocket からメッセージを受信したら停止）
-          startPolling(jobId);
+          startPolling(job.id);
         },
         onError: (error: unknown) => {
           const message =
@@ -346,6 +367,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
             ...prev,
             status: 'failed',
             errorMessage: message,
+            startedAt: null,
           }));
         },
       },
@@ -367,6 +389,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
       errorMessage: null,
       prompt: null,
       durationMinutes: null,
+      startedAt: null,
     });
   }
 
@@ -392,7 +415,9 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
           setJobState((prev) => ({
             ...prev,
             status: 'canceled',
+            startedAt: null,
           }));
+          toast.info({ title: '台本の生成をキャンセルしました' });
         },
         onError: (error: unknown) => {
           const message =
@@ -403,6 +428,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
             ...prev,
             errorMessage: message,
           }));
+          toast.error({ title: message });
         },
       },
     );
@@ -426,6 +452,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
     status: jobState.status,
     progress: jobState.progress,
     error: jobState.errorMessage,
+    startedAt: jobState.startedAt,
     restoredPrompt: jobState.prompt ?? latestCompletedJob?.prompt ?? null,
     restoredDurationMinutes:
       jobState.durationMinutes ?? latestCompletedJob?.durationMinutes ?? null,

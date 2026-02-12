@@ -42,8 +42,18 @@ export function useToast() {
     });
   }
 
+  /**
+   * 情報トーストを表示する
+   *
+   * @param params - タイトルと説明（任意）
+   */
+  function info({ title, description }: ToastParams) {
+    manager.add<ToastData>({ title, description, data: { type: 'info' } });
+  }
+
   return {
     success,
     error,
+    info,
   };
 }
