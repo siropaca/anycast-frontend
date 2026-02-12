@@ -2,14 +2,13 @@
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   DotsSixVerticalIcon,
   DotsThreeIcon,
   PlusIcon,
   TrashIcon,
 } from '@phosphor-icons/react';
-import { useForm } from 'react-hook-form';
+import { useRef } from 'react';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { DropdownMenu } from '@/components/inputs/DropdownMenu/DropdownMenu';
 import { DropdownMenuItem } from '@/components/inputs/DropdownMenu/DropdownMenuItem';
@@ -18,10 +17,6 @@ import { EMOTION_OPTIONS } from '@/features/studio/episodes/constants/emotion';
 import { useCreateScriptLine } from '@/features/studio/episodes/hooks/useCreateScriptLine';
 import { useDeleteScriptLine } from '@/features/studio/episodes/hooks/useDeleteScriptLine';
 import { useUpdateScriptLine } from '@/features/studio/episodes/hooks/useUpdateScriptLine';
-import {
-  type ScriptLineFormInput,
-  scriptLineFormSchema,
-} from '@/features/studio/episodes/schemas/scriptLine';
 import type {
   ResponseCharacterResponse,
   ResponseScriptLineResponse,
@@ -54,19 +49,7 @@ export function ScriptLineItem({
   characters,
   characterColor,
 }: Props) {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors, isDirty },
-  } = useForm<ScriptLineFormInput>({
-    resolver: zodResolver(scriptLineFormSchema),
-    defaultValues: {
-      emotion: line.emotion,
-      text: line.text,
-    },
-  });
+  const textRef = useRef<HTMLDivElement>(null);
 
   const {
     updateLine,
@@ -99,20 +82,29 @@ export function ScriptLineItem({
     transition,
   };
 
-  function onSubmit(data: ScriptLineFormInput) {
-    updateLine(line.id, data);
+  function handleTextBlur() {
+    const text = textRef.current?.textContent?.trim() ?? '';
+    if (text !== line.text) {
+      updateLine(line.id, { text });
+    }
   }
 
-  function handleTextBlur() {
-    if (isDirty) {
-      handleSubmit(onSubmit)();
+  function handleTextKeyDown(event: React.KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      textRef.current?.blur();
     }
+  }
+
+  function handleTextPaste(event: React.ClipboardEvent) {
+    event.preventDefault();
+    const text = event.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
   }
 
   function handleEmotionChange(value: string | null) {
     const emotion = value ?? '';
-    setValue('emotion', emotion, { shouldDirty: true });
-    updateLine(line.id, { emotion, text: getValues('text') });
+    updateLine(line.id, { emotion });
   }
 
   function handleSpeakerChange(value: string | null) {
@@ -146,7 +138,7 @@ export function ScriptLineItem({
     >
       <div className="flex items-start gap-1.5">
         {/* 左: 2段のコンテンツ */}
-        <div className="min-w-0 flex-1 space-y-0.5">
+        <div className="min-w-0 flex-1 space-y-2">
           {/* 上段: 話者名 + 感情 + アクション */}
           <div className="flex items-center gap-1.5">
             <Select
@@ -199,19 +191,26 @@ export function ScriptLineItem({
           </div>
 
           {/* 下段: テキスト入力 */}
-          <input
-            type="text"
-            placeholder="台本を入力"
+          {/* biome-ignore lint/a11y/useSemanticElements: contentEditable div を可変長テキスト入力として使用 */}
+          <div
+            ref={textRef}
+            contentEditable={!isUpdating}
+            suppressContentEditableWarning
+            role="textbox"
+            tabIndex={0}
+            aria-label="台本テキスト"
             className={cn(
-              'h-[var(--size-sm)] w-full rounded-sm border border-border bg-bg-elevated px-2 text-sm text-text-main placeholder:text-text-placeholder',
-              'focus:outline-none focus:ring-2 focus:ring-primary',
-              errors.text && 'border-border-danger',
+              'min-h-[var(--size-sm)] w-full rounded-sm border border-transparent px-2 py-1 text-sm leading-relaxed text-text-main empty:before:text-text-placeholder empty:before:content-[attr(data-placeholder)]',
+              'hover:border-border hover:bg-bg-elevated',
+              'focus:border-border focus:bg-bg-elevated focus:outline-none focus:ring-2 focus:ring-primary',
             )}
-            disabled={isUpdating}
-            {...register('text', {
-              onBlur: handleTextBlur,
-            })}
-          />
+            data-placeholder="台本を入力"
+            onBlur={handleTextBlur}
+            onKeyDown={handleTextKeyDown}
+            onPaste={handleTextPaste}
+          >
+            {line.text}
+          </div>
         </div>
 
         {/* 右: ドラッグハンドル（2行の中央） */}
@@ -224,10 +223,6 @@ export function ScriptLineItem({
           <DotsSixVerticalIcon size={18} />
         </button>
       </div>
-
-      {errors.text && (
-        <p className="mt-0.5 text-xs text-text-danger">{errors.text.message}</p>
-      )}
 
       {error && <p className="mt-0.5 text-xs text-text-danger">{error}</p>}
 

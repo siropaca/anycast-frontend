@@ -80,7 +80,7 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
             items={lineIds}
             strategy={verticalListSortingStrategy}
           >
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {scriptLines.map((line) => (
                 <ScriptLineItem
                   key={`${line.id}-${line.updatedAt}`}
