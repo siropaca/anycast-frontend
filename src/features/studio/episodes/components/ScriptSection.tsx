@@ -13,9 +13,15 @@ interface Props {
   channelId: string;
   episodeId: string;
   episodeName: string;
+  onGenerateClick?: () => void;
 }
 
-export function ScriptSection({ channelId, episodeId, episodeName }: Props) {
+export function ScriptSection({
+  channelId,
+  episodeId,
+  episodeName,
+  onGenerateClick,
+}: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { scriptLines } = useScriptLines(channelId, episodeId);
 
@@ -79,7 +85,12 @@ export function ScriptSection({ channelId, episodeId, episodeName }: Props) {
         onChange={handleFileSelect}
       />
 
-      <ScriptLineList channelId={channelId} episodeId={episodeId} />
+      <ScriptLineList
+        channelId={channelId}
+        episodeId={episodeId}
+        onGenerateClick={onGenerateClick}
+        onImportClick={handleImportClick}
+      />
     </div>
   );
 }

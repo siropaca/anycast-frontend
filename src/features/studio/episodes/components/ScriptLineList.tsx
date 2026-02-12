@@ -25,9 +25,16 @@ const CHARACTER_COLORS = ['#f59e0b', '#8b5cf6'] as const;
 interface Props {
   channelId: string;
   episodeId: string;
+  onGenerateClick?: () => void;
+  onImportClick?: () => void;
 }
 
-export function ScriptLineList({ channelId, episodeId }: Props) {
+export function ScriptLineList({
+  channelId,
+  episodeId,
+  onGenerateClick,
+  onImportClick,
+}: Props) {
   const { channel } = useChannelDetail(channelId);
   const { scriptLines } = useScriptLines(channelId, episodeId);
 
@@ -67,9 +74,29 @@ export function ScriptLineList({ channelId, episodeId }: Props) {
       )}
 
       {scriptLines.length === 0 ? (
-        <p className="text-sm text-text-subtle">
-          台本はまだありません。「台本を作成」から生成できます。
-        </p>
+        <div className="space-y-2 text-sm text-text-subtle">
+          <p>台本はまだありません。</p>
+          <div className="flex items-center gap-3">
+            {onGenerateClick && (
+              <button
+                type="button"
+                className="cursor-pointer text-text-link hover:underline"
+                onClick={onGenerateClick}
+              >
+                台本を生成
+              </button>
+            )}
+            {onImportClick && (
+              <button
+                type="button"
+                className="cursor-pointer text-text-link hover:underline"
+                onClick={onImportClick}
+              >
+                ファイルからインポート
+              </button>
+            )}
+          </div>
+        </div>
       ) : (
         <DndContext
           sensors={sensors}

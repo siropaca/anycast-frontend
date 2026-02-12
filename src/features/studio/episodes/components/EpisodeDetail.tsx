@@ -162,6 +162,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         channelId={channelId}
         episodeId={episodeId}
         episodeName={episode.title}
+        onGenerateClick={() => setIsScriptModalOpen(true)}
       />
 
       {/* 固定ボトムバー */}
