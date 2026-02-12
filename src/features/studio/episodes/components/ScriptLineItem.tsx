@@ -165,7 +165,7 @@ export function ScriptLineItem({
               <DropdownMenu
                 trigger={
                   <IconButton
-                    icon={<DotsThreeIcon weight="bold" />}
+                    icon={<DotsThreeIcon size={20} weight="bold" />}
                     aria-label="行のメニュー"
                     size="sm"
                     variant="text"

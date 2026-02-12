@@ -9,7 +9,9 @@ export function SideMenuSectionGroup({ section }: Props) {
   return (
     <div className="space-y-2">
       {section.title && (
-        <p className="text-sm text-text-subtle">{section.title}</p>
+        <p className="text-sm text-text-subtle tracking-[1.5px]">
+          {section.title}
+        </p>
       )}
 
       {section.items.map((item) => (
