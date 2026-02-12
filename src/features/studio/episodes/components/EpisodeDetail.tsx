@@ -188,11 +188,13 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         onPause={pauseEpisode}
         scriptStatus={scriptGeneration.status}
         scriptProgress={scriptGeneration.progress}
+        scriptStartedAt={scriptGeneration.startedAt}
         isScriptGenerating={scriptGeneration.isGenerating}
         isScriptCancelable={scriptGeneration.isCancelable}
         isScriptCanceling={scriptGeneration.isCanceling}
         audioStatus={audioGeneration.status}
         audioProgress={audioGeneration.progress}
+        audioStartedAt={audioGeneration.startedAt}
         isAudioGenerating={audioGeneration.isGenerating}
         isAudioCancelable={audioGeneration.isCancelable}
         isAudioCanceling={audioGeneration.isCanceling}

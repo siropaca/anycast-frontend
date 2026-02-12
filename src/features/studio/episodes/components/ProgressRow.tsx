@@ -2,9 +2,13 @@
 
 import { XIcon } from '@phosphor-icons/react';
 
+import { useElapsedTime } from '@/hooks/useElapsedTime';
+import { formatElapsedTime } from '@/utils/date';
+
 interface Props {
   label: string;
   progress: number;
+  startedAt?: number;
   isGenerating: boolean;
   isCancelable: boolean;
   isCanceling: boolean;
@@ -17,6 +21,7 @@ interface Props {
 export function ProgressRow({
   label,
   progress,
+  startedAt,
   isGenerating,
   isCancelable,
   isCanceling,
@@ -24,6 +29,8 @@ export function ProgressRow({
   onCancel,
   onReset,
 }: Props) {
+  const elapsedMs = useElapsedTime(isGenerating ? (startedAt ?? null) : null);
+
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between">
@@ -31,6 +38,9 @@ export function ProgressRow({
         <div className="flex items-center gap-2">
           {isGenerating && (
             <span className="text-sm tabular-nums text-text-subtle">
+              {elapsedMs != null && (
+                <span className="mr-1.5">{formatElapsedTime(elapsedMs)}</span>
+              )}
               {progress}%
             </span>
           )}

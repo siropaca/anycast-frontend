@@ -245,9 +245,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             status: targetJob.status as JobStatus,
             progress: targetJob.progress,
             errorMessage: null,
-            startedAt: Date.parse(
-              targetJob.startedAt ?? targetJob.createdAt,
-            ),
+            startedAt: Date.parse(targetJob.startedAt ?? targetJob.createdAt),
           });
 
           // WebSocket で購読開始
@@ -281,6 +279,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
       status: 'pending',
       progress: 0,
       errorMessage: null,
+      startedAt: Date.now(),
     });
 
     mutation.mutate(
@@ -305,24 +304,26 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
                 'error' in response.data
                   ? response.data.error.message
                   : '音声生成の開始に失敗しました',
+              startedAt: null,
             }));
             return;
           }
 
-          const jobId = response.data.data.id;
+          const job = response.data.data;
 
           setJobState((prev) => ({
             ...prev,
-            jobId,
+            jobId: job.id,
             status: 'pending',
+            startedAt: Date.parse(job.createdAt),
           }));
 
           // WebSocket で購読開始
-          subscribe(jobId);
+          subscribe(job.id);
 
           // WebSocket 接続確立までの間もステータスを監視するため、
           // ポーリングも同時に開始する（WebSocket からメッセージを受信したら停止）
-          startPolling(jobId);
+          startPolling(job.id);
         },
         onError: (error: unknown) => {
           const message =
@@ -333,6 +334,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             ...prev,
             status: 'failed',
             errorMessage: message,
+            startedAt: null,
           }));
         },
       },
@@ -352,6 +354,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
       status: 'idle',
       progress: 0,
       errorMessage: null,
+      startedAt: null,
     });
   }
 
@@ -377,6 +380,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
           setJobState((prev) => ({
             ...prev,
             status: 'canceled',
+            startedAt: null,
           }));
           toast.info({ title: '音声の生成をキャンセルしました' });
         },
@@ -413,6 +417,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
     status: jobState.status,
     progress: jobState.progress,
     error: jobState.errorMessage,
+    startedAt: jobState.startedAt,
 
     generateAudio,
     cancelAudio,

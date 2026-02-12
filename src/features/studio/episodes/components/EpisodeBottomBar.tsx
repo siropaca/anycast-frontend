@@ -28,11 +28,13 @@ interface Props {
 
   scriptStatus: JobStatus;
   scriptProgress: number;
+  scriptStartedAt?: number | null;
   isScriptGenerating: boolean;
   isScriptCancelable: boolean;
   isScriptCanceling: boolean;
   audioStatus: JobStatus;
   audioProgress: number;
+  audioStartedAt?: number | null;
   isAudioGenerating: boolean;
   isAudioCancelable: boolean;
   isAudioCanceling: boolean;
@@ -57,11 +59,13 @@ export function EpisodeBottomBar({
   onPause,
   scriptStatus,
   scriptProgress,
+  scriptStartedAt,
   isScriptGenerating,
   isScriptCancelable,
   isScriptCanceling,
   audioStatus,
   audioProgress,
+  audioStartedAt,
   isAudioGenerating,
   isAudioCancelable,
   isAudioCanceling,
@@ -115,6 +119,7 @@ export function EpisodeBottomBar({
             <ProgressRow
               label={getJobStatusLabel('script', scriptStatus)}
               progress={scriptProgress}
+              startedAt={scriptStartedAt ?? undefined}
               isGenerating={isScriptGenerating}
               isCancelable={isScriptCancelable}
               isCanceling={isScriptCanceling}
@@ -132,6 +137,7 @@ export function EpisodeBottomBar({
             <ProgressRow
               label={getJobStatusLabel('audio', audioStatus)}
               progress={audioProgress}
+              startedAt={audioStartedAt ?? undefined}
               isGenerating={isAudioGenerating}
               isCancelable={isAudioCancelable}
               isCanceling={isAudioCanceling}

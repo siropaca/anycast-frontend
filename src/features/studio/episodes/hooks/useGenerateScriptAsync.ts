@@ -94,9 +94,7 @@ export function useGenerateScriptAsync(channelId: string, episodeId: string) {
         errorMessage: null,
         prompt: runningJob.prompt ?? null,
         durationMinutes: runningJob.durationMinutes ?? null,
-        startedAt: Date.parse(
-          runningJob.startedAt ?? runningJob.createdAt,
-        ),
+        startedAt: Date.parse(runningJob.startedAt ?? runningJob.createdAt),
       };
     }
 
