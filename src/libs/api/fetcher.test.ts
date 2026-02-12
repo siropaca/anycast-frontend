@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { ApiError } from '@/libs/api/ApiError';
 import { customFetcher } from '@/libs/api/fetcher';
 
 // next-auth/react のモック
@@ -91,16 +92,45 @@ describe('customFetcher', () => {
     });
   });
 
-  it('エラーレスポンス時にエラーをスローする', async () => {
+  it('エラーレスポンス時に ApiError をスローする', async () => {
     mockFetch.mockResolvedValue(
       createJsonResponse(StatusCodes.INTERNAL_SERVER_ERROR, {
-        error: { message: 'Internal Server Error' },
+        error: { code: 'INTERNAL', message: 'Internal Server Error' },
       }),
     );
 
+    await expect(customFetcher('/users/me')).rejects.toThrow(ApiError);
     await expect(customFetcher('/users/me')).rejects.toThrow(
       'Internal Server Error',
     );
+  });
+
+  it('エラーレスポンスに details が含まれる場合 ApiError に保持される', async () => {
+    const details = [
+      { line: 1, reason: '不明な話者: a' },
+      { line: 2, reason: '不明な話者: b' },
+    ];
+    mockFetch.mockResolvedValue(
+      createJsonResponse(StatusCodes.BAD_REQUEST, {
+        error: {
+          code: 'SCRIPT_PARSE_ERROR',
+          message: '台本のパースに失敗しました',
+          details,
+        },
+      }),
+    );
+
+    try {
+      await customFetcher('/script/import');
+      expect.unreachable('should have thrown');
+    } catch (error) {
+      expect(error).toBeInstanceOf(ApiError);
+      const apiError = error as ApiError;
+      expect(apiError.message).toBe('台本のパースに失敗しました');
+      expect(apiError.status).toBe(StatusCodes.BAD_REQUEST);
+      expect(apiError.code).toBe('SCRIPT_PARSE_ERROR');
+      expect(apiError.details).toEqual(details);
+    }
   });
 
   describe('401 リアクティブリトライ', () => {
