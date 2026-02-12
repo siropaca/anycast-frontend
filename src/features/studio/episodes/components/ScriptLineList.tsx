@@ -74,8 +74,8 @@ export function ScriptLineList({
       )}
 
       {scriptLines.length === 0 ? (
-        <div className="space-y-2 text-sm text-text-subtle">
-          <p>台本はまだありません。</p>
+        <div className="flex flex-col items-center gap-2 rounded-sm bg-bg-elevated px-6 py-8 text-sm">
+          <p className="text-text-subtle">台本はまだありません。</p>
           <div className="flex items-center gap-3">
             {onGenerateClick && (
               <button
@@ -85,6 +85,9 @@ export function ScriptLineList({
               >
                 台本を生成
               </button>
+            )}
+            {onGenerateClick && onImportClick && (
+              <span className="text-text-subtle">または</span>
             )}
             {onImportClick && (
               <button

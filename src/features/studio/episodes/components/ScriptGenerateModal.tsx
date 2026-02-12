@@ -100,7 +100,7 @@ export function ScriptGenerateModal({
             </FormField>
 
             <FormField
-              label="エピソードの長さ"
+              label="エピソードの長さ（目安）"
               error={errors.durationMinutes?.message}
             >
               {() => (

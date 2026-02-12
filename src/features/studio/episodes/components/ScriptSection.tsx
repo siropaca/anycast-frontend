@@ -66,7 +66,7 @@ export function ScriptSection({
               variant="outline"
               color="secondary"
               size="sm"
-              disabled={isExporting}
+              disabled={isExporting || scriptLines.length === 0}
               onClick={exportScript}
             >
               エクスポート
