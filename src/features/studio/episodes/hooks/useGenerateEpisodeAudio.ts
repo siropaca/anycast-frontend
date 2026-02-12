@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { useEffect, useRef, useState } from 'react';
 
 import { POLLING_INTERVAL } from '@/features/studio/episodes/constants/polling';
+import { useToast } from '@/hooks/useToast';
 import {
   getAudioJobsJobId,
   usePostAudioJobsJobIdCancel,
@@ -22,6 +23,7 @@ interface AudioJobState {
   status: JobStatus;
   progress: number;
   errorMessage: string | null;
+  startedAt: number | null;
 }
 
 /**
@@ -33,6 +35,7 @@ interface AudioJobState {
  */
 export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const jobIdRef = useRef<string | null>(null);
@@ -42,6 +45,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
     status: 'idle',
     progress: 0,
     errorMessage: null,
+    startedAt: null,
   });
 
   // jobId を ref で同期
@@ -54,21 +58,26 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
     }
   }
 
-  function handleJobCompleted() {
+  async function handleJobCompleted() {
     setJobState((prev) => ({
       ...prev,
-      status: 'completed',
       progress: 100,
     }));
 
     clearPolling();
 
-    queryClient.refetchQueries({
+    await queryClient.refetchQueries({
       queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
         channelId,
         episodeId,
       ),
     });
+
+    setJobState((prev) => ({
+      ...prev,
+      status: 'completed',
+      startedAt: null,
+    }));
   }
 
   function handleJobFailed(errorMessage: string) {
@@ -76,6 +85,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
       ...prev,
       status: 'failed',
       errorMessage,
+      startedAt: null,
     }));
 
     clearPolling();
@@ -92,6 +102,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
     setJobState((prev) => ({
       ...prev,
       status: 'canceled',
+      startedAt: null,
     }));
 
     clearPolling();
@@ -111,6 +122,9 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             ...prev,
             progress: job.progress,
             status: job.status as JobStatus,
+            startedAt:
+              prev.startedAt ??
+              (job.startedAt ? Date.parse(job.startedAt) : null),
           }));
 
           if (job.status === 'completed') {
@@ -231,6 +245,9 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             status: targetJob.status as JobStatus,
             progress: targetJob.progress,
             errorMessage: null,
+            startedAt: Date.parse(
+              targetJob.startedAt ?? targetJob.createdAt,
+            ),
           });
 
           // WebSocket で購読開始
@@ -361,6 +378,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             ...prev,
             status: 'canceled',
           }));
+          toast.info({ title: '音声の生成をキャンセルしました' });
         },
         onError: (error: unknown) => {
           const message =
@@ -371,6 +389,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
             ...prev,
             errorMessage: message,
           }));
+          toast.error({ title: message });
         },
       },
     );

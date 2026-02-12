@@ -2,11 +2,12 @@
 
 import { PencilSimpleIcon } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
+import { toTrackFromEpisode } from '@/features/player/utils/trackConverter';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
 import { BgmSection } from '@/features/studio/episodes/components/BgmSection';
@@ -28,6 +29,7 @@ import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines'
 import type { GenerateAudioFormInput } from '@/features/studio/episodes/schemas/generateAudio';
 import type { ScriptGenerateFormInput } from '@/features/studio/episodes/schemas/scriptGenerate';
 import { Pages } from '@/libs/pages';
+import { usePlayerStore } from '@/stores/playerStore';
 
 type AudioModalMode = 'generate' | 'remix' | null;
 
@@ -64,6 +66,15 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
   // 音声生成
   const audioGeneration = useGenerateEpisodeAudio(channelId, episodeId);
+  const play = usePlayerStore((s) => s.play);
+
+  // 音声生成完了後にボトムプレイヤーを新しい音声でリセット
+  // biome-ignore lint/correctness/useExhaustiveDependencies: episode は handleJobCompleted の refetch 完了後に status が変わるため最新が保証される
+  useEffect(() => {
+    if (audioGeneration.status === 'completed' && episode.fullAudio) {
+      play(toTrackFromEpisode(episode, channel.name));
+    }
+  }, [audioGeneration.status]);
 
   // モーダル
   const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
