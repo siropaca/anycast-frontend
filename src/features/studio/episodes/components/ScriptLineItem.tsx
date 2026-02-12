@@ -136,11 +136,11 @@ export function ScriptLineItem({
         isDragging && 'z-10 shadow-lg opacity-90',
       )}
     >
-      <div className="flex items-start gap-1.5">
+      <div className="flex items-start gap-2">
         {/* 左: 2段のコンテンツ */}
         <div className="min-w-0 flex-1 space-y-2">
           {/* 上段: 話者名 + 感情 + アクション */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <Select
               options={speakerOptions(characters)}
               value={line.speaker.id}
@@ -224,13 +224,13 @@ export function ScriptLineItem({
         </button>
       </div>
 
-      {error && <p className="mt-0.5 text-xs text-text-danger">{error}</p>}
+      {error && <p className="mt-1 text-xs text-text-danger">{error}</p>}
 
       {/* 行間の追加ボタン */}
       <div className="absolute -bottom-2.5 left-1/2 z-10 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100">
         <button
           type="button"
-          className="flex h-5 w-5 items-center justify-center rounded-full border border-border bg-bg-elevated text-text-subtle hover:bg-bg-hover-strong hover:text-text-main"
+          className="flex h-5 w-5 items-center justify-center rounded-full border border-border bg-bg-elevated text-text-subtle cursor-pointer hover:bg-bg-hover-strong hover:text-text-main"
           disabled={isCreating}
           onClick={handleAddLineClick}
         >
