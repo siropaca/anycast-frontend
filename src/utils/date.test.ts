@@ -2,6 +2,7 @@ import {
   formatDateJP,
   formatDateTime,
   formatDuration,
+  formatElapsedTime,
   formatTime,
   formatYearMonth,
 } from '@/utils/date';
@@ -94,6 +95,28 @@ describe('date', () => {
 
     it('端数のミリ秒は切り捨てる', () => {
       expect(formatDuration(83999)).toBe('1分23秒');
+    });
+  });
+
+  describe('formatElapsedTime()', () => {
+    it('0ミリ秒を「0秒」に変換する', () => {
+      expect(formatElapsedTime(0)).toBe('0秒');
+    });
+
+    it('60秒未満は秒のみで表示する', () => {
+      expect(formatElapsedTime(5000)).toBe('5秒');
+      expect(formatElapsedTime(59000)).toBe('59秒');
+    });
+
+    it('60秒以上は「X分Y秒」形式で表示する', () => {
+      expect(formatElapsedTime(60000)).toBe('1分0秒');
+      expect(formatElapsedTime(83000)).toBe('1分23秒');
+      expect(formatElapsedTime(754000)).toBe('12分34秒');
+    });
+
+    it('端数のミリ秒は切り捨てる', () => {
+      expect(formatElapsedTime(5999)).toBe('5秒');
+      expect(formatElapsedTime(83999)).toBe('1分23秒');
     });
   });
 });

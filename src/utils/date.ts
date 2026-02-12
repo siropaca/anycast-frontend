@@ -95,3 +95,21 @@ export function formatDuration(ms: number): string {
 
   return `${minutes}分${seconds}秒`;
 }
+
+/**
+ * ミリ秒の経過時間を「X秒」または「X分Y秒」形式の文字列に変換する
+ *
+ * @param ms - 経過ミリ秒
+ * @returns 経過時間の文字列
+ *
+ * @example
+ * formatElapsedTime(5000) // => '5秒'
+ * formatElapsedTime(83000) // => '1分23秒'
+ */
+export function formatElapsedTime(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  if (totalSeconds < 60) return `${totalSeconds}秒`;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}分${seconds}秒`;
+}
