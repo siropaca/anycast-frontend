@@ -1,4 +1,5 @@
 import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
+import { SpeedControl } from '@/features/player/components/SpeedControl';
 import { TrackInfo } from '@/features/player/components/TrackInfo';
 import type { Track } from '@/stores/playerStore';
 
@@ -10,8 +11,10 @@ interface Props {
   isPlaying: boolean;
   currentTimeMs: number;
   durationMs: number;
+  playbackRate: number;
 
   onPlayPause: () => void;
+  onPlaybackRateChange: (rate: number) => void;
 }
 
 export function BottomPlayerMobile({
@@ -22,7 +25,9 @@ export function BottomPlayerMobile({
   isPlaying,
   currentTimeMs,
   durationMs,
+  playbackRate,
   onPlayPause,
+  onPlaybackRateChange,
 }: Props) {
   const progress = durationMs > 0 ? (currentTimeMs / durationMs) * 100 : 0;
 
@@ -43,11 +48,16 @@ export function BottomPlayerMobile({
           className="flex-1 min-w-0"
         />
 
+        <SpeedControl
+          playbackRate={playbackRate}
+          onPlaybackRateChange={onPlaybackRateChange}
+        />
+
         <button
           type="button"
           aria-label={isPlaying ? '一時停止' : '再生'}
           onClick={onPlayPause}
-          className="shrink-0 ml-3 text-text-main"
+          className="shrink-0 ml-1 text-text-main"
         >
           {isPlaying ? (
             <PauseIcon size={28} weight="fill" />

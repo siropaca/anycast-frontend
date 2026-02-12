@@ -55,6 +55,7 @@ export function useAudioPlayer() {
         if (state.currentTrack) {
           currentTrackIdRef.current = state.currentTrack.id;
           audio.src = state.currentTrack.audioUrl;
+          audio.playbackRate = state.playbackRate;
           audio.play().catch(() => {
             usePlayerStore.getState().setIsPlaying(false);
           });
@@ -98,11 +99,17 @@ export function useAudioPlayer() {
       ) {
         audio.volume = state.isMuted ? 0 : state.volume;
       }
+
+      // 再生速度変更の検知
+      if (state.playbackRate !== prevState.playbackRate) {
+        audio.playbackRate = state.playbackRate;
+      }
     });
 
-    // 初期音量を設定
+    // 初期値を設定
     const initialState = usePlayerStore.getState();
     audio.volume = initialState.isMuted ? 0 : initialState.volume;
+    audio.playbackRate = initialState.playbackRate;
 
     return () => {
       unsubscribe();

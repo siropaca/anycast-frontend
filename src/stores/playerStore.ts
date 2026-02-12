@@ -22,6 +22,8 @@ interface PlayerState {
 
   volume: number;
   isMuted: boolean;
+
+  playbackRate: number;
 }
 
 interface PlayerActions {
@@ -37,6 +39,8 @@ interface PlayerActions {
 
   setVolume: (volume: number) => void;
   toggleMute: () => void;
+
+  setPlaybackRate: (rate: number) => void;
 
   setCurrentTime: (timeMs: number) => void;
   setDuration: (durationMs: number) => void;
@@ -58,6 +62,8 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
 
       volume: 0.8,
       isMuted: false,
+
+      playbackRate: 1,
 
       play: (track, queue) => {
         const newQueue = queue ?? [track];
@@ -149,6 +155,10 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
         set((state) => ({ isMuted: !state.isMuted }));
       },
 
+      setPlaybackRate: (rate) => {
+        set({ playbackRate: rate });
+      },
+
       setCurrentTime: (timeMs) => {
         set({ currentTimeMs: timeMs });
       },
@@ -166,6 +176,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
       partialize: (state) => ({
         volume: state.volume,
         isMuted: state.isMuted,
+        playbackRate: state.playbackRate,
       }),
     },
   ),

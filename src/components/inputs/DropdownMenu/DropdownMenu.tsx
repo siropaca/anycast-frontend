@@ -9,6 +9,7 @@ interface Props {
   trigger: ReactElement<{ disabled?: boolean }>;
   disabled?: boolean;
   disabledReason?: string;
+  side?: 'top' | 'bottom' | 'left' | 'right';
 }
 
 export function DropdownMenu({
@@ -16,6 +17,7 @@ export function DropdownMenu({
   trigger,
   disabled,
   disabledReason,
+  side,
 }: Props) {
   if (disabled) {
     const disabledTrigger = cloneElement(trigger, { disabled: true });
@@ -32,7 +34,7 @@ export function DropdownMenu({
       <Menu.Trigger render={trigger} />
 
       <Menu.Portal>
-        <Menu.Positioner sideOffset={8}>
+        <Menu.Positioner sideOffset={8} side={side}>
           <Menu.Popup className="min-w-36 rounded-md border border-border bg-bg-elevated p-1 shadow-lg">
             {children}
           </Menu.Popup>

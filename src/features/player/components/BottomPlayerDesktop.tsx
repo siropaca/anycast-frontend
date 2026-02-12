@@ -1,4 +1,5 @@
 import { PlaybackControls } from '@/features/player/components/PlaybackControls';
+import { SpeedControl } from '@/features/player/components/SpeedControl';
 import { TrackInfo } from '@/features/player/components/TrackInfo';
 import { VolumeControl } from '@/features/player/components/VolumeControl';
 import type { Track } from '@/stores/playerStore';
@@ -13,6 +14,7 @@ interface Props {
   durationMs: number;
   volume: number;
   isMuted: boolean;
+  playbackRate: number;
   hasPrevious?: boolean;
   hasNext?: boolean;
 
@@ -22,6 +24,7 @@ interface Props {
   onSeek: (timeMs: number) => void;
   onVolumeChange: (volume: number) => void;
   onToggleMute: () => void;
+  onPlaybackRateChange: (rate: number) => void;
 }
 
 export function BottomPlayerDesktop({
@@ -34,6 +37,7 @@ export function BottomPlayerDesktop({
   durationMs,
   volume,
   isMuted,
+  playbackRate,
   hasPrevious,
   hasNext,
   onPlayPause,
@@ -42,6 +46,7 @@ export function BottomPlayerDesktop({
   onSeek,
   onVolumeChange,
   onToggleMute,
+  onPlaybackRateChange,
 }: Props) {
   return (
     <div className="hidden md:flex items-center h-bottom-player px-6 bg-bg-main">
@@ -68,7 +73,11 @@ export function BottomPlayerDesktop({
         />
       </div>
 
-      <div className="flex-1 flex justify-end">
+      <div className="flex-1 flex justify-end items-center gap-2">
+        <SpeedControl
+          playbackRate={playbackRate}
+          onPlaybackRateChange={onPlaybackRateChange}
+        />
         <VolumeControl
           volume={volume}
           isMuted={isMuted}

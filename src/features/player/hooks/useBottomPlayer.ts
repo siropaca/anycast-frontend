@@ -16,6 +16,7 @@ export function useBottomPlayer() {
   const durationMs = usePlayerStore((s) => s.durationMs);
   const volume = usePlayerStore((s) => s.volume);
   const isMuted = usePlayerStore((s) => s.isMuted);
+  const playbackRate = usePlayerStore((s) => s.playbackRate);
 
   const pause = usePlayerStore((s) => s.pause);
   const resume = usePlayerStore((s) => s.resume);
@@ -24,6 +25,7 @@ export function useBottomPlayer() {
   const seek = usePlayerStore((s) => s.seek);
   const setVolume = usePlayerStore((s) => s.setVolume);
   const toggleMute = usePlayerStore((s) => s.toggleMute);
+  const setPlaybackRate = usePlayerStore((s) => s.setPlaybackRate);
 
   const hasPlayer = currentTrack !== null;
   const hasPrevious = true;
@@ -41,6 +43,7 @@ export function useBottomPlayer() {
     durationMs,
     volume,
     isMuted,
+    playbackRate,
     hasPrevious,
     hasNext,
 
@@ -50,5 +53,6 @@ export function useBottomPlayer() {
     onSeek: seek,
     onVolumeChange: setVolume,
     onToggleMute: toggleMute,
+    onPlaybackRateChange: setPlaybackRate,
   };
 }

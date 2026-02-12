@@ -19,6 +19,7 @@ export function BottomPlayer() {
     durationMs,
     volume,
     isMuted,
+    playbackRate,
     hasPrevious,
     hasNext,
     onPlayPause,
@@ -27,6 +28,7 @@ export function BottomPlayer() {
     onSeek,
     onVolumeChange,
     onToggleMute,
+    onPlaybackRateChange,
   } = useBottomPlayer();
 
   if (!hasPlayer) {
@@ -45,6 +47,7 @@ export function BottomPlayer() {
         durationMs={durationMs}
         volume={volume}
         isMuted={isMuted}
+        playbackRate={playbackRate}
         hasPrevious={hasPrevious}
         hasNext={hasNext}
         onPlayPause={onPlayPause}
@@ -53,6 +56,7 @@ export function BottomPlayer() {
         onSeek={onSeek}
         onVolumeChange={onVolumeChange}
         onToggleMute={onToggleMute}
+        onPlaybackRateChange={onPlaybackRateChange}
       />
 
       <BottomPlayerMobile
@@ -63,7 +67,9 @@ export function BottomPlayer() {
         isPlaying={isPlaying}
         currentTimeMs={currentTimeMs}
         durationMs={durationMs}
+        playbackRate={playbackRate}
         onPlayPause={onPlayPause}
+        onPlaybackRateChange={onPlaybackRateChange}
       />
     </section>
   );
