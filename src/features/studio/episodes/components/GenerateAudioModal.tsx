@@ -1,10 +1,12 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { FormField } from '@/components/inputs/FormField/FormField';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { Modal } from '@/components/utils/Modal/Modal';
+import type { BgmAdvancedSettingsRef } from '@/features/studio/episodes/components/BgmAdvancedSettings';
+import { BgmAdvancedSettings } from '@/features/studio/episodes/components/BgmAdvancedSettings';
 import {
   BgmSelect,
   BgmSelectSkeleton,
@@ -39,6 +41,7 @@ export function GenerateAudioModal({
   const [voiceStyle, setVoiceStyle] = useState(defaultVoiceStyle);
   const [selectedBgm, setSelectedBgm] = useState<string | null>(null);
   const [bgmError, setBgmError] = useState<string>();
+  const advancedSettingsRef = useRef<BgmAdvancedSettingsRef>(null);
 
   // モーダルが開くたびに最新の defaultBgm / defaultVoiceStyle で状態をリセットする
   useEffect(() => {
@@ -50,6 +53,7 @@ export function GenerateAudioModal({
           : null,
       );
       setBgmError(undefined);
+      advancedSettingsRef.current?.reset();
     }
   }, [open, defaultVoiceStyle, defaultBgm]);
 
@@ -79,12 +83,16 @@ export function GenerateAudioModal({
     }
 
     const type = isRemix ? 'remix' : hasBgm ? 'full' : 'voice';
+    const advanced = selectedBgm
+      ? advancedSettingsRef.current?.getValues()
+      : undefined;
 
     onSubmit({
       type,
       voiceStyle,
       bgmId,
       systemBgmId,
+      ...advanced,
     });
   }
 
@@ -129,6 +137,8 @@ export function GenerateAudioModal({
               </Suspense>
             )}
           </FormField>
+
+          {selectedBgm && <BgmAdvancedSettings ref={advancedSettingsRef} />}
 
           {!isRemix && !hasScriptLines && (
             <p className="text-sm text-text-subtle">
