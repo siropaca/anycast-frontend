@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { EpisodeForm } from '@/features/studio/episodes/components/EpisodeForm';
 import { useCreateEpisode } from '@/features/studio/episodes/hooks/useCreateEpisode';
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
@@ -23,14 +24,12 @@ export function CreateEpisode({ channelId }: Props) {
   }
 
   return (
-    <div>
-      <h1>{Pages.studio.newEpisode.title}</h1>
-
-      {error && <p>{error}</p>}
-
+    <div className="space-y-4">
+      <SectionTitle title="エピソード作成" />
       <EpisodeForm
         mode="create"
         isSubmitting={isCreating}
+        submitError={error}
         onSubmit={handleSubmit}
       />
     </div>

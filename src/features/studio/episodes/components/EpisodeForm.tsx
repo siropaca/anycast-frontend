@@ -4,6 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Button } from '@/components/inputs/buttons/Button/Button';
+import { FormField } from '@/components/inputs/FormField/FormField';
+import { HelperText } from '@/components/inputs/Input/HelperText';
+import { Input } from '@/components/inputs/Input/Input';
+import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import {
   type EpisodeFormInput,
   episodeFormSchema,
@@ -15,6 +20,7 @@ interface Props {
   defaultValues?: EpisodeFormInput;
   defaultArtworkUrl?: string;
   isSubmitting?: boolean;
+  submitError?: string;
 
   onSubmit: (data: EpisodeFormInput) => void;
 }
@@ -25,6 +31,7 @@ export function EpisodeForm({
   defaultArtworkUrl,
   onSubmit,
   isSubmitting = false,
+  submitError,
 }: Props) {
   const {
     uploadArtwork,
@@ -68,69 +75,78 @@ export function EpisodeForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="title">タイトル</label>
-        <input
-          id="title"
-          type="text"
-          className="border w-full"
-          {...register('title')}
-        />
-        {errors.title && <p>{errors.title.message}</p>}
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <div className="space-y-6">
+        <FormField label="タイトル" required error={errors.title?.message}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              maxLength={255}
+              error={hasError}
+              {...register('title')}
+            />
+          )}
+        </FormField>
+
+        <FormField label="説明" error={errors.description?.message}>
+          {({ id, hasError }) => (
+            <Textarea
+              id={id}
+              rows={6}
+              maxLength={2000}
+              showCounter
+              error={hasError}
+              {...register('description')}
+            />
+          )}
+        </FormField>
+
+        <FormField label="アートワーク" error={artworkUploadError}>
+          {() => (
+            <>
+              {artworkPreviewUrl && (
+                <Image
+                  src={artworkPreviewUrl}
+                  alt="アートワーク"
+                  width={200}
+                  height={200}
+                  className="rounded-lg object-cover"
+                />
+              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  color="secondary"
+                  loading={isArtworkUploading}
+                  onClick={handleArtworkButtonClick}
+                >
+                  {artworkPreviewUrl
+                    ? 'アートワークを変更'
+                    : 'アートワークを登録'}
+                </Button>
+              </div>
+            </>
+          )}
+        </FormField>
       </div>
 
-      <div>
-        <label htmlFor="description">説明</label>
-        <textarea
-          id="description"
-          className="border w-full h-20"
-          {...register('description')}
-        />
-        {errors.description && <p>{errors.description.message}</p>}
-      </div>
+      <div className="space-y-4">
+        {submitError && <HelperText error>{submitError}</HelperText>}
 
-      <div>
-        <span>アートワーク</span>
-        <br />
-        {artworkPreviewUrl && (
-          <Image
-            src={artworkPreviewUrl}
-            alt="アートワーク"
-            width={200}
-            height={200}
-            className="object-cover"
-          />
-        )}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-        <button
-          type="button"
-          className="border"
-          onClick={handleArtworkButtonClick}
-          disabled={isArtworkUploading}
-        >
-          {isArtworkUploading
-            ? 'アップロード中...'
-            : artworkPreviewUrl
-              ? 'アートワークを変更'
-              : 'アートワークを登録'}
-        </button>
-        {artworkUploadError && <p>{artworkUploadError}</p>}
+        <div className="flex justify-end">
+          <Button type="submit" loading={isSubmitting}>
+            {isEditMode ? 'エピソードを更新' : 'エピソードを作成'}
+          </Button>
+        </div>
       </div>
-
-      <button type="submit" className="border" disabled={isSubmitting}>
-        {isSubmitting
-          ? '保存中...'
-          : isEditMode
-            ? 'エピソードを更新'
-            : 'エピソードを作成'}
-      </button>
     </form>
   );
 }

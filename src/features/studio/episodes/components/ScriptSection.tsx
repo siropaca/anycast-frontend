@@ -51,7 +51,7 @@ export function ScriptSection({
         action={
           <div className="flex items-center gap-3">
             <Button
-              leftIcon={<UploadSimpleIcon size={14} />}
+              leftIcon={<DownloadSimpleIcon size={14} />}
               variant="outline"
               color="secondary"
               size="sm"
@@ -62,7 +62,7 @@ export function ScriptSection({
             </Button>
 
             <Button
-              leftIcon={<DownloadSimpleIcon size={14} />}
+              leftIcon={<UploadSimpleIcon size={14} />}
               variant="outline"
               color="secondary"
               size="sm"

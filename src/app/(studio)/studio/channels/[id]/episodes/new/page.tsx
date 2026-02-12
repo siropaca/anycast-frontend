@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { CreateEpisode } from '@/features/studio/episodes/components/CreateEpisode';
 import { Pages } from '@/libs/pages';
 import type { NewEpisodeParams } from '@/libs/pages/studioPages';
@@ -15,5 +16,10 @@ interface Props {
 export default async function StudioNewEpisodePage({ params }: Props) {
   const { id } = await params;
 
-  return <CreateEpisode channelId={id} />;
+  return (
+    // TODO: ローディング実装
+    <Suspense fallback={<p>読み込み中...</p>}>
+      <CreateEpisode channelId={id} />
+    </Suspense>
+  );
 }

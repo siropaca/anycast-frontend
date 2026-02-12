@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { EpisodeForm } from '@/features/studio/episodes/components/EpisodeForm';
 import { useEditEpisode } from '@/features/studio/episodes/hooks/useEditEpisode';
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
@@ -14,8 +15,14 @@ interface Props {
 export function EditEpisode({ channelId, episodeId }: Props) {
   const router = useRouter();
 
-  const { defaultValues, defaultArtworkUrl, updateEpisode, isUpdating, error } =
-    useEditEpisode(channelId, episodeId);
+  const {
+    episode,
+    defaultValues,
+    defaultArtworkUrl,
+    isUpdating,
+    error,
+    updateEpisode,
+  } = useEditEpisode(channelId, episodeId);
 
   function handleSubmit(data: EpisodeFormInput) {
     updateEpisode(data, {
@@ -25,17 +32,19 @@ export function EditEpisode({ channelId, episodeId }: Props) {
     });
   }
 
+  if (!episode || !defaultValues) {
+    return <p>{'エピソードが見つかりません'}</p>;
+  }
+
   return (
-    <div>
-      <h1>{Pages.studio.editEpisode.title}</h1>
-
-      {error && <p>{error}</p>}
-
+    <div className="space-y-4">
+      <SectionTitle title="エピソード編集" />
       <EpisodeForm
         mode="edit"
         defaultValues={defaultValues}
         defaultArtworkUrl={defaultArtworkUrl}
         isSubmitting={isUpdating}
+        submitError={error}
         onSubmit={handleSubmit}
       />
     </div>
