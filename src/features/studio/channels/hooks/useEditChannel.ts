@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
 import { useGetCategoriesSuspense } from '@/libs/api/generated/categories/categories';
 import {
+  getGetChannelsChannelIdQueryKey,
   useGetChannelsChannelIdSuspense,
   usePatchChannelsChannelId,
 } from '@/libs/api/generated/channels/channels';
@@ -87,6 +88,9 @@ export function useEditChannel(channelId: string) {
 
           queryClient.invalidateQueries({
             queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+          });
+          queryClient.invalidateQueries({
+            queryKey: getGetChannelsChannelIdQueryKey(channelId),
           });
           options?.onSuccess?.();
         },

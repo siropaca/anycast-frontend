@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { EpisodeFormInput } from '@/features/studio/episodes/schemas/episode';
 import { usePatchChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import {
+  getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey,
   getGetMeChannelsChannelIdEpisodesQueryKey,
   useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense,
 } from '@/libs/api/generated/me/me';
@@ -71,6 +72,12 @@ export function useEditEpisode(channelId: string, episodeId: string) {
 
           queryClient.invalidateQueries({
             queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+          });
+          queryClient.invalidateQueries({
+            queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
+              channelId,
+              episodeId,
+            ),
           });
           options?.onSuccess?.();
         },

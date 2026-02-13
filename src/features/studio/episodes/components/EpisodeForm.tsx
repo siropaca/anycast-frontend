@@ -79,7 +79,9 @@ export function EpisodeForm({
 
     const parts = [`ポッドキャストエピソード「${title}」のアートワーク。`];
     if (description) parts.push(description);
-    parts.push('画像に文字やテキストを含めないでください。');
+    parts.push(
+      '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。自然光、温かみのある色調。画像に文字やテキストを含めないでください。',
+    );
 
     generateArtwork(parts.join(''), ({ id, url }) => {
       setValue('artworkImageId', id, { shouldDirty: true });
@@ -163,9 +165,7 @@ export function EpisodeForm({
                   disabled={isArtworkGenerating}
                   onClick={handleArtworkButtonClick}
                 >
-                  {artworkPreviewUrl
-                    ? 'アートワークを変更'
-                    : 'アートワークを登録'}
+                  画像を指定
                 </Button>
                 <Button
                   type="button"
