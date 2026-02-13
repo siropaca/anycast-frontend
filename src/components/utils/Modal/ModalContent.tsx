@@ -25,7 +25,7 @@ export function ModalContent({ size = 'md', className, children }: Props) {
 
       <Dialog.Popup
         className={cn(
-          'fixed top-1/2 left-1/2 z-(--z-modal) w-[calc(100%-32px)] -translate-x-1/2 -translate-y-1/2 rounded-md border border-border bg-bg-surface shadow-xl',
+          'fixed top-1/2 left-1/2 z-(--z-modal) flex w-[calc(100%-32px)] max-h-[calc(100dvh-32px)] flex-col -translate-x-1/2 -translate-y-1/2 rounded-md border border-border bg-bg-surface shadow-xl [&>form]:flex [&>form]:min-h-0 [&>form]:flex-col',
           'transition-all duration-200',
           'data-starting-style:scale-95 data-starting-style:opacity-0',
           'data-ending-style:scale-95 data-ending-style:opacity-0',
