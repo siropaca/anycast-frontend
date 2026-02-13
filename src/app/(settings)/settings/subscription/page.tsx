@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -7,5 +8,12 @@ export const metadata: Metadata = {
 };
 
 export default function SettingsSubscriptionPage() {
-  return <div>Settings Subscription</div>;
+  return (
+    <div className="space-y-8">
+      <SectionTitle title="サブスクリプション" level="h2" />
+      <div className="flex min-h-60 items-center justify-center">
+        <p className="text-text-placeholder">Coming Soon...</p>
+      </div>
+    </div>
+  );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
+import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { DeleteAccountSection } from '@/features/settings/account/components/DeleteAccountSection';
 import { PasswordSection } from '@/features/settings/account/components/PasswordSection';
 import { UsernameSection } from '@/features/settings/account/components/UsernameSection';
@@ -8,7 +9,8 @@ import { UsernameSectionSkeleton } from '@/features/settings/account/components/
 
 export function AccountContent() {
   return (
-    <div className="mx-auto max-w-xl space-y-8 py-8">
+    <div className="space-y-8">
+      <SectionTitle title="アカウント" level="h2" />
       <Suspense fallback={<UsernameSectionSkeleton />}>
         <UsernameSection />
       </Suspense>
