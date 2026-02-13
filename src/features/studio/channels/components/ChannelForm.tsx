@@ -1,7 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeftIcon, ArrowRightIcon, PlusIcon } from '@phosphor-icons/react';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  PlusIcon,
+  SparkleIcon,
+} from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
@@ -18,6 +23,7 @@ import {
   channelBasicInfoSchema,
   channelFormSchema,
 } from '@/features/studio/channels/schemas/channel';
+import { useGenerateArtwork } from '@/hooks/useGenerateArtwork';
 import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 import type {
   ResponseCategoryResponse,
@@ -65,6 +71,12 @@ export function ChannelForm({
   } = useUploadArtwork();
 
   const {
+    generateArtwork,
+    isGenerating: isArtworkGenerating,
+    error: artworkGenerateError,
+  } = useGenerateArtwork();
+
+  const {
     register,
     control,
     handleSubmit,
@@ -94,6 +106,24 @@ export function ChannelForm({
 
   function handleArtworkButtonClick() {
     fileInputRef.current?.click();
+  }
+
+  function handleGenerateArtwork() {
+    const name = getValues('name');
+    const description = getValues('description');
+    const categoryId = getValues('categoryId');
+    const categoryName =
+      categories.find((c) => c.id === categoryId)?.name ?? '';
+
+    const parts = [`ポッドキャストチャンネル「${name}」のアートワーク。`];
+    if (categoryName) parts.push(`カテゴリ: ${categoryName}。`);
+    if (description) parts.push(description);
+    parts.push('画像に文字やテキストを含めないでください。');
+
+    generateArtwork(parts.join(''), ({ id, url }) => {
+      setValue('artworkImageId', id, { shouldDirty: true });
+      setArtworkPreviewUrl(url);
+    });
   }
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -178,7 +208,10 @@ export function ChannelForm({
               )}
             </FormField>
 
-            <FormField label="アートワーク" error={artworkUploadError}>
+            <FormField
+              label="アートワーク"
+              error={artworkUploadError ?? artworkGenerateError}
+            >
               {() => (
                 <>
                   {artworkPreviewUrl && (
@@ -197,17 +230,29 @@ export function ChannelForm({
                     className="hidden"
                     onChange={handleFileChange}
                   />
-                  <div>
+                  <div className="flex gap-2">
                     <Button
                       type="button"
                       variant="outline"
                       color="secondary"
                       loading={isArtworkUploading}
+                      disabled={isArtworkGenerating}
                       onClick={handleArtworkButtonClick}
                     >
                       {artworkPreviewUrl
                         ? 'アートワークを変更'
                         : 'アートワークを登録'}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      color="secondary"
+                      leftIcon={<SparkleIcon />}
+                      loading={isArtworkGenerating}
+                      disabled={isArtworkUploading}
+                      onClick={handleGenerateArtwork}
+                    >
+                      AIで生成
                     </Button>
                   </div>
                 </>

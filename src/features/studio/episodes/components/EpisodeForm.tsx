@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { SparkleIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,6 +14,7 @@ import {
   type EpisodeFormInput,
   episodeFormSchema,
 } from '@/features/studio/episodes/schemas/episode';
+import { useGenerateArtwork } from '@/hooks/useGenerateArtwork';
 import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 
 interface Props {
@@ -39,6 +41,12 @@ export function EpisodeForm({
     error: artworkUploadError,
   } = useUploadArtwork();
 
+  const {
+    generateArtwork,
+    isGenerating: isArtworkGenerating,
+    error: artworkGenerateError,
+  } = useGenerateArtwork();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
@@ -49,6 +57,7 @@ export function EpisodeForm({
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<EpisodeFormInput>({
     resolver: zodResolver(episodeFormSchema),
@@ -62,6 +71,20 @@ export function EpisodeForm({
 
   function handleArtworkButtonClick() {
     fileInputRef.current?.click();
+  }
+
+  function handleGenerateArtwork() {
+    const title = getValues('title');
+    const description = getValues('description');
+
+    const parts = [`ポッドキャストエピソード「${title}」のアートワーク。`];
+    if (description) parts.push(description);
+    parts.push('画像に文字やテキストを含めないでください。');
+
+    generateArtwork(parts.join(''), ({ id, url }) => {
+      setValue('artworkImageId', id, { shouldDirty: true });
+      setArtworkPreviewUrl(url);
+    });
   }
 
   function handleRemoveArtwork() {
@@ -109,7 +132,10 @@ export function EpisodeForm({
           )}
         </FormField>
 
-        <FormField label="アートワーク" error={artworkUploadError}>
+        <FormField
+          label="アートワーク"
+          error={artworkUploadError ?? artworkGenerateError}
+        >
           {() => (
             <>
               {artworkPreviewUrl && (
@@ -134,17 +160,30 @@ export function EpisodeForm({
                   variant="outline"
                   color="secondary"
                   loading={isArtworkUploading}
+                  disabled={isArtworkGenerating}
                   onClick={handleArtworkButtonClick}
                 >
                   {artworkPreviewUrl
                     ? 'アートワークを変更'
                     : 'アートワークを登録'}
                 </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  color="secondary"
+                  leftIcon={<SparkleIcon />}
+                  loading={isArtworkGenerating}
+                  disabled={isArtworkUploading}
+                  onClick={handleGenerateArtwork}
+                >
+                  AIで生成
+                </Button>
                 {artworkPreviewUrl && (
                   <Button
                     type="button"
                     variant="outline"
                     color="secondary"
+                    disabled={isArtworkUploading || isArtworkGenerating}
                     onClick={handleRemoveArtwork}
                   >
                     削除
