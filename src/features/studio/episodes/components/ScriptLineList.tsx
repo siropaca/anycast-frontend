@@ -75,24 +75,26 @@ export function ScriptLineList({
 
       {scriptLines.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-sm bg-bg-elevated px-6 py-8 text-sm">
-          <p className="text-text-subtle">台本はまだありません。</p>
-          <div className="flex items-center gap-3">
+          <p className="text-text-subtle">台本はまだありません</p>
+          <div className="flex flex-wrap items-center justify-center gap-2">
             {onGenerateClick && (
               <button
                 type="button"
-                className="cursor-pointer text-text-link hover:underline"
+                className="cursor-pointer inline-block text-text-link hover:underline"
                 onClick={onGenerateClick}
               >
                 台本を生成
               </button>
             )}
+
             {onGenerateClick && onImportClick && (
-              <span className="text-text-subtle">または</span>
+              <span className="inline-block text-text-subtle">または</span>
             )}
+
             {onImportClick && (
               <button
                 type="button"
-                className="cursor-pointer text-text-link hover:underline"
+                className="cursor-pointer inline-block text-text-link hover:underline"
                 onClick={onImportClick}
               >
                 ファイルからインポート
