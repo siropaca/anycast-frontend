@@ -1,6 +1,12 @@
 'use client';
 
-import { DownloadSimpleIcon, UploadSimpleIcon } from '@phosphor-icons/react';
+import { Collapsible } from '@base-ui/react/collapsible';
+import {
+  CaretDownIcon,
+  CaretRightIcon,
+  DownloadSimpleIcon,
+  UploadSimpleIcon,
+} from '@phosphor-icons/react';
 import { useState } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
@@ -13,6 +19,7 @@ interface Props {
   channelId: string;
   episodeId: string;
   episodeName: string;
+  prompt?: string | null;
   onGenerateClick?: () => void;
 }
 
@@ -20,6 +27,7 @@ export function ScriptSection({
   channelId,
   episodeId,
   episodeName,
+  prompt,
   onGenerateClick,
 }: Props) {
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
@@ -70,6 +78,21 @@ export function ScriptSection({
         <p className="whitespace-pre-line text-sm text-text-danger">
           {exportError}
         </p>
+      )}
+
+      {prompt && (
+        <Collapsible.Root>
+          <Collapsible.Trigger className="flex cursor-pointer items-center gap-1 text-sm text-text-subtle transition-colors hover:text-text-main [&[data-panel-open]>svg:first-child]:hidden [&:not([data-panel-open])>svg:last-child]:hidden">
+            <CaretRightIcon size={14} />
+            <CaretDownIcon size={14} />
+            プロンプト
+          </Collapsible.Trigger>
+          <Collapsible.Panel className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 data-ending-style:h-0 data-starting-style:h-0">
+            <p className="mt-2 whitespace-pre-wrap text-sm text-text-subtle">
+              {prompt}
+            </p>
+          </Collapsible.Panel>
+        </Collapsible.Root>
       )}
 
       <ScriptLineList

@@ -18,7 +18,6 @@ import { EpisodeInfoSection } from '@/features/studio/episodes/components/Episod
 import { EpisodePublishDialog } from '@/features/studio/episodes/components/EpisodePublishDialog';
 import { GenerateAudioModal } from '@/features/studio/episodes/components/GenerateAudioModal';
 import { ScriptGenerateModal } from '@/features/studio/episodes/components/ScriptGenerateModal';
-import { ScriptPromptSection } from '@/features/studio/episodes/components/ScriptPromptSection';
 import { ScriptSection } from '@/features/studio/episodes/components/ScriptSection';
 import { useEpisodeDeleteDialog } from '@/features/studio/episodes/hooks/useEpisodeDeleteDialog';
 import { useEpisodeDetail } from '@/features/studio/episodes/hooks/useEpisodeDetail';
@@ -162,9 +161,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       {/* エピソード情報 */}
       <EpisodeInfoSection episode={episode} />
 
-      {/* 台本プロンプト */}
-      <ScriptPromptSection prompt={scriptGeneration.restoredPrompt} />
-
       {/* BGM */}
       <BgmSection bgm={episode.bgm} />
 
@@ -173,6 +169,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         channelId={channelId}
         episodeId={episodeId}
         episodeName={episode.title}
+        prompt={scriptGeneration.restoredPrompt}
         onGenerateClick={() => setIsScriptModalOpen(true)}
       />
 
