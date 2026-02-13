@@ -64,6 +64,7 @@ export function BgmAdvancedSettings({ ref }: Props) {
         {open ? <CaretDownIcon size={14} /> : <CaretRightIcon size={14} />}
         高度な設定
       </Collapsible.Trigger>
+
       <Collapsible.Panel className="h-(--collapsible-panel-height) overflow-hidden transition-[height] duration-200 data-ending-style:h-0 data-starting-style:h-0">
         <div className="mt-3 grid grid-cols-2 gap-3">
           <FormField label="BGM音量">
@@ -80,6 +81,7 @@ export function BgmAdvancedSettings({ ref }: Props) {
               />
             )}
           </FormField>
+
           <FormField label="フェードアウト">
             {({ id }) => (
               <Input
@@ -94,6 +96,7 @@ export function BgmAdvancedSettings({ ref }: Props) {
               />
             )}
           </FormField>
+
           <FormField label="開始の余白">
             {({ id }) => (
               <Input
@@ -109,6 +112,7 @@ export function BgmAdvancedSettings({ ref }: Props) {
               />
             )}
           </FormField>
+
           <FormField label="終了の余白">
             {({ id }) => (
               <Input
