@@ -1,8 +1,6 @@
-import { PlusIcon } from '@phosphor-icons/react/ssr';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { Button } from '@/components/inputs/buttons/Button/Button';
 import { CharacterCreateModal } from '@/features/studio/characters/components/CharacterCreateModal';
 import { CharacterList } from '@/features/studio/characters/components/CharacterList';
 import { CharacterListSkeleton } from '@/features/studio/characters/components/CharacterListSkeleton';
@@ -19,21 +17,7 @@ export default function StudioCharactersPage() {
       <SectionTitle
         title={Pages.studio.characters.title}
         description="エピソードで使用しているキャラクターの管理ができます"
-        action={
-          <Suspense
-            fallback={
-              <Button
-                leftIcon={<PlusIcon size={18} />}
-                disabled
-                disabledReason="読み込み中..."
-              >
-                新規追加
-              </Button>
-            }
-          >
-            <CharacterCreateModal />
-          </Suspense>
-        }
+        action={<CharacterCreateModal />}
       />
 
       <Suspense fallback={<CharacterListSkeleton />}>

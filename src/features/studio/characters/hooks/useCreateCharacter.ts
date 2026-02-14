@@ -9,7 +9,7 @@ import {
   usePostMeCharacters,
 } from '@/libs/api/generated/me/me';
 import type { ResponseVoiceResponse } from '@/libs/api/generated/schemas';
-import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
+import { useGetVoices } from '@/libs/api/generated/voices/voices';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { trimFullWidth } from '@/utils/trim';
 
@@ -20,12 +20,16 @@ interface CreateOptions {
 /**
  * キャラクター作成に必要なデータと操作を提供する
  *
+ * @param enabled - ボイス一覧の取得を有効にするかどうか
  * @returns ボイス一覧、作成関数
  */
-export function useCreateCharacter() {
+export function useCreateCharacter(enabled: boolean) {
   const toast = useToast();
   const queryClient = useQueryClient();
-  const { data: voicesData } = useGetVoicesSuspense();
+  const { data: voicesData, isLoading: isVoicesLoading } = useGetVoices(
+    undefined,
+    { query: { enabled } },
+  );
   const mutation = usePostMeCharacters();
 
   const voices = unwrapResponse<ResponseVoiceResponse[]>(voicesData, []);
@@ -80,6 +84,7 @@ export function useCreateCharacter() {
 
   return {
     voices,
+    isVoicesLoading,
     isCreating: mutation.isPending,
     error,
 
