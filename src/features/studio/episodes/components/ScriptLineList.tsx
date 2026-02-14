@@ -173,7 +173,7 @@ export function ScriptLineList({
           </SortableContext>
           <DragOverlay dropAnimation={null}>
             {activeLine ? (
-              <div className="rounded-sm border border-primary/30 bg-bg-main p-3 shadow-xl">
+              <div className="rounded-sm bg-bg-main p-3 shadow-xl">
                 <div className="flex items-center gap-2">
                   <span
                     className="rounded px-2 py-0.5 text-xs font-medium"
