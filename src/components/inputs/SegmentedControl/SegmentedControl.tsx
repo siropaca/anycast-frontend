@@ -19,8 +19,8 @@ type Props<T extends string> = {
 
 const containerSizeClasses: Record<Size, string> = {
   sm: 'gap-0.5 rounded-md p-0.5',
-  md: 'gap-1 rounded-md p-1',
-  lg: 'gap-1 rounded-lg p-1',
+  md: 'gap-1 rounded-md',
+  lg: 'gap-1 rounded-lg',
 };
 
 const buttonSizeClasses: Record<Size, string> = {
