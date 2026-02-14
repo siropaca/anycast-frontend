@@ -39,6 +39,13 @@ export const WithAction: Story = {
   },
 };
 
+export const WithBackLink: Story = {
+  args: {
+    title: 'セクションタイトル',
+    backHref: '/',
+  },
+};
+
 export const AllVariants: Story = {
   args: {
     title: 'セクションタイトル',
@@ -71,10 +78,23 @@ export const AllVariants: Story = {
         />
       </Section>
 
+      <Section title="With Back Link">
+        <SectionTitle title="セクションタイトル" backHref="/" />
+      </Section>
+
+      <Section title="With Back Link + Description">
+        <SectionTitle
+          title="セクションタイトル"
+          description="セクションの説明文がここに入ります"
+          backHref="/"
+        />
+      </Section>
+
       <Section title="Full">
         <SectionTitle
           title="セクションタイトル"
           description="セクションの説明文がここに入ります"
+          backHref="/"
           action={
             <button type="button" className="text-sm text-primary">
               アクション
