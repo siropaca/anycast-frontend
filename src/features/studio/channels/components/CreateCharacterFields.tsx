@@ -8,9 +8,9 @@ import {
 } from 'react-hook-form';
 import { FormField } from '@/components/inputs/FormField/FormField';
 import { Input } from '@/components/inputs/Input/Input';
-import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
+import { VoiceSelect } from '@/features/studio/voices/components/VoiceSelect';
 import type { ResponseVoiceResponse } from '@/libs/api/generated/schemas';
 
 interface Props {
@@ -33,11 +33,6 @@ export function CreateCharacterFields({
   voices,
   register,
 }: Props) {
-  const voiceOptions = voices.map((voice) => ({
-    label: `${voice.name} (${voice.gender})`,
-    value: voice.id ?? '',
-  }));
-
   const characterErrors = errors.characters?.[index] as
     | CreateCharacterErrors
     | undefined;
@@ -55,9 +50,8 @@ export function CreateCharacterFields({
             name={`characters.${index}.voiceId` as any}
             control={control}
             render={({ field: selectField }) => (
-              <Select
-                name={`characters.${index}.voiceId`}
-                options={voiceOptions}
+              <VoiceSelect
+                voices={voices}
                 value={(selectField.value as string) || null}
                 onValueChange={(value) => selectField.onChange(value ?? '')}
                 placeholder="選択してください"

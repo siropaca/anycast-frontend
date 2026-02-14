@@ -9,7 +9,6 @@ import { Button } from '@/components/inputs/buttons/Button/Button';
 import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
-import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { FormModal } from '@/components/utils/Modal/FormModal';
 import { useUpdateCharacter } from '@/features/studio/characters/hooks/useUpdateCharacter';
@@ -17,7 +16,7 @@ import {
   type CharacterFormInput,
   characterFormSchema,
 } from '@/features/studio/characters/schemas/character';
-import { getGenderLabel } from '@/features/studio/voices/utils/voiceLabels';
+import { VoiceSelect } from '@/features/studio/voices/components/VoiceSelect';
 import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 import type {
   ResponseCharacterWithChannelsResponse,
@@ -80,11 +79,6 @@ export function CharacterEditModal({
       setAvatarPreviewUrl(character.avatar?.url);
     }
   }, [character, reset]);
-
-  const voiceOptions = voices.map((v) => ({
-    label: `${v.name} (${getGenderLabel(v.gender)})`,
-    value: v.id,
-  }));
 
   function handleOpenChange(isOpen: boolean) {
     if (!isOpen && !confirmDiscard(isDirty)) return;
@@ -223,8 +217,8 @@ export function CharacterEditModal({
               name="voiceId"
               control={control}
               render={({ field }) => (
-                <Select
-                  options={voiceOptions}
+                <VoiceSelect
+                  voices={voices}
                   value={field.value || null}
                   onValueChange={(value) => field.onChange(value ?? '')}
                   placeholder="ボイスを選択"
