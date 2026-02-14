@@ -143,10 +143,10 @@ export function ChannelForm({
   }));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {!isEditMode && <StepBar steps={[...STEPS]} currentStep={currentStep} />}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* ステップ1: チャンネル基本情報 */}
         {currentStep === 1 && (
           <div className="space-y-6">

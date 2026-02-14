@@ -127,7 +127,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
   const hasVoiceAudio = !!episode.voiceAudio;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* ヘッダー */}
       <SectionTitle
         title={episode.title}

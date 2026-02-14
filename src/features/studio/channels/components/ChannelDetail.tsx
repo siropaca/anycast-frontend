@@ -65,7 +65,7 @@ export function ChannelDetail({ channelId }: Props) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* ヘッダー */}
       <SectionTitle
         title={channel.name}

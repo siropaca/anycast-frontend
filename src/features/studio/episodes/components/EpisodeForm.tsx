@@ -74,7 +74,7 @@ export function EpisodeForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-6">
         <FormField label="タイトル" required error={errors.title?.message}>
           {({ id, hasError }) => (

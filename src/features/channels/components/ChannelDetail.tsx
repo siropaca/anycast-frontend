@@ -17,7 +17,7 @@ export async function ChannelDetail({ channelId }: Props) {
   const channel = unwrapResponse<ResponseChannelResponse>(channelResponse);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* ヘッダー */}
       <ChannelHeader channel={channel} />
 
