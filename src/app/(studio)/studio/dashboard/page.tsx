@@ -12,7 +12,9 @@ export default function StudioDashboardPage() {
     <div className="space-y-6">
       <SectionTitle title={Pages.studio.dashboard.title} />
 
-      <div>ここにコンテンツ</div>
+      <div className="flex min-h-60 items-center justify-center">
+        <p className="text-text-placeholder">Coming Soon...</p>
+      </div>
     </div>
   );
 }
