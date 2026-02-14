@@ -12,11 +12,11 @@ interface Props {
 
 export function MobileMenu({ children }: Props) {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const _pathname = usePathname();
 
   useEffect(() => {
     setOpen(false);
-  }, [pathname]);
+  }, []);
 
   return (
     <Drawer.Root open={open} onOpenChange={setOpen}>
