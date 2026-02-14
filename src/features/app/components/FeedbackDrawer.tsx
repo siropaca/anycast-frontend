@@ -5,9 +5,11 @@ import {
   CheckCircleIcon,
   DevicesIcon,
   TrashIcon,
+  UploadSimpleIcon,
   XIcon,
 } from '@phosphor-icons/react';
 import Link from 'next/link';
+import type { ChangeEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormLabel } from '@/components/dataDisplay/FormLabel/FormLabel';
@@ -41,8 +43,25 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
     defaultValues: { content: '' },
   });
 
-  const { screenshot, previewUrl, isCapturing, capture, clear } =
-    useScreenCapture();
+  const {
+    screenshot,
+    previewUrl,
+    isCapturing,
+    canCapture,
+    capture,
+    setFromFile,
+    clear,
+  } = useScreenCapture();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFromFile(file);
+    }
+    // 同じファイルを再選択できるようにリセット
+    e.target.value = '';
+  }
 
   const { isSubmitting, error, submitFeedback } = useSubmitFeedback();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -86,7 +105,7 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
       <Drawer.Content
         side="right"
         hidden={isCapturing}
-        className="w-feedback-drawer border-l border-border"
+        className="w-feedback-drawer max-w-full border-l border-border"
       >
         <Drawer.Header className="border-b border-border">
           <span className="text-xl font-semibold">フィードバックを送信</span>
@@ -159,7 +178,7 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
                         </Button>
                       </div>
                     </div>
-                  ) : (
+                  ) : canCapture ? (
                     <Button
                       type="button"
                       variant="outline"
@@ -170,6 +189,26 @@ export function FeedbackDrawer({ open, onOpenChange }: Props) {
                     >
                       スクリーンショットをキャプチャ
                     </Button>
+                  ) : (
+                    <>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp"
+                        className="hidden"
+                        onChange={handleFileChange}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="lg"
+                        className="w-full"
+                        leftIcon={<UploadSimpleIcon size={20} />}
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        スクリーンショットをアップロード
+                      </Button>
+                    </>
                   )}
                 </div>
 

@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+
 /**
  * Screen Capture API を使ってスクリーンショットを取得するカスタムフック
+ * API が利用できない環境ではファイル選択によるアップロードにフォールバックする
  *
  * @returns スクリーンショットの状態と操作関数
  */
@@ -11,7 +14,14 @@ export function useScreenCapture() {
   const [screenshot, setScreenshot] = useState<Blob | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [canCapture, setCanCapture] = useState(true);
   const previewUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    setCanCapture(
+      typeof navigator.mediaDevices?.getDisplayMedia === 'function',
+    );
+  }, []);
 
   function revokePreviewUrl() {
     if (previewUrlRef.current) {
@@ -60,6 +70,23 @@ export function useScreenCapture() {
     }
   }
 
+  /**
+   * ファイル選択で画像をセットする
+   *
+   * @param file - 選択された画像ファイル
+   */
+  function setFromFile(file: File) {
+    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) return;
+
+    revokePreviewUrl();
+
+    const url = URL.createObjectURL(file);
+    previewUrlRef.current = url;
+
+    setScreenshot(file);
+    setPreviewUrl(url);
+  }
+
   function clear() {
     revokePreviewUrl();
     setScreenshot(null);
@@ -70,8 +97,10 @@ export function useScreenCapture() {
     screenshot,
     previewUrl,
     isCapturing,
+    canCapture,
 
     capture,
+    setFromFile,
     clear,
   };
 }

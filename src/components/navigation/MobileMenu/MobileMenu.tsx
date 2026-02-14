@@ -12,11 +12,12 @@ interface Props {
 
 export function MobileMenu({ children }: Props) {
   const [open, setOpen] = useState(false);
-  const _pathname = usePathname();
+  const pathname = usePathname();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname の変更を検知してドロワーを閉じる
   useEffect(() => {
     setOpen(false);
-  }, []);
+  }, [pathname]);
 
   return (
     <Drawer.Root open={open} onOpenChange={setOpen}>
