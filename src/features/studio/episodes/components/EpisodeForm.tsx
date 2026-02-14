@@ -1,22 +1,18 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SparkleIcon } from '@phosphor-icons/react';
-import Image from 'next/image';
-import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
-import { ArtworkGenerateModal } from '@/components/utils/Modal/ArtworkGenerateModal';
+import { ArtworkImageField } from '@/features/studio/components/ArtworkImageField';
 import {
   type EpisodeFormInput,
   episodeFormSchema,
 } from '@/features/studio/episodes/schemas/episode';
-import { useGenerateArtwork } from '@/hooks/useGenerateArtwork';
-import { useUploadArtwork } from '@/hooks/useUploadArtwork';
+import { useArtworkField } from '@/hooks/useArtworkField';
 
 interface Props {
   mode: 'create' | 'edit';
@@ -37,24 +33,6 @@ export function EpisodeForm({
   submitError,
 }: Props) {
   const {
-    uploadArtwork,
-    isUploading: isArtworkUploading,
-    error: artworkUploadError,
-  } = useUploadArtwork();
-
-  const {
-    generateArtwork,
-    isGenerating: isArtworkGenerating,
-    error: artworkGenerateError,
-  } = useGenerateArtwork();
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
-    string | undefined
-  >(defaultArtworkUrl);
-
-  const {
     register,
     handleSubmit,
     setValue,
@@ -68,172 +46,88 @@ export function EpisodeForm({
     },
   });
 
-  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
-  const [generateModalDefaultPrompt, setGenerateModalDefaultPrompt] =
-    useState('');
+  const artwork = useArtworkField({
+    onUpload: (id) => setValue('artworkImageId', id, { shouldDirty: true }),
+    onRemove: () =>
+      setValue('artworkImageId', undefined, { shouldDirty: true }),
+    initialPreviewUrl: defaultArtworkUrl,
+  });
 
   const isEditMode = mode === 'edit';
-
-  function handleArtworkButtonClick() {
-    fileInputRef.current?.click();
-  }
 
   function handleOpenGenerateModal() {
     const title = getValues('title');
     const description = getValues('description');
 
-    const parts = [`ポッドキャストエピソード「${title}」のアートワーク。`];
+    const parts: string[] = [];
+    if (title)
+      parts.push(`ポッドキャストエピソード「${title}」のアートワーク。`);
     if (description) parts.push(description);
 
-    setGenerateModalDefaultPrompt(parts.join('\n'));
-    setIsGenerateModalOpen(true);
-  }
-
-  /**
-   * ユーザー入力プロンプトにシステムプロンプトを結合してアートワークを生成する
-   *
-   * @param userPrompt - ユーザーが入力したプロンプト
-   */
-  function handleGenerateSubmit(userPrompt: string) {
-    const systemPrompt =
-      '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。画像に文字やテキストを含めないでください。';
-    const fullPrompt = `${userPrompt}\n${systemPrompt}`;
-
-    generateArtwork(fullPrompt, ({ id, url }) => {
-      setValue('artworkImageId', id, { shouldDirty: true });
-      setArtworkPreviewUrl(url);
-      setIsGenerateModalOpen(false);
-    });
-  }
-
-  function handleRemoveArtwork() {
-    setValue('artworkImageId', undefined, { shouldDirty: true });
-    setArtworkPreviewUrl(undefined);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    artwork.openGenerateModal(parts.join('\n'));
   }
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-
-    uploadArtwork(file, ({ id, url }) => {
-      setValue('artworkImageId', id, { shouldDirty: true });
-      setArtworkPreviewUrl(url);
-    });
+    artwork.upload(file);
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <div className="space-y-6">
-          <FormField label="タイトル" required error={errors.title?.message}>
-            {({ id, hasError }) => (
-              <Input
-                id={id}
-                maxLength={255}
-                error={hasError}
-                {...register('title')}
-              />
-            )}
-          </FormField>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <div className="space-y-6">
+        <FormField label="タイトル" required error={errors.title?.message}>
+          {({ id, hasError }) => (
+            <Input
+              id={id}
+              maxLength={255}
+              error={hasError}
+              {...register('title')}
+            />
+          )}
+        </FormField>
 
-          <FormField label="説明" error={errors.description?.message}>
-            {({ id, hasError }) => (
-              <Textarea
-                id={id}
-                rows={6}
-                maxLength={2000}
-                showCounter
-                error={hasError}
-                {...register('description')}
-              />
-            )}
-          </FormField>
+        <FormField label="説明" error={errors.description?.message}>
+          {({ id, hasError }) => (
+            <Textarea
+              id={id}
+              rows={6}
+              maxLength={2000}
+              showCounter
+              error={hasError}
+              {...register('description')}
+            />
+          )}
+        </FormField>
 
-          <FormField
-            label="アートワーク"
-            error={artworkUploadError ?? artworkGenerateError}
-          >
-            {() => (
-              <>
-                {artworkPreviewUrl && (
-                  <Image
-                    src={artworkPreviewUrl}
-                    alt="アートワーク"
-                    width={200}
-                    height={200}
-                    className="rounded-lg object-cover"
-                  />
-                )}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
+        <ArtworkImageField
+          previewUrl={artwork.previewUrl}
+          fileInputRef={artwork.fileInputRef}
+          isUploading={artwork.isUploading}
+          isGenerating={artwork.isGenerating}
+          uploadError={artwork.uploadError}
+          generateError={artwork.generateError}
+          removable
+          generateModalOpen={artwork.generateModalOpen}
+          generateModalDefaultPrompt={artwork.generateModalDefaultPrompt}
+          onOpenFilePicker={artwork.openFilePicker}
+          onFileChange={handleFileChange}
+          onRemove={artwork.remove}
+          onOpenGenerateModal={handleOpenGenerateModal}
+          onCloseGenerateModal={artwork.closeGenerateModal}
+          onSubmitGenerate={artwork.submitGenerate}
+        />
+      </div>
 
-                <div className="flex gap-3">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    color="secondary"
-                    loading={isArtworkUploading}
-                    disabled={isArtworkGenerating}
-                    onClick={handleArtworkButtonClick}
-                  >
-                    画像を指定
-                  </Button>
+      <div className="space-y-4">
+        {submitError && <HelperText error>{submitError}</HelperText>}
 
-                  <Button
-                    type="button"
-                    variant="outline"
-                    color="secondary"
-                    leftIcon={<SparkleIcon />}
-                    loading={isArtworkGenerating}
-                    disabled={isArtworkUploading}
-                    onClick={handleOpenGenerateModal}
-                  >
-                    AIで生成
-                  </Button>
-
-                  {artworkPreviewUrl && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      color="secondary"
-                      disabled={isArtworkUploading || isArtworkGenerating}
-                      onClick={handleRemoveArtwork}
-                    >
-                      削除
-                    </Button>
-                  )}
-                </div>
-              </>
-            )}
-          </FormField>
+        <div className="flex justify-end">
+          <Button type="submit" loading={isSubmitting}>
+            {isEditMode ? 'エピソードを更新' : 'エピソードを作成'}
+          </Button>
         </div>
-
-        <div className="space-y-4">
-          {submitError && <HelperText error>{submitError}</HelperText>}
-
-          <div className="flex justify-end">
-            <Button type="submit" loading={isSubmitting}>
-              {isEditMode ? 'エピソードを更新' : 'エピソードを作成'}
-            </Button>
-          </div>
-        </div>
-      </form>
-
-      <ArtworkGenerateModal
-        open={isGenerateModalOpen}
-        defaultPrompt={generateModalDefaultPrompt}
-        isGenerating={isArtworkGenerating}
-        onClose={() => setIsGenerateModalOpen(false)}
-        onSubmit={handleGenerateSubmit}
-      />
-    </>
+      </div>
+    </form>
   );
 }

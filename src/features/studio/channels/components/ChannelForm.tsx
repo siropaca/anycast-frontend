@@ -1,14 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  PlusIcon,
-  SparkleIcon,
-} from '@phosphor-icons/react';
-import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { ArrowLeftIcon, ArrowRightIcon } from '@phosphor-icons/react';
+import { useState } from 'react';
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { FormField } from '@/components/inputs/FormField/FormField';
@@ -17,15 +11,14 @@ import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { StepBar } from '@/components/navigation/StepBar/StepBar';
-import { ArtworkGenerateModal } from '@/components/utils/Modal/ArtworkGenerateModal';
-import { CharacterSlot } from '@/features/studio/channels/components/CharacterSlot';
+import { CharacterStep } from '@/features/studio/channels/components/CharacterStep';
 import {
   type ChannelFormInput,
   channelBasicInfoSchema,
   channelFormSchema,
 } from '@/features/studio/channels/schemas/channel';
-import { useGenerateArtwork } from '@/hooks/useGenerateArtwork';
-import { useUploadArtwork } from '@/hooks/useUploadArtwork';
+import { ArtworkImageField } from '@/features/studio/components/ArtworkImageField';
+import { useArtworkField } from '@/hooks/useArtworkField';
 import type {
   ResponseCategoryResponse,
   ResponseCharacterResponse,
@@ -66,18 +59,6 @@ export function ChannelForm({
   myCharacters,
 }: Props) {
   const {
-    uploadArtwork,
-    isUploading: isArtworkUploading,
-    error: artworkUploadError,
-  } = useUploadArtwork();
-
-  const {
-    generateArtwork,
-    isGenerating: isArtworkGenerating,
-    error: artworkGenerateError,
-  } = useGenerateArtwork();
-
-  const {
     register,
     control,
     handleSubmit,
@@ -95,22 +76,14 @@ export function ChannelForm({
     },
   });
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const [artworkPreviewUrl, setArtworkPreviewUrl] = useState<
-    string | undefined
-  >(defaultArtworkUrl);
+  const artwork = useArtworkField({
+    onUpload: (id) => setValue('artworkImageId', id, { shouldDirty: true }),
+    initialPreviewUrl: defaultArtworkUrl,
+  });
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
-  const [generateModalDefaultPrompt, setGenerateModalDefaultPrompt] =
-    useState('');
 
   const isEditMode = mode === 'edit';
-
-  function handleArtworkButtonClick() {
-    fileInputRef.current?.click();
-  }
 
   function handleOpenGenerateModal() {
     const name = getValues('name');
@@ -119,39 +92,18 @@ export function ChannelForm({
     const categoryName =
       categories.find((c) => c.id === categoryId)?.name ?? '';
 
-    const parts = [`ポッドキャストチャンネル「${name}」のアートワーク。`];
+    const parts: string[] = [];
+    if (name) parts.push(`ポッドキャストチャンネル「${name}」のアートワーク。`);
     if (categoryName) parts.push(`カテゴリ: ${categoryName}。`);
     if (description) parts.push(description);
 
-    setGenerateModalDefaultPrompt(parts.join('\n'));
-    setIsGenerateModalOpen(true);
-  }
-
-  /**
-   * ユーザー入力プロンプトにシステムプロンプトを結合してアートワークを生成する
-   *
-   * @param userPrompt - ユーザーが入力したプロンプト
-   */
-  function handleGenerateSubmit(userPrompt: string) {
-    const systemPrompt =
-      '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。画像に文字やテキストを含めないでください。';
-    const fullPrompt = `${userPrompt}\n${systemPrompt}`;
-
-    generateArtwork(fullPrompt, ({ id, url }) => {
-      setValue('artworkImageId', id, { shouldDirty: true });
-      setArtworkPreviewUrl(url);
-      setIsGenerateModalOpen(false);
-    });
+    artwork.openGenerateModal(parts.join('\n'));
   }
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-
-    uploadArtwork(file, ({ id, url }) => {
-      setValue('artworkImageId', id, { shouldDirty: true });
-      setArtworkPreviewUrl(url);
-    });
+    artwork.upload(file);
   }
 
   async function handleNextStep() {
@@ -226,55 +178,22 @@ export function ChannelForm({
               )}
             </FormField>
 
-            <FormField
-              label="アートワーク"
-              error={artworkUploadError ?? artworkGenerateError}
-            >
-              {() => (
-                <>
-                  {artworkPreviewUrl && (
-                    <Image
-                      src={artworkPreviewUrl}
-                      alt="アートワーク"
-                      width={200}
-                      height={200}
-                      className="rounded-lg object-cover"
-                    />
-                  )}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-                  <div className="flex gap-3">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      color="secondary"
-                      loading={isArtworkUploading}
-                      disabled={isArtworkGenerating}
-                      onClick={handleArtworkButtonClick}
-                    >
-                      画像を指定
-                    </Button>
-
-                    <Button
-                      type="button"
-                      variant="outline"
-                      color="secondary"
-                      leftIcon={<SparkleIcon />}
-                      loading={isArtworkGenerating}
-                      disabled={isArtworkUploading}
-                      onClick={handleOpenGenerateModal}
-                    >
-                      AIで生成
-                    </Button>
-                  </div>
-                </>
-              )}
-            </FormField>
+            <ArtworkImageField
+              previewUrl={artwork.previewUrl}
+              fileInputRef={artwork.fileInputRef}
+              isUploading={artwork.isUploading}
+              isGenerating={artwork.isGenerating}
+              uploadError={artwork.uploadError}
+              generateError={artwork.generateError}
+              generateModalOpen={artwork.generateModalOpen}
+              generateModalDefaultPrompt={artwork.generateModalDefaultPrompt}
+              onOpenFilePicker={artwork.openFilePicker}
+              onFileChange={handleFileChange}
+              onRemove={artwork.remove}
+              onOpenGenerateModal={handleOpenGenerateModal}
+              onCloseGenerateModal={artwork.closeGenerateModal}
+              onSubmitGenerate={artwork.submitGenerate}
+            />
 
             <FormField
               label="カテゴリ"
@@ -303,48 +222,19 @@ export function ChannelForm({
 
         {/* ステップ2: キャラクター設定（新規作成時のみ） */}
         {!isEditMode && currentStep === 2 && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {fields.map((field, index) => (
-                <CharacterSlot
-                  key={field.id}
-                  index={index}
-                  mode={watchedCharacters?.[index]?.mode ?? 'create'}
-                  control={control}
-                  errors={errors}
-                  voices={voices}
-                  register={register}
-                  update={update}
-                  canRemove={fields.length > 1}
-                  onRemove={() => remove(index)}
-                  myCharacters={myCharacters}
-                  selectedCharacterIds={selectedCharacterIds}
-                />
-              ))}
-
-              {fields.length < 2 && (
-                <button
-                  type="button"
-                  className="flex min-h-48 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border text-text-subtle transition-colors hover:border-primary hover:text-primary"
-                  onClick={() =>
-                    append({
-                      mode: 'create',
-                      name: '',
-                      voiceId: '',
-                      persona: '',
-                    })
-                  }
-                >
-                  <PlusIcon size={32} />
-                  <span className="text-sm">キャラクターを追加</span>
-                </button>
-              )}
-            </div>
-
-            {errors.characters?.root && (
-              <HelperText error>{errors.characters.root.message}</HelperText>
-            )}
-          </div>
+          <CharacterStep
+            fields={fields}
+            control={control}
+            errors={errors}
+            voices={voices}
+            register={register}
+            append={append}
+            remove={remove}
+            update={update}
+            watchedCharacters={watchedCharacters}
+            myCharacters={myCharacters}
+            selectedCharacterIds={selectedCharacterIds}
+          />
         )}
 
         {/* ナビゲーションボタン */}
@@ -381,14 +271,6 @@ export function ChannelForm({
           )}
         </div>
       </form>
-
-      <ArtworkGenerateModal
-        open={isGenerateModalOpen}
-        defaultPrompt={generateModalDefaultPrompt}
-        isGenerating={isArtworkGenerating}
-        onClose={() => setIsGenerateModalOpen(false)}
-        onSubmit={handleGenerateSubmit}
-      />
     </div>
   );
 }
