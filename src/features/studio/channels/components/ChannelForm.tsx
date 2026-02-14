@@ -17,6 +17,7 @@ import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { StepBar } from '@/components/navigation/StepBar/StepBar';
+import { ArtworkGenerateModal } from '@/components/utils/Modal/ArtworkGenerateModal';
 import { CharacterSlot } from '@/features/studio/channels/components/CharacterSlot';
 import {
   type ChannelFormInput,
@@ -101,6 +102,9 @@ export function ChannelForm({
   >(defaultArtworkUrl);
 
   const [currentStep, setCurrentStep] = useState(1);
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
+  const [generateModalDefaultPrompt, setGenerateModalDefaultPrompt] =
+    useState('');
 
   const isEditMode = mode === 'edit';
 
@@ -108,7 +112,7 @@ export function ChannelForm({
     fileInputRef.current?.click();
   }
 
-  function handleGenerateArtwork() {
+  function handleOpenGenerateModal() {
     const name = getValues('name');
     const description = getValues('description');
     const categoryId = getValues('categoryId');
@@ -118,13 +122,25 @@ export function ChannelForm({
     const parts = [`ポッドキャストチャンネル「${name}」のアートワーク。`];
     if (categoryName) parts.push(`カテゴリ: ${categoryName}。`);
     if (description) parts.push(description);
-    parts.push(
-      '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。自然光、温かみのある色調。画像に文字やテキストを含めないでください。',
-    );
 
-    generateArtwork(parts.join(''), ({ id, url }) => {
+    setGenerateModalDefaultPrompt(parts.join('\n'));
+    setIsGenerateModalOpen(true);
+  }
+
+  /**
+   * ユーザー入力プロンプトにシステムプロンプトを結合してアートワークを生成する
+   *
+   * @param userPrompt - ユーザーが入力したプロンプト
+   */
+  function handleGenerateSubmit(userPrompt: string) {
+    const systemPrompt =
+      '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。画像に文字やテキストを含めないでください。';
+    const fullPrompt = `${userPrompt}\n${systemPrompt}`;
+
+    generateArtwork(fullPrompt, ({ id, url }) => {
       setValue('artworkImageId', id, { shouldDirty: true });
       setArtworkPreviewUrl(url);
+      setIsGenerateModalOpen(false);
     });
   }
 
@@ -250,7 +266,7 @@ export function ChannelForm({
                       leftIcon={<SparkleIcon />}
                       loading={isArtworkGenerating}
                       disabled={isArtworkUploading}
-                      onClick={handleGenerateArtwork}
+                      onClick={handleOpenGenerateModal}
                     >
                       AIで生成
                     </Button>
@@ -364,6 +380,14 @@ export function ChannelForm({
           )}
         </div>
       </form>
+
+      <ArtworkGenerateModal
+        open={isGenerateModalOpen}
+        defaultPrompt={generateModalDefaultPrompt}
+        isGenerating={isArtworkGenerating}
+        onClose={() => setIsGenerateModalOpen(false)}
+        onSubmit={handleGenerateSubmit}
+      />
     </div>
   );
 }

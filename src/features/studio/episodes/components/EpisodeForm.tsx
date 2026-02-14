@@ -10,6 +10,7 @@ import { FormField } from '@/components/inputs/FormField/FormField';
 import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
+import { ArtworkGenerateModal } from '@/components/utils/Modal/ArtworkGenerateModal';
 import {
   type EpisodeFormInput,
   episodeFormSchema,
@@ -67,25 +68,41 @@ export function EpisodeForm({
     },
   });
 
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
+  const [generateModalDefaultPrompt, setGenerateModalDefaultPrompt] =
+    useState('');
+
   const isEditMode = mode === 'edit';
 
   function handleArtworkButtonClick() {
     fileInputRef.current?.click();
   }
 
-  function handleGenerateArtwork() {
+  function handleOpenGenerateModal() {
     const title = getValues('title');
     const description = getValues('description');
 
     const parts = [`ポッドキャストエピソード「${title}」のアートワーク。`];
     if (description) parts.push(description);
-    parts.push(
-      '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。自然光、温かみのある色調。画像に文字やテキストを含めないでください。',
-    );
 
-    generateArtwork(parts.join(''), ({ id, url }) => {
+    setGenerateModalDefaultPrompt(parts.join('\n'));
+    setIsGenerateModalOpen(true);
+  }
+
+  /**
+   * ユーザー入力プロンプトにシステムプロンプトを結合してアートワークを生成する
+   *
+   * @param userPrompt - ユーザーが入力したプロンプト
+   */
+  function handleGenerateSubmit(userPrompt: string) {
+    const systemPrompt =
+      '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。画像に文字やテキストを含めないでください。';
+    const fullPrompt = `${userPrompt}\n${systemPrompt}`;
+
+    generateArtwork(fullPrompt, ({ id, url }) => {
       setValue('artworkImageId', id, { shouldDirty: true });
       setArtworkPreviewUrl(url);
+      setIsGenerateModalOpen(false);
     });
   }
 
@@ -108,102 +125,112 @@ export function EpisodeForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="space-y-6">
-        <FormField label="タイトル" required error={errors.title?.message}>
-          {({ id, hasError }) => (
-            <Input
-              id={id}
-              maxLength={255}
-              error={hasError}
-              {...register('title')}
-            />
-          )}
-        </FormField>
-
-        <FormField label="説明" error={errors.description?.message}>
-          {({ id, hasError }) => (
-            <Textarea
-              id={id}
-              rows={6}
-              maxLength={2000}
-              showCounter
-              error={hasError}
-              {...register('description')}
-            />
-          )}
-        </FormField>
-
-        <FormField
-          label="アートワーク"
-          error={artworkUploadError ?? artworkGenerateError}
-        >
-          {() => (
-            <>
-              {artworkPreviewUrl && (
-                <Image
-                  src={artworkPreviewUrl}
-                  alt="アートワーク"
-                  width={200}
-                  height={200}
-                  className="rounded-lg object-cover"
-                />
-              )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+        <div className="space-y-6">
+          <FormField label="タイトル" required error={errors.title?.message}>
+            {({ id, hasError }) => (
+              <Input
+                id={id}
+                maxLength={255}
+                error={hasError}
+                {...register('title')}
               />
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  color="secondary"
-                  loading={isArtworkUploading}
-                  disabled={isArtworkGenerating}
-                  onClick={handleArtworkButtonClick}
-                >
-                  画像を指定
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  color="secondary"
-                  leftIcon={<SparkleIcon />}
-                  loading={isArtworkGenerating}
-                  disabled={isArtworkUploading}
-                  onClick={handleGenerateArtwork}
-                >
-                  AIで生成
-                </Button>
+            )}
+          </FormField>
+
+          <FormField label="説明" error={errors.description?.message}>
+            {({ id, hasError }) => (
+              <Textarea
+                id={id}
+                rows={6}
+                maxLength={2000}
+                showCounter
+                error={hasError}
+                {...register('description')}
+              />
+            )}
+          </FormField>
+
+          <FormField
+            label="アートワーク"
+            error={artworkUploadError ?? artworkGenerateError}
+          >
+            {() => (
+              <>
                 {artworkPreviewUrl && (
+                  <Image
+                    src={artworkPreviewUrl}
+                    alt="アートワーク"
+                    width={200}
+                    height={200}
+                    className="rounded-lg object-cover"
+                  />
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                <div className="flex gap-2">
                   <Button
                     type="button"
                     variant="outline"
                     color="secondary"
-                    disabled={isArtworkUploading || isArtworkGenerating}
-                    onClick={handleRemoveArtwork}
+                    loading={isArtworkUploading}
+                    disabled={isArtworkGenerating}
+                    onClick={handleArtworkButtonClick}
                   >
-                    削除
+                    画像を指定
                   </Button>
-                )}
-              </div>
-            </>
-          )}
-        </FormField>
-      </div>
-
-      <div className="space-y-4">
-        {submitError && <HelperText error>{submitError}</HelperText>}
-
-        <div className="flex justify-end">
-          <Button type="submit" loading={isSubmitting}>
-            {isEditMode ? 'エピソードを更新' : 'エピソードを作成'}
-          </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    color="secondary"
+                    leftIcon={<SparkleIcon />}
+                    loading={isArtworkGenerating}
+                    disabled={isArtworkUploading}
+                    onClick={handleOpenGenerateModal}
+                  >
+                    AIで生成
+                  </Button>
+                  {artworkPreviewUrl && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      color="secondary"
+                      disabled={isArtworkUploading || isArtworkGenerating}
+                      onClick={handleRemoveArtwork}
+                    >
+                      削除
+                    </Button>
+                  )}
+                </div>
+              </>
+            )}
+          </FormField>
         </div>
-      </div>
-    </form>
+
+        <div className="space-y-4">
+          {submitError && <HelperText error>{submitError}</HelperText>}
+
+          <div className="flex justify-end">
+            <Button type="submit" loading={isSubmitting}>
+              {isEditMode ? 'エピソードを更新' : 'エピソードを作成'}
+            </Button>
+          </div>
+        </div>
+      </form>
+
+      <ArtworkGenerateModal
+        open={isGenerateModalOpen}
+        defaultPrompt={generateModalDefaultPrompt}
+        isGenerating={isArtworkGenerating}
+        onClose={() => setIsGenerateModalOpen(false)}
+        onSubmit={handleGenerateSubmit}
+      />
+    </>
   );
 }
