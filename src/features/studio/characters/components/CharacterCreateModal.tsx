@@ -207,12 +207,16 @@ export function CharacterCreateModal() {
           )}
         </FormField>
 
-        {/* ペルソナ */}
-        <FormField label="ペルソナ" error={errors.persona?.message}>
+        {/* 特徴 */}
+        <FormField
+          label="特徴"
+          helpText="台本作成時にこの特徴が考慮されます"
+          error={errors.persona?.message}
+        >
           {({ id, hasError }) => (
             <Textarea
               id={id}
-              placeholder="キャラクターの性格や特徴を入力"
+              placeholder="例: 明るくポジティブな性格。語尾に「〜だよ」をつける"
               rows={6}
               maxLength={2000}
               showCounter

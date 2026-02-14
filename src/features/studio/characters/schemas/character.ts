@@ -9,7 +9,7 @@ export const characterFormSchema = z.object({
   voiceId: z.string().min(1, VALIDATION_MESSAGES.select('ボイス')),
   persona: z
     .string()
-    .max(2000, VALIDATION_MESSAGES.maxLength('ペルソナ', 2000))
+    .max(2000, VALIDATION_MESSAGES.maxLength('特徴', 2000))
     .optional(),
   avatarImageId: z.string().optional(),
 });

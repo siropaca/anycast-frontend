@@ -101,6 +101,7 @@ export function CharacterSlot({
           control={control}
           errors={errors}
           myCharacters={myCharacters ?? []}
+          voices={voices}
           selectedCharacterIds={selectedCharacterIds}
         />
       )}

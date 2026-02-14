@@ -2,15 +2,19 @@
 
 import { type Control, Controller, type FieldErrors } from 'react-hook-form';
 import { FormField } from '@/components/inputs/FormField/FormField';
-import { Select } from '@/components/inputs/Select/Select';
 import type { ChannelFormInput } from '@/features/studio/channels/schemas/channel';
-import type { ResponseCharacterResponse } from '@/libs/api/generated/schemas';
+import { CharacterSelect } from '@/features/studio/characters/components/CharacterSelect';
+import type {
+  ResponseCharacterResponse,
+  ResponseVoiceResponse,
+} from '@/libs/api/generated/schemas';
 
 interface Props {
   index: number;
   control: Control<ChannelFormInput>;
   errors: FieldErrors<ChannelFormInput>;
   myCharacters: ResponseCharacterResponse[];
+  voices: ResponseVoiceResponse[];
   selectedCharacterIds: string[];
 }
 
@@ -23,18 +27,14 @@ export function ConnectCharacterFields({
   control,
   errors,
   myCharacters,
+  voices,
   selectedCharacterIds,
 }: Props) {
-  const characterOptions = myCharacters
-    .filter(
-      (c) =>
-        !selectedCharacterIds.includes(c.id) ||
-        selectedCharacterIds[index] === c.id,
-    )
-    .map((c) => ({
-      label: `${c.name}（${c.voice.name}）`,
-      value: c.id,
-    }));
+  const availableCharacters = myCharacters.filter(
+    (c) =>
+      !selectedCharacterIds.includes(c.id) ||
+      selectedCharacterIds[index] === c.id,
+  );
 
   const characterErrors = errors.characters?.[index] as
     | ConnectCharacterErrors
@@ -52,9 +52,9 @@ export function ConnectCharacterFields({
           name={`characters.${index}.characterId` as any}
           control={control}
           render={({ field: selectField }) => (
-            <Select
-              name={`characters.${index}.characterId`}
-              options={characterOptions}
+            <CharacterSelect
+              characters={availableCharacters}
+              voices={voices}
               value={(selectField.value as string) || null}
               onValueChange={(value) => selectField.onChange(value ?? '')}
               placeholder="キャラクターを選択"

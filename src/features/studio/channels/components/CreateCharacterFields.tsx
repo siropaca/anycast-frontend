@@ -74,10 +74,11 @@ export function CreateCharacterFields({
         )}
       </FormField>
 
-      <FormField label="ペルソナ">
+      <FormField label="特徴" helpText="台本作成時にこの特徴が考慮されます">
         {({ id }) => (
           <Textarea
             id={id}
+            placeholder="例: 明るくポジティブな性格。語尾に「〜だよ」をつける"
             rows={8}
             maxLength={2000}
             showCounter
