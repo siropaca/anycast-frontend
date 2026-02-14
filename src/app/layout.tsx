@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import { Providers } from '@/features/app/providers/Providers';
 import '@/styles/globals.css';
@@ -8,6 +8,10 @@ const notoSansJP = Noto_Sans_JP({
   display: 'swap',
   variable: '--font-noto-sans-jp',
 });
+
+export const viewport: Viewport = {
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: {
