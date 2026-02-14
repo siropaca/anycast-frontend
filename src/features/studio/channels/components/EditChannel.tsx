@@ -39,7 +39,10 @@ export function EditChannel({ channelId }: Props) {
 
   return (
     <div className="space-y-4">
-      <SectionTitle title="チャンネル編集" />
+      <SectionTitle
+        title="チャンネル編集"
+        backHref={Pages.studio.channel.path({ id: channelId })}
+      />
       <ChannelForm
         mode="edit"
         defaultValues={defaultValues}

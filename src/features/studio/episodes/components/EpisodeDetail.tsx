@@ -131,6 +131,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       {/* ヘッダー */}
       <SectionTitle
         title={episode.title}
+        backHref={Pages.studio.channel.path({ id: channelId })}
         action={
           <div className="flex items-center gap-3">
             <StatusTag isPublished={isPublished} />

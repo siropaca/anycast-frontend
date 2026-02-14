@@ -25,7 +25,10 @@ export function CreateEpisode({ channelId }: Props) {
 
   return (
     <div className="space-y-4">
-      <SectionTitle title="エピソード作成" />
+      <SectionTitle
+        title="エピソード作成"
+        backHref={Pages.studio.channel.path({ id: channelId })}
+      />
       <EpisodeForm
         mode="create"
         isSubmitting={isCreating}

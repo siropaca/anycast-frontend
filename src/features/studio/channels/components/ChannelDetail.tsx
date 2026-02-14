@@ -69,6 +69,7 @@ export function ChannelDetail({ channelId }: Props) {
       {/* ヘッダー */}
       <SectionTitle
         title={channel.name}
+        backHref={Pages.studio.channels.path()}
         action={
           <div className="flex items-center gap-3">
             <StatusTag isPublished={isPublished} />

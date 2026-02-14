@@ -25,7 +25,10 @@ export function CreateChannel() {
 
   return (
     <div className="space-y-4">
-      <SectionTitle title="チャンネル作成" />
+      <SectionTitle
+        title="チャンネル作成"
+        backHref={Pages.studio.channels.path()}
+      />
       <ChannelForm
         mode="create"
         categories={categories}

@@ -40,6 +40,7 @@ export function PlaylistDetail({ playlistId }: Props) {
     <div>
       <SectionTitle
         title={playlist.name}
+        backHref={Pages.library.playList.path()}
         action={
           <PlaylistDetailMenu
             disabled={playlist.isDefault}

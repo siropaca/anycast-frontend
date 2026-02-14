@@ -36,7 +36,7 @@ export function SectionTitle({
         className,
       )}
     >
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-2">
         {backHref && (
           <IconButton
             href={backHref}
@@ -45,6 +45,7 @@ export function SectionTitle({
             variant="text"
             color="secondary"
             size="sm"
+            className="relative top-px"
           />
         )}
 

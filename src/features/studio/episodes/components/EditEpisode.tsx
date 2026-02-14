@@ -38,7 +38,10 @@ export function EditEpisode({ channelId, episodeId }: Props) {
 
   return (
     <div className="space-y-4">
-      <SectionTitle title="エピソード編集" />
+      <SectionTitle
+        title="エピソード編集"
+        backHref={Pages.studio.episode.path({ id: channelId, episodeId })}
+      />
       <EpisodeForm
         mode="edit"
         defaultValues={defaultValues}
