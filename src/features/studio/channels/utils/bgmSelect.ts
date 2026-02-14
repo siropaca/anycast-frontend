@@ -1,12 +1,4 @@
-import type {
-  ResponseBgmWithEpisodesResponse,
-  ResponseChannelResponseDefaultBgm,
-} from '@/libs/api/generated/schemas';
-
-interface BgmOptionGroup {
-  label: string;
-  options: { label: string; value: string }[];
-}
+import type { ResponseChannelResponseDefaultBgm } from '@/libs/api/generated/schemas';
 
 interface ParsedBgmValue {
   type: 'user' | 'system';
@@ -44,51 +36,4 @@ export function parseSelectValue(value: string): ParsedBgmValue | undefined {
   const [type, id] = value.split(':');
   if (!id || (type !== 'user' && type !== 'system')) return undefined;
   return { type, id };
-}
-
-/**
- * BGM一覧から Select のグループ化オプションを構築する
- *
- * @param allBgms - BGM一覧（ユーザーBGM + システムBGM）
- * @returns グループ化されたオプション配列
- *
- * @example
- * buildBgmOptions([
- *   { id: '1', name: 'My BGM', isSystem: false, ... },
- *   { id: '2', name: 'Default', isSystem: true, ... },
- * ])
- * // => [
- * //   { label: 'マイBGM', options: [{ label: 'My BGM', value: 'user:1' }] },
- * //   { label: 'システム', options: [{ label: 'Default', value: 'system:2' }] },
- * // ]
- */
-export function buildBgmOptions(
-  allBgms: ResponseBgmWithEpisodesResponse[],
-): BgmOptionGroup[] {
-  const userBgms = allBgms.filter((bgm) => !bgm.isSystem);
-  const systemBgms = allBgms.filter((bgm) => bgm.isSystem);
-
-  const groups: BgmOptionGroup[] = [];
-
-  if (userBgms.length > 0) {
-    groups.push({
-      label: 'マイBGM',
-      options: userBgms.map((bgm) => ({
-        label: bgm.name,
-        value: `user:${bgm.id}`,
-      })),
-    });
-  }
-
-  if (systemBgms.length > 0) {
-    groups.push({
-      label: 'システム',
-      options: systemBgms.map((bgm) => ({
-        label: bgm.name,
-        value: `system:${bgm.id}`,
-      })),
-    });
-  }
-
-  return groups;
 }

@@ -67,7 +67,7 @@ export function BgmList() {
       header: '種別',
       accessor: (bgm: ResponseBgmWithEpisodesResponse) => (
         <Tag
-          label={bgm.isSystem ? 'システム' : 'カスタム'}
+          label={bgm.isSystem ? 'システム' : 'マイBGM'}
           color={bgm.isSystem ? 'gray' : 'blue'}
         />
       ),

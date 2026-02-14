@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { useUpdateChannelDefaultBgm } from '@/features/studio/channels/hooks/useUpdateChannelDefaultBgm';
 import {
-  buildBgmOptions,
   parseSelectValue,
   toSelectValue,
 } from '@/features/studio/channels/utils/bgmSelect';
@@ -35,19 +34,28 @@ export function useChannelDefaultBgmModal(
     bgmsData,
     [],
   );
-  const bgmOptions = buildBgmOptions(allBgms);
-
   const { isUpdating, error, setDefaultBgm, removeDefaultBgm } =
     useUpdateChannelDefaultBgm(channelId);
   const { uploadBgm, isUploading, error: uploadError } = useUploadBgm();
 
   const bgmFileInputRef = useRef<HTMLInputElement>(null);
+  const [tab, setTab] = useState<'select' | 'upload'>('select');
   const [selectedValue, setSelectedValue] = useState(
     toSelectValue(currentDefaultBgm),
   );
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [bgmName, setBgmName] = useState('');
 
   const hasChanged = selectedValue !== toSelectValue(currentDefaultBgm);
+
+  /**
+   * タブを切り替える
+   *
+   * @param newTab - 切り替え先のタブ
+   */
+  function switchTab(newTab: 'select' | 'upload') {
+    setTab(newTab);
+  }
 
   /**
    * BGM を選択する
@@ -59,10 +67,12 @@ export function useChannelDefaultBgmModal(
   }
 
   /**
-   * BGM の選択を解除する
+   * アップロードするファイルを選択する
+   *
+   * @param file - 選択されたファイル
    */
-  function clearSelection() {
-    setSelectedValue('');
+  function selectFile(file: File) {
+    setSelectedFile(file);
   }
 
   /**
@@ -98,14 +108,21 @@ export function useChannelDefaultBgmModal(
   }
 
   /**
-   * BGM ファイルをアップロードする
+   * 選択済みファイルを BGM としてアップロードする
    *
-   * @param file - アップロードする音声ファイル
+   * 成功時はフォームをリセットし「既存から選択」タブに切り替える。
    */
-  function upload(file: File) {
-    uploadBgm(file, bgmName);
-    setBgmName('');
-    resetFileInput();
+  function upload() {
+    if (!selectedFile) return;
+
+    uploadBgm(selectedFile, bgmName, {
+      onSuccess: () => {
+        setBgmName('');
+        setSelectedFile(null);
+        resetFileInput();
+        setTab('select');
+      },
+    });
   }
 
   /**
@@ -125,8 +142,10 @@ export function useChannelDefaultBgmModal(
   }
 
   return {
-    bgmOptions,
+    allBgms,
+    tab,
     selectedValue,
+    selectedFile,
     bgmName,
     hasChanged,
     isBgmLoading,
@@ -136,8 +155,9 @@ export function useChannelDefaultBgmModal(
     uploadError,
     bgmFileInputRef,
 
+    switchTab,
     select,
-    clearSelection,
+    selectFile,
     updateBgmName,
     save,
     upload,

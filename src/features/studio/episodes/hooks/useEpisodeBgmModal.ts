@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import {
-  buildBgmOptions,
   parseSelectValue,
   toSelectValue,
 } from '@/features/studio/channels/utils/bgmSelect';
@@ -37,17 +36,26 @@ export function useEpisodeBgmModal(
     bgmsData,
     [],
   );
-  const bgmOptions = buildBgmOptions(allBgms);
-
   const { isUpdating, error, setEpisodeBgm, removeEpisodeBgm } =
     useUpdateEpisodeBgm(channelId, episodeId);
   const { uploadBgm, isUploading, error: uploadError } = useUploadBgm();
 
   const bgmFileInputRef = useRef<HTMLInputElement>(null);
+  const [tab, setTab] = useState<'select' | 'upload'>('select');
   const [selectedValue, setSelectedValue] = useState(toSelectValue(currentBgm));
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [bgmName, setBgmName] = useState('');
 
   const hasChanged = selectedValue !== toSelectValue(currentBgm);
+
+  /**
+   * タブを切り替える
+   *
+   * @param newTab - 切り替え先のタブ
+   */
+  function switchTab(newTab: 'select' | 'upload') {
+    setTab(newTab);
+  }
 
   /**
    * BGM を選択する
@@ -59,10 +67,12 @@ export function useEpisodeBgmModal(
   }
 
   /**
-   * BGM の選択を解除する
+   * アップロードするファイルを選択する
+   *
+   * @param file - 選択されたファイル
    */
-  function clearSelection() {
-    setSelectedValue('');
+  function selectFile(file: File) {
+    setSelectedFile(file);
   }
 
   /**
@@ -98,14 +108,21 @@ export function useEpisodeBgmModal(
   }
 
   /**
-   * BGM ファイルをアップロードする
+   * 選択済みファイルを BGM としてアップロードする
    *
-   * @param file - アップロードする音声ファイル
+   * 成功時はフォームをリセットし「既存から選択」タブに切り替える。
    */
-  function upload(file: File) {
-    uploadBgm(file, bgmName);
-    setBgmName('');
-    resetFileInput();
+  function upload() {
+    if (!selectedFile) return;
+
+    uploadBgm(selectedFile, bgmName, {
+      onSuccess: () => {
+        setBgmName('');
+        setSelectedFile(null);
+        resetFileInput();
+        setTab('select');
+      },
+    });
   }
 
   /**
@@ -125,8 +142,10 @@ export function useEpisodeBgmModal(
   }
 
   return {
-    bgmOptions,
+    allBgms,
+    tab,
     selectedValue,
+    selectedFile,
     bgmName,
     hasChanged,
     isBgmLoading,
@@ -136,8 +155,9 @@ export function useEpisodeBgmModal(
     uploadError,
     bgmFileInputRef,
 
+    switchTab,
     select,
-    clearSelection,
+    selectFile,
     updateBgmName,
     save,
     upload,
