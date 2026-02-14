@@ -6,6 +6,7 @@ import { unwrapResponse } from '@/libs/api/unwrapResponse';
 
 import { ChannelActionBar } from './ChannelActionBar';
 import { ChannelHeader } from './ChannelHeader';
+import { CharacterList } from './CharacterList';
 
 interface Props {
   channelId: string;
@@ -28,6 +29,9 @@ export async function ChannelDetail({ channelId }: Props) {
 
       {/* 説明セクション */}
       <EpisodeDescription description={channel.description} />
+
+      {/* キャラクター一覧 */}
+      <CharacterList characters={channel.characters} />
 
       {/* エピソード一覧 */}
       <ChannelEpisodeList

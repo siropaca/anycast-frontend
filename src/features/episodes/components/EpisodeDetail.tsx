@@ -1,5 +1,5 @@
 import Link from 'next/link';
-
+import { CharacterList } from '@/features/channels/components/CharacterList';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import { getChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import type {
@@ -47,6 +47,9 @@ export async function EpisodeDetail({ channelId, episodeId }: Props) {
 
       {/* 説明セクション */}
       <EpisodeDescription description={episode.description} />
+
+      {/* キャラクター一覧 */}
+      <CharacterList characters={channel.characters} />
 
       {/* こちらのエピソードもおすすめ */}
       <ChannelEpisodeList
