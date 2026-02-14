@@ -136,6 +136,7 @@ const nextAuth = NextAuth({
 
       // アクセストークンがまだ有効な場合はそのまま返す
       if (token.accessToken && !isTokenExpiringSoon(token.accessToken)) {
+        token.error = undefined;
         return token;
       }
 
@@ -166,9 +167,7 @@ const nextAuth = NextAuth({
       if (token.accessToken) {
         session.accessToken = token.accessToken;
       }
-      if (token.error) {
-        session.error = token.error;
-      }
+      session.error = token.error;
       return session;
     },
   },
