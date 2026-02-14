@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { CreateChannel } from '@/features/studio/channels/components/CreateChannel';
+import { CreateChannelSkeleton } from '@/features/studio/channels/components/CreateChannelSkeleton';
 import { Pages } from '@/libs/pages';
 
 export const metadata: Metadata = {
@@ -10,8 +11,7 @@ export const metadata: Metadata = {
 
 export default function StudioNewChannelPage() {
   return (
-    // TODO: ローディング実装
-    <Suspense fallback={<p>読み込み中...</p>}>
+    <Suspense fallback={<CreateChannelSkeleton />}>
       <CreateChannel />
     </Suspense>
   );

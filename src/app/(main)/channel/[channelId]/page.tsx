@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 
 import { ChannelDetail } from '@/features/channels/components/ChannelDetail';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
@@ -24,9 +23,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ChannelPage({ params }: Props) {
   const { channelId } = await params;
 
-  return (
-    <Suspense fallback={<p>読み込み中...</p>}>
-      <ChannelDetail channelId={channelId} />
-    </Suspense>
-  );
+  return <ChannelDetail channelId={channelId} />;
 }

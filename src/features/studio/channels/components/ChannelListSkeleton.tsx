@@ -1,7 +1,7 @@
 import { ArtworkImageSkeleton } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImageSkeleton';
 import { Skeleton } from '@/components/feedback/Skeleton/Skeleton';
 
-const SKELETON_ROW_COUNT = 8;
+const SKELETON_ROW_COUNT = 3;
 
 function SkeletonRow() {
   return (
