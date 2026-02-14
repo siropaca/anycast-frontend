@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import type { ProfileFormInput } from '@/features/users/schemas/profile';
@@ -15,6 +16,7 @@ import { trimFullWidth } from '@/utils/trim';
  */
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const toast = useToast();
   const mutation = usePatchMe();
 
@@ -54,6 +56,7 @@ export function useUpdateProfile() {
       queryClient.invalidateQueries({
         queryKey: getGetUsersUsernameQueryKey(username),
       });
+      router.refresh();
       toast.success({ title: 'プロフィールを更新しました' });
       return true;
     } catch (err: unknown) {
