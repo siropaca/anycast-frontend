@@ -14,8 +14,6 @@ interface Props {
   isGenerating: boolean;
   uploadError: string | undefined;
   generateError: string | undefined;
-  removable?: boolean;
-
   generateModalOpen: boolean;
   generateModalDefaultPrompt: string;
 
@@ -34,7 +32,6 @@ export function ArtworkImageField({
   isGenerating,
   uploadError,
   generateError,
-  removable = false,
   generateModalOpen,
   generateModalDefaultPrompt,
   onOpenFilePicker,
@@ -75,7 +72,7 @@ export function ArtworkImageField({
                 disabled={isGenerating}
                 onClick={onOpenFilePicker}
               >
-                画像を指定
+                {previewUrl ? '画像を変更' : '画像を選択'}
               </Button>
 
               <Button
@@ -90,7 +87,7 @@ export function ArtworkImageField({
                 AIで生成
               </Button>
 
-              {removable && previewUrl && (
+              {previewUrl && (
                 <Button
                   type="button"
                   variant="outline"

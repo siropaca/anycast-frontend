@@ -98,6 +98,7 @@ export function ChannelDetail({ channelId }: Props) {
         name={channel.name}
         artwork={channel.artwork}
         category={channel.category}
+        publishedAt={channel.publishedAt}
         description={channel.description}
       />
 

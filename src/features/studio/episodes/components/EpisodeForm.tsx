@@ -107,7 +107,6 @@ export function EpisodeForm({
           isGenerating={artwork.isGenerating}
           uploadError={artwork.uploadError}
           generateError={artwork.generateError}
-          removable
           generateModalOpen={artwork.generateModalOpen}
           generateModalDefaultPrompt={artwork.generateModalDefaultPrompt}
           onOpenFilePicker={artwork.openFilePicker}

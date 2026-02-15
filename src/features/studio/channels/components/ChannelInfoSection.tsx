@@ -10,6 +10,7 @@ interface Props {
   name: string;
   artwork?: ResponseChannelResponseArtwork;
   category: ResponseCategoryResponse;
+  publishedAt?: string | null;
   description: string;
 }
 
@@ -17,6 +18,7 @@ export function ChannelInfoSection({
   name,
   artwork,
   category,
+  publishedAt,
   description,
 }: Props) {
   return (
@@ -29,7 +31,14 @@ export function ChannelInfoSection({
       />
 
       <div className="flex flex-1 flex-col gap-3">
-        <p className="text-sm text-text-subtle">{category.name}</p>
+        <div className="space-y-1">
+          <p className="text-sm text-text-subtle">{category.name}</p>
+          <p className="text-sm text-text-subtle">
+            {publishedAt
+              ? `公開日: ${new Date(publishedAt).toLocaleDateString('ja-JP')}`
+              : '非公開'}
+          </p>
+        </div>
 
         {description ? (
           <p className="whitespace-pre-wrap">{description}</p>

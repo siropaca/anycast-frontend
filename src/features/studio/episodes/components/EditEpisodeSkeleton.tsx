@@ -36,7 +36,7 @@ export function EditEpisodeSkeleton({ channelId, episodeId }: Props) {
             {() => (
               <div className="flex gap-3">
                 <Button variant="outline" color="secondary" disabled>
-                  画像を指定
+                  画像を選択
                 </Button>
                 <Button
                   variant="outline"
