@@ -12,6 +12,8 @@ import { usePlaylistDeleteDialog } from '@/features/library/playlist/hooks/usePl
 import { usePlaylistDetail } from '@/features/library/playlist/hooks/usePlaylistDetail';
 import { usePlaylistEditModal } from '@/features/library/playlist/hooks/usePlaylistEditModal';
 import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
+import { usePlayEpisode } from '@/features/player/hooks/usePlayEpisode';
+import type { ResponsePlaylistItemResponse } from '@/libs/api/generated/schemas/responsePlaylistItemResponse';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -21,7 +23,6 @@ interface Props {
 export function PlaylistDetail({ playlistId }: Props) {
   const router = useRouter();
   const { playlist } = usePlaylistDetail(playlistId);
-  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
 
   const deleteDialog = usePlaylistDeleteDialog(playlistId);
   const editModal = usePlaylistEditModal({
@@ -58,21 +59,11 @@ export function PlaylistDetail({ playlistId }: Props) {
       ) : (
         <ArtworkGrid>
           {playlist.items.map((item, index) => (
-            <Link
+            <PlaylistEpisodeItem
               key={item.id}
-              href={Pages.episode.path({
-                channelId: item.episode.channel.id,
-                episodeId: item.episode.id,
-              })}
-            >
-              <Artwork
-                src={item.episode.artwork?.url}
-                title={item.episode.title}
-                subtext={item.episode.channel.name}
-                priority={index < 6}
-                isPlaying={item.episode.id === nowPlayingEpisodeId}
-              />
-            </Link>
+              item={item}
+              priority={index < 6}
+            />
           ))}
         </ArtworkGrid>
       )}
@@ -87,5 +78,42 @@ export function PlaylistDetail({ playlistId }: Props) {
 
       <PlaylistEditModal editModal={editModal} />
     </div>
+  );
+}
+
+interface PlaylistEpisodeItemProps {
+  item: ResponsePlaylistItemResponse;
+  priority: boolean;
+}
+
+function PlaylistEpisodeItem({ item, priority }: PlaylistEpisodeItemProps) {
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
+  const { isEpisodePlaying, playOrResume, pauseEpisode } = usePlayEpisode();
+  const { episode } = item;
+
+  function handlePlayClick() {
+    if (isEpisodePlaying(episode.id)) {
+      pauseEpisode();
+    } else {
+      playOrResume(episode);
+    }
+  }
+
+  return (
+    <Link
+      href={Pages.episode.path({
+        channelId: episode.channel.id,
+        episodeId: episode.id,
+      })}
+    >
+      <Artwork
+        src={episode.artwork?.url}
+        title={episode.title}
+        subtext={episode.channel.name}
+        priority={priority}
+        isPlaying={episode.id === nowPlayingEpisodeId}
+        onPlayClick={episode.fullAudio ? handlePlayClick : undefined}
+      />
+    </Link>
   );
 }

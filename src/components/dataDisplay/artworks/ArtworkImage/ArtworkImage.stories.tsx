@@ -85,6 +85,25 @@ export const NowPlaying: Story = {
   ),
 };
 
+export const PlayButton: Story = {
+  render: () => (
+    <Stack>
+      <ArtworkImage
+        src={sampleImage}
+        size={128}
+        alt="With play button"
+        onPlayClick={() => {}}
+      />
+      <ArtworkImage
+        src={sampleImage}
+        size={170}
+        alt="With play button large"
+        onPlayClick={() => {}}
+      />
+    </Stack>
+  ),
+};
+
 export const AllVariants: Story = {
   render: () => (
     <Stack direction="column" gap={24}>
@@ -123,6 +142,12 @@ export const AllVariants: Story = {
           <ArtworkImage src={sampleImage} size={64} isPlaying />
           <ArtworkImage src={sampleImage} size={128} isPlaying />
           <ArtworkImage src={sampleImage} size={192} isPlaying />
+        </Stack>
+      </Section>
+      <Section title="Play Button (hover to see)">
+        <Stack>
+          <ArtworkImage src={sampleImage} size={128} onPlayClick={() => {}} />
+          <ArtworkImage src={sampleImage} size={170} onPlayClick={() => {}} />
         </Stack>
       </Section>
       <Section title="Rounded">

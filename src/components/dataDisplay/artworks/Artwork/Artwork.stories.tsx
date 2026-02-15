@@ -90,6 +90,16 @@ export const NowPlaying: Story = {
   },
 };
 
+export const PlayButton: Story = {
+  args: {
+    src: sampleImage,
+    size: 170,
+    title: 'Episode with Play Button',
+    subtext: 'Channel Name',
+    onPlayClick: () => {},
+  },
+};
+
 export const AllVariants: Story = {
   args: { title: '' },
   render: () => (
@@ -140,6 +150,26 @@ export const AllVariants: Story = {
             size={128}
             title="Not Playing"
             subtext="Channel Name"
+          />
+        </Stack>
+      </Section>
+
+      <Section title="Play Button (hover to see)">
+        <Stack align="start">
+          <Artwork
+            src={sampleImage}
+            size={170}
+            title="With Play Button"
+            subtext="Channel Name"
+            onPlayClick={() => {}}
+          />
+          <Artwork
+            src={sampleImage}
+            size={170}
+            title="Playing (no button)"
+            subtext="Channel Name"
+            isPlaying
+            onPlayClick={() => {}}
           />
         </Stack>
       </Section>

@@ -12,6 +12,8 @@ interface Props {
   subtext?: string;
   subtext2?: string;
   className?: string;
+
+  onPlayClick?: () => void;
 }
 
 export const ARTWORK_FIXED_SIZE = 170;
@@ -27,6 +29,7 @@ export function Artwork({
   subtext,
   subtext2,
   className,
+  onPlayClick,
 }: Props) {
   return (
     <div
@@ -42,6 +45,7 @@ export function Artwork({
         priority={priority}
         rounded={rounded}
         isPlaying={isPlaying}
+        onPlayClick={onPlayClick}
       />
 
       <div

@@ -9,11 +9,12 @@ import { PlaybackHistoryMenu } from '@/features/library/history/components/Playb
 import { usePlaybackHistory } from '@/features/library/history/hooks/usePlaybackHistory';
 import { usePlaybackHistoryDeleteDialog } from '@/features/library/history/hooks/usePlaybackHistoryDeleteDialog';
 import { useNowPlayingEpisodeId } from '@/features/player/hooks/useNowPlayingEpisodeId';
+import { usePlayEpisode } from '@/features/player/hooks/usePlayEpisode';
+import type { ResponsePlaybackHistoryItemResponse } from '@/libs/api/generated/schemas/responsePlaybackHistoryItemResponse';
 import { Pages } from '@/libs/pages';
 
 export function PlaybackHistoryList() {
   const { items } = usePlaybackHistory();
-  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
   const deleteDialog = usePlaybackHistoryDeleteDialog();
 
   return (
@@ -34,21 +35,11 @@ export function PlaybackHistoryList() {
       ) : (
         <ArtworkGrid>
           {items.map((item, index) => (
-            <Link
+            <PlaybackHistoryItem
               key={item.episode.id}
-              href={Pages.episode.path({
-                channelId: item.episode.channel.id,
-                episodeId: item.episode.id,
-              })}
-            >
-              <Artwork
-                src={item.episode.channel.artwork?.url}
-                title={item.episode.title}
-                subtext={item.episode.channel.name}
-                priority={index < 6}
-                isPlaying={item.episode.id === nowPlayingEpisodeId}
-              />
-            </Link>
+              item={item}
+              priority={index < 6}
+            />
           ))}
         </ArtworkGrid>
       )}
@@ -60,5 +51,48 @@ export function PlaybackHistoryList() {
         onConfirm={deleteDialog.confirm}
       />
     </div>
+  );
+}
+
+interface PlaybackHistoryItemProps {
+  item: ResponsePlaybackHistoryItemResponse;
+  priority: boolean;
+}
+
+function PlaybackHistoryItem({ item, priority }: PlaybackHistoryItemProps) {
+  const nowPlayingEpisodeId = useNowPlayingEpisodeId();
+  const { isEpisodePlaying, playOrResume, pauseEpisode } = usePlayEpisode();
+  const { episode } = item;
+
+  function handlePlayClick() {
+    if (isEpisodePlaying(episode.id)) {
+      pauseEpisode();
+    } else {
+      playOrResume({
+        ...episode,
+        playbackProgress: {
+          completed: item.completed,
+          progressMs: item.progressMs,
+        },
+      });
+    }
+  }
+
+  return (
+    <Link
+      href={Pages.episode.path({
+        channelId: episode.channel.id,
+        episodeId: episode.id,
+      })}
+    >
+      <Artwork
+        src={episode.channel.artwork?.url}
+        title={episode.title}
+        subtext={episode.channel.name}
+        priority={priority}
+        isPlaying={episode.id === nowPlayingEpisodeId}
+        onPlayClick={episode.fullAudio ? handlePlayClick : undefined}
+      />
+    </Link>
   );
 }
