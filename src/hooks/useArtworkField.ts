@@ -9,6 +9,7 @@ const SYSTEM_PROMPT =
 interface ArtworkFieldOptions {
   onUpload: (id: string) => void;
   initialPreviewUrl?: string;
+  systemPrompt?: string;
 
   onRemove?: () => void;
 }
@@ -100,7 +101,7 @@ export function useArtworkField(options: ArtworkFieldOptions) {
    * @param userPrompt - ユーザーが入力したプロンプト
    */
   function submitGenerate(userPrompt: string) {
-    const fullPrompt = `${userPrompt}\n${SYSTEM_PROMPT}`;
+    const fullPrompt = `${userPrompt}\n${options.systemPrompt ?? SYSTEM_PROMPT}`;
 
     generateArtwork(fullPrompt, ({ id, url }) => {
       callbacks.onUpload(id);
