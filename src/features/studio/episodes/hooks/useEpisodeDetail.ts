@@ -110,6 +110,9 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
           episodeId,
         ),
       });
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+      });
       toast.success({ title: 'エピソードを公開しました' });
       return true;
     } catch (err: unknown) {
@@ -148,6 +151,9 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
           channelId,
           episodeId,
         ),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
       });
       toast.success({ title: 'エピソードを非公開にしました' });
       return true;

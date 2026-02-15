@@ -98,6 +98,9 @@ export function useChannelDetail(channelId: string) {
       queryClient.invalidateQueries({
         queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
       });
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsQueryKey(),
+      });
       toast.success({ title: 'チャンネルを公開しました' });
       return true;
     } catch (err: unknown) {
@@ -130,6 +133,9 @@ export function useChannelDetail(channelId: string) {
 
       queryClient.invalidateQueries({
         queryKey: getGetMeChannelsChannelIdQueryKey(channelId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsQueryKey(),
       });
       toast.success({ title: 'チャンネルを非公開にしました' });
       return true;
