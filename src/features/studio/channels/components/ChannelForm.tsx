@@ -11,6 +11,7 @@ import { Input } from '@/components/inputs/Input/Input';
 import { Select } from '@/components/inputs/Select/Select';
 import { Textarea } from '@/components/inputs/Textarea/Textarea';
 import { StepBar } from '@/components/navigation/StepBar/StepBar';
+import { MAIN_SCROLL_VIEWPORT_ID } from '@/features/app/components/LayoutBody';
 import { CharacterStep } from '@/features/studio/channels/components/CharacterStep';
 import {
   type ChannelFormInput,
@@ -106,6 +107,10 @@ export function ChannelForm({
     artwork.upload(file);
   }
 
+  function resetScroll() {
+    document.getElementById(MAIN_SCROLL_VIEWPORT_ID)?.scrollTo(0, 0);
+  }
+
   async function handleNextStep() {
     const values = getValues();
     const result = channelBasicInfoSchema.safeParse({
@@ -117,6 +122,7 @@ export function ChannelForm({
 
     if (result.success) {
       setCurrentStep(2);
+      resetScroll();
     } else {
       await trigger(BASIC_INFO_FIELDS as unknown as (keyof ChannelFormInput)[]);
     }
@@ -124,6 +130,7 @@ export function ChannelForm({
 
   function handlePrevStep() {
     setCurrentStep(1);
+    resetScroll();
   }
 
   const { fields, append, remove, update } = useFieldArray({

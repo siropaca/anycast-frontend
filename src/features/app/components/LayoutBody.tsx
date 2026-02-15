@@ -1,6 +1,8 @@
 'use client';
 
 import { ScrollArea } from '@base-ui/react/scroll-area';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import { Copyright } from '@/components/navigation/Copyright/Copyright';
 import { FooterLinks } from '@/components/navigation/FooterLinks/FooterLinks';
 import { Sidebar } from '@/components/navigation/Sidebar/Sidebar';
@@ -16,6 +18,13 @@ interface Props {
 
 export function LayoutBody({ sideMenu, children }: Props) {
   const { hasPlayer } = useBottomPlayer();
+  const pathname = usePathname();
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is intentionally used to trigger scroll reset on route change
+  useEffect(() => {
+    viewportRef.current?.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="flex flex-1 overflow-hidden">
@@ -26,6 +35,7 @@ export function LayoutBody({ sideMenu, children }: Props) {
       >
         <ScrollArea.Root className="relative bg-bg-surface rounded-none md:rounded-md flex-1 min-w-0">
           <ScrollArea.Viewport
+            ref={viewportRef}
             id={MAIN_SCROLL_VIEWPORT_ID}
             className="h-full md:p-6 md:pt-5 p-4 pt-3"
           >
