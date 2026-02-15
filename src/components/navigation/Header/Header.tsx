@@ -17,7 +17,7 @@ interface Props {
 
 export function Header({ isLoggedIn, sideMenu }: Props) {
   return (
-    <header className="flex h-header shrink-0 items-center justify-between px-4 gap-4">
+    <header className="flex h-header-mobile md:h-header-desktop shrink-0 items-center justify-between px-4 gap-4">
       <div className="flex items-center gap-2">
         {sideMenu && <MobileMenu>{sideMenu}</MobileMenu>}
 

@@ -25,7 +25,7 @@ export function HeaderMobileSearch() {
       />
 
       {isOpen && (
-        <div className="fixed inset-x-0 top-0 z-50 flex h-header items-center gap-2 bg-bg-main px-4 md:hidden">
+        <div className="fixed inset-x-0 top-0 z-50 flex h-header-mobile items-center gap-2 bg-bg-main px-4 md:hidden">
           <IconButton
             icon={<ArrowLeftIcon size={20} />}
             aria-label="検索を閉じる"
