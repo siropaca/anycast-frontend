@@ -8,6 +8,7 @@ import type { ProfileFormInput } from '@/features/users/schemas/profile';
 import { useToast } from '@/hooks/useToast';
 import { getGetMeQueryKey, usePatchMe } from '@/libs/api/generated/me/me';
 import { getGetUsersUsernameQueryKey } from '@/libs/api/generated/users/users';
+import { toOptionalField } from '@/libs/api/optionalField';
 import { trimFullWidth } from '@/utils/trim';
 
 /**
@@ -42,10 +43,8 @@ export function useUpdateProfile() {
         data: {
           displayName: trimFullWidth(data.displayName),
           bio: data.bio ? trimFullWidth(data.bio) : undefined,
-          // null = 画像削除、string = 画像変更、undefined = 変更なし
-          // 生成型は nullable 未対応のためキャストで回避
-          avatarImageId: data.avatarImageId as string | undefined,
-          headerImageId: data.headerImageId as string | undefined,
+          avatarImageId: toOptionalField(data.avatarImageId),
+          headerImageId: toOptionalField(data.headerImageId),
         },
       });
 

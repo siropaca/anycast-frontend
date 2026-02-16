@@ -16,6 +16,7 @@ import type {
   ResponseVoiceResponse,
 } from '@/libs/api/generated/schemas';
 import { useGetVoicesSuspense } from '@/libs/api/generated/voices/voices';
+import { toOptionalField } from '@/libs/api/optionalField';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { trimFullWidth } from '@/utils/trim';
 
@@ -74,9 +75,7 @@ export function useEditChannel(channelId: string) {
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
           categoryId: data.categoryId,
-          // null = 画像削除、string = 画像変更、undefined = 変更なし
-          // 生成型は nullable 未対応のためキャストで回避
-          artworkImageId: data.artworkImageId as string | undefined,
+          artworkImageId: toOptionalField(data.artworkImageId),
         },
       },
       {

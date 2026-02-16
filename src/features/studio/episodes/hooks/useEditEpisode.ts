@@ -10,6 +10,7 @@ import {
   useGetMeChannelsChannelIdEpisodesEpisodeIdSuspense,
 } from '@/libs/api/generated/me/me';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas';
+import { toOptionalField } from '@/libs/api/optionalField';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { trimFullWidth } from '@/utils/trim';
 
@@ -58,9 +59,7 @@ export function useEditEpisode(channelId: string, episodeId: string) {
         data: {
           title: trimFullWidth(data.title),
           description: trimFullWidth(data.description),
-          // null = 画像削除、string = 画像変更、undefined = 変更なし
-          // 生成型は nullable 未対応のためキャストで回避
-          artworkImageId: data.artworkImageId as string | undefined,
+          artworkImageId: toOptionalField(data.artworkImageId),
         },
       },
       {

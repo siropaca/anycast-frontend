@@ -8,6 +8,7 @@ import {
   getGetMeCharactersQueryKey,
   usePatchMeCharactersCharacterId,
 } from '@/libs/api/generated/me/me';
+import { toOptionalField } from '@/libs/api/optionalField';
 import { trimFullWidth } from '@/utils/trim';
 
 /**
@@ -42,9 +43,7 @@ export function useUpdateCharacter() {
           name: trimFullWidth(data.name),
           voiceId: data.voiceId,
           persona: data.persona ? trimFullWidth(data.persona) : undefined,
-          // null = 画像削除、string = 画像変更、undefined = 変更なし
-          // 生成型は nullable 未対応のためキャストで回避
-          avatarId: data.avatarImageId as string | undefined,
+          avatarId: toOptionalField(data.avatarImageId),
         },
       });
 
