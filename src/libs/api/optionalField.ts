@@ -14,12 +14,10 @@ import type { OptionalFieldString } from '@/libs/api/generated/schemas';
  * toOptionalField(null)       // => null
  * toOptionalField(undefined)  // => undefined
  */
-function toOptionalField(
-	value: string | null | undefined,
+export function toOptionalField(
+  value: string | null | undefined,
 ): OptionalFieldString | undefined {
-	if (value === undefined) return undefined;
-	// 生成型は OptionalFieldString だが API は string | null を受け付ける
-	return value as unknown as OptionalFieldString;
+  if (value === undefined) return undefined;
+  // 生成型は OptionalFieldString だが API は string | null を受け付ける
+  return value as unknown as OptionalFieldString;
 }
-
-export { toOptionalField };
