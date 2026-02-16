@@ -9,7 +9,6 @@ import { Modal } from '@/components/utils/Modal/Modal';
 interface Props {
   open: boolean;
   defaultPrompt: string;
-  isGenerating: boolean;
 
   onClose: () => void;
   onSubmit: (prompt: string) => void;
@@ -18,7 +17,6 @@ interface Props {
 export function ArtworkGenerateModal({
   open,
   defaultPrompt,
-  isGenerating,
   onClose,
   onSubmit,
 }: Props) {
@@ -75,7 +73,6 @@ export function ArtworkGenerateModal({
           </Button>
           <Button
             type="button"
-            loading={isGenerating}
             disabled={!prompt.trim()}
             onClick={handleSubmit}
           >

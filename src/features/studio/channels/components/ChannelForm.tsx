@@ -272,7 +272,12 @@ export function ChannelForm({
                   戻る
                 </Button>
               )}
-              <Button type="submit" loading={isSubmitting}>
+              <Button
+                type="submit"
+                loading={isSubmitting}
+                disabled={artwork.isGenerating}
+                disabledReason="画像生成中..."
+              >
                 {isEditMode ? 'チャンネルを更新' : 'チャンネルを作成'}
               </Button>
             </div>

@@ -208,7 +208,6 @@ export function CharacterFormFields({
       <ArtworkGenerateModal
         open={generateModalOpen}
         defaultPrompt={generateModalDefaultPrompt}
-        isGenerating={isGenerating}
         onClose={onCloseGenerateModal}
         onSubmit={onSubmitGenerate}
       />

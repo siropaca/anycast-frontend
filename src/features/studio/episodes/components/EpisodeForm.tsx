@@ -121,7 +121,12 @@ export function EpisodeForm({
         {submitError && <HelperText error>{submitError}</HelperText>}
 
         <div className="flex justify-end">
-          <Button type="submit" loading={isSubmitting}>
+          <Button
+            type="submit"
+            loading={isSubmitting}
+            disabled={artwork.isGenerating}
+            disabledReason="画像生成中..."
+          >
             {isEditMode ? 'エピソードを更新' : 'エピソードを作成'}
           </Button>
         </div>

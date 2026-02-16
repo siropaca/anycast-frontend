@@ -106,7 +106,6 @@ export function ArtworkImageField({
       <ArtworkGenerateModal
         open={generateModalOpen}
         defaultPrompt={generateModalDefaultPrompt}
-        isGenerating={isGenerating}
         onClose={onCloseGenerateModal}
         onSubmit={onSubmitGenerate}
       />

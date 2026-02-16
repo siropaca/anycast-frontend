@@ -97,10 +97,11 @@ export function useArtworkField(options: ArtworkFieldOptions) {
   function submitGenerate(userPrompt: string) {
     const fullPrompt = `${userPrompt}\n${options.systemPrompt ?? SYSTEM_PROMPT}`;
 
+    setGenerateModalOpen(false);
+
     generateArtwork(fullPrompt, ({ id, url }) => {
       callbacks.onUpload(id);
       setPreviewUrl(url);
-      setGenerateModalOpen(false);
     });
   }
 
