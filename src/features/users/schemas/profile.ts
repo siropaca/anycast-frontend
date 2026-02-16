@@ -10,8 +10,8 @@ export const profileFormSchema = z.object({
     .string()
     .max(200, VALIDATION_MESSAGES.maxLength('自己紹介', 200))
     .optional(),
-  avatarImageId: z.string().optional(),
-  headerImageId: z.string().optional(),
+  avatarImageId: z.string().nullable().optional(),
+  headerImageId: z.string().nullable().optional(),
 });
 
 export type ProfileFormInput = z.infer<typeof profileFormSchema>;

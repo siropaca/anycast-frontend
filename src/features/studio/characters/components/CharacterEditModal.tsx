@@ -67,7 +67,7 @@ export function CharacterEditModal({
   const artwork = useArtworkField({
     systemPrompt: AVATAR_SYSTEM_PROMPT,
     onUpload: (id) => setValue('avatarImageId', id, { shouldDirty: true }),
-    onRemove: () => setValue('avatarImageId', undefined, { shouldDirty: true }),
+    onRemove: () => setValue('avatarImageId', null, { shouldDirty: true }),
   });
 
   useEffect(() => {

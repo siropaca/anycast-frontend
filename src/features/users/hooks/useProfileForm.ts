@@ -35,14 +35,12 @@ export function useProfileForm(
 
   const avatarField = useImageField({
     onUpload: (id) => form.setValue('avatarImageId', id, { shouldDirty: true }),
-    onRemove: () =>
-      form.setValue('avatarImageId', undefined, { shouldDirty: true }),
+    onRemove: () => form.setValue('avatarImageId', null, { shouldDirty: true }),
   });
 
   const headerField = useImageField({
     onUpload: (id) => form.setValue('headerImageId', id, { shouldDirty: true }),
-    onRemove: () =>
-      form.setValue('headerImageId', undefined, { shouldDirty: true }),
+    onRemove: () => form.setValue('headerImageId', null, { shouldDirty: true }),
   });
 
   const isUploading = avatarField.isUploading || headerField.isUploading;

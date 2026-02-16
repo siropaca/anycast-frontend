@@ -42,8 +42,10 @@ export function useUpdateProfile() {
         data: {
           displayName: trimFullWidth(data.displayName),
           bio: data.bio ? trimFullWidth(data.bio) : undefined,
-          avatarImageId: data.avatarImageId,
-          headerImageId: data.headerImageId,
+          // null = 画像削除、string = 画像変更、undefined = 変更なし
+          // 生成型は nullable 未対応のためキャストで回避
+          avatarImageId: data.avatarImageId as string | undefined,
+          headerImageId: data.headerImageId as string | undefined,
         },
       });
 

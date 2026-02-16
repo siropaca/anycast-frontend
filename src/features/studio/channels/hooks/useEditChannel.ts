@@ -74,7 +74,9 @@ export function useEditChannel(channelId: string) {
           name: trimFullWidth(data.name),
           description: trimFullWidth(data.description),
           categoryId: data.categoryId,
-          artworkImageId: data.artworkImageId,
+          // null = 画像削除、string = 画像変更、undefined = 変更なし
+          // 生成型は nullable 未対応のためキャストで回避
+          artworkImageId: data.artworkImageId as string | undefined,
         },
       },
       {

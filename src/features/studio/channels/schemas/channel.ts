@@ -30,7 +30,7 @@ export const channelBasicInfoSchema = z.object({
     .string()
     .max(2000, VALIDATION_MESSAGES.maxLength('説明', 2000)),
   categoryId: z.string().min(1, VALIDATION_MESSAGES.select('カテゴリ')),
-  artworkImageId: z.string().optional(),
+  artworkImageId: z.string().nullable().optional(),
 });
 
 export const channelFormSchema = channelBasicInfoSchema.extend({

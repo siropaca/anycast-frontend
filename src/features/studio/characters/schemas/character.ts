@@ -11,7 +11,7 @@ export const characterFormSchema = z.object({
     .string()
     .max(2000, VALIDATION_MESSAGES.maxLength('特徴', 2000))
     .optional(),
-  avatarImageId: z.string().optional(),
+  avatarImageId: z.string().nullable().optional(),
 });
 
 export type CharacterFormInput = z.infer<typeof characterFormSchema>;

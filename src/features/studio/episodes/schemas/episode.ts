@@ -9,7 +9,7 @@ export const episodeFormSchema = z.object({
   description: z
     .string()
     .max(2000, VALIDATION_MESSAGES.maxLength('説明', 2000)),
-  artworkImageId: z.string().optional(),
+  artworkImageId: z.string().nullable().optional(),
 });
 
 export type EpisodeFormInput = z.infer<typeof episodeFormSchema>;

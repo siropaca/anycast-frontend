@@ -79,6 +79,7 @@ export function ChannelForm({
 
   const artwork = useArtworkField({
     onUpload: (id) => setValue('artworkImageId', id, { shouldDirty: true }),
+    onRemove: () => setValue('artworkImageId', null, { shouldDirty: true }),
     initialPreviewUrl: defaultArtworkUrl,
   });
 

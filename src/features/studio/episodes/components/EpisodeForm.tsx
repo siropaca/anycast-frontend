@@ -48,8 +48,7 @@ export function EpisodeForm({
 
   const artwork = useArtworkField({
     onUpload: (id) => setValue('artworkImageId', id, { shouldDirty: true }),
-    onRemove: () =>
-      setValue('artworkImageId', undefined, { shouldDirty: true }),
+    onRemove: () => setValue('artworkImageId', null, { shouldDirty: true }),
     initialPreviewUrl: defaultArtworkUrl,
   });
 
