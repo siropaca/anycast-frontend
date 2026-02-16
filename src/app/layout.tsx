@@ -19,6 +19,17 @@ export const metadata: Metadata = {
     template: '%s | Anycast',
   },
   description: 'AI 音声生成ポッドキャストプラットフォーム',
+  openGraph: {
+    title: 'Anycast',
+    description: 'AI 音声生成ポッドキャストプラットフォーム',
+    siteName: 'Anycast',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Anycast',
+    description: 'AI 音声生成ポッドキャストプラットフォーム',
+  },
 };
 
 export default function RootLayout({
