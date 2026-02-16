@@ -67,7 +67,7 @@ export function CharacterStep({
         {fields.length < 2 && (
           <button
             type="button"
-            className="flex min-h-48 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border text-text-subtle transition-colors hover:border-primary hover:text-primary"
+            className="flex min-h-48 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border text-text-subtle transition-colors hover:border-secondary hover:bg-secondary/10 hover:text-secondary"
             onClick={() =>
               append({
                 mode: 'create',

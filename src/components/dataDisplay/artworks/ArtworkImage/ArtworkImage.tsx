@@ -73,7 +73,7 @@ export function ArtworkImage({
     <div
       style={size ? { width: size, height: size } : undefined}
       className={cn(
-        'group/artwork relative shrink-0 overflow-hidden　 bg-bg-main',
+        'group/artwork relative shrink-0 overflow-hidden bg-bg-main',
         rounded ? 'rounded-full' : 'rounded-md',
         !size && 'aspect-square w-full',
         showFallback && 'bg-linear-to-br from-primary to-primary/40',
