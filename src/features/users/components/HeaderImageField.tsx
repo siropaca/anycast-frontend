@@ -48,28 +48,6 @@ export function HeaderImageField({
                 <ImageIcon size={32} />
               </button>
             )}
-            {previewUrl && (
-              <div className="absolute inset-0 flex items-center justify-center gap-2">
-                <Button
-                  variant="outline"
-                  color="secondary"
-                  disabled={isUploading}
-                  className="bg-black/30"
-                  onClick={onOpenFilePicker}
-                >
-                  {isUploading ? 'アップロード中...' : '画像を変更'}
-                </Button>
-                <Button
-                  variant="outline"
-                  color="secondary"
-                  disabled={isUploading}
-                  className="bg-black/30"
-                  onClick={onRemove}
-                >
-                  削除
-                </Button>
-              </div>
-            )}
           </div>
           <input
             ref={fileInputRef}
@@ -78,16 +56,30 @@ export function HeaderImageField({
             className="hidden"
             onChange={onFileChange}
           />
-          {!previewUrl && (
+          <div className="flex gap-2">
             <Button
               variant="outline"
               color="secondary"
               disabled={isUploading}
               onClick={onOpenFilePicker}
             >
-              {isUploading ? 'アップロード中...' : '画像を選択'}
+              {isUploading
+                ? 'アップロード中...'
+                : previewUrl
+                  ? '画像を変更'
+                  : '画像を選択'}
             </Button>
-          )}
+            {previewUrl && (
+              <Button
+                variant="outline"
+                color="secondary"
+                disabled={isUploading}
+                onClick={onRemove}
+              >
+                削除
+              </Button>
+            )}
+          </div>
         </>
       )}
     </FormField>
