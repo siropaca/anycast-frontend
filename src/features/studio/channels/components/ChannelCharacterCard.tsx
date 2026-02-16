@@ -1,7 +1,8 @@
 'use client';
 
-import { UserIcon } from '@phosphor-icons/react';
+import { PencilSimpleIcon, UserIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
+import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { VoiceSampleButton } from '@/features/studio/voices/components/VoiceSampleButton';
 import type {
   ResponseCharacterResponse,
@@ -11,9 +12,10 @@ import type {
 interface Props {
   character: ResponseCharacterResponse;
   voice?: ResponseVoiceResponse;
+  onEdit: () => void;
 }
 
-export function ChannelCharacterCard({ character, voice }: Props) {
+export function ChannelCharacterCard({ character, voice, onEdit }: Props) {
   return (
     <li className="space-y-2 rounded-lg border border-border p-4">
       <div className="flex items-center gap-3">
@@ -30,13 +32,21 @@ export function ChannelCharacterCard({ character, voice }: Props) {
             <UserIcon size={20} />
           </div>
         )}
-        <div>
+        <div className="min-w-0 flex-1">
           <p className="text-sm font-medium">{character.name}</p>
           <div className="flex items-center gap-1.5">
             <p className="text-xs text-text-subtle">{character.voice.name}</p>
             {voice && <VoiceSampleButton voice={voice} />}
           </div>
         </div>
+        <IconButton
+          icon={<PencilSimpleIcon size={16} />}
+          aria-label="キャラクターを編集"
+          variant="text"
+          color="secondary"
+          size="sm"
+          onClick={onEdit}
+        />
       </div>
       {character.persona && (
         <p className="whitespace-pre-wrap text-sm text-text-subtle">

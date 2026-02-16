@@ -12,6 +12,7 @@ import {
 } from '@/features/studio/characters/schemas/character';
 import { useArtworkField } from '@/hooks/useArtworkField';
 import type {
+  ResponseCharacterResponse,
   ResponseCharacterWithChannelsResponse,
   ResponseVoiceResponse,
 } from '@/libs/api/generated/schemas';
@@ -21,10 +22,15 @@ const AVATAR_SYSTEM_PROMPT =
   'キャラクターのアバター画像を生成してください。バストアップのポートレート。写真のようにリアルなスタイル。画像に文字やテキストを含めないでください。';
 
 interface Props {
-  character: ResponseCharacterWithChannelsResponse | null;
+  character:
+    | ResponseCharacterWithChannelsResponse
+    | ResponseCharacterResponse
+    | null;
   voices: ResponseVoiceResponse[];
   open: boolean;
+
   onOpenChange: (open: boolean) => void;
+  onSuccess?: () => void;
 }
 
 export function CharacterEditModal({
@@ -32,6 +38,7 @@ export function CharacterEditModal({
   voices,
   open,
   onOpenChange,
+  onSuccess,
 }: Props) {
   const {
     isUpdating,
@@ -108,6 +115,7 @@ export function CharacterEditModal({
     const success = await updateCharacter(character.id, data);
     if (success) {
       onOpenChange(false);
+      onSuccess?.();
     }
   }
 

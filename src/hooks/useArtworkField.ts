@@ -69,14 +69,8 @@ export function useArtworkField(options: ArtworkFieldOptions) {
     }
   }
 
-  /**
-   * プレビュー URL を外部から設定する（フォーム初期化用）
-   *
-   * @param url - 設定するプレビュー URL
-   */
-  function resetPreview(url: string | undefined) {
-    setPreviewUrl(url);
-  }
+  // setPreviewUrl は React が参照安定を保証するため、そのまま公開する
+  const resetPreview = setPreviewUrl;
 
   /**
    * AI 生成モーダルを開く

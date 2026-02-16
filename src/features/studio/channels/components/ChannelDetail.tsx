@@ -103,7 +103,10 @@ export function ChannelDetail({ channelId }: Props) {
       />
 
       {/* キャラクター */}
-      <ChannelCharacterList characters={channel.characters} />
+      <ChannelCharacterList
+        channelId={channelId}
+        characters={channel.characters}
+      />
 
       {/* デフォルトBGM */}
       <ChannelDefaultBgmSection
