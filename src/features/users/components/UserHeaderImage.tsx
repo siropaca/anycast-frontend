@@ -9,7 +9,7 @@ interface Props {
 export function UserHeaderImage({ src }: Props) {
   return (
     <div
-      className="-mx-6 -mt-5 relative overflow-hidden rounded-t-md"
+      className="-mx-6 -mt-5 relative overflow-hidden rounded-t-md bg-bg-main"
       style={{ height: HEADER_HEIGHT }}
     >
       {src ? (
@@ -22,7 +22,7 @@ export function UserHeaderImage({ src }: Props) {
           className="object-cover"
         />
       ) : (
-        <div className="h-full w-full bg-linear-to-r from-primary/30 to-primary/10" />
+        <div className="h-full w-full bg-linear-to-br from-primary/80 to-primary/20" />
       )}
     </div>
   );
