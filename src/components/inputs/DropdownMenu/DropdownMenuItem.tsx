@@ -8,22 +8,23 @@ interface Props {
   children: ReactNode;
   icon?: ReactNode;
   variant?: 'default' | 'danger';
-  onClick?: () => void;
   render?: ReactElement;
+
+  onClick?: () => void;
 }
 
 export function DropdownMenuItem({
   children,
   icon,
   variant = 'default',
-  onClick,
   render,
+  onClick,
 }: Props) {
   return (
     <Menu.Item
       className={cn(
         'flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm outline-none hover:bg-bg-hover-strong focus:bg-bg-hover-strong',
-        variant === 'danger' && 'text-danger',
+        variant === 'danger' && 'text-text-danger',
       )}
       onClick={onClick}
       render={render}
