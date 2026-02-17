@@ -101,6 +101,28 @@ export const DisabledWithReason: Story = {
   ),
 };
 
+export const DisabledItem: Story = {
+  args: {
+    trigger: defaultTrigger,
+    children: null,
+  },
+  render: () => (
+    <Section title="Disabled item">
+      <DropdownMenu trigger={defaultTrigger}>
+        <DropdownMenuItem icon={<EyeIcon size={16} />} disabled>
+          公開する
+        </DropdownMenuItem>
+        <DropdownMenuItem icon={<PencilSimpleIcon size={16} />}>
+          編集
+        </DropdownMenuItem>
+        <DropdownMenuItem icon={<TrashIcon size={16} />} variant="danger">
+          削除
+        </DropdownMenuItem>
+      </DropdownMenu>
+    </Section>
+  ),
+};
+
 export const CustomTrigger: Story = {
   args: {
     trigger: defaultTrigger,

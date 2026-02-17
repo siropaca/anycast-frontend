@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { Dialog } from '@/components/utils/Dialog/Dialog';
 import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
 import { toTrackFromEpisode } from '@/features/player/utils/trackConverter';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
@@ -39,10 +40,17 @@ interface Props {
 
 export function EpisodeDetail({ channelId, episodeId }: Props) {
   const router = useRouter();
-  const { channel } = useChannelDetail(channelId);
+  const {
+    channel,
+    isPublished: isChannelPublished,
+    publishChannel,
+  } = useChannelDetail(channelId);
   const { isEpisodePlaying, playEpisode, pauseEpisode } = useEpisodePlayer(
     channel.name,
   );
+
+  const [showChannelPublishedDialog, setShowChannelPublishedDialog] =
+    useState(false);
 
   const {
     episode,
@@ -102,6 +110,18 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     }
   }
 
+  async function handlePublishConfirm() {
+    if (publishDialog.action === 'publish' && !isChannelPublished) {
+      const channelSuccess = await publishChannel();
+      if (!channelSuccess) return;
+    }
+
+    const success = await publishDialog.confirm();
+    if (success && publishDialog.action === 'publish' && !isChannelPublished) {
+      setShowChannelPublishedDialog(true);
+    }
+  }
+
   function handleScriptSubmit(data: ScriptGenerateFormInput) {
     scriptGeneration.generateScript({
       prompt: data.prompt,
@@ -152,6 +172,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
             <EpisodeDetailMenu
               isPublished={isPublished}
               disabled={isMutating}
+              canPublish={!!episode.fullAudio}
               onPublish={() => publishDialog.open('publish')}
               onUnpublish={() => publishDialog.open('unpublish')}
               onDelete={deleteDialog.open}
@@ -243,9 +264,28 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         action={publishDialog.action}
         open={publishDialog.isOpen}
         error={publishDialog.error}
+        willPublishChannel={!isChannelPublished}
         onClose={publishDialog.close}
-        onConfirm={publishDialog.confirm}
+        onConfirm={handlePublishConfirm}
       />
+
+      {/* チャンネル自動公開通知ダイアログ */}
+      <Dialog.Root
+        open={showChannelPublishedDialog}
+        onOpenChange={setShowChannelPublishedDialog}
+      >
+        <Dialog.Content size="sm">
+          <Dialog.Title>チャンネルも公開しました</Dialog.Title>
+          <Dialog.Description>
+            {`エピソードの公開に合わせて、チャンネル「${channel.name}」も公開しました。`}
+          </Dialog.Description>
+          <Dialog.Footer>
+            <Button onClick={() => setShowChannelPublishedDialog(false)}>
+              OK
+            </Button>
+          </Dialog.Footer>
+        </Dialog.Content>
+      </Dialog.Root>
     </div>
   );
 }

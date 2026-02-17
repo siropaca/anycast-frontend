@@ -13,6 +13,7 @@ import { DropdownMenuItem } from '@/components/inputs/DropdownMenu/DropdownMenuI
 interface Props {
   isPublished: boolean;
   disabled: boolean;
+  canPublish: boolean;
 
   onPublish: () => void;
   onUnpublish: () => void;
@@ -22,6 +23,7 @@ interface Props {
 export function EpisodeDetailMenu({
   isPublished,
   disabled,
+  canPublish,
   onPublish,
   onUnpublish,
   onDelete,
@@ -46,7 +48,11 @@ export function EpisodeDetailMenu({
           非公開にする
         </DropdownMenuItem>
       ) : (
-        <DropdownMenuItem icon={<EyeIcon size={16} />} onClick={onPublish}>
+        <DropdownMenuItem
+          icon={<EyeIcon size={16} />}
+          disabled={!canPublish}
+          onClick={onPublish}
+        >
           公開する
         </DropdownMenuItem>
       )}

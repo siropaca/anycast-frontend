@@ -1,8 +1,10 @@
 'use client';
 
 import { PencilSimpleIcon } from '@phosphor-icons/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { StatusCodes } from 'http-status-codes';
 import { useRouter } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
@@ -19,6 +21,9 @@ import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDet
 import { useChannelPublishDialog } from '@/features/studio/channels/hooks/useChannelPublishDialog';
 import { EpisodeList } from '@/features/studio/episodes/components/EpisodeList';
 import { EpisodeListSkeleton } from '@/features/studio/episodes/components/EpisodeListSkeleton';
+import { useToast } from '@/hooks/useToast';
+import { usePostChannelsChannelIdEpisodesEpisodeIdPublish } from '@/libs/api/generated/episodes/episodes';
+import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 import { Pages } from '@/libs/pages';
 
 interface Props {
@@ -27,6 +32,8 @@ interface Props {
 
 export function ChannelDetail({ channelId }: Props) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const toast = useToast();
   const {
     channel,
     isPublished,
@@ -40,6 +47,13 @@ export function ChannelDetail({ channelId }: Props) {
     unpublishChannel,
     clearError,
   } = useChannelDetail(channelId);
+
+  const unpublishedEpisodes = channel.episodes.filter(
+    (e) => !e.publishedAt && e.fullAudio,
+  );
+  const [includeEpisodes, setIncludeEpisodes] = useState(true);
+  const publishEpisodeMutation =
+    usePostChannelsChannelIdEpisodesEpisodeIdPublish();
 
   const deleteDialog = useChannelDeleteDialog({
     deleteChannel,
@@ -60,6 +74,40 @@ export function ChannelDetail({ channelId }: Props) {
     const success = await deleteDialog.confirm();
     if (success) {
       router.push(Pages.studio.channels.path());
+    }
+  }
+
+  async function handlePublishConfirm() {
+    const success = await publishDialog.confirm();
+    if (!success) return;
+
+    if (
+      publishDialog.action === 'publish' &&
+      includeEpisodes &&
+      unpublishedEpisodes.length > 0
+    ) {
+      const results = await Promise.allSettled(
+        unpublishedEpisodes.map((ep) =>
+          publishEpisodeMutation.mutateAsync({
+            channelId,
+            episodeId: ep.id,
+            data: {},
+          }),
+        ),
+      );
+
+      const successCount = results.filter(
+        (r) => r.status === 'fulfilled' && r.value.status === StatusCodes.OK,
+      ).length;
+
+      if (successCount > 0) {
+        toast.success({
+          title: `${successCount}件のエピソードを公開しました`,
+        });
+        queryClient.invalidateQueries({
+          queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+        });
+      }
     }
   }
 
@@ -138,8 +186,11 @@ export function ChannelDetail({ channelId }: Props) {
         action={publishDialog.action}
         open={publishDialog.isOpen}
         error={publishDialog.error}
+        unpublishedEpisodeCount={unpublishedEpisodes.length}
+        includeEpisodes={includeEpisodes}
         onClose={publishDialog.close}
-        onConfirm={publishDialog.confirm}
+        onConfirm={handlePublishConfirm}
+        onIncludeEpisodesChange={setIncludeEpisodes}
       />
     </div>
   );
