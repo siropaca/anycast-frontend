@@ -16,7 +16,6 @@ import {
 import type { RequestGenerateAudioAsyncRequest } from '@/libs/api/generated/schemas';
 import { useAudioJobWebSocket } from '@/libs/websocket/useAudioJobWebSocket';
 import type { JobStatus } from '@/types/job';
-import { trimFullWidth } from '@/utils/trim';
 
 interface AudioJobState {
   jobId: string | null;
@@ -286,13 +285,7 @@ export function useGenerateEpisodeAudio(channelId: string, episodeId: string) {
       {
         channelId,
         episodeId,
-        data: {
-          ...data,
-          voiceStyle:
-            data.type !== 'remix' && data.voiceStyle
-              ? trimFullWidth(data.voiceStyle)
-              : undefined,
-        },
+        data,
       },
       {
         onSuccess: (response) => {

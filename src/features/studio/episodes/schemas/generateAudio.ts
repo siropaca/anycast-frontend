@@ -1,14 +1,10 @@
 import { z } from 'zod';
-import { VALIDATION_MESSAGES } from '@/constants/messages';
 
 const generateAudioTypeSchema = z.enum(['voice', 'full', 'remix']);
 
 export const generateAudioFormSchema = z
   .object({
     type: generateAudioTypeSchema,
-    voiceStyle: z
-      .string()
-      .max(500, VALIDATION_MESSAGES.maxLength('音声スタイル', 500)),
     bgmId: z.string().optional(),
     systemBgmId: z.string().optional(),
     bgmVolumeDb: z.number().min(-60).max(0).optional(),

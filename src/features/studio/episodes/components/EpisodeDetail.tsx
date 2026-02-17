@@ -134,7 +134,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
   function handleAudioSubmit(data: GenerateAudioFormInput) {
     audioGeneration.generateAudio({
       type: data.type,
-      voiceStyle: data.voiceStyle,
       bgmId: data.bgmId,
       systemBgmId: data.systemBgmId,
       bgmVolumeDb: data.bgmVolumeDb,
@@ -242,7 +241,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
       <GenerateAudioModal
         open={audioModalMode !== null}
         mode={audioModalMode ?? 'generate'}
-        defaultVoiceStyle={episode.voiceStyle}
         defaultBgm={episode.bgm}
         hasScriptLines={scriptLines.length > 0}
         hasVoiceAudio={hasVoiceAudio}
