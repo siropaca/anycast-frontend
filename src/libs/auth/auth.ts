@@ -112,6 +112,7 @@ const nextAuth = NextAuth({
           }
 
           user.id = backendUser.id;
+          user.image = backendUser.avatarUrl ?? null;
           (user as { username?: string }).username = backendUser.username;
           (user as { accessToken?: string }).accessToken = backendAccessToken;
           (user as { refreshToken?: string }).refreshToken = data?.refreshToken;
