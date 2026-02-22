@@ -1,4 +1,4 @@
-import { UserIcon, WalletIcon } from '@phosphor-icons/react';
+import { KeyIcon, UserIcon, WalletIcon } from '@phosphor-icons/react';
 import type { MenuSection } from '@/components/navigation/SideMenu/SideMenu';
 import { Pages } from '@/libs/pages';
 
@@ -15,6 +15,11 @@ export const SETTINGS_MENU_SECTIONS: MenuSection[] = [
         label: Pages.settings.subscription.title,
         href: Pages.settings.subscription.path(),
         icon: WalletIcon,
+      },
+      {
+        label: Pages.settings.apiKeys.title,
+        href: Pages.settings.apiKeys.path(),
+        icon: KeyIcon,
       },
     ],
   },

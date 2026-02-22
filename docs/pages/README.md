@@ -75,6 +75,7 @@ Anycast のページ構成と URL 設計を定義する。
 | 設定 | `/settings` | 設定トップ（アカウントを表示） | ✅ | - | - |
 | アカウント | `/settings/account` | プロフィール・アカウント設定 | ✅ | | |
 | サブスクリプション | `/settings/subscription` | サブスクリプション管理 | ✅ | | |
+| APIキー | `/settings/api-keys` | APIキーの発行・管理 | ✅ | | |
 
 ### その他の UI（ページ以外）
 

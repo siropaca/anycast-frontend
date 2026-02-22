@@ -14,4 +14,9 @@ export const settingsPages = {
     path: () => '/settings/subscription',
     title: 'サブスクリプション',
   },
+  /** APIキー */
+  apiKeys: {
+    path: () => '/settings/api-keys',
+    title: 'APIキー',
+  },
 } as const;
