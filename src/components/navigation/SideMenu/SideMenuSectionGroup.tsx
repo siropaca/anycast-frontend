@@ -9,7 +9,7 @@ export function SideMenuSectionGroup({ section }: Props) {
   return (
     <div className="space-y-2">
       {section.titleComponent ? (
-        <div className="flex justify-center rounded-md bg-white px-3 py-2 text-black">
+        <div className="flex justify-center rounded-[9px] bg-white px-3 py-2 text-black">
           <section.titleComponent />
         </div>
       ) : (
