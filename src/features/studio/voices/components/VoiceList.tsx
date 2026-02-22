@@ -1,25 +1,19 @@
 'use client';
 
 import { PauseIcon, PlayIcon, StarIcon } from '@phosphor-icons/react';
-import { useState } from 'react';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
-import { Select } from '@/components/inputs/Select/Select';
 import { useFavoriteVoice } from '@/features/studio/voices/hooks/useFavoriteVoice';
 import { useVoiceList } from '@/features/studio/voices/hooks/useVoiceList';
 import { useVoicePlayer } from '@/features/studio/voices/hooks/useVoicePlayer';
 import {
   getGenderLabel,
   getProviderLabel,
-  PROVIDER_FILTER_OPTIONS,
 } from '@/features/studio/voices/utils/voiceLabels';
 import type { ResponseVoiceResponse } from '@/libs/api/generated/schemas';
 
 export function VoiceList() {
-  const [provider, setProvider] = useState<string | null>('all');
-  const { voices } = useVoiceList(
-    provider && provider !== 'all' ? { provider } : undefined,
-  );
+  const { voices } = useVoiceList();
   const { isVoicePlaying, playVoice, pauseVoice } = useVoicePlayer();
   const { toggleFavorite, isPending } = useFavoriteVoice();
 
@@ -108,15 +102,6 @@ export function VoiceList() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-3">
-        <Select
-          options={PROVIDER_FILTER_OPTIONS}
-          value={provider}
-          onValueChange={setProvider}
-          placeholder="プロバイダー"
-          size="sm"
-        />
-      </div>
       <DataTable
         columns={columns}
         data={voices}

@@ -28,9 +28,6 @@ function SkeletonRow() {
 export function VoiceListSkeleton() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-3">
-        <Skeleton className="h-[var(--size-sm)] w-32 rounded-sm" />
-      </div>
       <div className="overflow-x-auto rounded-md border border-border">
         <table className="w-full">
           <thead>
