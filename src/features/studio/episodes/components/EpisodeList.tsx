@@ -39,6 +39,15 @@ const columns = [
     ),
   },
   {
+    key: 'scriptLineCount',
+    header: '台本行数',
+    accessor: (episode: ResponseEpisodeResponse) => (
+      <span className="text-sm text-text-subtle">
+        {episode.scriptLineCount ?? 0}
+      </span>
+    ),
+  },
+  {
     key: 'playCount',
     header: '再生数',
     accessor: (episode: ResponseEpisodeResponse) => (
@@ -62,7 +71,7 @@ export function EpisodeList({ channelId }: Props) {
       <SectionTitle
         title={
           episodes.length > 0
-            ? `エピソード（${episodes.length}）`
+            ? `エピソード（${episodes.length}話）`
             : 'エピソード'
         }
         level="h3"

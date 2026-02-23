@@ -22,6 +22,9 @@ function SkeletonRow() {
       <td className="px-4 py-3">
         <Skeleton className="h-4 w-8" />
       </td>
+      <td className="px-4 py-3">
+        <Skeleton className="h-4 w-8" />
+      </td>
     </tr>
   );
 }
@@ -48,6 +51,9 @@ export function EpisodeListSkeleton() {
               </th>
               <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
                 ステータス
+              </th>
+              <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
+                台本行数
               </th>
               <th className="truncate px-4 py-3 text-left text-sm text-text-subtle font-semibold">
                 再生数
