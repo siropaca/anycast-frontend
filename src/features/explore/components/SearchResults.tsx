@@ -1,23 +1,11 @@
 'use client';
 
 import { Suspense } from 'react';
-import { SearchChannelsSkeleton } from '@/features/explore/components/SearchChannelsSkeleton';
-import { SearchEpisodesSkeleton } from '@/features/explore/components/SearchEpisodesSkeleton';
 import { SearchResultsContent } from '@/features/explore/components/SearchResultsContent';
-import { SearchUsersSkeleton } from '@/features/explore/components/SearchUsersSkeleton';
+import { SearchResultsSkeleton } from '@/features/explore/components/SearchResultsSkeleton';
 
 interface Props {
   query: string;
-}
-
-function SearchResultsSkeleton() {
-  return (
-    <div className="mt-4 flex flex-col gap-6">
-      <SearchEpisodesSkeleton />
-      <SearchChannelsSkeleton />
-      <SearchUsersSkeleton />
-    </div>
-  );
 }
 
 export function SearchResults({ query }: Props) {

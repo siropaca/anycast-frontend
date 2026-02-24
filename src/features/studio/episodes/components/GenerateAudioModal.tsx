@@ -9,10 +9,9 @@ import { HelperText } from '@/components/inputs/Input/HelperText';
 import { Input } from '@/components/inputs/Input/Input';
 import { SegmentedControl } from '@/components/inputs/SegmentedControl/SegmentedControl';
 import { Modal } from '@/components/utils/Modal/Modal';
-import { BgmRadioList } from '@/features/studio/bgm/components/BgmRadioList';
 import type { BgmAdvancedSettingsRef } from '@/features/studio/episodes/components/BgmAdvancedSettings';
 import { BgmAdvancedSettings } from '@/features/studio/episodes/components/BgmAdvancedSettings';
-import { useBgmOptions } from '@/features/studio/episodes/hooks/useBgmOptions';
+import { BgmRadioListWithData } from '@/features/studio/episodes/components/BgmRadioListWithData';
 import { useUploadBgm } from '@/features/studio/episodes/hooks/useUploadBgm';
 import type { GenerateAudioFormInput } from '@/features/studio/episodes/schemas/generateAudio';
 import type { ResponseEpisodeResponseBgm } from '@/libs/api/generated/schemas';
@@ -248,24 +247,5 @@ export function GenerateAudioModal({
         </Modal.Footer>
       </Modal.Content>
     </Modal.Root>
-  );
-}
-
-function BgmRadioListWithData({
-  selectedValue,
-  onSelect,
-}: {
-  selectedValue: string;
-  onSelect: (value: string) => void;
-}) {
-  const { allBgms } = useBgmOptions();
-
-  return (
-    <BgmRadioList
-      allBgms={allBgms}
-      selectedValue={selectedValue}
-      isLoading={false}
-      onSelect={onSelect}
-    />
   );
 }

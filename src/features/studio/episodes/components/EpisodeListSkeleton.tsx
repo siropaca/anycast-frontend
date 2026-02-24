@@ -1,33 +1,10 @@
 import { PlusIcon } from '@phosphor-icons/react/ssr';
 
-import { ArtworkImageSkeleton } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImageSkeleton';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { Skeleton } from '@/components/feedback/Skeleton/Skeleton';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { EpisodeListSkeletonRow } from '@/features/studio/episodes/components/EpisodeListSkeletonRow';
 
 const SKELETON_ROW_COUNT = 3;
-
-function SkeletonRow() {
-  return (
-    <tr className="border-b border-border last:border-b-0">
-      <td className="px-4 py-3">
-        <div className="flex items-center gap-4">
-          <ArtworkImageSkeleton size={50} />
-          <Skeleton className="h-4 w-32" />
-        </div>
-      </td>
-      <td className="px-4 py-3">
-        <Skeleton className="h-5 w-16 rounded-full" />
-      </td>
-      <td className="px-4 py-3">
-        <Skeleton className="h-4 w-8" />
-      </td>
-      <td className="px-4 py-3">
-        <Skeleton className="h-4 w-8" />
-      </td>
-    </tr>
-  );
-}
 
 export function EpisodeListSkeleton() {
   return (
@@ -63,7 +40,7 @@ export function EpisodeListSkeleton() {
           <tbody>
             {Array.from({ length: SKELETON_ROW_COUNT }, (_, i) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: スケルトン行は固定で並び替えが発生しない
-              <SkeletonRow key={i} />
+              <EpisodeListSkeletonRow key={i} />
             ))}
           </tbody>
         </table>

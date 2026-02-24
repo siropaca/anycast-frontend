@@ -1,7 +1,7 @@
 'use client';
 
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react/ssr';
-import { cn } from '@/utils/cn';
+import { PaginationButton } from '@/components/navigation/Pagination/PaginationButton';
 
 interface Props {
   currentPage: number;
@@ -65,41 +65,6 @@ export function Pagination({
         <CaretRightIcon size={16} />
       </PaginationButton>
     </nav>
-  );
-}
-
-interface PaginationButtonProps {
-  children: React.ReactNode;
-  onClick: () => void;
-  disabled?: boolean;
-  isActive?: boolean;
-  'aria-label'?: string;
-  'aria-current'?: 'page';
-}
-
-function PaginationButton({
-  children,
-  onClick,
-  disabled = false,
-  isActive = false,
-  ...props
-}: PaginationButtonProps) {
-  return (
-    <button
-      type="button"
-      className={cn(
-        'flex size-8 items-center justify-center rounded-md text-sm transition-colors',
-        'disabled:cursor-not-allowed disabled:opacity-50',
-        isActive
-          ? 'bg-primary text-white'
-          : 'hover:bg-bg-hover text-text-subtle hover:text-text-main',
-      )}
-      onClick={onClick}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
   );
 }
 

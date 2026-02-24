@@ -71,6 +71,8 @@ function add(a: number, b: number): number {
 - `src/components/` のサブディレクトリはカテゴリ別に分類する（`dataDisplay`, `inputs`, `navigation`, `surface`, `feedback`, `utils`）
 - ローディング状態には `XxxSkeleton` コンポーネントを作成する（例: `AvatarSkeleton`, `ButtonSkeleton`）
 - Skeleton コンポーネントは実際のレイアウトにできるだけ近づける（ラベル、ボタンなど構成要素を省略しない）
+- 1ファイルにつき1コンポーネントのみ定義する（非exportのヘルパーコンポーネントも別ファイルに分離する）
+- クリック可能な要素には必ず `cursor-pointer` を付与する
 - `className` の結合や条件式を使う場合は `cn()` を使用する（`src/utils/cn.ts`）
 - コンポーネントでカラートークン（`red-500`、`gray-400` など）を直接使用しない。必ず `global.css` にセマンティックトークンとして定義してから使用する
 - Props の定義順序: 必須プロパティ → オプショナルプロパティ → 空行 → 関数
