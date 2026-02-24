@@ -168,6 +168,9 @@ const nextAuth = NextAuth({
       if (token.accessToken) {
         session.accessToken = token.accessToken;
       }
+      if (token.picture !== undefined) {
+        session.user.image = (token.picture as string) ?? null;
+      }
       session.error = token.error;
       return session;
     },
