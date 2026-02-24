@@ -1,17 +1,13 @@
 'use client';
 
 import { Collapsible } from '@base-ui/react/collapsible';
-import {
-  CaretDownIcon,
-  CaretRightIcon,
-  DownloadSimpleIcon,
-  UploadSimpleIcon,
-} from '@phosphor-icons/react';
+import { CaretDownIcon, CaretRightIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
-import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ScriptImportModal } from '@/features/studio/episodes/components/ScriptImportModal';
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
+import { ScriptSectionMenu } from '@/features/studio/episodes/components/ScriptSectionMenu';
+import { useDeleteAllScriptLines } from '@/features/studio/episodes/hooks/useDeleteAllScriptLines';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
 import { formatDateTime } from '@/utils/date';
@@ -40,6 +36,11 @@ export function ScriptSection({
     error: exportError,
   } = useExportScript(channelId, episodeId, episodeName);
 
+  const { deleteAllLines, error: deleteAllError } = useDeleteAllScriptLines(
+    channelId,
+    episodeId,
+  );
+
   function handleImportClick() {
     setIsImportModalOpen(true);
   }
@@ -52,28 +53,13 @@ export function ScriptSection({
         }
         level="h3"
         action={
-          <div className="flex items-center gap-3">
-            <Button
-              leftIcon={<DownloadSimpleIcon size={14} />}
-              variant="outline"
-              color="secondary"
-              size="sm"
-              onClick={handleImportClick}
-            >
-              インポート
-            </Button>
-
-            <Button
-              leftIcon={<UploadSimpleIcon size={14} />}
-              variant="outline"
-              color="secondary"
-              size="sm"
-              disabled={isExporting || scriptLines.length === 0}
-              onClick={exportScript}
-            >
-              エクスポート
-            </Button>
-          </div>
+          <ScriptSectionMenu
+            scriptLineCount={scriptLines.length}
+            isExporting={isExporting}
+            onImport={handleImportClick}
+            onExport={exportScript}
+            onDeleteAll={deleteAllLines}
+          />
         }
       />
 
@@ -90,9 +76,9 @@ export function ScriptSection({
         </p>
       )}
 
-      {exportError && (
+      {(exportError || deleteAllError) && (
         <p className="whitespace-pre-line text-sm text-text-danger">
-          {exportError}
+          {exportError || deleteAllError}
         </p>
       )}
 

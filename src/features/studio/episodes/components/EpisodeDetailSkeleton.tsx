@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  DotsThreeIcon,
-  DownloadSimpleIcon,
-  PencilSimpleIcon,
-  UploadSimpleIcon,
-} from '@phosphor-icons/react';
+import { DotsThreeIcon, PencilSimpleIcon } from '@phosphor-icons/react';
 import { CaretLeftIcon } from '@phosphor-icons/react/ssr';
 
 import { ArtworkImageSkeleton } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImageSkeleton';
@@ -102,26 +97,13 @@ export function EpisodeDetailSkeleton({ channelId }: Props) {
           title="台本"
           level="h3"
           action={
-            <div className="flex items-center gap-3">
-              <Button
-                leftIcon={<DownloadSimpleIcon size={14} />}
-                variant="outline"
-                color="secondary"
-                size="sm"
-                disabled
-              >
-                インポート
-              </Button>
-              <Button
-                leftIcon={<UploadSimpleIcon size={14} />}
-                variant="outline"
-                color="secondary"
-                size="sm"
-                disabled
-              >
-                エクスポート
-              </Button>
-            </div>
+            <IconButton
+              icon={<DotsThreeIcon size={24} weight="bold" />}
+              aria-label="台本メニュー"
+              color="secondary"
+              variant="text"
+              disabled
+            />
           }
         />
         <ul className="space-y-4">
