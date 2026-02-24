@@ -13,9 +13,7 @@ export function AccountContent() {
     <div className="space-y-8">
       <SectionTitle title="アカウント" level="h2" />
 
-      <Suspense>
-        <ProfilePageLink />
-      </Suspense>
+      <ProfilePageLink />
 
       <Suspense fallback={<UsernameSectionSkeleton />}>
         <UsernameSection />

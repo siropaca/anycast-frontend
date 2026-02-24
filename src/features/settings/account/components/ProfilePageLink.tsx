@@ -1,18 +1,16 @@
 'use client';
 
-import { StatusCodes } from 'http-status-codes';
 import Link from 'next/link';
-import { useGetMeSuspense } from '@/libs/api/generated/me/me';
+import { useSession } from 'next-auth/react';
 import { Pages } from '@/libs/pages';
 
 export function ProfilePageLink() {
-  const { data: meResponse } = useGetMeSuspense();
+  const { data: session } = useSession();
+  const username = session?.user?.username;
 
-  if (meResponse.status !== StatusCodes.OK) {
+  if (!username) {
     return null;
   }
-
-  const username = meResponse.data.data.username;
 
   return (
     <p className="text-sm text-text-subtle">
