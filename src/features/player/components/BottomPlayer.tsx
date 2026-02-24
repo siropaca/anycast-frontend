@@ -29,6 +29,7 @@ export function BottomPlayer() {
     onVolumeChange,
     onToggleMute,
     onPlaybackRateChange,
+    onDownload,
   } = useBottomPlayer();
 
   if (!hasPlayer) {
@@ -57,6 +58,7 @@ export function BottomPlayer() {
         onVolumeChange={onVolumeChange}
         onToggleMute={onToggleMute}
         onPlaybackRateChange={onPlaybackRateChange}
+        onDownload={onDownload}
       />
 
       <BottomPlayerMobile

@@ -1,3 +1,4 @@
+import { useDownloadTrack } from '@/features/player/hooks/useDownloadTrack';
 import { usePlayerStore } from '@/stores/playerStore';
 
 /**
@@ -27,6 +28,11 @@ export function useBottomPlayer() {
   const toggleMute = usePlayerStore((s) => s.toggleMute);
   const setPlaybackRate = usePlayerStore((s) => s.setPlaybackRate);
 
+  const { downloadTrack } = useDownloadTrack(
+    currentTrack?.audioUrl,
+    currentTrack?.title,
+  );
+
   const hasPlayer = currentTrack !== null;
   const hasPrevious = true;
   const hasNext = queueIndex < queue.length - 1 && queue.length > 1;
@@ -54,5 +60,6 @@ export function useBottomPlayer() {
     onVolumeChange: setVolume,
     onToggleMute: toggleMute,
     onPlaybackRateChange: setPlaybackRate,
+    onDownload: downloadTrack,
   };
 }

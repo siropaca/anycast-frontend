@@ -1,3 +1,5 @@
+import { DownloadSimpleIcon } from '@phosphor-icons/react';
+import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
 import { PlaybackControls } from '@/features/player/components/PlaybackControls';
 import { SpeedControl } from '@/features/player/components/SpeedControl';
 import { TrackInfo } from '@/features/player/components/TrackInfo';
@@ -25,6 +27,7 @@ interface Props {
   onVolumeChange: (volume: number) => void;
   onToggleMute: () => void;
   onPlaybackRateChange: (rate: number) => void;
+  onDownload: () => void;
 }
 
 export function BottomPlayerDesktop({
@@ -47,6 +50,7 @@ export function BottomPlayerDesktop({
   onVolumeChange,
   onToggleMute,
   onPlaybackRateChange,
+  onDownload,
 }: Props) {
   return (
     <div className="hidden md:flex items-center h-bottom-player px-6 bg-bg-main">
@@ -83,6 +87,13 @@ export function BottomPlayerDesktop({
           isMuted={isMuted}
           onVolumeChange={onVolumeChange}
           onToggleMute={onToggleMute}
+        />
+        <IconButton
+          icon={<DownloadSimpleIcon size={20} />}
+          aria-label="ダウンロード"
+          variant="text"
+          color="secondary"
+          onClick={onDownload}
         />
       </div>
     </div>
