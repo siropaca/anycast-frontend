@@ -7,6 +7,7 @@ import {
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   useDeleteChannelsChannelIdEpisodesEpisodeIdScriptLines,
 } from '@/libs/api/generated/script/script';
+import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 
 type ScriptLinesCache =
   getChannelsChannelIdEpisodesEpisodeIdScriptLinesResponse200;
@@ -68,6 +69,9 @@ export function useDeleteAllScriptLines(channelId: string, episodeId: string) {
           }
 
           queryClient.invalidateQueries({ queryKey });
+          queryClient.invalidateQueries({
+            queryKey: getGetMeChannelsChannelIdEpisodesQueryKey(channelId),
+          });
         },
         onError: (err: unknown) => {
           const message =
