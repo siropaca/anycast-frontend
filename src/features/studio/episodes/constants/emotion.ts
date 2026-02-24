@@ -33,4 +33,4 @@ export const EMOTION_OPTIONS = [
       { value: 'scornful', label: '軽蔑' },
     ],
   },
-] as const;
+];
