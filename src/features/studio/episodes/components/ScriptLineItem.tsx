@@ -31,11 +31,6 @@ interface Props {
   characterColor: string;
 }
 
-const emotionOptions = EMOTION_OPTIONS.map((option) => ({
-  label: option.label,
-  value: option.value,
-}));
-
 const speakerOptions = (characters: ResponseCharacterResponse[]) =>
   characters.map((character) => ({
     label: character.name,
@@ -153,7 +148,7 @@ export function ScriptLineItem({
             />
 
             <Select
-              options={emotionOptions}
+              options={EMOTION_OPTIONS}
               value={line.emotion ?? ''}
               onValueChange={handleEmotionChange}
               placeholder="感情"

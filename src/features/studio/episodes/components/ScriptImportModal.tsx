@@ -21,7 +21,7 @@ const ACCEPTED_EXTENSIONS = '.txt';
 
 const FORMAT_EXAMPLE = `たかし: 今日のテーマは AI についてです
 ゆうこ: 最近すごく進化してますよね
-たかし: [笑いながら] ほんとにそうですね`;
+たかし: [laughing] ほんとにそうですね`;
 
 export function ScriptImportModal({
   open,
