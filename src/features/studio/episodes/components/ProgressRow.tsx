@@ -49,17 +49,27 @@ export function ProgressRow({
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
-        {isGenerating && <Spinner size="sm" />}
+        {isGenerating && <Spinner size="md" />}
 
-        <Tooltip label={`${progress}%: ${statusLabel}`}>
-          <span className="text-sm text-text-main">{displayLabel}</span>
-        </Tooltip>
+        <div className="flex flex-col gap-0.5">
+          <div className="flex items-center gap-2">
+            <Tooltip label={`${progress}%: ${statusLabel}`}>
+              <span className="text-sm text-text-main">{displayLabel}</span>
+            </Tooltip>
 
-        {isGenerating && elapsedMs != null && (
-          <span className="text-sm tabular-nums text-text-subtle">
-            {formatElapsedTime(elapsedMs)}
-          </span>
-        )}
+            {isGenerating && elapsedMs != null && (
+              <span className="text-sm tabular-nums text-text-subtle">
+                {formatElapsedTime(elapsedMs)}
+              </span>
+            )}
+          </div>
+
+          {isGenerating && (
+            <span className="text-xs text-text-subtle">
+              処理には数分〜数十分かかる場合があります
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-3">
