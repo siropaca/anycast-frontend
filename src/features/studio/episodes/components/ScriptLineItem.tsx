@@ -148,7 +148,7 @@ export function ScriptLineItem({
               onValueChange={handleSpeakerChange}
               size="sm"
               disabled={isUpdating}
-              className="w-28 shrink-0 border-none!"
+              className="w-36 shrink-0 border-none!"
               style={{ backgroundColor: `${characterColor}26` }}
             />
 

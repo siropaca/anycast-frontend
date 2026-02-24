@@ -14,6 +14,7 @@ import { ScriptImportModal } from '@/features/studio/episodes/components/ScriptI
 import { ScriptLineList } from '@/features/studio/episodes/components/ScriptLineList';
 import { useExportScript } from '@/features/studio/episodes/hooks/useExportScript';
 import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines';
+import { formatDateTime } from '@/utils/date';
 
 interface Props {
   channelId: string;
@@ -75,6 +76,19 @@ export function ScriptSection({
           </div>
         }
       />
+
+      {scriptLines.length > 0 && (
+        <p className="text-xs text-text-subtle">
+          {formatDateTime(
+            new Date(
+              Math.max(
+                ...scriptLines.map((line) => Date.parse(line.createdAt)),
+              ),
+            ),
+          )}{' '}
+          生成
+        </p>
+      )}
 
       {exportError && (
         <p className="whitespace-pre-line text-sm text-text-danger">
