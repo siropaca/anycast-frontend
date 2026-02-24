@@ -4,7 +4,7 @@ import { PlusIcon } from '@phosphor-icons/react';
 import { Suspense } from 'react';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
-import { ApiKeyCreatedDialog } from '@/features/settings/apiKeys/components/ApiKeyCreatedDialog';
+import { ApiKeyCreatedBanner } from '@/features/settings/apiKeys/components/ApiKeyCreatedBanner';
 import { ApiKeyCreateModal } from '@/features/settings/apiKeys/components/ApiKeyCreateModal';
 import { ApiKeyList } from '@/features/settings/apiKeys/components/ApiKeyList';
 import { ApiKeyListSkeleton } from '@/features/settings/apiKeys/components/ApiKeyListSkeleton';
@@ -26,17 +26,18 @@ export function ApiKeyContent() {
         }
       />
 
+      {createModal.createdKey && (
+        <ApiKeyCreatedBanner
+          apiKey={createModal.createdKey.key}
+          onDismiss={createModal.closeCreatedDialog}
+        />
+      )}
+
       <Suspense fallback={<ApiKeyListSkeleton />}>
         <ApiKeyList />
       </Suspense>
 
       <ApiKeyCreateModal createModal={createModal} />
-
-      <ApiKeyCreatedDialog
-        apiKey={createModal.createdKey?.key}
-        open={createModal.createdKey !== null}
-        onClose={createModal.closeCreatedDialog}
-      />
     </div>
   );
 }
