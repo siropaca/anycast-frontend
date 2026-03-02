@@ -5,10 +5,12 @@ import { BottomPlayerDesktop } from '@/features/player/components/BottomPlayerDe
 import { BottomPlayerMobile } from '@/features/player/components/BottomPlayerMobile';
 import { useAudioPlayer } from '@/features/player/hooks/useAudioPlayer';
 import { useBottomPlayer } from '@/features/player/hooks/useBottomPlayer';
+import { useDocumentTitle } from '@/features/player/hooks/useDocumentTitle';
 import { usePlaybackTracking } from '@/features/player/hooks/usePlaybackTracking';
 
 export function BottomPlayer() {
   useAudioPlayer();
+  useDocumentTitle();
   usePlaybackTracking();
 
   const {
