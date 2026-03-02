@@ -47,7 +47,7 @@ export function SignupForm({ redirectTo = Pages.home.path() }: Props) {
               variant="outline"
               size="lg"
               className="w-full"
-              leftIcon={<EnvelopeIcon />}
+              leftIcon={<EnvelopeIcon size={18} />}
               onClick={() => setShowEmailForm(true)}
             />
           }
