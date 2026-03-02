@@ -7,6 +7,7 @@ import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { Modal } from '@/components/utils/Modal/Modal';
 import { useUploadEpisodeAudio } from '@/features/studio/episodes/hooks/useUploadEpisodeAudio';
+import { useToast } from '@/hooks/useToast';
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -28,6 +29,7 @@ export function AudioUploadModal({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
+  const toast = useToast();
   const { isUploading, error, uploadFile, clearError } =
     useUploadEpisodeAudio(channelId, episodeId);
 
@@ -51,6 +53,7 @@ export function AudioUploadModal({
       onSuccess: () => {
         resetState();
         onClose();
+        toast.success({ title: '音声をインポートしました' });
       },
     });
   }
@@ -82,13 +85,13 @@ export function AudioUploadModal({
     <Modal.Root open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
       <Modal.Content size="lg">
         <Modal.Header>
-          <Modal.Title>音声をアップロード</Modal.Title>
+          <Modal.Title>音声をインポート</Modal.Title>
           <Modal.Close />
         </Modal.Header>
 
         <Modal.Body className="space-y-4">
           <p className="text-sm text-text-subtle">
-            音声ファイルをアップロードします
+            音声ファイルをインポートします
             <Tooltip label="対応形式: mp3, wav, ogg, aac, m4a（最大 50MB）">
               <button
                 type="button"

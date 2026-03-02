@@ -59,7 +59,7 @@ export function useUploadEpisodeAudio(channelId: string, episodeId: string) {
       if (response.status !== StatusCodes.OK) {
         setError(
           response.data.error?.message ??
-            '音声のアップロードに失敗しました',
+            '音声のインポートに失敗しました',
         );
         return;
       }
@@ -69,7 +69,7 @@ export function useUploadEpisodeAudio(channelId: string, episodeId: string) {
       if (error instanceof ApiError) {
         setError(error.message);
       } else {
-        setError('音声のアップロードに失敗しました');
+        setError('音声のインポートに失敗しました');
       }
     } finally {
       setIsUploading(false);

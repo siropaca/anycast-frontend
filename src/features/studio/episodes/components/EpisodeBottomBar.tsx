@@ -6,16 +6,18 @@ import {
   MusicNoteIcon,
   PauseIcon,
   PlayIcon,
+  SpeakerHighIcon,
+  TextAlignLeftIcon,
   TrashIcon,
-  UploadSimpleIcon,
+  DownloadSimpleIcon,
 } from '@phosphor-icons/react';
 import { createPortal } from 'react-dom';
 import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
+import { SplitButton } from '@/components/inputs/buttons/SplitButton/SplitButton';
 import { DropdownMenu } from '@/components/inputs/DropdownMenu/DropdownMenu';
 import { DropdownMenuItem } from '@/components/inputs/DropdownMenu/DropdownMenuItem';
-import { SplitButton } from '@/components/inputs/buttons/SplitButton/SplitButton';
 import { ProgressRow } from '@/features/studio/episodes/components/ProgressRow';
 import { useBottomBarPortal } from '@/features/studio/episodes/hooks/useBottomBarPortal';
 import {
@@ -199,11 +201,16 @@ export function EpisodeBottomBar({
         </div>
 
         <div className="flex items-center gap-3">
-          <Button disabled={isScriptGenerating} onClick={onScriptGenerate}>
+          <Button
+            className="hidden sm:inline-flex"
+            disabled={isScriptGenerating}
+            onClick={onScriptGenerate}
+          >
             台本を生成
           </Button>
 
           <SplitButton
+            className="hidden sm:inline-flex"
             disabled={isScriptGenerating || isAudioGenerating}
             menu={remixMenuItem}
             onClick={onAudioGenerate}
@@ -222,11 +229,34 @@ export function EpisodeBottomBar({
             }
             side="top"
           >
+            <div className="sm:hidden">
+              <DropdownMenuItem
+                icon={<TextAlignLeftIcon size={16} />}
+                disabled={isScriptGenerating}
+                onClick={onScriptGenerate}
+              >
+                台本を生成
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                icon={<SpeakerHighIcon size={16} />}
+                disabled={isScriptGenerating || isAudioGenerating}
+                onClick={onAudioGenerate}
+              >
+                音声を生成
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                icon={<MusicNoteIcon size={16} />}
+                disabled={!hasVoiceAudio}
+                onClick={onAudioRemix}
+              >
+                BGMを差し替えて再生成
+              </DropdownMenuItem>
+            </div>
             <DropdownMenuItem
-              icon={<UploadSimpleIcon size={16} />}
+              icon={<DownloadSimpleIcon size={16} />}
               onClick={onAudioUpload}
             >
-              音声アップロード
+              音声インポート
             </DropdownMenuItem>
             <DropdownMenuItem
               icon={<TrashIcon size={16} />}
@@ -234,7 +264,7 @@ export function EpisodeBottomBar({
               disabled={!hasVoiceAudio}
               onClick={onAudioDelete}
             >
-              音声削除
+              音声を削除
             </DropdownMenuItem>
           </DropdownMenu>
         </div>
