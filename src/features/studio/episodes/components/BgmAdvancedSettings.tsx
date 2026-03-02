@@ -7,7 +7,7 @@ import { FormField } from '@/components/inputs/FormField/FormField';
 import { Input } from '@/components/inputs/Input/Input';
 
 const BGM_DEFAULTS = {
-  volumeDb: -20,
+  volumeDb: -25,
   fadeOutSeconds: 3,
   paddingStartSeconds: 1,
   paddingEndSeconds: 3,
