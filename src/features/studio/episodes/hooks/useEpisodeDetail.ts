@@ -223,11 +223,11 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
     isDeleting: deleteMutation.isPending,
     isPublishing: publishMutation.isPending,
     isUnpublishing: unpublishMutation.isPending,
+    isDeletingAudio: deleteAudioMutation.isPending,
     error,
 
     deleteEpisode,
     deleteAudio,
-    isDeletingAudio: deleteAudioMutation.isPending,
     publishEpisode,
     unpublishEpisode,
     clearError,
