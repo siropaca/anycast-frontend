@@ -1,11 +1,20 @@
 'use client';
 
 import { Menu } from '@base-ui/react/menu';
-import { MusicNoteIcon, PauseIcon, PlayIcon } from '@phosphor-icons/react';
+import {
+  DotsThreeIcon,
+  MusicNoteIcon,
+  PauseIcon,
+  PlayIcon,
+  TrashIcon,
+  UploadSimpleIcon,
+} from '@phosphor-icons/react';
 import { createPortal } from 'react-dom';
 import { Tooltip } from '@/components/dataDisplay/Tooltip/Tooltip';
 import { Button } from '@/components/inputs/buttons/Button/Button';
 import { IconButton } from '@/components/inputs/buttons/IconButton/IconButton';
+import { DropdownMenu } from '@/components/inputs/DropdownMenu/DropdownMenu';
+import { DropdownMenuItem } from '@/components/inputs/DropdownMenu/DropdownMenuItem';
 import { SplitButton } from '@/components/inputs/buttons/SplitButton/SplitButton';
 import { ProgressRow } from '@/features/studio/episodes/components/ProgressRow';
 import { useBottomBarPortal } from '@/features/studio/episodes/hooks/useBottomBarPortal';
@@ -45,6 +54,8 @@ interface Props {
   onAudioRemix: () => void;
   onAudioCancel: () => void;
   onAudioReset: () => void;
+  onAudioDelete: () => void;
+  onAudioUpload: () => void;
 }
 
 export function EpisodeBottomBar({
@@ -74,6 +85,8 @@ export function EpisodeBottomBar({
   onAudioRemix,
   onAudioCancel,
   onAudioReset,
+  onAudioDelete,
+  onAudioUpload,
 }: Props) {
   const portalContainer = useBottomBarPortal();
 
@@ -197,6 +210,33 @@ export function EpisodeBottomBar({
           >
             音声を生成
           </SplitButton>
+
+          <DropdownMenu
+            trigger={
+              <IconButton
+                icon={<DotsThreeIcon size={22} weight="bold" />}
+                aria-label="音声メニュー"
+                color="secondary"
+                variant="text"
+              />
+            }
+            side="top"
+          >
+            <DropdownMenuItem
+              icon={<UploadSimpleIcon size={16} />}
+              onClick={onAudioUpload}
+            >
+              音声アップロード
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              icon={<TrashIcon size={16} />}
+              variant="danger"
+              disabled={!hasVoiceAudio}
+              onClick={onAudioDelete}
+            >
+              音声削除
+            </DropdownMenuItem>
+          </DropdownMenu>
         </div>
       </div>
     </div>

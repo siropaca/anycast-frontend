@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useToast } from '@/hooks/useToast';
 import {
   useDeleteChannelsChannelIdEpisodesEpisodeId,
+  useDeleteChannelsChannelIdEpisodesEpisodeIdAudio,
   usePostChannelsChannelIdEpisodesEpisodeIdPublish,
   usePostChannelsChannelIdEpisodesEpisodeIdUnpublish,
 } from '@/libs/api/generated/episodes/episodes';
@@ -31,6 +32,8 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
     episodeId,
   );
   const deleteMutation = useDeleteChannelsChannelIdEpisodesEpisodeId();
+  const deleteAudioMutation =
+    useDeleteChannelsChannelIdEpisodesEpisodeIdAudio();
   const publishMutation = usePostChannelsChannelIdEpisodesEpisodeIdPublish();
   const unpublishMutation =
     usePostChannelsChannelIdEpisodesEpisodeIdUnpublish();
@@ -42,6 +45,7 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
   const isPublished = !!episode.publishedAt;
   const isMutating =
     deleteMutation.isPending ||
+    deleteAudioMutation.isPending ||
     publishMutation.isPending ||
     unpublishMutation.isPending;
 
@@ -167,6 +171,45 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
   }
 
   /**
+   * エピソードの音声を削除する
+   *
+   * @returns 削除が成功したかどうか
+   */
+  async function deleteAudio(): Promise<boolean> {
+    setError(undefined);
+
+    try {
+      const response = await deleteAudioMutation.mutateAsync({
+        channelId,
+        episodeId,
+      });
+
+      if (response.status !== StatusCodes.NO_CONTENT) {
+        const message =
+          response.data.error?.message ?? '音声の削除に失敗しました';
+        setError(message);
+        toast.error({ title: message });
+        return false;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: getGetMeChannelsChannelIdEpisodesEpisodeIdQueryKey(
+          channelId,
+          episodeId,
+        ),
+      });
+      toast.success({ title: '音声を削除しました' });
+      return true;
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : '音声の削除に失敗しました';
+      setError(message);
+      toast.error({ title: message });
+      return false;
+    }
+  }
+
+  /**
    * エラー状態をクリアする
    */
   function clearError() {
@@ -183,6 +226,8 @@ export function useEpisodeDetail(channelId: string, episodeId: string) {
     error,
 
     deleteEpisode,
+    deleteAudio,
+    isDeletingAudio: deleteAudioMutation.isPending,
     publishEpisode,
     unpublishEpisode,
     clearError,

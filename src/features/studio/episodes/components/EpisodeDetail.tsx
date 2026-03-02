@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { Dialog } from '@/components/utils/Dialog/Dialog';
 import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
 import { toTrackFromEpisode } from '@/features/player/utils/trackConverter';
@@ -57,10 +58,12 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     isPublished,
     isMutating,
     isDeleting,
+    isDeletingAudio,
     isPublishing,
     isUnpublishing,
     error,
     deleteEpisode,
+    deleteAudio,
     publishEpisode,
     unpublishEpisode,
     clearError,
@@ -86,6 +89,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
   // モーダル
   const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
   const [audioModalMode, setAudioModalMode] = useState<AudioModalMode>(null);
+  const [isAudioDeleteDialogOpen, setIsAudioDeleteDialogOpen] = useState(false);
 
   // ダイアログ
   const deleteDialog = useEpisodeDeleteDialog({
@@ -119,6 +123,13 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     const success = await publishDialog.confirm();
     if (success && publishDialog.action === 'publish' && !isChannelPublished) {
       setShowChannelPublishedDialog(true);
+    }
+  }
+
+  async function handleAudioDeleteConfirm() {
+    const success = await deleteAudio();
+    if (success) {
+      setIsAudioDeleteDialogOpen(false);
     }
   }
 
@@ -227,6 +238,8 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         onAudioRemix={() => setAudioModalMode('remix')}
         onAudioCancel={audioGeneration.cancelAudio}
         onAudioReset={audioGeneration.reset}
+        onAudioDelete={() => setIsAudioDeleteDialogOpen(true)}
+        onAudioUpload={() => {}}
       />
 
       {/* モーダル */}
@@ -246,6 +259,24 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         hasVoiceAudio={hasVoiceAudio}
         onClose={() => setAudioModalMode(null)}
         onSubmit={handleAudioSubmit}
+      />
+
+      {/* 音声削除ダイアログ */}
+      <ConfirmDialog
+        trigger={<span className="hidden" />}
+        open={isAudioDeleteDialogOpen}
+        title="音声を削除"
+        description={
+          <>
+            エピソードの音声を削除しますか？
+            <br />
+            この操作は取り消せません。
+          </>
+        }
+        confirmLabel="削除"
+        confirmColor="danger"
+        onOpenChange={(isOpen) => !isOpen && setIsAudioDeleteDialogOpen(false)}
+        onConfirm={handleAudioDeleteConfirm}
       />
 
       {/* ダイアログ */}
