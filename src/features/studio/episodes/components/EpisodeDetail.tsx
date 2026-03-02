@@ -18,6 +18,7 @@ import { EpisodeDeleteDialog } from '@/features/studio/episodes/components/Episo
 import { EpisodeDetailMenu } from '@/features/studio/episodes/components/EpisodeDetailMenu';
 import { EpisodeInfoSection } from '@/features/studio/episodes/components/EpisodeInfoSection';
 import { EpisodePublishDialog } from '@/features/studio/episodes/components/EpisodePublishDialog';
+import { AudioUploadModal } from '@/features/studio/episodes/components/AudioUploadModal';
 import { GenerateAudioModal } from '@/features/studio/episodes/components/GenerateAudioModal';
 import { ScriptGenerateModal } from '@/features/studio/episodes/components/ScriptGenerateModal';
 import { ScriptSection } from '@/features/studio/episodes/components/ScriptSection';
@@ -90,6 +91,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
   const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
   const [audioModalMode, setAudioModalMode] = useState<AudioModalMode>(null);
   const [isAudioDeleteDialogOpen, setIsAudioDeleteDialogOpen] = useState(false);
+  const [isAudioUploadModalOpen, setIsAudioUploadModalOpen] = useState(false);
 
   // ダイアログ
   const deleteDialog = useEpisodeDeleteDialog({
@@ -239,7 +241,7 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         onAudioCancel={audioGeneration.cancelAudio}
         onAudioReset={audioGeneration.reset}
         onAudioDelete={() => setIsAudioDeleteDialogOpen(true)}
-        onAudioUpload={() => {}}
+        onAudioUpload={() => setIsAudioUploadModalOpen(true)}
       />
 
       {/* モーダル */}
@@ -259,6 +261,13 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
         hasVoiceAudio={hasVoiceAudio}
         onClose={() => setAudioModalMode(null)}
         onSubmit={handleAudioSubmit}
+      />
+
+      <AudioUploadModal
+        open={isAudioUploadModalOpen}
+        channelId={channelId}
+        episodeId={episodeId}
+        onClose={() => setIsAudioUploadModalOpen(false)}
       />
 
       {/* 音声削除ダイアログ */}
