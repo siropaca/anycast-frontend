@@ -16,7 +16,7 @@ export function OAuthButton({ redirectTo = Pages.home.path() }: Props) {
       color="inverse"
       variant="outline"
       size="lg"
-      className="w-full rounded-sm"
+      className="w-full rounded-sm text-sm"
       leftIcon={<GoogleIcon size={20} />}
       onClick={() => signIn('google', { callbackUrl: redirectTo })}
     >
