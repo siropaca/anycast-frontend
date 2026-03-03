@@ -17,7 +17,7 @@ import { useArtworkField } from '@/hooks/useArtworkField';
 import { confirmDiscard } from '@/utils/confirmDiscard';
 
 const AVATAR_SYSTEM_PROMPT =
-  'キャラクターのアバター画像を生成してください。バストアップのポートレート。写真のようにリアルなスタイル。画像に文字やテキストを含めないでください。';
+  '画像に文字・テキスト・ロゴ・タイトル・ラベル・キャプションを一切含めないでください。No text, no letters, no words in the image. キャラクターのアバター画像を生成してください。バストアップのポートレート。写真のようにリアルなスタイル。';
 
 export function CharacterCreateModal() {
   const [open, setOpen] = useState(false);
@@ -75,7 +75,7 @@ export function CharacterCreateModal() {
     const persona = getValues('persona');
 
     const parts: string[] = [];
-    if (name) parts.push(`キャラクター「${name}」のアバター画像。`);
+    if (name) parts.push(`${name}というキャラクターのアバター画像。`);
     if (persona) parts.push(persona);
 
     artwork.openGenerateModal(parts.join('\n'));

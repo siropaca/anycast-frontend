@@ -95,7 +95,7 @@ export function ChannelForm({
       categories.find((c) => c.id === categoryId)?.name ?? '';
 
     const parts: string[] = [];
-    if (name) parts.push(`ポッドキャストチャンネル「${name}」のアートワーク。`);
+    if (name) parts.push(`${name}をテーマにしたポッドキャストチャンネルのアートワーク。`);
     if (categoryName) parts.push(`カテゴリ: ${categoryName}。`);
     if (description) parts.push(description);
 

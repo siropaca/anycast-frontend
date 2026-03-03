@@ -4,7 +4,7 @@ import { useGenerateArtwork } from '@/hooks/useGenerateArtwork';
 import { useUploadArtwork } from '@/hooks/useUploadArtwork';
 
 const SYSTEM_PROMPT =
-  '人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。画像に文字やテキストを含めないでください。';
+  '画像に文字・テキスト・ロゴ・タイトル・ラベル・キャプションを一切含めないでください。No text, no letters, no words, no titles, no labels in the image. 人物は描かないでください。ネオン、発光、ホログラム、SF的な要素は避けてください。写真のようにリアルなスタイル。';
 
 interface ArtworkFieldOptions {
   onUpload: (id: string) => void;
@@ -95,7 +95,7 @@ export function useArtworkField(options: ArtworkFieldOptions) {
    * @param userPrompt - ユーザーが入力したプロンプト
    */
   function submitGenerate(userPrompt: string) {
-    const fullPrompt = `${userPrompt}\n${options.systemPrompt ?? SYSTEM_PROMPT}`;
+    const fullPrompt = `${options.systemPrompt ?? SYSTEM_PROMPT}\n${userPrompt}`;
 
     setGenerateModalOpen(false);
 

@@ -60,7 +60,7 @@ export function EpisodeForm({
 
     const parts: string[] = [];
     if (title)
-      parts.push(`ポッドキャストエピソード「${title}」のアートワーク。`);
+      parts.push(`${title}をテーマにしたポッドキャストエピソードのアートワーク。`);
     if (description) parts.push(description);
 
     artwork.openGenerateModal(parts.join('\n'));
