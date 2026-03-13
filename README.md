@@ -154,7 +154,11 @@ pnpm dev
 │   ├── adr/             # Architecture Decision Records
 │   ├── design/          # デザイン指示書
 │   ├── pages/           # ページ構成と URL 設計
-│   └── specs/           # 仕様書
+│   ├── specs/           # 仕様書
+│   ├── conventions.md   # 実装パターン・規約集
+│   ├── testing.md       # テストガイド
+│   ├── definition-of-done.md # 完了の定義
+│   └── ubiquitous-language.md # ユビキタス言語集
 ├── .env.example         # 環境変数のサンプル
 ├── .mise.toml           # mise 設定
 ├── biome.json           # Biome 設定
