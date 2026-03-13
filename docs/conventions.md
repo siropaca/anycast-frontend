@@ -1,5 +1,37 @@
 # 実装パターン・規約集
 
+## 最重要ルール（全タスク共通）
+
+1. import のパスは `@` エイリアスを使用する（相対パス禁止）
+2. バレルファイル（index.ts）は作成しない
+3. 1 ファイルにつき 1 コンポーネントのみ定義する
+4. コンポーネントの props は `interface Props` で定義する
+5. コミット前に `pnpm check` を実行する
+
+## 禁止事項
+
+- バレルファイル（index.ts）を作成しない
+- `any` や `as` での型回避は原則禁止
+- `useCallback` / `useMemo` はパフォーマンスチューニングが必要になるまで使用しない
+- `src/components/` のコンポーネントでカラートークン（`red-500` 等）を直接使用しない（`global.css` にセマンティックトークンとして定義してから使用）
+- テスト失敗時にテストコードを先に修正しない（実装側の修正を優先）
+- 非 export のヘルパーコンポーネントも同じファイルに同居させない（別ファイルに分離）
+- Zustand の `useXxxStore` をコンポーネント内で直接呼び出さない（カスタムフックでラップ）
+
+## ファイル命名規約
+
+| 種類 | 命名 | 例 |
+|------|------|-----|
+| コンポーネント | PascalCase.tsx | `TrackInfo.tsx` |
+| フック | camelCase.ts | `useAudioPlayer.ts` |
+| ユーティリティ | camelCase.ts | `formatTime.ts` |
+| スキーマ（Zod） | camelCase.ts | `channel.ts` |
+| ストア | camelCase.ts | `playerStore.ts` |
+| 型定義 | camelCase.ts | `job.ts` |
+| 定数 | camelCase.ts | `messages.ts` |
+| テスト | *.test.ts | `formatTime.test.ts` |
+| Stories | *.stories.tsx | `Avatar.stories.tsx` |
+
 ## コーディング規約
 
 - TypeScript を使用し、型安全性を重視する
@@ -207,3 +239,12 @@ interface Props {
 ## React Hook Form
 
 - `showCounter` 付きの Input / Textarea で RHF の `register` を使う場合、`value={watch('fieldName')}` を併せて渡す（`register` だけでは `value` が props に反映されず、カウンターが動作しない）
+
+## エラー対処
+
+| エラー | 対処 |
+|--------|------|
+| `pnpm check` 失敗 | `pnpm check:fix` で自動修正を試み、残りを手動修正 |
+| `pnpm typecheck` 失敗 | 型エラーを解消してから進める。`any` や `as` での回避は原則禁止 |
+| テスト失敗 | テストコードではなく実装側の修正を優先する。テスト側を修正する場合はユーザーに確認を取る |
+| `pnpm gen:api` 失敗 | `openapi.json` が最新か確認する。バックエンドの起動状態も確認 |

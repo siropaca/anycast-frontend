@@ -88,6 +88,24 @@ Anycast の基本的な UI レイアウトを定義する。
 
 `src/middleware.ts` で `/library/*`、`/studio/*`、`/settings/*` への未認証アクセスをログインページにリダイレクトする。
 
+## 関連ファイル
+
+| パス | 説明 |
+|------|------|
+| `src/features/app/layouts/MainLayout.tsx` | 通常ページ用レイアウト |
+| `src/features/app/layouts/StudioLayout.tsx` | Studio ページ用レイアウト |
+| `src/features/app/layouts/SettingsLayout.tsx` | 設定ページ用レイアウト |
+| `src/features/app/components/LayoutBody.tsx` | レイアウト本体 |
+| `src/features/app/components/MainLayoutSideMenu.tsx` | 通常ページ用サイドメニュー |
+| `src/features/app/components/StudioLayoutSideMenu.tsx` | Studio 用サイドメニュー |
+| `src/features/app/components/SettingsLayoutSideMenu.tsx` | 設定用サイドメニュー |
+| `src/components/navigation/Sidebar/Sidebar.tsx` | サイドバーの枠組み |
+| `src/app/(main)/layout.tsx` | 通常ページのルートレイアウト |
+| `src/app/(studio)/layout.tsx` | Studio のルートレイアウト |
+| `src/app/(settings)/layout.tsx` | 設定のルートレイアウト |
+| `src/app/(auth)/layout.tsx` | 認証ページのルートレイアウト |
+| `src/middleware.ts` | 認証ガード |
+
 ## 今後の検討事項
 
 - レスポンシブ対応（モバイル時のサイドメニューの扱い）

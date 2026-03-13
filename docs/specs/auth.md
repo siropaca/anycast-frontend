@@ -28,16 +28,27 @@ PostgreSQL (users, credentials, oauth_accounts)
 - バックエンドはユーザー作成/検証 API を提供
 - バックエンド API は Auth.js の JWT を検証して認可
 
-## 関連ディレクトリ
+## 関連ファイル
 
-| ディレクトリ | 説明 |
-|-------------|------|
-| `src/libs/auth/` | Auth.js 設定 |
-| `src/libs/api/generated/auth/` | orval 生成の認証 API クライアント |
-| `src/app/api/auth/` | Auth.js ルートハンドラー |
-| `src/app/(auth)/` | 認証ページ（ログイン、新規登録） |
-| `src/features/auth/schemas/` | Zod バリデーションスキーマ |
-| `src/features/auth/components/` | 認証関連コンポーネント |
+| パス | 説明 |
+|------|------|
+| `src/libs/auth/auth.ts` | Auth.js 設定 |
+| `src/libs/auth/token.ts` | トークン処理 |
+| `src/libs/auth/refresh.ts` | トークンリフレッシュ |
+| `src/libs/auth/SessionGuard.tsx` | セッションガード |
+| `src/libs/api/generated/auth/auth.ts` | orval 生成の認証 API クライアント |
+| `src/app/api/auth/[...nextauth]/route.ts` | Auth.js ルートハンドラー |
+| `src/app/api/auth/update-session/route.ts` | セッション更新 API |
+| `src/app/(auth)/login/page.tsx` | ログインページ |
+| `src/app/(auth)/signup/page.tsx` | 新規登録ページ |
+| `src/features/auth/schemas/auth.ts` | Zod バリデーションスキーマ |
+| `src/features/auth/hooks/useSignup.ts` | 新規登録フック |
+| `src/features/auth/components/LoginForm.tsx` | ログインフォーム |
+| `src/features/auth/components/SignupForm.tsx` | 新規登録フォーム |
+| `src/features/auth/components/OAuthButton.tsx` | OAuth ボタン |
+| `src/features/auth/components/AuthCard.tsx` | 認証カード |
+| `src/features/auth/constants.ts` | 認証関連定数 |
+| `src/middleware.ts` | 認証ガード（保護されたルートへのリダイレクト） |
 
 ## バックエンド API 仕様
 
