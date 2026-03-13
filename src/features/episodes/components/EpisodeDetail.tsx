@@ -1,5 +1,9 @@
 import Link from 'next/link';
 import { CharacterList } from '@/features/channels/components/CharacterList';
+import { ChannelEpisodeList } from '@/features/episodes/components/ChannelEpisodeList';
+import { EpisodeActionBar } from '@/features/episodes/components/EpisodeActionBar';
+import { EpisodeDescription } from '@/features/episodes/components/EpisodeDescription';
+import { EpisodeHeader } from '@/features/episodes/components/EpisodeHeader';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import { getChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import type {
@@ -9,11 +13,6 @@ import type {
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
-
-import { ChannelEpisodeList } from './ChannelEpisodeList';
-import { EpisodeActionBar } from './EpisodeActionBar';
-import { EpisodeDescription } from './EpisodeDescription';
-import { EpisodeHeader } from './EpisodeHeader';
 
 interface Props {
   channelId: string;

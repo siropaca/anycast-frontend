@@ -2,8 +2,8 @@
 
 import { PauseIcon, PlayIcon } from '@phosphor-icons/react';
 import { toTrackFromDefaultBgm } from '@/features/player/utils/trackConverter';
+import { useBgmPlayer } from '@/features/studio/channels/hooks/useBgmPlayer';
 import type { ResponseBgmAudioResponse } from '@/libs/api/generated/schemas';
-import { usePlayerStore } from '@/stores/playerStore';
 
 interface BgmLike {
   id: string;
@@ -16,13 +16,7 @@ interface Props {
 }
 
 export function BgmPlayButton({ bgm }: Props) {
-  const currentTrack = usePlayerStore((s) => s.currentTrack);
-  const isPlaying = usePlayerStore((s) => s.isPlaying);
-  const play = usePlayerStore((s) => s.play);
-  const pause = usePlayerStore((s) => s.pause);
-
-  const playing =
-    currentTrack?.id === bgm.id && currentTrack?.type === 'bgm' && isPlaying;
+  const { playing, play, pause } = useBgmPlayer(bgm.id);
 
   function handleClick() {
     if (playing) {

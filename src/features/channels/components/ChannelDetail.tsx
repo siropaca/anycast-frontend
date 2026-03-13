@@ -1,12 +1,11 @@
+import { ChannelActionBar } from '@/features/channels/components/ChannelActionBar';
+import { ChannelHeader } from '@/features/channels/components/ChannelHeader';
+import { CharacterList } from '@/features/channels/components/CharacterList';
 import { ChannelEpisodeList } from '@/features/episodes/components/ChannelEpisodeList';
 import { EpisodeDescription } from '@/features/episodes/components/EpisodeDescription';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import type { ResponseChannelResponse } from '@/libs/api/generated/schemas';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
-
-import { ChannelActionBar } from './ChannelActionBar';
-import { ChannelHeader } from './ChannelHeader';
-import { CharacterList } from './CharacterList';
 
 interface Props {
   channelId: string;

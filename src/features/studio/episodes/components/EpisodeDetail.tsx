@@ -9,16 +9,15 @@ import { Button } from '@/components/inputs/buttons/Button/Button';
 import { ConfirmDialog } from '@/components/utils/Dialog/ConfirmDialog';
 import { Dialog } from '@/components/utils/Dialog/Dialog';
 import { useEpisodePlayer } from '@/features/episodes/hooks/useEpisodePlayer';
-import { toTrackFromEpisode } from '@/features/player/utils/trackConverter';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
 import { useChannelDetail } from '@/features/studio/channels/hooks/useChannelDetail';
+import { AudioUploadModal } from '@/features/studio/episodes/components/AudioUploadModal';
 import { BgmSection } from '@/features/studio/episodes/components/BgmSection';
 import { EpisodeBottomBar } from '@/features/studio/episodes/components/EpisodeBottomBar';
 import { EpisodeDeleteDialog } from '@/features/studio/episodes/components/EpisodeDeleteDialog';
 import { EpisodeDetailMenu } from '@/features/studio/episodes/components/EpisodeDetailMenu';
 import { EpisodeInfoSection } from '@/features/studio/episodes/components/EpisodeInfoSection';
 import { EpisodePublishDialog } from '@/features/studio/episodes/components/EpisodePublishDialog';
-import { AudioUploadModal } from '@/features/studio/episodes/components/AudioUploadModal';
 import { GenerateAudioModal } from '@/features/studio/episodes/components/GenerateAudioModal';
 import { ScriptGenerateModal } from '@/features/studio/episodes/components/ScriptGenerateModal';
 import { ScriptSection } from '@/features/studio/episodes/components/ScriptSection';
@@ -31,7 +30,6 @@ import { useScriptLines } from '@/features/studio/episodes/hooks/useScriptLines'
 import type { GenerateAudioFormInput } from '@/features/studio/episodes/schemas/generateAudio';
 import type { ScriptGenerateFormInput } from '@/features/studio/episodes/schemas/scriptGenerate';
 import { Pages } from '@/libs/pages';
-import { usePlayerStore } from '@/stores/playerStore';
 
 type AudioModalMode = 'generate' | 'remix' | null;
 
@@ -77,13 +75,12 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
 
   // 音声生成
   const audioGeneration = useGenerateEpisodeAudio(channelId, episodeId);
-  const play = usePlayerStore((s) => s.play);
 
   // 音声生成完了後にボトムプレイヤーを新しい音声でリセット
   // biome-ignore lint/correctness/useExhaustiveDependencies: episode は handleJobCompleted の refetch 完了後に status が変わるため最新が保証される
   useEffect(() => {
     if (audioGeneration.status === 'completed' && episode.fullAudio) {
-      play(toTrackFromEpisode(episode, channel.name));
+      playEpisode(episode);
     }
   }, [audioGeneration.status]);
 
