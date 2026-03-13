@@ -39,7 +39,7 @@ export function PlaybackHistoryItem({ item, priority }: Props) {
       })}
     >
       <Artwork
-        src={episode.channel.artwork?.url}
+        src={episode.artwork?.url}
         title={episode.title}
         subtext={episode.channel.name}
         priority={priority}

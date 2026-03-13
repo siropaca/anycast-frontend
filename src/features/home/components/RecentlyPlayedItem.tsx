@@ -40,7 +40,7 @@ export function RecentlyPlayedItem({ item, priority }: Props) {
       })}
     >
       <Artwork
-        src={episode.channel.artwork?.url}
+        src={episode.artwork?.url}
         title={episode.title}
         subtext={episode.channel.name}
         size={ARTWORK_SIZE}
