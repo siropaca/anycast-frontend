@@ -18,11 +18,11 @@
 
 | 対象 | 例 |
 |------|-----|
-| ユーティリティ関数 | `src/utils/`, `src/features/*/utils/` |
-| Zod スキーマ | `src/features/*/schemas/` |
-| Zustand ストア | `src/stores/` |
-| ページパス定義 | `src/libs/pages/` |
-| ライブラリヘルパー | `src/libs/api/` の純粋関数 |
+| ユーティリティ関数 | src/utils/, src/features/*/utils/ |
+| Zod スキーマ | src/features/*/schemas/ |
+| Zustand ストア | src/stores/ |
+| ページパス定義 | src/libs/pages/ |
+| ライブラリヘルパー | src/libs/api/ の純粋関数 |
 
 ### 不要（外部依存があるもの）
 

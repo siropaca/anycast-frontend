@@ -13,7 +13,7 @@
 - バレルファイル（index.ts）を作成しない
 - `any` や `as` での型回避は原則禁止
 - `useCallback` / `useMemo` はパフォーマンスチューニングが必要になるまで使用しない
-- `src/components/` のコンポーネントでカラートークン（`red-500` 等）を直接使用しない（`global.css` にセマンティックトークンとして定義してから使用）
+- src/components/ のコンポーネントでカラートークン（`red-500` 等）を直接使用しない（global.css にセマンティックトークンとして定義してから使用）
 - テスト失敗時にテストコードを先に修正しない（実装側の修正を優先）
 - 非 export のヘルパーコンポーネントも同じファイルに同居させない（別ファイルに分離）
 - Zustand の `useXxxStore` をコンポーネント内で直接呼び出さない（カスタムフックでラップ）
@@ -76,14 +76,15 @@ function add(a: number, b: number): number {
 - 最新の hooks・API・手法を積極的に採用する（例: `use`、`useActionState`、`useOptimistic`、Server Components など）
 - `useCallback` / `useMemo` はパフォーマンスチューニングが必要になるまで使用しない
 - コンポーネントの props は必ず `interface Props` で定義してから使用する
-- `src/components/` 配下のコンポーネントはできるだけ Presentational Component にする
-- `src/components/` のサブディレクトリはカテゴリ別に分類する（`dataDisplay`, `inputs`, `navigation`, `surface`, `feedback`, `utils`）
+- src/components/ 配下のコンポーネントはできるだけ Presentational Component にする
+- src/components/ のサブディレクトリはカテゴリ別に分類する（`dataDisplay`, `inputs`, `navigation`, `surface`, `feedback`, `utils`）
 - ローディング状態には `XxxSkeleton` コンポーネントを作成する（例: `AvatarSkeleton`, `ButtonSkeleton`）
 - Skeleton コンポーネントは実際のレイアウトにできるだけ近づける（ラベル、ボタンなど構成要素を省略しない）
 - 1ファイルにつき1コンポーネントのみ定義する（非exportのヘルパーコンポーネントも別ファイルに分離する）
 - クリック可能な要素には必ず `cursor-pointer` を付与する
-- `className` の結合や条件式を使う場合は `cn()` を使用する（`src/utils/cn.ts`）
-- コンポーネントでカラートークン（`red-500`、`gray-400` など）を直接使用しない。必ず `global.css` にセマンティックトークンとして定義してから使用する
+- `className` の結合や条件式を使う場合は `cn()` を使用する（src/utils/cn.ts）
+- コンポーネントでカラートークン（`red-500`、`gray-400` など）を直接使用しない。必ず global.css にセマンティックトークンとして定義してから使用する
+- **UI 構築時は必ず src/styles/globals.css の `@theme inline` ブロックで定義済みのカラートークンを確認してから実装を開始する。** 存在しないトークン（例: `text-text-secondary`）を使用しないこと
 
 ### Props の定義
 
@@ -139,11 +140,11 @@ function UploadModal() {
 
 - page.tsx には必ず `export const metadata` を定義する
 - 認証必須ページ（`(studio)`, `(settings)` など）には `robots: { index: false }` を付与する
-- `src/app/` 配下にはページ（`page.tsx`, `layout.tsx` など）のみ配置し、コンポーネントやフックは `src/features/` に配置する
+- src/app/ 配下にはページ（page.tsx, layout.tsx など）のみ配置し、コンポーネントやフックは src/features/ に配置する
 
 ## Storybook
 
-- `src/components/` 配下の共有コンポーネントには `*.stories.tsx` を作成する
+- src/components/ 配下の共有コンポーネントには *.stories.tsx を作成する
 - feature 固有のコンポーネントには Stories は不要
 - Stories ファイルはコンポーネントと同じディレクトリに配置する
 
@@ -187,7 +188,7 @@ export function useMyList() {
 
 ## ページパスの管理
 
-- ページのパスとタイトルは `src/libs/pages/index.ts` の `Pages` オブジェクトで一元管理する
+- ページのパスとタイトルは src/libs/pages/index.ts の `Pages` オブジェクトで一元管理する
 - 動的ルート（`[id]` など）を持つページは、パラメータ型を定義して `path()` と `page.tsx` の両方で使用する
 
 ```typescript
@@ -213,10 +214,10 @@ interface Props {
 
 - 必要な API が存在せずワークアラウンド的な実装になりそうな場合は、実装に着手する前にユーザーに確認する（バックエンドへの API 追加依頼で解決できる可能性があるため）
 - TanStack Query でデータフェッチを管理する
-- API クライアントは `src/libs/api/` に配置する
-- カスタムフックは `src/features/*/hooks/` に配置する
+- API クライアントは src/libs/api/ に配置する
+- カスタムフックは src/features/*/hooks/ に配置する
 - データ取得のカスタムフックはコンポーネントごとに作成する（Suspense との組み合わせを考慮）
-- データ取得の実装時は orval 生成の型（`src/libs/api/generated/schemas/`）を必ず確認する
+- データ取得の実装時は orval 生成の型（src/libs/api/generated/schemas/）を必ず確認する
 - HTTP ステータスコードはマジックナンバーではなく `http-status-codes` の `StatusCodes` を使用する
 
 ## アイコン
@@ -225,11 +226,11 @@ interface Props {
 
 ## ファイル・ディレクトリ管理
 
-- 新しいディレクトリを作成する際、空のままでも Git で管理する必要がある場合は `.gitkeep` を追加する
+- 新しいディレクトリを作成する際、空のままでも Git で管理する必要がある場合は .gitkeep を追加する
 
 ## 環境変数
 
-- 環境変数を追加・変更した際は `.env.example` も更新する
+- 環境変数を追加・変更した際は .env.example も更新する
 
 ## パッケージ管理
 
@@ -247,4 +248,4 @@ interface Props {
 | `pnpm check` 失敗 | `pnpm check:fix` で自動修正を試み、残りを手動修正 |
 | `pnpm typecheck` 失敗 | 型エラーを解消してから進める。`any` や `as` での回避は原則禁止 |
 | テスト失敗 | テストコードではなく実装側の修正を優先する。テスト側を修正する場合はユーザーに確認を取る |
-| `pnpm gen:api` 失敗 | `openapi.json` が最新か確認する。バックエンドの起動状態も確認 |
+| `pnpm gen:api` 失敗 | openapi.json が最新か確認する。バックエンドの起動状態も確認 |

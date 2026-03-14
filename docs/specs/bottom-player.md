@@ -18,25 +18,25 @@
 
 | パス | 説明 |
 |------|------|
-| `src/stores/playerStore.ts` | Zustand ストア（State / Actions） |
-| `src/features/player/components/BottomPlayer.tsx` | エントリーポイント |
-| `src/features/player/components/BottomPlayerDesktop.tsx` | デスクトップ表示 |
-| `src/features/player/components/BottomPlayerMobile.tsx` | モバイル表示 |
-| `src/features/player/components/TrackInfo.tsx` | トラック情報表示 |
-| `src/features/player/components/PlaybackControls.tsx` | 再生コントロール |
-| `src/features/player/components/ProgressBar.tsx` | プログレスバー |
-| `src/features/player/components/VolumeControl.tsx` | ボリュームコントロール |
-| `src/features/player/components/SpeedControl.tsx` | 再生速度コントロール |
-| `src/features/player/hooks/useAudioPlayer.ts` | Audio API フック |
-| `src/features/player/hooks/usePlaybackTracking.ts` | 再生履歴トラッキング |
-| `src/features/player/hooks/usePlayEpisode.ts` | エピソード再生フック |
-| `src/features/player/hooks/useBottomPlayer.ts` | BottomPlayer フック |
-| `src/features/player/hooks/useDocumentTitle.ts` | ドキュメントタイトル更新 |
-| `src/features/player/hooks/useDownloadTrack.ts` | トラックダウンロード |
-| `src/features/player/hooks/useNowPlayingEpisodeId.ts` | 再生中エピソード ID |
-| `src/features/player/utils/trackConverter.ts` | Track 変換関数 |
-| `src/features/player/styles/player-slider.css` | スライダースタイル |
-| `src/utils/date.ts` | 時間フォーマット（`formatTime`） |
+| src/stores/playerStore.ts | Zustand ストア（State / Actions） |
+| src/features/player/components/BottomPlayer.tsx | エントリーポイント |
+| src/features/player/components/BottomPlayerDesktop.tsx | デスクトップ表示 |
+| src/features/player/components/BottomPlayerMobile.tsx | モバイル表示 |
+| src/features/player/components/TrackInfo.tsx | トラック情報表示 |
+| src/features/player/components/PlaybackControls.tsx | 再生コントロール |
+| src/features/player/components/ProgressBar.tsx | プログレスバー |
+| src/features/player/components/VolumeControl.tsx | ボリュームコントロール |
+| src/features/player/components/SpeedControl.tsx | 再生速度コントロール |
+| src/features/player/hooks/useAudioPlayer.ts | Audio API フック |
+| src/features/player/hooks/usePlaybackTracking.ts | 再生履歴トラッキング |
+| src/features/player/hooks/usePlayEpisode.ts | エピソード再生フック |
+| src/features/player/hooks/useBottomPlayer.ts | BottomPlayer フック |
+| src/features/player/hooks/useDocumentTitle.ts | ドキュメントタイトル更新 |
+| src/features/player/hooks/useDownloadTrack.ts | トラックダウンロード |
+| src/features/player/hooks/useNowPlayingEpisodeId.ts | 再生中エピソード ID |
+| src/features/player/utils/trackConverter.ts | Track 変換関数 |
+| src/features/player/styles/player-slider.css | スライダースタイル |
+| src/utils/date.ts | 時間フォーマット（`formatTime`） |
 
 ## コンポーネント構成
 

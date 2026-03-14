@@ -13,8 +13,8 @@
 
 ### 新規ページ追加
 
-- [ ] `docs/pages/INDEX.md` のページ一覧を更新
-- [ ] `src/libs/pages/` にページパスを追加
+- [ ] docs/pages/INDEX.md のページ一覧を更新
+- [ ] src/libs/pages/ にページパスを追加
 - [ ] `export const metadata` を定義
 - [ ] 認証必須ページの場合、`robots: { index: false }` を付与
 
@@ -25,8 +25,8 @@
 
 ### 新規ライブラリ導入
 
-- [ ] ADR を作成し、`docs/adr/INDEX.md` に追記
+- [ ] ADR を作成し、docs/adr/INDEX.md に追記
 
 ### 環境変数の追加・変更
 
-- [ ] `.env.example` を更新
+- [ ] .env.example を更新

@@ -67,5 +67,5 @@ API クライアント生成ツールとして **orval** を採用する。
 
 - orval をインストールし、設定ファイル（`orval.config.ts`）を作成する
 - `pnpm gen:api` コマンドで API クライアントを生成できるようにする
-- 生成されたコードは `src/libs/api/generated/` に配置する
-- `openapi.json` が更新されたら、コマンドを再実行して再生成する
+- 生成されたコードは src/libs/api/generated/ に配置する
+- openapi.json が更新されたら、コマンドを再実行して再生成する
