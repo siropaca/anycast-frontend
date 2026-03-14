@@ -36,7 +36,7 @@ export function CharacterList({ characters }: Props) {
             <div className="min-w-0">
               <p className="font-semibold">{character.name}</p>
               {character.persona && (
-                <p className="mt-0.5 line-clamp-3 text-xs text-text-subtle">
+                <p className="mt-0.5 line-clamp-3 text-sm text-text-subtle">
                   {character.persona}
                 </p>
               )}
