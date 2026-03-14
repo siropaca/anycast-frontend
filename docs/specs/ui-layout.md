@@ -79,14 +79,14 @@ Anycast の基本的な UI レイアウトを定義する。
 
 | グループ | 適用レイアウト | 認証 |
 |----------|----------------|------|
-| `(main)` | `MainLayout` | `/library/*` のみ必須 |
-| `(studio)` | `StudioLayout` | 必須 |
-| `(settings)` | `SettingsLayout` | 必須 |
-| `(auth)` | なし | 不要 |
+| (main) | `MainLayout` | `/library/*` のみ必須 |
+| (studio) | `StudioLayout` | 必須 |
+| (settings) | `SettingsLayout` | 必須 |
+| (auth) | なし | 不要 |
 
 ### 認証ガード
 
-`src/middleware.ts` で `/library/*`、`/studio/*`、`/settings/*` への未認証アクセスをログインページにリダイレクトする。
+src/middleware.ts で `/library/*`、`/studio/*`、`/settings/*` への未認証アクセスをログインページにリダイレクトする。
 
 ## 関連ファイル
 

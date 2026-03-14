@@ -22,15 +22,15 @@
 
 | 種類 | 命名 | 例 |
 |------|------|-----|
-| コンポーネント | PascalCase.tsx | `TrackInfo.tsx` |
-| フック | camelCase.ts | `useAudioPlayer.ts` |
-| ユーティリティ | camelCase.ts | `formatTime.ts` |
-| スキーマ（Zod） | camelCase.ts | `channel.ts` |
-| ストア | camelCase.ts | `playerStore.ts` |
-| 型定義 | camelCase.ts | `job.ts` |
-| 定数 | camelCase.ts | `messages.ts` |
-| テスト | *.test.ts | `formatTime.test.ts` |
-| Stories | *.stories.tsx | `Avatar.stories.tsx` |
+| コンポーネント | PascalCase.tsx | TrackInfo.tsx |
+| フック | camelCase.ts | useAudioPlayer.ts |
+| ユーティリティ | camelCase.ts | formatTime.ts |
+| スキーマ（Zod） | camelCase.ts | channel.ts |
+| ストア | camelCase.ts | playerStore.ts |
+| 型定義 | camelCase.ts | job.ts |
+| 定数 | camelCase.ts | messages.ts |
+| テスト | *.test.ts | formatTime.test.ts |
+| Stories | *.stories.tsx | Avatar.stories.tsx |
 
 ## コーディング規約
 
@@ -139,7 +139,7 @@ function UploadModal() {
 ## Next.js
 
 - page.tsx には必ず `export const metadata` を定義する
-- 認証必須ページ（`(studio)`, `(settings)` など）には `robots: { index: false }` を付与する
+- 認証必須ページ（(studio), (settings) など）には `robots: { index: false }` を付与する
 - src/app/ 配下にはページ（page.tsx, layout.tsx など）のみ配置し、コンポーネントやフックは src/features/ に配置する
 
 ## Storybook
@@ -189,7 +189,7 @@ export function useMyList() {
 ## ページパスの管理
 
 - ページのパスとタイトルは src/libs/pages/index.ts の `Pages` オブジェクトで一元管理する
-- 動的ルート（`[id]` など）を持つページは、パラメータ型を定義して `path()` と `page.tsx` の両方で使用する
+- 動的ルート（[id] など）を持つページは、パラメータ型を定義して `path()` と `page.tsx` の両方で使用する
 
 ```typescript
 // src/libs/pages/studioPages.ts
