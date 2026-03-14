@@ -14,23 +14,33 @@ export function CharacterList({ characters }: Props) {
   return (
     <section>
       <h2 className="mb-3 text-lg font-bold">登場人物</h2>
-      <ul className="flex flex-wrap gap-4">
+      <ul className="grid gap-3 sm:grid-cols-2">
         {characters.map((character) => (
-          <li key={character.id} className="flex items-center gap-2">
+          <li
+            key={character.id}
+            className="flex gap-3"
+          >
             {character.avatar ? (
               <Image
                 src={character.avatar.url}
                 alt={character.name}
-                width={30}
-                height={30}
-                className="size-[30px] shrink-0 rounded-full object-cover"
+                width={40}
+                height={40}
+                className="size-10 shrink-0 rounded-full object-cover"
               />
             ) : (
-              <div className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-bg-elevated text-text-placeholder">
-                <UserIcon size={16} />
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-bg-elevated text-text-placeholder">
+                <UserIcon size={20} />
               </div>
             )}
-            <span className="text-sm">{character.name}</span>
+            <div className="min-w-0">
+              <p className="font-semibold">{character.name}</p>
+              {character.persona && (
+                <p className="mt-0.5 line-clamp-3 text-xs text-text-subtle">
+                  {character.persona}
+                </p>
+              )}
+            </div>
           </li>
         ))}
       </ul>
