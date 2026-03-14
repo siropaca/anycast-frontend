@@ -4,12 +4,15 @@ import { ChannelEpisodeList } from '@/features/episodes/components/ChannelEpisod
 import { EpisodeActionBar } from '@/features/episodes/components/EpisodeActionBar';
 import { EpisodeDescription } from '@/features/episodes/components/EpisodeDescription';
 import { EpisodeHeader } from '@/features/episodes/components/EpisodeHeader';
+import { EpisodeScript } from '@/features/episodes/components/EpisodeScript';
 import { getChannelsChannelId } from '@/libs/api/generated/channels/channels';
 import { getChannelsChannelIdEpisodesEpisodeId } from '@/libs/api/generated/episodes/episodes';
 import type {
   ResponseChannelResponse,
   ResponseEpisodeResponse,
+  ResponseScriptLineResponse,
 } from '@/libs/api/generated/schemas';
+import { getChannelsChannelIdEpisodesEpisodeIdScriptLines } from '@/libs/api/generated/script/script';
 import { unwrapResponse } from '@/libs/api/unwrapResponse';
 import { auth } from '@/libs/auth/auth';
 import { Pages } from '@/libs/pages';
@@ -27,6 +30,14 @@ export async function EpisodeDetail({ channelId, episodeId }: Props) {
   ]);
   const channel = unwrapResponse<ResponseChannelResponse>(channelResponse);
   const episode = unwrapResponse<ResponseEpisodeResponse>(episodeResponse);
+
+  // 台本APIはオーナー以外403になるため、失敗時は空配列にフォールバック
+  const scriptLines = await getChannelsChannelIdEpisodesEpisodeIdScriptLines(
+    channelId,
+    episodeId,
+  )
+    .then((res) => unwrapResponse<ResponseScriptLineResponse[]>(res, []))
+    .catch(() => [] as ResponseScriptLineResponse[]);
 
   return (
     <div className="space-y-6">
@@ -49,6 +60,9 @@ export async function EpisodeDetail({ channelId, episodeId }: Props) {
 
       {/* キャラクター一覧 */}
       <CharacterList characters={channel.characters} />
+
+      {/* 会話テキスト */}
+      <EpisodeScript scriptLines={scriptLines} />
 
       {/* こちらのエピソードもおすすめ */}
       <ChannelEpisodeList

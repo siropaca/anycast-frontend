@@ -1,5 +1,6 @@
 import { UserIcon } from '@phosphor-icons/react/dist/ssr';
 import Image from 'next/image';
+import { ClampText } from '@/components/dataDisplay/ClampText/ClampText';
 import type { ResponseCharacterResponse } from '@/libs/api/generated/schemas';
 
 interface Props {
@@ -36,9 +37,9 @@ export function CharacterList({ characters }: Props) {
             <div className="min-w-0">
               <p className="font-semibold">{character.name}</p>
               {character.persona && (
-                <p className="mt-0.5 line-clamp-3 text-sm text-text-subtle">
+                <ClampText lines={3} className="mt-0.5 text-sm text-text-subtle">
                   {character.persona}
-                </p>
+                </ClampText>
               )}
             </div>
           </li>
