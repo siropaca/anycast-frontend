@@ -49,7 +49,7 @@ Anycast のページ構成と URL 設計を定義する。
 | 再生リスト | `/library/playlist` | 再生リスト一覧 | ✅ | ✅ | |
 | 再生リスト詳細 | `/library/playlist/:id` | 再生リスト内のエピソード一覧 | ✅ | ✅ | [詳細](./playlist.md) |
 | 高評価 | `/library/likes` | 高評価一覧 | ✅ | ✅ | |
-| 履歴 | `/library/history` | 再生履歴一覧 | ✅ | ✅ | |
+| 再生履歴 | `/library/history` | 再生履歴一覧 | ✅ | ✅ | |
 
 ### Studio（認証必須 / クリエイター向け）
 

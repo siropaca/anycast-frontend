@@ -120,10 +120,10 @@ export const mainPages = {
       title: '高評価',
       pageTitle: '高評価したエピソード',
     },
-    /** 履歴 */
+    /** 再生履歴 */
     history: {
       path: () => '/library/history',
-      title: '履歴',
+      title: '再生履歴',
       pageTitle: '再生履歴',
     },
   },

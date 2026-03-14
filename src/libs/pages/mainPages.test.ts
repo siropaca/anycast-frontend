@@ -201,7 +201,7 @@ describe('mainPages', () => {
     });
 
     it('history の title が設定されている', () => {
-      expect(mainPages.library.history.title).toBe('履歴');
+      expect(mainPages.library.history.title).toBe('再生履歴');
     });
 
     it('history の pageTitle が設定されている', () => {
