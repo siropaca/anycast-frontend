@@ -170,7 +170,7 @@ export function ChannelDetail({ channelId }: Props) {
 
       {/* エピソード一覧 */}
       <Suspense fallback={<EpisodeListSkeleton />}>
-        <EpisodeList channelId={channelId} />
+        <EpisodeList channelId={channelId} channelName={channel.name} />
       </Suspense>
 
       <ChannelDeleteDialog

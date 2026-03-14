@@ -12,7 +12,7 @@ function createEpisode(
     id: 'episode-1',
     title: 'テストエピソード',
     description: 'テスト説明',
-    voiceStyle: 'normal',
+
     playCount: 0,
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',

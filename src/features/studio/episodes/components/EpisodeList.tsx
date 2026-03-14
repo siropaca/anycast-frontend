@@ -1,12 +1,15 @@
 'use client';
 
 import { PlusIcon } from '@phosphor-icons/react';
+import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
+import type { Column } from '@/components/dataDisplay/DataTable/DataTable';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
+import { EpisodePlayButton } from '@/features/studio/episodes/components/EpisodePlayButton';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
 import { useEpisodeList } from '@/features/studio/episodes/hooks/useEpisodeList';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas';
@@ -14,49 +17,67 @@ import { Pages } from '@/libs/pages';
 
 interface Props {
   channelId: string;
+  channelName: string;
 }
 
-const columns = [
-  {
-    key: 'episode',
-    header: 'エピソード',
-    accessor: (episode: ResponseEpisodeResponse) => (
-      <div className="flex items-center gap-4">
-        <ArtworkImage
-          src={episode.artwork?.url}
-          alt={episode.title}
-          size={50}
-        />
-        <span className="text-sm">{episode.title}</span>
-      </div>
-    ),
-  },
-  {
-    key: 'status',
-    header: 'ステータス',
-    accessor: (episode: ResponseEpisodeResponse) => (
-      <StatusTag isPublished={episode.publishedAt != null} />
-    ),
-  },
-  {
-    key: 'scriptLineCount',
-    header: '台本行数',
-    accessor: (episode: ResponseEpisodeResponse) => (
-      <span className="text-sm text-text-subtle">
-        {episode.scriptLineCount ?? 0}
-      </span>
-    ),
-  },
-  {
-    key: 'playCount',
-    header: '再生数',
-    accessor: (episode: ResponseEpisodeResponse) => (
-      <span className="text-sm text-text-subtle">{episode.playCount}</span>
-    ),
-  },
-];
+export function EpisodeList({ channelId, channelName }: Props) {
+  const columns: Column<ResponseEpisodeResponse>[] = useMemo(
+    () => [
+      {
+        key: 'episode',
+        header: 'エピソード',
+        accessor: (episode: ResponseEpisodeResponse) => (
+          <div className="flex items-center gap-4">
+            <ArtworkImage
+              src={episode.artwork?.url}
+              alt={episode.title}
+              size={50}
+            />
+            <span className="text-sm">{episode.title}</span>
+          </div>
+        ),
+      },
+      {
+        key: 'status',
+        header: 'ステータス',
+        accessor: (episode: ResponseEpisodeResponse) => (
+          <StatusTag isPublished={episode.publishedAt != null} />
+        ),
+      },
+      {
+        key: 'scriptLineCount',
+        header: '台本行数',
+        accessor: (episode: ResponseEpisodeResponse) => (
+          <span className="text-sm text-text-subtle">
+            {episode.scriptLineCount ?? 0}
+          </span>
+        ),
+      },
+      {
+        key: 'playCount',
+        header: '再生数',
+        accessor: (episode: ResponseEpisodeResponse) => (
+          <span className="text-sm text-text-subtle">
+            {episode.playCount}
+          </span>
+        ),
+      },
+      {
+        key: 'play',
+        header: '',
+        accessor: (episode: ResponseEpisodeResponse) => (
+          <div className="flex justify-end">
+            <EpisodePlayButton
+              episode={episode}
+              channelName={channelName}
+            />
+          </div>
+        ),
+      },
+    ],
+    [channelName],
+  );
 
-export function EpisodeList({ channelId }: Props) {
   const router = useRouter();
   const { episodes } = useEpisodeList(channelId);
 
