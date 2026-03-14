@@ -57,7 +57,6 @@ export function EpisodeDetail({ channelId, episodeId }: Props) {
     isPublished,
     isMutating,
     isDeleting,
-    isDeletingAudio,
     isPublishing,
     isUnpublishing,
     error,

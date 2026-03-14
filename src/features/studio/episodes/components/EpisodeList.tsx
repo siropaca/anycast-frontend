@@ -1,16 +1,16 @@
 'use client';
 
 import { PlusIcon } from '@phosphor-icons/react';
-import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 
 import { ArtworkImage } from '@/components/dataDisplay/artworks/ArtworkImage/ArtworkImage';
 import type { Column } from '@/components/dataDisplay/DataTable/DataTable';
 import { DataTable } from '@/components/dataDisplay/DataTable/DataTable';
 import { SectionTitle } from '@/components/dataDisplay/SectionTitle/SectionTitle';
 import { Button } from '@/components/inputs/buttons/Button/Button';
-import { EpisodePlayButton } from '@/features/studio/episodes/components/EpisodePlayButton';
 import { StatusTag } from '@/features/studio/channels/components/StatusTag';
+import { EpisodePlayButton } from '@/features/studio/episodes/components/EpisodePlayButton';
 import { useEpisodeList } from '@/features/studio/episodes/hooks/useEpisodeList';
 import type { ResponseEpisodeResponse } from '@/libs/api/generated/schemas';
 import { Pages } from '@/libs/pages';
@@ -57,9 +57,7 @@ export function EpisodeList({ channelId, channelName }: Props) {
         key: 'playCount',
         header: '再生数',
         accessor: (episode: ResponseEpisodeResponse) => (
-          <span className="text-sm text-text-subtle">
-            {episode.playCount}
-          </span>
+          <span className="text-sm text-text-subtle">{episode.playCount}</span>
         ),
       },
       {
@@ -67,10 +65,7 @@ export function EpisodeList({ channelId, channelName }: Props) {
         header: '',
         accessor: (episode: ResponseEpisodeResponse) => (
           <div className="flex justify-end">
-            <EpisodePlayButton
-              episode={episode}
-              channelName={channelName}
-            />
+            <EpisodePlayButton episode={episode} channelName={channelName} />
           </div>
         ),
       },

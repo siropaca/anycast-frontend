@@ -30,8 +30,10 @@ export function AudioUploadModal({
   const [isDragOver, setIsDragOver] = useState(false);
 
   const toast = useToast();
-  const { isUploading, error, uploadFile, clearError } =
-    useUploadEpisodeAudio(channelId, episodeId);
+  const { isUploading, error, uploadFile, clearError } = useUploadEpisodeAudio(
+    channelId,
+    episodeId,
+  );
 
   function handleClose() {
     if (isUploading) return;
@@ -98,11 +100,7 @@ export function AudioUploadModal({
                 className="ml-1 inline-flex cursor-help align-middle relative -top-px text-text-subtle hover:text-text-main"
                 onClick={(e) => e.preventDefault()}
               >
-                <QuestionIcon
-                  size={20}
-                  weight="fill"
-                  aria-label="対応形式"
-                />
+                <QuestionIcon size={20} weight="fill" aria-label="対応形式" />
               </button>
             </Tooltip>
           </p>

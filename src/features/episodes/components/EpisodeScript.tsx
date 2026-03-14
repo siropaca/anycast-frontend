@@ -31,6 +31,7 @@ export function EpisodeScript({ scriptLines }: Props) {
   return (
     <section>
       <h2 className="mb-3 text-lg font-bold">会話テキスト</h2>
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: conditional role/button based on expand state */}
       <div
         className="cursor-pointer rounded-xl bg-bg-elevated p-4"
         onClick={!isExpanded ? handleToggle : undefined}

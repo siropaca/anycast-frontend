@@ -1,13 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { StatusCodes } from 'http-status-codes';
 import { useState } from 'react';
-
+import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 import {
   type getChannelsChannelIdEpisodesEpisodeIdScriptLinesResponse200,
   getGetChannelsChannelIdEpisodesEpisodeIdScriptLinesQueryKey,
   useDeleteChannelsChannelIdEpisodesEpisodeIdScriptLines,
 } from '@/libs/api/generated/script/script';
-import { getGetMeChannelsChannelIdEpisodesQueryKey } from '@/libs/api/generated/me/me';
 
 type ScriptLinesCache =
   getChannelsChannelIdEpisodesEpisodeIdScriptLinesResponse200;

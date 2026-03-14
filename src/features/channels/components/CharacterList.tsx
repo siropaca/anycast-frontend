@@ -17,10 +17,7 @@ export function CharacterList({ characters }: Props) {
       <h2 className="mb-3 text-lg font-bold">登場人物</h2>
       <ul className="grid gap-3 sm:grid-cols-2">
         {characters.map((character) => (
-          <li
-            key={character.id}
-            className="flex gap-3"
-          >
+          <li key={character.id} className="flex gap-3">
             {character.avatar ? (
               <Image
                 src={character.avatar.url}
@@ -37,7 +34,10 @@ export function CharacterList({ characters }: Props) {
             <div className="min-w-0">
               <p className="font-semibold">{character.name}</p>
               {character.persona && (
-                <ClampText lines={3} className="mt-0.5 text-sm text-text-subtle">
+                <ClampText
+                  lines={3}
+                  className="mt-0.5 text-sm text-text-subtle"
+                >
                   {character.persona}
                 </ClampText>
               )}

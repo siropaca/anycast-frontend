@@ -17,12 +17,13 @@ export function useDocumentTitle() {
     const unsubscribe = usePlayerStore.subscribe((state, prevState) => {
       const hasTrack = state.currentTrack !== null;
       const hadTrack = prevState.currentTrack !== null;
-      const trackChanged = state.currentTrack?.id !== prevState.currentTrack?.id;
+      const trackChanged =
+        state.currentTrack?.id !== prevState.currentTrack?.id;
       const playStateChanged = state.isPlaying !== prevState.isPlaying;
 
       if (trackChanged || playStateChanged || hasTrack !== hadTrack) {
         if (hasTrack && state.isPlaying) {
-          document.title = `${state.currentTrack!.title} | Anycast`;
+          document.title = `${state.currentTrack?.title} | Anycast`;
         } else if (!hasTrack) {
           document.title = originalTitleRef.current;
         }
