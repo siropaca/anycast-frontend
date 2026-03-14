@@ -21,8 +21,13 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
       <div className="flex items-center gap-2">
         {sideMenu && <MobileMenu>{sideMenu}</MobileMenu>}
 
-        <Link href={Pages.home.path()} aria-label="Anycast ホーム">
+        <Link
+          href={Pages.home.path()}
+          aria-label="Anycast ホーム"
+          className="flex items-center gap-1"
+        >
           <TextLogo className="h-5 w-auto md:ml-1" />
+          <span className="text-[10px] leading-none text-white ml-1">β版</span>
         </Link>
       </div>
 
