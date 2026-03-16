@@ -27,7 +27,7 @@ export function Header({ isLoggedIn, sideMenu }: Props) {
           className="flex items-center gap-1"
         >
           <TextLogo className="h-5 w-auto md:ml-1" />
-          <span className="text-[10px] leading-none text-white ml-1">β版</span>
+          <span className="whitespace-nowrap text-[10px] leading-none text-white ml-1">β版</span>
         </Link>
       </div>
 
